@@ -528,6 +528,7 @@ def temporalPlots(list):
 	#plt.axis([-1, 500, 0, 700])
 	plt.legend()
 	plt.show()
+	
 #------------- functions for Statistics and Statistical Tests ---------------#
 
 def stat_prc(adv, ass, keywords):				# prc statistic, which doesn't give very good results		
@@ -637,6 +638,10 @@ def getVectorsFromExp(advdicts, featChoice):			# returns observation vector from
 	n = len(advdicts[0]['ass'])
 	list = []
 	y = []
+	if(featChoice == 'words'):
+		X, labels, feat = word_vectors(list)
+	elif(featChoice == 'ads'):
+		X, labels, feat = ad_vectors(list)
 	for advdict in advdicts:
 		list.extend(advdict['adv'])
 		ass = advdict['ass']
@@ -644,10 +649,6 @@ def getVectorsFromExp(advdicts, featChoice):			# returns observation vector from
 		for i in ass[0:len(ass)/2]:
 			y1[int(i)] = 1
 		y.extend(y1)
-	if(featChoice == 'words'):
-		X, labels, feat = word_vectors(list)
-	elif(featChoice == 'ads'):
-		X, labels, feat = ad_vectors(list)
 	X = [X[i:i+n] for i in range(0,len(X),n)]
 	y = [y[i:i+n] for i in range(0,len(y),n)]
 # 	print feat[0].title, feat[0].url
