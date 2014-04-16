@@ -5,13 +5,6 @@ import sys
 
 from datetime import datetime, timedelta
 
-CAT_FILE = "car_categories.txt"
-COMP_FILE = "car_companies.txt"
-TERM_FILE = "car_keywords.txt"
-# LOG_FILE = "log_10i_50r_linux"
-
-
-
 def runAnalyses(index, adv, ass, keywords, sig, times, totv, metrics):
 # 	print index
 	cos, kw, prc, chi = 0, 1, 2, 3
