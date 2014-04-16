@@ -638,12 +638,13 @@ def getVectorsFromExp(advdicts, featChoice):			# returns observation vector from
 	n = len(advdicts[0]['ass'])
 	list = []
 	y = []
+	for advdict in advdicts:
+		list.extend(advdict['adv'])
 	if(featChoice == 'words'):
 		X, labels, feat = word_vectors(list)
 	elif(featChoice == 'ads'):
 		X, labels, feat = ad_vectors(list)
 	for advdict in advdicts:
-		list.extend(advdict['adv'])
 		ass = advdict['ass']
 		y1 = [0]*len(ass)								# !! need to change this to set the label vector from labels in the ads
 		for i in ass[0:len(ass)/2]:
@@ -653,77 +654,100 @@ def getVectorsFromExp(advdicts, featChoice):			# returns observation vector from
 	y = [y[i:i+n] for i in range(0,len(y),n)]
 # 	print feat[0].title, feat[0].url
 	return np.array(X), np.array(y), feat	
-	
-def featureSelection(X,y,feat,featChoice,splittype,splitfrac,k,list):
+
+def trainTest(algos, X, y, splittype, splitfrac, nfolds, list, ptest, chi2, verbose=False):
 	
 	### Split data into training and testing data based on splittype
 
 	if(splittype == 'rand'):
 		rs1 = cross_validation.ShuffleSplit(len(X), n_iter=1, test_size=splitfrac)
 		for train, test in rs1:
-			print test, train
+			if(verbose):
+				print test, train
 			X_train, y_train, X_test, y_test = X[train], y[train], X[test], y[test]
 	elif(splittype == 'timed'):
 		split = int((1.-splitfrac)*len(X))
-		print split
 		X_train, y_train, X_test, y_test = X[:split], y[:split], X[split:], y[split:]
 	else:
-		raw_input("Split type ERROR")
-	
-	algos = {	
-				'logit':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'penalty':['l1']},
-				'svc':{'C':np.logspace(-5.0, 15.0, num=21, base=2)}		
-			}
-	
+		raw_input("Split type ERROR")	
+		
 	### Model selection via cross-validation from training data
 	
 	max_score = 0
 	for algo in algos.keys():
-		score, mPar, clf = crossVal_algo(10, algo, algos[algo], X_train, y_train, splittype, splitfrac, lists=list)
-		print score, mPar, clf
+		score, mPar, clf = crossVal_algo(nfolds, algo, algos[algo], X_train, y_train, splittype, splitfrac, list)
+		if(verbose):
+			print score, mPar, clf
 		if(score > max_score):
 			max_clf = clf
 			max_score = score
-	
-	print max_score, max_clf, max_clf.coef_.shape
+	if(verbose):
+		print max_score, max_clf, max_clf.coef_.shape
+	if(ptest==1):
+		oXtest, oytest = X_test, y_test	
 	if(list==1):
 		X_test = np.array([item for sublist in X_test for item in sublist])
 		y_test = np.array([item for sublist in y_test for item in sublist])	
 		X_train = np.array([item for sublist in X_train for item in sublist])
 		y_train = np.array([item for sublist in y_train for item in sublist])
 		
+	### Fit model to training data and compute test accuracy
+	
 	np.set_printoptions(threshold=sys.maxint)
 	max_clf.fit(X_train, y_train)
-	print "test-score: ", max_clf.score(X_test, y_test)
+# 	print "test-score: ", max_clf.score(X_test, y_test)
+	print max_clf.score(X_test, y_test)
+	if(ptest==1):
+		for i in range(0,len(oXtest)):
+			print MLpTest(oXtest[i], oytest[i], clf)
 	
-	printTopKFeatures(X, y, featChoice, max_clf, k, list)
+	if(chi2==1):
+		cont_table = genContTable(X_test, y_test, max_clf)
+		print cont_table
+		chi2, p, dof, ex = stats.chi2_contingency(cont_table, correction=True)
+		print chi2, p, dof, ex
+		print ("Chi-Square = "+str(chi2))
+		print ("p-value = "+str(p))
+			
+	return max_clf
+
+def featureSelection(X,y,feat,featChoice,splittype,splitfrac,nfolds,nfeat,list):
+
+	algos = {	
+				'logit':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'penalty':['l1']},
+# 				'svc':{'C':np.logspace(-5.0, 15.0, num=21, base=2)}		
+			}
+
+	clf = trainTest(algos, X, y, splittype, splitfrac, nfolds, list, ptest=0, chi2=0)
+	ua,uind=np.unique(clf.coef_[0],return_inverse=True)
+	count=np.bincount(uind)
+	print ua, count
+	print "no. of non-zero coefficients: ", len(clf.coef_[0])-count[np.where(ua==0)[0]][0]
+	raw_input("wait")
+	
+	printTopKFeatures(X, y, feat, featChoice, clf, nfeat, list)
+	for k in range(1, 100):
+		topk1 = np.argsort(clf.coef_[0])[::-1][:k]
+		topk0 = np.argsort(clf.coef_[0])[:k]
+		kX = X[:,:,np.append(topk1,topk0)]
+		print k, "\t", 
+		CVPtest(kX, y, feat, splittype, splitfrac, nfolds, list, ptest=0, chi2=0)
 # 	varyingK(X_train, y_train, X_test, y_test, max_clf)
 
-def varyingK(X_train, y_train, X_test, y_test, org_clf):			# varies k and computes the accuracy # function not complete !!
-	k=5
-	topk1 = np.argsort(org_clf.coef_[0])[::-1][:k]
-	topk0 = np.argsort(org_clf.coef_[0])[:k]
-	nXtrain, nXtest = X_train[:,np.append(topk1,topk0)], X_test[:,np.append(topk1,topk0)]
-	print X_train.shape, X_test.shape, y_train.shape, y_test.shape
-	print nXtrain.shape, nXtest.shape
-	
-	### Model selection via cross-validation from training data
-	max_score = 0
-	for algo in algos.keys():
-		score, mPar, clf = crossVal_algo(10, algo, algos[algo], nXtrain, y_train, splittype, splitfrac, lists=0)
-		print score, mPar, clf
-		if(score > max_score):
-			max_clf = clf
-			max_score = score
-	
-	print max_score, max_clf, max_clf.coef_.shape
-	print max_clf.coef_[0]
-# 	print X_test.shape, y_test.shape
-	np.set_printoptions(threshold=sys.maxint)
-	max_clf.fit(nXtrain, y_train)
-	print "test-score: ", max_clf.score(nXtest, y_test)
 
-def printTopKFeatures(X, y, featChoice, max_clf, k, list):
+def CVPtest(X, y, feat, splittype, splitfrac, nfolds, list, ptest=1, chi2=1):				# main function, calls cross_validation, then runs chi2
+
+	algos = {	
+				'logit':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'penalty':['l1', 'l2']},
+# 				'kNN':{'k':np.arange(1,20,2), 'p':[1,2,3]}, 
+# 				'polySVM':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'degree':[1,2,3,4]},
+# 				'rbfSVM':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'gamma':np.logspace(-15.0, 3.0, num=19, base=2)}
+				
+			}
+	clf = trainTest(algos, X, y, splittype, splitfrac, nfolds, list, ptest=ptest, chi2=chi2)
+
+
+def printTopKFeatures(X, y, feat, featChoice, max_clf, k, list):		# prints top k features from max_clf+some numbers
 	if(list==1):
 		X = np.array([item for sublist in X for item in sublist])
 		y = np.array([item for sublist in y for item in sublist])
@@ -762,7 +786,7 @@ def printTopKFeatures(X, y, featChoice, max_clf, k, list):
 			print "coefs: ", max_clf.coef_[i][topk]
 	
 
-def crossVal_algo(k, algo, params, X, y, splittype, splitfrac, lists=0):				# performs cross_validation
+def crossVal_algo(k, algo, params, X, y, splittype, splitfrac, list, verbose=False):				# performs cross_validation
 	if(splittype=='rand'):
 		rs2 = cross_validation.ShuffleSplit(len(X), n_iter=k, test_size=splitfrac)
 	elif(splittype=='timed'):
@@ -772,11 +796,12 @@ def crossVal_algo(k, algo, params, X, y, splittype, splitfrac, lists=0):				# pe
 	for param in params.keys():
 		par.append(params[param])
 	for p in product(*par):
- 		print "val=", p
+		if(verbose):
+ 			print "val=", p
 		score = 0.0
 		for train, test in rs2:
 			X_train, y_train, X_test, y_test = X[train], y[train], X[test], y[test]
-			if(lists==1):
+			if(list==1):
 				X_train = np.array([item for sublist in X_train for item in sublist])
 				y_train = np.array([item for sublist in y_train for item in sublist])
 				X_test = np.array([item for sublist in X_test for item in sublist])
@@ -802,7 +827,8 @@ def crossVal_algo(k, algo, params, X, y, splittype, splitfrac, lists=0):				# pe
 			clf.fit(X_train, y_train)
 			score += clf.score(X_test, y_test)
 		score /= k
- 		print score
+		if(verbose):
+ 			print score
 		if score>max:
 			max = score
 			max_params = p
@@ -847,66 +873,6 @@ def genContTable(X, y, clf):										# generates contingency table
 																	#	y_pred=1	tab[1,0]	tab[1,1]
 	return cont_tab
 
-def CVPtest(X, y, feat, splittype, splitfrac, list):				# main function, calls cross_validation, then runs chi2
-
-	## Setting aside data for running permutation test
-	
-	if(splittype == 'rand'):
-		rs1 = cross_validation.ShuffleSplit(len(X), n_iter=1, test_size=splitfrac)
-		for train, test in rs1:
-			print test, train
-			X_train, y_train, X_test, y_test = X[train], y[train], X[test], y[test]
-	elif(splittype == 'timed'):
-		split = (1.-splitfrac)*len(X)
-		print split
-		X_train, y_train, X_test, y_test = X[:split], y[:split], X[split:], y[split:]
-	else:
-		raw_input("Split type ERROR")
-	
-	algos = {	
-				'logit':{'C':np.logspace(-5.0, 15.0, num=1, base=2), 'penalty':['l1', 'l2']},
-# 				'kNN':{'k':np.arange(1,20,2), 'p':[1,2,3]}, 
-# 				'polySVM':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'degree':[1,2,3,4]},
-# 				'rbfSVM':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'gamma':np.logspace(-15.0, 3.0, num=19, base=2)}
-				
-			}
-	
-	## Model selection via cross-validation from training data
-	
-	max_score = 0
-	for algo in algos.keys():
-		score, mPar, clf = crossVal_algo(10, algo, algos[algo], X_train, y_train, splittype, splitfrac, lists=list)
-		print score, mPar, clf
-		if(score > max_score):
-			max_clf = clf
-			max_score = score
-	
-	print max_score, max_clf
-	
-	oXtest, oytest = X_test, y_test	
-	if(list==1):
-		X_test = np.array([item for sublist in X_test for item in sublist])
-		y_test = np.array([item for sublist in y_test for item in sublist])	
-		X_train = np.array([item for sublist in X_train for item in sublist])
-		y_train = np.array([item for sublist in y_train for item in sublist])
-		
-	np.set_printoptions(threshold=sys.maxint)
-	max_clf.fit(X_train, y_train)							# selected model is fit to the training data
-	print "test-score: ", max_clf.score(X_test, y_test)	
-		
-	## Run selected model on test data and obtain result
-	
-	if(list==1):
-		for i in range(0,len(oXtest)):
-			print MLpTest(oXtest[i], oytest[i], clf)
-
-	cont_table = genContTable(X_test, y_test, max_clf)
-	print cont_table
- 	chi2, p, dof, ex = stats.chi2_contingency(cont_table, correction=True)
- 	print chi2, p, dof, ex
-	print ("Chi-Square = "+str(chi2))
-	print ("p-value = "+str(p))
-
 def MLAnalysis(par_adv):
 	featChoice = 'ads'
 	splitfrac = 0.1
@@ -918,6 +884,7 @@ def MLAnalysis(par_adv):
 	ua,uind=np.unique(y,return_inverse=True)
 	count=np.bincount(uind)
 	print ua, count
-# 	featureSelection(X,y,feat,featChoice,splittype,splitfrac,5,1)
-	CVPtest(X, y, feat, splittype, splitfrac, 1)
+	featureSelection(X,y,feat,featChoice,splittype,splitfrac,nfolds=10,nfeat=5,list=1)
+	print "CVPtest"
+	CVPtest(X, y, feat, splittype, splitfrac, nfolds=10, list=1)
 	
