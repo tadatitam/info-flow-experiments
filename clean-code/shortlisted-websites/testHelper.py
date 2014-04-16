@@ -429,7 +429,7 @@ def word_vectors(list):
 	labels = []
 	for ads in list:
 		wv_list.append(ads.gen_word_vec(word_v, W_CHOICE))
-# 		labels.append(ads.choose_by_index(0).label)
+		labels.append(ads.choose_by_index(0).label)
 	return wv_list, labels, word_v				## Returning word_v as feature
 
 def ad_vectors(list):
@@ -440,7 +440,7 @@ def ad_vectors(list):
 	labels = []
 	for ads in list:
 		av_list.append(ad_union.gen_ad_vec(ads))
-# 		labels.append(ads.choose_by_index(0).label)
+		labels.append(ads.choose_by_index(0).label)
 	return av_list, labels, ad_union			## Returning entire ads as feature
 
 def temp_ad_vectors(list):
@@ -601,21 +601,29 @@ def table_22(adv, ass, keywords):				# creates 2x2 contingency table using keywo
 def testWrapper(adv, ass, keywords, type):
 	if(not type == 'chi'):
 		s = datetime.now()
-		res = permutationTest(adv, ass, keywords, type)
+		try:
+			res = permutationTest(adv, ass, keywords, type)
+		except:
+			res = 100
 		e = datetime.now()
 	else:
 		s = datetime.now()
 		vec = table_22(adv, ass, keywords)
-		chi2, p, dof, ex = stats.chi2_contingency(cont_table, correction=True)
-		res = p
+		try:
+			chi2, p, dof, ex = stats.chi2_contingency(vec, correction=True)
+			res = p
+		except:
+			res = 100
+# 		print vec
+# 		print chi2, p, ex
 		e = datetime.now()
 	return round_figures(res, 6), e-s
 	
 def printCounts(index, adv, ass):				# returns detailed counts of #ads within a round
-	advm, advf = a.vec_for_stats(adv, ass)
+	advm, advf = vec_for_stats(adv, ass)
 	sys.stdout.write("%s\t AD_t size=%s uniq=%s, AD_u size=%s uniq=%s \n" %(index, advm.size(), 
 							advm.unique().size(), advf.size(), advf.unique().size()))
-	for i in range(0, INSTANCES):
+	for i in range(0, len(ass)):
 		sys.stdout.write("%s \t" %(adv[i].size()))
 	print("")
 
@@ -644,12 +652,17 @@ def getVectorsFromExp(advdicts, featChoice):			# returns observation vector from
 		X, labels, feat = word_vectors(list)
 	elif(featChoice == 'ads'):
 		X, labels, feat = ad_vectors(list)
-	for advdict in advdicts:
-		ass = advdict['ass']
-		y1 = [0]*len(ass)								# !! need to change this to set the label vector from labels in the ads
-		for i in ass[0:len(ass)/2]:
-			y1[int(i)] = 1
-		y.extend(y1)
+	if(labels == []):
+		for advdict in advdicts:
+			ass = advdict['ass']
+			y1 = [0]*len(ass)								# !! need to change this to set the label vector from labels in the ads
+			for i in ass[0:len(ass)/2]:
+				y1[int(i)] = 1
+			y.extend(y1)
+	else:
+		y = [int(i) for i in labels]
+	print y
+	raw_input("wait")
 	X = [X[i:i+n] for i in range(0,len(X),n)]
 	y = [y[i:i+n] for i in range(0,len(y),n)]
 # 	print feat[0].title, feat[0].url
@@ -714,20 +727,25 @@ def trainTest(algos, X, y, splittype, splitfrac, nfolds, list, ptest, chi2, verb
 def featureSelection(X,y,feat,featChoice,splittype,splitfrac,nfolds,nfeat,list):
 
 	algos = {	
-				'logit':{'C':np.logspace(-5.0, 15.0, num=1, base=2), 'penalty':['l1']},
-# 				'svc':{'C':np.logspace(-5.0, 15.0, num=21, base=2)}		
+				'logit':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'penalty':['l1']},
+				'svc':{'C':np.logspace(-5.0, 15.0, num=21, base=2)}		
 			}
 
 	clf = trainTest(algos, X, y, splittype, splitfrac, nfolds, list, ptest=0, chi2=0)
 	
 	printTopKFeatures(X, y, feat, featChoice, clf, nfeat, list)
-	for k in range(1, 50):
-		topk1 = np.argsort(clf.coef_[0])[::-1][:k]
-		topk0 = np.argsort(clf.coef_[0])[:k]
-		kX = X[:,:,np.append(topk1,topk0)]
-		print k, "\t", 
-		CVPtest(kX, y, feat, splittype, splitfrac, nfolds, list, ptest=0, chi2=0)
-# 	varyingK(X_train, y_train, X_test, y_test, max_clf)
+	
+# 	clf = trainTest(algos, X, y, splittype, splitfrac, nfolds, list, ptest=0, chi2=0)
+# 	ua,uind=np.unique(clf.coef_[0],return_inverse=True)
+# 	count=np.bincount(uind)
+# 	print ua, count
+# 	print "no. of non-zero coefficients: ", len(clf.coef_[0])-count[np.where(ua==0)[0]][0]	
+# 	for k in range(1, 50):
+# 		topk1 = np.argsort(clf.coef_[0])[::-1][:k]
+# 		topk0 = np.argsort(clf.coef_[0])[:k]
+# 		kX = X[:,:,np.append(topk1,topk0)]
+# 		print k, "\t", 
+# 		CVPtest(kX, y, feat, splittype, splitfrac, nfolds, list, ptest=0, chi2=0)
 
 
 def CVPtest(X, y, feat, splittype, splitfrac, nfolds, list, ptest=1, chi2=1):				# main function, calls cross_validation, then runs chi2
@@ -736,7 +754,7 @@ def CVPtest(X, y, feat, splittype, splitfrac, nfolds, list, ptest=1, chi2=1):			
 				'logit':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'penalty':['l1', 'l2']},
 # 				'kNN':{'k':np.arange(1,20,2), 'p':[1,2,3]}, 
 # 				'polySVM':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'degree':[1,2,3,4]},
-# 				'rbfSVM':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'gamma':np.logspace(-15.0, 3.0, num=19, base=2)}
+				'rbfSVM':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'gamma':np.logspace(-15.0, 3.0, num=19, base=2)}
 				
 			}
 	clf = trainTest(algos, X, y, splittype, splitfrac, nfolds, list, ptest=ptest, chi2=chi2)

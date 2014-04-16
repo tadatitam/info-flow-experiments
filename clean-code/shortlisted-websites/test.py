@@ -43,8 +43,8 @@ if __name__ == "__main__":
  			#print ass
 		else:
   			try:
-# 				ad = anna.Ad({'Time':datetime.strptime(chunks[2], "%Y-%m-%d %H:%M:%S.%f"), 'Title':chunks[3], 'URL': chunks[4], 'Body': chunks[5].rstrip(), 'cat': "", 'label':chunks[1]})
-				ad = anna.Ad({'Time':datetime.strptime(chunks[1], "%Y-%m-%d %H:%M:%S.%f"), 'Title':chunks[2], 'URL': chunks[3], 'Body': chunks[4].rstrip(), 'cat': "", 'label':""})
+				ad = anna.Ad({'Time':datetime.strptime(chunks[2], "%Y-%m-%d %H:%M:%S.%f"), 'Title':chunks[3], 'URL': chunks[4], 'Body': chunks[5].rstrip(), 'cat': "", 'label':chunks[1]})
+# 				ad = anna.Ad({'Time':datetime.strptime(chunks[1], "%Y-%m-%d %H:%M:%S.%f"), 'Title':chunks[2], 'URL': chunks[3], 'Body': chunks[4].rstrip(), 'cat': "", 'label':""})
 				adv[int(chunks[0])].add(ad)
  			except:
  				pass
@@ -56,16 +56,16 @@ if __name__ == "__main__":
  	
  	# THE FOLLOWING CODE THROWS OUT DATA POINTS THAT ARE BAD!! LIKE ONES WITH AN INSTANCE COLLECTING NO ADS
  	
-#  	new_par_adv = []
-#  	print len(par_adv)
-#  	for unit in par_adv:
-#  		flag=0
-#  		for adv in unit['adv']:
-#  			if(adv.size() < 1):
-#  				flag=1
-#  		if(flag==0):
-#  			new_par_adv.append(unit)
-#  	print len(new_par_adv)
-#  	par_adv = new_par_adv
+ 	new_par_adv = []
+ 	print len(par_adv)
+ 	for unit in par_adv:
+ 		flag=0
+ 		for adv in unit['adv']:
+ 			if(adv.size() < 1):
+ 				flag=1
+ 		if(flag==0):
+ 			new_par_adv.append(unit)
+ 	print len(new_par_adv)
+ 	par_adv = new_par_adv
  	
 	anna.MLAnalysis(par_adv)

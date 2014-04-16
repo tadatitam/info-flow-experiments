@@ -601,21 +601,29 @@ def table_22(adv, ass, keywords):				# creates 2x2 contingency table using keywo
 def testWrapper(adv, ass, keywords, type):
 	if(not type == 'chi'):
 		s = datetime.now()
-		res = permutationTest(adv, ass, keywords, type)
+		try:
+			res = permutationTest(adv, ass, keywords, type)
+		except:
+			res = -1
 		e = datetime.now()
 	else:
 		s = datetime.now()
 		vec = table_22(adv, ass, keywords)
-		chi2, p, dof, ex = stats.chi2_contingency(cont_table, correction=True)
-		res = p
+		try:
+			chi2, p, dof, ex = stats.chi2_contingency(vec, correction=True)
+			res = p
+		except:
+			res = -1
+# 		print vec
+# 		print chi2, p, ex
 		e = datetime.now()
 	return round_figures(res, 6), e-s
 	
 def printCounts(index, adv, ass):				# returns detailed counts of #ads within a round
-	advm, advf = a.vec_for_stats(adv, ass)
+	advm, advf = vec_for_stats(adv, ass)
 	sys.stdout.write("%s\t AD_t size=%s uniq=%s, AD_u size=%s uniq=%s \n" %(index, advm.size(), 
 							advm.unique().size(), advf.size(), advf.unique().size()))
-	for i in range(0, INSTANCES):
+	for i in range(0, len(ass)):
 		sys.stdout.write("%s \t" %(adv[i].size()))
 	print("")
 
@@ -715,24 +723,24 @@ def featureSelection(X,y,feat,featChoice,splittype,splitfrac,nfolds,nfeat,list):
 
 	algos = {	
 				'logit':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'penalty':['l1']},
-# 				'svc':{'C':np.logspace(-5.0, 15.0, num=21, base=2)}		
+				'svc':{'C':np.logspace(-5.0, 15.0, num=21, base=2)}		
 			}
 
 	clf = trainTest(algos, X, y, splittype, splitfrac, nfolds, list, ptest=0, chi2=0)
-	ua,uind=np.unique(clf.coef_[0],return_inverse=True)
-	count=np.bincount(uind)
-	print ua, count
-	print "no. of non-zero coefficients: ", len(clf.coef_[0])-count[np.where(ua==0)[0]][0]
-	raw_input("wait")
 	
 	printTopKFeatures(X, y, feat, featChoice, clf, nfeat, list)
-	for k in range(1, 100):
-		topk1 = np.argsort(clf.coef_[0])[::-1][:k]
-		topk0 = np.argsort(clf.coef_[0])[:k]
-		kX = X[:,:,np.append(topk1,topk0)]
-		print k, "\t", 
-		CVPtest(kX, y, feat, splittype, splitfrac, nfolds, list, ptest=0, chi2=0)
-# 	varyingK(X_train, y_train, X_test, y_test, max_clf)
+	
+# 	clf = trainTest(algos, X, y, splittype, splitfrac, nfolds, list, ptest=0, chi2=0)
+# 	ua,uind=np.unique(clf.coef_[0],return_inverse=True)
+# 	count=np.bincount(uind)
+# 	print ua, count
+# 	print "no. of non-zero coefficients: ", len(clf.coef_[0])-count[np.where(ua==0)[0]][0]	
+# 	for k in range(1, 50):
+# 		topk1 = np.argsort(clf.coef_[0])[::-1][:k]
+# 		topk0 = np.argsort(clf.coef_[0])[:k]
+# 		kX = X[:,:,np.append(topk1,topk0)]
+# 		print k, "\t", 
+# 		CVPtest(kX, y, feat, splittype, splitfrac, nfolds, list, ptest=0, chi2=0)
 
 
 def CVPtest(X, y, feat, splittype, splitfrac, nfolds, list, ptest=1, chi2=1):				# main function, calls cross_validation, then runs chi2
@@ -741,7 +749,7 @@ def CVPtest(X, y, feat, splittype, splitfrac, nfolds, list, ptest=1, chi2=1):			
 				'logit':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'penalty':['l1', 'l2']},
 # 				'kNN':{'k':np.arange(1,20,2), 'p':[1,2,3]}, 
 # 				'polySVM':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'degree':[1,2,3,4]},
-# 				'rbfSVM':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'gamma':np.logspace(-15.0, 3.0, num=19, base=2)}
+				'rbfSVM':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'gamma':np.logspace(-15.0, 3.0, num=19, base=2)}
 				
 			}
 	clf = trainTest(algos, X, y, splittype, splitfrac, nfolds, list, ptest=ptest, chi2=chi2)
