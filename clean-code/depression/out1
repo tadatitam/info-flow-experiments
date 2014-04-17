@@ -1,0 +1,68 @@
+Scanning ads........................................................................................................................................................................................................Scanning complete
+200
+199
+(199, 10, 543)
+91244
+(199, 10)
+[0 1] [995 995]
+0.61
+
+Features for class 1:
+\multicolumn{1}{l}{ Volkswagen Liquidation ; \url{ reply.com/Volkswagen_Jetta }} & \multirow{2}{*}{ 5.496 } & \multirow{2}{*}{ 2.0 ( 100.0 \%)} & \multirow{2}{*}{ 0.0 ( 0.0 \%)}\\
+\multicolumn{1}{l}{ All 2013 Volkswagen Jettas Must Go. See Overstocked Dealer Prices Now! }\\
+\hline
+\multicolumn{1}{l}{ Work Boots On Sale ; \url{ www.scruggsfarm.com }} & \multirow{2}{*}{ 3.788 } & \multirow{2}{*}{ 5.0 ( 100.0 \%)} & \multirow{2}{*}{ 0.0 ( 0.0 \%)}\\
+\multicolumn{1}{l}{ Great Prices And Selection Of Timber land Workboots And Shoes }\\
+\hline
+\multicolumn{1}{l}{ Home Prices Have Changed ; \url{ www.realestate.com }} & \multirow{2}{*}{ 3.692 } & \multirow{2}{*}{ 1.0 ( 100.0 \%)} & \multirow{2}{*}{ 0.0 ( 0.0 \%)}\\
+\multicolumn{1}{l}{ - Don't know what your home is worth? Find out Free Home Value Estimator }\\
+\hline
+\multicolumn{1}{l}{ Free Driver Updates ; \url{ winzipsystemtools.com/drivers }} & \multirow{2}{*}{ 3.167 } & \multirow{2}{*}{ 6.0 ( 100.0 \%)} & \multirow{2}{*}{ 0.0 ( 0.0 \%)}\\
+\multicolumn{1}{l}{ For Windows 8, 7, XP  Vista. Scan And Update Your Drivers Now. }\\
+\hline
+\multicolumn{1}{l}{ Paper Magazines ; \url{ www.tappipaper360.org }} & \multirow{2}{*}{ 2.91 } & \multirow{2}{*}{ 3.0 ( 100.0 \%)} & \multirow{2}{*}{ 0.0 ( 0.0 \%)}\\
+\multicolumn{1}{l}{ - Read Pulp and Paper Industry News From the Latest Issue of Paper 360. }\\
+\hline
+
+
+Features for class 0:
+\multicolumn{1}{l}{ Sketch Comedy - Ch. 502 ; \url{ www.pluto.tv/Sketch_Comedy }} & \multirow{2}{*}{ -3.286 } & \multirow{2}{*}{ 0.0 ( 0.0 \%)} & \multirow{2}{*}{ 1.0 ( 100.0 \%)}\\
+\multicolumn{1}{l}{ Watch The Best Sketches From TV And Online On Channel 502 }\\
+\hline
+\multicolumn{1}{l}{ Flyboy 1916 Aviator Watch ; \url{ www.stauer.com/FlyboyWatch }} & \multirow{2}{*}{ -2.06 } & \multirow{2}{*}{ 0.0 ( 0.0 \%)} & \multirow{2}{*}{ 1.0 ( 100.0 \%)}\\
+\multicolumn{1}{l}{ This Luxury Aviator watch will Make Perfect Gift at a Great Price! }\\
+\hline
+\multicolumn{1}{l}{ Free ICD-10 Guide ; \url{ icd-10-guide.advancedmd.com }} & \multirow{2}{*}{ -2.042 } & \multirow{2}{*}{ 0.0 ( 0.0 \%)} & \multirow{2}{*}{ 1.0 ( 100.0 \%)}\\
+\multicolumn{1}{l}{ What Medical Practices Need to Know About ICD-10 Codes (Free Download) }\\
+\hline
+\multicolumn{1}{l}{ Duluth Trading Company® ; \url{ www.duluthtrading.com/Fire-Hose }} & \multirow{2}{*}{ -1.97 } & \multirow{2}{*}{ 0.0 ( 0.0 \%)} & \multirow{2}{*}{ 3.0 ( 100.0 \%)}\\
+\multicolumn{1}{l}{ Fire Hose® Work Pants: Tougher than an Angry Beaver's Teeth. Shop now! }\\
+\hline
+\multicolumn{1}{l}{ Find CNA Schools Near You ; \url{ cna-schools.courseadvisor.com }} & \multirow{2}{*}{ -1.726 } & \multirow{2}{*}{ 1.0 ( 16.7 \%)} & \multirow{2}{*}{ 5.0 ( 83.3 \%)}\\
+\multicolumn{1}{l}{ Train for a Career in Nursing. Earn a CNA Degree Online or on Campus! }\\
+\hline
+CVPtest
+0.62
+0.5
+0.996031746032
+0.896825396825
+0.97619047619
+0.5
+0.222222222222
+0.261904761905
+0.103174603175
+0.0833333333333
+1.0
+0.222222222222
+0.5
+0.103174603175
+0.738095238095
+0.261904761905
+0.261904761905
+0.0833333333333
+0.0238095238095
+0.777777777778
+0.261904761905
+(2, 2)
+[[68 44]
+ [32 56]]

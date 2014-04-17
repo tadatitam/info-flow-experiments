@@ -1,0 +1,23 @@
+0
+.0
+.0
+.0
+.0
+...........Round  1
+[1, 1, 1, 1, 1, 0, 0, 0, 0, 0]
+python collector/collect/collect.py 0 10 1 1 10 5 ff ads.txt mentaldisorder.txt 1
+python collector/collect/collect.py 1 10 1 1 10 5 ff ads.txt mentaldisorder.txt 1
+python collector/collect/collect.py 2 10 1 1 10 5 ff ads.txt mentaldisorder.txt 1
+python collector/collect/collect.py 3 10 1 1 10 5 ff ads.txt mentaldisorder.txt 1
+python collector/collect/collect.py 4 10 1 1 10 5 ff ads.txt mentaldisorder.txt 1
+python collector/collect/collect.py 5 10 0 1 10 5 ff ads.txt mentaldisorder.txt 1
+python collector/collect/collect.py 6 10 0 1 10 5 ff ads.txt mentaldisorder.txt 1
+python collector/collect/collect.py 7 10 0 1 10 5 ff ads.txt mentaldisorder.txt 1
+python collector/collect/collect.py 8 10 0 1 10 5 ff ads.txt mentaldisorder.txt 1
+python collector/collect/collect.py 9 10 0 1 10 5 ff ads.txt mentaldisorder.txt 1
+0
+0
+0
+0
+Error: Xvfb did not start
+0

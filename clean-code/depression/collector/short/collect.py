@@ -71,7 +71,7 @@ class Webdriver(unittest.TestCase):
 		cole.optIn(driver)
 		driver.get(SITE)
 		time.sleep(10)
-		raw_input("wait")
+		#raw_input("wait")
 		pref = cole.get_ad_pref(2, driver)
 		print SITE
 		print 'pref=', pref
