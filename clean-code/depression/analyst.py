@@ -4,7 +4,7 @@ SITE_FILE = "mentaldisorder.txt"
 ALEXA_SITE = "http://www.alexa.com/topsites/category/Top/Health/Mental_Health/Disorders"
 INT_SITE_FILE = "int_mentaldisorder.txt"
 SHORT_COLLECT_PY = "collector/short/collect.py"
-AD_FILE = "ads.txt"
+AD_FILE = "log.txt"
 RUN_COLLECT_PY = "collector/collect/collect.py"
 
 #os.system("python collector/short/alexa.py %s %s" % (SITE_FILE, ALEXA_SITE))

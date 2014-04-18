@@ -10,8 +10,8 @@ if __name__ == "__main__":
 		print "Exiting"
 		sys.exit(0)
 	
-	AD_FILE = sys.argv[1]			# Input Log file as command line argument
-	fo = open(AD_FILE, "r")
+	LOG_FILE = sys.argv[1]			# Input Log file as command line argument
+	fo = open(LOG_FILE, "r")
 	line = fo.readline()
 	fo.close()
 	chunks = re.split("\|\|", line)
@@ -22,7 +22,7 @@ if __name__ == "__main__":
  		adv.append(anna.AdVec())
  	par_adv = []
 	
-	fo = open(AD_FILE, "r")
+	fo = open(LOG_FILE, "r")
 	r = 0	
 	sys.stdout.write("Scanning ads")
 	for line in fo:

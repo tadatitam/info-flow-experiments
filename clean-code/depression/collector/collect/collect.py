@@ -57,6 +57,7 @@ class Webdriver(unittest.TestCase):
 	
 	def test_webdriver(self):
 		driver = self.driver
+		cole.setLogFile(LOG_FILE)
 		cole.optIn(driver)							# Enable behavioral ads
         
 # 		cole.set_gender(TREATMENT, driver)
@@ -74,7 +75,7 @@ class Webdriver(unittest.TestCase):
 				time.sleep(5)
 # 				cole.train_with_sites(LSITE_FILE, driver, ID)
 				cole.wait_for_others(SAMPLES, ID, ROUND)
-			cole.collect_ads(RELOADS, DELAY, AD_FILE, driver, ID, TREATMENT)
+			cole.collect_ads(RELOADS, DELAY, LOG_FILE, driver, ID, TREATMENT)
 			run = run+1
 
     
@@ -84,7 +85,7 @@ class Webdriver(unittest.TestCase):
 		self.assertEqual([], self.verificationErrors)
 
 if __name__ == "__main__":
-	global ID, SAMPLES, TREATMENT, RUNS, RELOADS, DELAY, BROWSER, ROUND, AD_FILE, SITE_FILE
+	global ID, SAMPLES, TREATMENT, RUNS, RELOADS, DELAY, BROWSER, ROUND, LOG_FILE, SITE_FILE
 	ID = int(sys.argv[1])
 	SAMPLES = int(sys.argv[2])
 	TREATMENT = sys.argv[3]
@@ -92,7 +93,7 @@ if __name__ == "__main__":
 	RELOADS = int(sys.argv[5])
 	DELAY = int(sys.argv[6])
 	BROWSER = sys.argv[7]
-	AD_FILE = sys.argv[8]
+	LOG_FILE = sys.argv[8]
 	SITE_FILE = sys.argv[9]
 	ROUND = sys.argv[10]
 	if (ID > SAMPLES):

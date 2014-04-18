@@ -661,8 +661,6 @@ def getVectorsFromExp(advdicts, featChoice):			# returns observation vector from
 			y.extend(y1)
 	else:
 		y = [int(i) for i in labels]
-	print y
-	raw_input("wait")
 	X = [X[i:i+n] for i in range(0,len(X),n)]
 	y = [y[i:i+n] for i in range(0,len(y),n)]
 # 	print feat[0].title, feat[0].url
@@ -688,7 +686,7 @@ def trainTest(algos, X, y, splittype, splitfrac, nfolds, list, ptest, chi2, verb
 	
 	max_score = 0
 	for algo in algos.keys():
-		score, mPar, clf = crossVal_algo(nfolds, algo, algos[algo], X_train, y_train, splittype, splitfrac, list)
+		score, mPar, clf = crossVal_algo(nfolds, algo, algos[algo], X_train, y_train, splittype, splitfrac, list, verbose=verbose)
 		if(verbose):
 			print score, mPar, clf
 		if(score > max_score):
@@ -727,11 +725,11 @@ def trainTest(algos, X, y, splittype, splitfrac, nfolds, list, ptest, chi2, verb
 def featureSelection(X,y,feat,featChoice,splittype,splitfrac,nfolds,nfeat,list):
 
 	algos = {	
-				'logit':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'penalty':['l1']},
-				'svc':{'C':np.logspace(-5.0, 15.0, num=21, base=2)}		
+				'logit':{'C':np.logspace(-5.0, 15.0, num=1, base=2), 'penalty':['l1']},
+# 				'svc':{'C':np.logspace(-5.0, 15.0, num=21, base=2)}		
 			}
 
-	clf = trainTest(algos, X, y, splittype, splitfrac, nfolds, list, ptest=0, chi2=0)
+	clf = trainTest(algos, X, y, splittype, splitfrac, nfolds, list, ptest=0, chi2=0, verbose=True)
 	
 	printTopKFeatures(X, y, feat, featChoice, clf, nfeat, list)
 	
@@ -754,7 +752,7 @@ def CVPtest(X, y, feat, splittype, splitfrac, nfolds, list, ptest=1, chi2=1):			
 				'logit':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'penalty':['l1', 'l2']},
 # 				'kNN':{'k':np.arange(1,20,2), 'p':[1,2,3]}, 
 # 				'polySVM':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'degree':[1,2,3,4]},
-				'rbfSVM':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'gamma':np.logspace(-15.0, 3.0, num=19, base=2)}
+# 				'rbfSVM':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'gamma':np.logspace(-15.0, 3.0, num=19, base=2)}
 				
 			}
 	clf = trainTest(algos, X, y, splittype, splitfrac, nfolds, list, ptest=ptest, chi2=chi2)
@@ -839,6 +837,8 @@ def crossVal_algo(k, algo, params, X, y, splittype, splitfrac, list, verbose=Fal
 					C=p[params.keys().index('C')])
 			clf.fit(X_train, y_train)
 			score += clf.score(X_test, y_test)
+			print clf.coef_[0]
+			raw_input("wait s")
 		score /= k
 		if(verbose):
  			print score
@@ -897,6 +897,7 @@ def MLAnalysis(par_adv):
 	ua,uind=np.unique(y,return_inverse=True)
 	count=np.bincount(uind)
 	print ua, count
+	featureSelection(X,y,feat,featChoice,splittype,splitfrac,nfolds=10,nfeat=5,list=1)
 	featureSelection(X,y,feat,featChoice,splittype,splitfrac,nfolds=10,nfeat=5,list=1)
 	print "CVPtest"
 	CVPtest(X, y, feat, splittype, splitfrac, nfolds=10, list=1)

@@ -4,16 +4,13 @@ import random
 import numpy as np
 
 if __name__ == "__main__":
-	AD_FILE = sys.argv[1]
+	LOG_FILE = sys.argv[1]
 	SITE_FILE = sys.argv[2]
 	COLLECT_PY = sys.argv[3]
 
-	fo = open(AD_FILE, "w")
+	fo = open(LOG_FILE, "w")
 	fo.close()
-	
-	fo = open("log", "w")			# hard coded log-file, to be used by collectHelper.
-	fo.close()
-	
+
 	test = glob.glob(COLLECT_PY)[0]
 	processes = []
 
@@ -45,7 +42,7 @@ if __name__ == "__main__":
 		print "Round ", j+1
 		table, l = getRandomTable(SAMPLES, TREATMENTS)		
 		print table
-		fo = open(AD_FILE, "a")
+		fo = open(LOG_FILE, "a")
 		fo.write("g||")
 		for i in range(0, SAMPLES-1):
 			fo.write(str(l[i]) + "||")
@@ -53,8 +50,8 @@ if __name__ == "__main__":
 		fo.close()
 
 		for i in range(0,SAMPLES):
-			print 'python %s %s %s %s %s %s %s %s %s %s %s' % (test, i, SAMPLES, table[i], RUNS, RELOADS, DELAY, BROWSER, AD_FILE, SITE_FILE, j+1)
-			processes.append(Popen('python %s %s %s %s %s %s %s %s %s %s %s' % (test, i, SAMPLES, table[i], RUNS, RELOADS, DELAY, BROWSER, AD_FILE, SITE_FILE, j+1), shell=True))
+			print 'python %s %s %s %s %s %s %s %s %s %s %s' % (test, i, SAMPLES, table[i], RUNS, RELOADS, DELAY, BROWSER, LOG_FILE, SITE_FILE, j+1)
+			processes.append(Popen('python %s %s %s %s %s %s %s %s %s %s %s' % (test, i, SAMPLES, table[i], RUNS, RELOADS, DELAY, BROWSER, LOG_FILE, SITE_FILE, j+1), shell=True))
 
 		for process in processes:
 			process.wait()

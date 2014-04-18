@@ -20,7 +20,9 @@ def strip_tags(html):
     s.feed(html)
     return s.get_data()
 
-LOG_FILE = "log"
+def setLogFile(FILE):
+	global LOG_FILE
+	LOG_FILE = FILE
 
 def optOut(driver):													# Opt out of behavioral advertising on Google
 	driver.set_page_load_timeout(20)
@@ -124,9 +126,9 @@ def train_with_sites(FILE, driver, id, TREATMENT):					# Visits all pages in FIL
 		chunks = re.split("\|\|", line)
 		site = chunks[0].strip()
 		try:
-			driver.set_page_load_timeout(30)
+			driver.set_page_load_timeout(20)
 			driver.get(site)
-			time.sleep(10)
+			time.sleep(5)
 			log(site, str(id)+"||"+TREATMENT)
 		except:
 			log("timedout-"+line.rstrip(), id)
@@ -143,7 +145,7 @@ def wait_for_others(instances, id, round):							# Makes instance with ID 'id' w
 	round = int(round)
 	while(not clear):
 		count += 1
-		if(count > 180):
+		if(count > 500):
 			break
 		c = [0]*instances
 		curr_round = 0
