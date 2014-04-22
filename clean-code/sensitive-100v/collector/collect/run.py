@@ -11,8 +11,8 @@ if __name__ == "__main__":
 	test = glob.glob(COLLECT_PY)[0]
 	processes = []
 
-	SAMPLES = 15
-	TREATMENTS = 3
+	SAMPLES = 10
+	TREATMENTS = 2
 	RUNS = 1
 	RELOADS = 10
 	DELAY = 5
