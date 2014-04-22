@@ -17,7 +17,7 @@ if __name__ == "__main__":
 	RELOADS = 10
 	DELAY = 5
 	BROWSER = 'ff'			# ff=firefox, chr=chrome
-	ROUNDS = 200
+	ROUNDS = 100
 
 	#random.seed(123)
 
