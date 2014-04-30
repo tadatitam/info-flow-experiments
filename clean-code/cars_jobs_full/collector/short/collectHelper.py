@@ -131,8 +131,7 @@ def train_with_sites(FILE, driver, id, TREATMENT):					# Visits all pages in FIL
 			time.sleep(5)
 			log(site, str(id)+"||"+TREATMENT)
 		except:
-			log("timedout-"+line.rstrip(), str(id)+"||"+TREATMENT)
-			pass
+			log("timedout-"+line.rstrip(), id)
 	log('training-end', id)
 
 def log(msg, id):													# Maintains a log of visitations

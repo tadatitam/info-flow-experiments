@@ -8,6 +8,7 @@ from selenium.webdriver.common.proxy import *		# for proxy settings
 from xvfbwrapper import Xvfb						# for creating artificial display to run experiments				
 import collectHelper as cole						# functions from collectHelper
 
+LOG_FILE = "log"
 myProxy = "yogi.pdl.cmu.edu:3128"
 
 proxy = Proxy({
@@ -56,46 +57,28 @@ class Webdriver(unittest.TestCase):
 		self.accept_next_alert = True
 	
 	def test_webdriver(self):
+		fo = open(AD_FILE, "w")
+		fo.close()
 		driver = self.driver
-		cole.setLogFile(LOG_FILE)
-		cole.optIn(driver)							# Enable behavioral ads
-		run = 0
-		while (run < RUNS):
-			print(run)
-			if(TREATMENT == '0'):
-# 				#cole.train_with_queries(list, 11, ID, driver)
-				time.sleep(5)
-				cole.wait_for_others(SAMPLES, ID, ROUND)
-			elif(TREATMENT == '1'):
-				cole.train_with_sites("int_shopping.vehicles.autos.txt", driver, ID, TREATMENT)
-				cole.wait_for_others(SAMPLES, ID, ROUND)				
-			elif(TREATMENT == '2'):
-				cole.train_with_sites("non_int_shopping.vehicles.autos.txt", driver, ID, TREATMENT)
-				cole.wait_for_others(SAMPLES, ID, ROUND)
-			print ID, TREATMENT, cole.get_ad_pref(2, driver)
-			cole.collect_ads(RELOADS, DELAY, LOG_FILE, driver, ID, TREATMENT)
-			run = run+1
-
+		driver.get(SITE)
+		for i in range(1,5):
+			els = driver.find_elements_by_css_selector("li.site-listing div.desc-container p.desc-paragraph a")
+			for el in els:
+				t = el.get_attribute('innerHTML').lower()
+				print t
+				fo = open(AD_FILE, "a")
+				fo.write(t + '\n')
+				fo.close()
+			driver.find_element_by_css_selector("a.next").click()
     
 	def tearDown(self):
 		self.driver.quit()
-		self.vdisplay.stop()
 		self.assertEqual([], self.verificationErrors)
 
 if __name__ == "__main__":
-	global ID, SAMPLES, TREATMENT, RUNS, RELOADS, DELAY, BROWSER, ROUND, LOG_FILE, SITE_FILE
-	ID = int(sys.argv[1])
-	SAMPLES = int(sys.argv[2])
-	TREATMENT = sys.argv[3]
-	RUNS = int(sys.argv[4])
-	RELOADS = int(sys.argv[5])
-	DELAY = int(sys.argv[6])
-	BROWSER = sys.argv[7]
-	LOG_FILE = sys.argv[8]
-	SITE_FILE = sys.argv[9]
-	ROUND = sys.argv[10]
-	if (ID > SAMPLES):
-		sys.exit("ERROR: id must be less than total instances")
-	
+	global AD_FILE, SITE, BROWSER
+	BROWSER = 'ff'
+	AD_FILE = sys.argv[1]
+	SITE = sys.argv[2]
 	del sys.argv[1:]
 	unittest.main()

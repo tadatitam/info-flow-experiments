@@ -655,12 +655,19 @@ def getVectorsFromExp(advdicts, featChoice):			# returns observation vector from
 	if(labels == []):
 		for advdict in advdicts:
 			ass = advdict['ass']
-			y1 = [0]*len(ass)								# !! need to change this to set the label vector from labels in the ads
+			y1 = [0]*len(ass)
 			for i in ass[0:len(ass)/2]:
 				y1[int(i)] = 1
 			y.extend(y1)
 	else:
 		y = [int(i) for i in labels]
+	print len(X), len(y)
+	X = [X[i] for i in range(0,len(X)) if y[i] != 1]
+	y = [y[i] for i in range(0,len(y)) if y[i] != 1]
+	print len(X), len(y)
+	n = int(2.*n/3.)
+	print n
+	raw_input("wait")
 	X = [X[i:i+n] for i in range(0,len(X),n)]
 	y = [y[i:i+n] for i in range(0,len(y),n)]
 # 	print feat[0].title, feat[0].url

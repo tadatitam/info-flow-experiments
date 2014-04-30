@@ -11,13 +11,13 @@ if __name__ == "__main__":
 	test = glob.glob(COLLECT_PY)[0]
 	processes = []
 
-	SAMPLES = 15
+	SAMPLES = 3
 	TREATMENTS = 3
 	RUNS = 1
 	RELOADS = 10
 	DELAY = 5
 	BROWSER = 'ff'			# ff=firefox, chr=chrome
-	ROUNDS = 200
+	ROUNDS = 1
 
 	#random.seed(123)
 
