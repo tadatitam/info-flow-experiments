@@ -73,6 +73,7 @@ class Webdriver(unittest.TestCase):
 				cole.train_with_sites("non_int_shopping.vehicles.autos.txt", driver, ID, TREATMENT)
 				cole.wait_for_others(SAMPLES, ID, ROUND)
 			print ID, TREATMENT, cole.get_ad_pref(2, driver)
+			raw_input("wait")
 			cole.collect_ads(RELOADS, DELAY, LOG_FILE, driver, ID, TREATMENT)
 			run = run+1
 

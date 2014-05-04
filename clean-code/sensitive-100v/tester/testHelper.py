@@ -125,10 +125,15 @@ class Ad:
 		self.label = lbl
 	
 	def printStuff(self, coeff, a, b):
-		print "\multicolumn{1}{l}{", self.title, "; \url{", self.url, "}} & \multirow{2}{*}{", round(coeff, 3), 
-		print "} & \multirow{2}{*}{", a, "(", round(100.*a/(a+b), 1), "\%)} & \multirow{2}{*}{", b, "(", round(100.*b/(a+b), 1), "\%)}\\\\"
-		print "\multicolumn{1}{l}{", self.body, "}\\\\"
-		print "\hline"
+# 		print "\multicolumn{1}{l}{", self.title, "; \url{", self.url, "}} & \multirow{2}{*}{", round(coeff, 3), 
+# 		print "} & \multirow{2}{*}{", a, "(", round(100.*a/(a+b), 1), "\%)} & \multirow{2}{*}{", b, "(", round(100.*b/(a+b), 1), "\%)}\\\\"
+# 		print "\multicolumn{1}{l}{", self.body, "}\\\\"
+# 		print "\hline"
+		
+		print "\TitleParbox{", self.title, "; \url{", self.url, "}; ", self.body, "} & ",
+		print round(coeff, 3), " & ", a, "(", round(100.*a/(a+b), 1), "\%) & ", b, "(", round(100.*b/(a+b), 1), "\%) \\\\"
+		print "\hline \\\\"
+
 	
 	def display(self):
 		print ("Title: "+self.title)
@@ -693,7 +698,10 @@ def trainTest(algos, X, y, splittype, splitfrac, nfolds, list, ptest, chi2, verb
 			max_clf = clf
 			max_score = score
 	if(verbose):
-		print max_score, max_clf, max_clf.coef_.shape
+		try:
+			print max_score, max_clf, max_clf.coef_.shape			# for linear kernel
+		except:
+			print max_score, max_clf, max_clf.dual_coef_.shape		# for rbf kernel
 	if(ptest==1):
 		oXtest, oytest = X_test, y_test	
 	if(list==1):
@@ -706,8 +714,10 @@ def trainTest(algos, X, y, splittype, splitfrac, nfolds, list, ptest, chi2, verb
 	
 	np.set_printoptions(threshold=sys.maxint)
 	max_clf.fit(X_train, y_train)
-# 	print "test-score: ", max_clf.score(X_test, y_test)
-	print max_clf.score(X_test, y_test)
+	if(verbose):
+		print "train-size: ", len(y_train)
+		print "test-size: ", len(y_test)
+	print "test-score: ", max_clf.score(X_test, y_test)
 	if(ptest==1):
 		for i in range(0,len(oXtest)):
 			print MLpTest(oXtest[i], oytest[i], clf)
@@ -732,6 +742,7 @@ def featureSelection(X,y,feat,featChoice,splittype,splitfrac,nfolds,nfeat,list):
 	clf = trainTest(algos, X, y, splittype, splitfrac, nfolds, list, ptest=0, chi2=0)
 	
 	randomized_logistic = RandomizedLogisticRegression()
+	raw_input("Write randlogreg!!")
 	
 	printTopKFeatures(X, y, feat, featChoice, clf, nfeat, list)
 	
@@ -748,7 +759,7 @@ def featureSelection(X,y,feat,featChoice,splittype,splitfrac,nfolds,nfeat,list):
 # 		CVPtest(kX, y, feat, splittype, splitfrac, nfolds, list, ptest=0, chi2=0)
 
 
-def CVPtest(X, y, feat, splittype, splitfrac, nfolds, list, ptest=1, chi2=1):				# main function, calls cross_validation, then runs chi2
+def CVPtest(X, y, feat, splittype, splitfrac, nfolds, list, ptest=1, chi2=1, verbose=False):				# main function, calls cross_validation, then runs chi2
 
 	algos = {	
 				'logit':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'penalty':['l1', 'l2']},
@@ -757,7 +768,7 @@ def CVPtest(X, y, feat, splittype, splitfrac, nfolds, list, ptest=1, chi2=1):			
 				'rbfSVM':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'gamma':np.logspace(-15.0, 3.0, num=19, base=2)}
 				
 			}
-	clf = trainTest(algos, X, y, splittype, splitfrac, nfolds, list, ptest=ptest, chi2=chi2)
+	clf = trainTest(algos, X, y, splittype, splitfrac, nfolds, list, ptest=ptest, chi2=chi2, verbose=verbose)
 
 
 def printTopKFeatures(X, y, feat, featChoice, max_clf, k, list):		# prints top k features from max_clf+some numbers
@@ -899,5 +910,5 @@ def MLAnalysis(par_adv):
 	print ua, count
 	featureSelection(X,y,feat,featChoice,splittype,splitfrac,nfolds=10,nfeat=5,list=1)
 	print "CVPtest"
-	CVPtest(X, y, feat, splittype, splitfrac, nfolds=10, list=1)
+	CVPtest(X, y, feat, splittype, splitfrac, nfolds=10, list=1, verbose=True)
 	
