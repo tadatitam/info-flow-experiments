@@ -22,7 +22,11 @@ proxy = Proxy({
 class Webdriver(unittest.TestCase):
 	def setUp(self):
 		self.vdisplay = Xvfb(width=1280, height=720)
-		self.vdisplay.start()
+		if(!self.vdisplay.start()):
+			fo = open(LOG_FILE, "a")
+			fo.write("Xvfbfailure||"+str(TREATMENT)+"||"+str(ID))
+			fo.close()
+			sys.exit(0)
 		if(BROWSER=='ff'):
 			if (platform.system()=='Darwin'):
 				self.driver = webdriver.Firefox()
