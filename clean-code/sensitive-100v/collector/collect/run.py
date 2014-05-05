@@ -7,17 +7,17 @@ if __name__ == "__main__":
 	LOG_FILE = sys.argv[1]
 	SITE_FILE = sys.argv[2]
 	COLLECT_PY = sys.argv[3]
+	SAMPLES = int(sys.argv[4])
+	TREATMENTS = int(sys.argv[5])
+	BLOCKS = int(sys.argv[6])
 
 	test = glob.glob(COLLECT_PY)[0]
 	processes = []
 
-	SAMPLES = 2
-	TREATMENTS = 2
 	RUNS = 1
 	RELOADS = 10
 	DELAY = 5
 	BROWSER = 'ff'			# ff=firefox, chr=chrome
-	ROUNDS = 1
 
 	#random.seed(123)
 
@@ -35,7 +35,7 @@ if __name__ == "__main__":
 				table[l[j]] = i
 		return table, l
 	
-	for j in range(0, ROUNDS):
+	for j in range(0, BLOCKS):
 		print "Round ", j+1
 		table, l = getRandomTable(SAMPLES, TREATMENTS)		
 		print table

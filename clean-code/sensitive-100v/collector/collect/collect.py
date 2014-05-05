@@ -22,7 +22,11 @@ proxy = Proxy({
 class Webdriver(unittest.TestCase):
 	def setUp(self):
 		self.vdisplay = Xvfb(width=1280, height=720)
-		self.vdisplay.start()
+		if(not self.vdisplay.start()):
+			fo = open(LOG_FILE, "a")
+			fo.write("Xvfbfailure||"+str(TREATMENT)+"||"+str(ID))
+			fo.close()
+			sys.exit(0)
 		if(BROWSER=='ff'):
 			if (platform.system()=='Darwin'):
 				self.driver = webdriver.Firefox()
@@ -69,7 +73,9 @@ class Webdriver(unittest.TestCase):
 			elif(TREATMENT == '1'):
 				cole.train_with_sites(SITE_FILE, driver, ID, TREATMENT)
 				cole.wait_for_others(SAMPLES, ID, ROUND)
-			cole.collect_ads(RELOADS, DELAY, LOG_FILE, driver, ID, TREATMENT)
+			pref = cole.get_ad_pref(2, driver)
+			cole.log("pref"+"||"+str(TREATMENT)+"||"+", ".join(pref), ID)
+			cole.collect_ads(RELOADS, DELAY, LOG_FILE, driver, ID, TREATMENT, 'toi')
 			run = run+1
 
     

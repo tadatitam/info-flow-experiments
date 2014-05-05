@@ -131,8 +131,7 @@ def train_with_sites(FILE, driver, id, TREATMENT):					# Visits all pages in FIL
 			time.sleep(5)
 			log(site, str(id)+"||"+TREATMENT)
 		except:
-			log("timedout-"+line.rstrip(), str(id)+"||"+TREATMENT)
-			pass
+			log("timedout-"+line.rstrip(), id)
 	log('training-end', id)
 
 def log(msg, id):													# Maintains a log of visitations
@@ -147,6 +146,7 @@ def wait_for_others(instances, id, round):							# Makes instance with ID 'id' w
 	while(not clear):
 		count += 1
 		if(count > 500):
+			log('breakingout', id)
 			break
 		c = [0]*instances
 		curr_round = 0
@@ -173,27 +173,111 @@ def wait_for_others(instances, id, round):							# Makes instance with ID 'id' w
 				clear = False
 	
 
-def collect_ads(reloads, delay, file, driver, id, TREATMENT):
+def collect_ads(reloads, delay, file, driver, id, TREATMENT, site):
 	rel = 0
 	while (rel < reloads):	# number of reloads on sites to capture all ads
 		time.sleep(delay)
 		try:
 			for i in range(0,1):
-				save_ads_toi(file, driver, id, TREATMENT)
+				s = datetime.now()
+				if(site == 'toi'):
+					save_ads_toi(file, driver, id, TREATMENT)
+				elif(site == 'bbc'):
+					save_ads_bbc(file, driver, id, TREATMENT)
+				elif(site == 'guardian'):
+					save_ads_guardian(file, driver, id, TREATMENT)
+				elif(site == 'reuters'):
+					save_ads_reuters(file, driver, id, TREATMENT)
+				elif(site == 'bloomberg'):
+					save_ads_bloomberg(file, driver, id, TREATMENT)
+				else:
+					raw_input("No such site found!")
+				e = datetime.now()
+				log('loadtime||'+str(e-s), id)
 				log('reload', id)
 		except:
+			log('errorcollecting', id)
 			pass
 		rel = rel + 1
+
+def save_ads_bloomberg(file, driver, id, TREATMENT):
+	sys.stdout.write(".")
+	sys.stdout.flush()
+	driver.set_page_load_timeout(60)
+	driver.get("http://www.bloomberg.com/")	
+	tim = str(datetime.now())
+	frame0 = driver.find_element_by_xpath(".//iframe[@src='/bcom/home/iframe/google-adwords']")
+	driver.switch_to_frame(frame0)
+	frame1 = driver.find_element_by_xpath(".//iframe[@id='aswift_0']")
+	driver.switch_to_frame(frame1)
+	time.sleep(2)
+	frame2 = driver.find_element_by_xpath(".//iframe[@id='google_ads_frame1']")
+	driver.switch_to_frame(frame2)
+	lis = driver.find_elements_by_css_selector("div#adunit div#ads ul li")
+	for li in lis:
+		t = li.find_element_by_css_selector("td.rh-titlec div a span").get_attribute('innerHTML')
+		l = li.find_element_by_css_selector("td.rh-urlc div div a span").get_attribute('innerHTML')
+		b = li.find_element_by_css_selector("td.rh-bodyc div span").get_attribute('innerHTML')
+		f = strip_tags(str(id)+"||"+tim+"||"+t+"||"+l+"||"+b).encode("utf8")
+		fo = open(file, "a")
+		fo.write(f + '\n')
+		fo.close()
+	driver.switch_to_default_content()
+	driver.switch_to_default_content()
+	driver.switch_to_default_content()
+
+def save_ads_reuters(file, driver, id, TREATMENT):
+	sys.stdout.write(".")
+	sys.stdout.flush()
+	driver.set_page_load_timeout(60)
+	driver.get("http://www.reuters.com/news/us")	
+	tim = str(datetime.now())
+	frame0 = driver.find_element_by_xpath(".//iframe[@id='pmad-rt-frame']")
+	driver.switch_to_frame(frame0)
+	frame1 = driver.find_element_by_xpath(".//iframe[@id='aswift_0']")
+	driver.switch_to_frame(frame1)
+	time.sleep(2)
+	frame2 = driver.find_element_by_xpath(".//iframe[@id='google_ads_frame1']")
+	driver.switch_to_frame(frame2)
+	lis = driver.find_elements_by_css_selector("div#adunit div#ads ul li")
+	for li in lis:
+		t = li.find_element_by_css_selector("td.rh-titlec div a span").get_attribute('innerHTML')
+		l = li.find_element_by_css_selector("td.rh-urlc div div a span").get_attribute('innerHTML')
+		b = li.find_element_by_css_selector("td.rh-bodyc div span").get_attribute('innerHTML')
+		f = strip_tags(str(id)+"||"+tim+"||"+t+"||"+l+"||"+b).encode("utf8")
+		fo = open(file, "a")
+		fo.write(f + '\n')
+		fo.close()
+	driver.switch_to_default_content()
+	driver.switch_to_default_content()
+	driver.switch_to_default_content()
+
+def save_ads_guardian(file, driver, id, TREATMENT):
+	sys.stdout.write(".")
+	sys.stdout.flush()
+	driver.set_page_load_timeout(60)
+	driver.get("http://www.theguardian.com/us")	
+	time = str(datetime.now())
+	els = driver.find_elements_by_css_selector("div#google-ads-container div.bd ul li")
+	for el in els:
+		t = el.find_element_by_css_selector("p.t6 a").get_attribute('innerHTML')
+		ps = el.find_elements_by_css_selector("p")
+		b = ps[1].get_attribute('innerHTML')
+		l = ps[2].find_element_by_css_selector("a").get_attribute('innerHTML')
+		t = strip_tags(str(id)+"||"+str(TREATMENT)+"||"+time+"||"+t+"||"+l+"||"+b).encode("utf8")
+		fo = open(file, "a")
+		fo.write(t + '\n')
+		fo.close()
 
 def save_ads_toi(file, driver, id, TREATMENT):
 	sys.stdout.write(".")
 	sys.stdout.flush()
 	driver.set_page_load_timeout(60)
 	driver.get("http://timesofindia.indiatimes.com/international-home")
+	time = str(datetime.now())
 	frames = driver.find_elements_by_xpath(".//iframe[@src='http://timesofindia.indiatimes.com/configspace/ads/TOI_INTL_home_right.html']")
 	driver.switch_to_frame(frames[0])
 	ads = driver.find_elements_by_xpath(".//tbody/tr/td/table")
-	time = str(datetime.now())
 	for ad in ads:
 		aa = ad.find_elements_by_xpath(".//tbody/tr/td/a")
 		bb = ad.find_elements_by_xpath(".//tbody/tr/td/span")
@@ -226,3 +310,21 @@ def save_ads_toi(file, driver, id, TREATMENT):
 		fo.write(t + '\n')
 		fo.close()
 	driver.switch_to_default_content()
+
+def save_ads_bbc(file, driver, id, TREATMENT):
+	sys.stdout.write(".")
+	sys.stdout.flush()
+# 		global ad_int
+	driver.set_page_load_timeout(60)
+	driver.get("http://www.bbc.com/news/")
+	time = str(datetime.now())
+	els = driver.find_elements_by_css_selector("div#bbccom_adsense_mpu div ul li")
+	for el in els:
+		t = el.find_element_by_css_selector("h4 a").get_attribute('innerHTML')
+		ps = el.find_elements_by_css_selector("p")
+		b = ps[0].get_attribute('innerHTML')
+		l = ps[1].find_element_by_css_selector("a").get_attribute('innerHTML')
+		t = strip_tags(str(id)+"||"+str(TREATMENT)+"||"+time+"||"+t+"||"+l+"||"+b).encode("utf8")
+		fo = open(file, "a")
+		fo.write(t + '\n')
+		fo.close()
