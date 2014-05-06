@@ -22,9 +22,9 @@ proxy = Proxy({
 class Webdriver(unittest.TestCase):
 	def setUp(self):
 		self.vdisplay = Xvfb(width=1280, height=720)
-		if(!self.vdisplay.start()):
+		if(not self.vdisplay.start()):
 			fo = open(LOG_FILE, "a")
-			fo.write("Xvfbfailure||"+str(TREATMENT)+"||"+str(ID))
+			fo.write("Xvfbfailure||"+str(TREATMENT)+"||"+str(ID)+"\n")
 			fo.close()
 			sys.exit(0)
 		if(BROWSER=='ff'):
