@@ -23,7 +23,7 @@ RUN_COLLECT_PY = "collector/collect/collect.py"
 
 SAMPLES = 10
 TREATMENTS = 2
-BLOCKS = 3
+BLOCKS = 100
 
 
 

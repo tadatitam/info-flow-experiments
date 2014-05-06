@@ -8,6 +8,11 @@ from selenium.webdriver.common.proxy import *		# for proxy settings
 from xvfbwrapper import Xvfb						# for creating artificial display to run experiments				
 import collectHelper as cole						# functions from collectHelper
 
+import signal										# for timing out external calls
+
+def signal_handler(signum, frame):
+    raise Exception("Timed out!")
+
 myProxy = "yogi.pdl.cmu.edu:3128"
 
 proxy = Proxy({
@@ -27,31 +32,40 @@ class Webdriver(unittest.TestCase):
 			fo.write("Xvfbfailure||"+str(TREATMENT)+"||"+str(ID)+"\n")
 			fo.close()
 			sys.exit(0)
-		if(BROWSER=='ff'):
-			if (platform.system()=='Darwin'):
-				self.driver = webdriver.Firefox()
-			elif (platform.system()=='Linux'):
-				self.driver = webdriver.Firefox(proxy=proxy)
+		signal.signal(signal.SIGALRM, signal_handler)
+		signal.alarm(5)   # Ten seconds
+		try:
+			if(BROWSER=='ff'):
+				if (platform.system()=='Darwin'):
+					self.driver = webdriver.Firefox()
+				elif (platform.system()=='Linux'):
+					self.driver = webdriver.Firefox(proxy=proxy)
+				else:
+					print "Unidentified Platform"
+					sys.exit(0)
+			elif(BROWSER=='chr'):
+				print "WARNING: Expecting chromedriver at specified location !!"
+				if (platform.system()=='Darwin'):
+					chromedriver = "/Users/amitdatta/Desktop/chromedriver/chromedriver_mac"
+					os.environ["webdriver.chrome.driver"] = chromedriver
+					self.driver = webdriver.Chrome(executable_path=chromedriver)
+				elif (platform.system() == 'Linux'):
+					chromedriver = "root/Desktop/chromedriver/chromedriver_linux"
+					os.environ["webdriver.chrome.driver"] = chromedriver
+					chrome_option = webdriver.ChromeOptions()
+					chrome_option.add_argument("--proxy-server=yogi.pdl.cmu.edu:3128" )
+					self.driver = webdriver.Chrome(executable_path=chromedriver, chrome_options=chrome_option)
+				else:
+					print "Unidentified Platform"
+					sys.exit(0)
 			else:
-				print "Unidentified Platform"
+				print "Unsupported Browser"
 				sys.exit(0)
-		elif(BROWSER=='chr'):
-			print "WARNING: Expecting chromedriver at specified location !!"
-			if (platform.system()=='Darwin'):
-				chromedriver = "/Users/amitdatta/Desktop/chromedriver/chromedriver_mac"
-				os.environ["webdriver.chrome.driver"] = chromedriver
-				self.driver = webdriver.Chrome(executable_path=chromedriver)
-			elif (platform.system() == 'Linux'):
-				chromedriver = "root/Desktop/chromedriver/chromedriver_linux"
-				os.environ["webdriver.chrome.driver"] = chromedriver
-				chrome_option = webdriver.ChromeOptions()
-				chrome_option.add_argument("--proxy-server=yogi.pdl.cmu.edu:3128" )
-				self.driver = webdriver.Chrome(executable_path=chromedriver, chrome_options=chrome_option)
-			else:
-				print "Unidentified Platform"
-				sys.exit(0)
-		else:
-			print "Unsupported Browser"
+		except Exception, msg:
+			print "Timed out!"
+			fo = open(LOG_FILE, "a")
+			fo.write("LaunchFailure||"+str(TREATMENT)+"||"+str(ID)+"\n")
+			fo.close()
 			sys.exit(0)
 		self.driver.implicitly_wait(10)
 		self.base_url = "https://www.google.com/"

@@ -62,7 +62,9 @@ class Webdriver(unittest.TestCase):
 	def test_webdriver(self):
 		driver = self.driver
 		cole.setLogFile(LOG_FILE)
+		cole.log("browserStarted||"+str(TREATMENT), ID)
 		cole.optIn(driver)							# Enable behavioral ads
+		cole.log("optedIn||"+str(TREATMENT), ID)	
 		run = 0
 		while (run < RUNS):
 			print(run)

@@ -1,7 +1,7 @@
-import testHelper as anna			# test-code
-import re							# for splitting strings
-import sys							# for system arguments
-from datetime import datetime		# to parse time
+import testHelper as anna						# test-code
+import re										# for splitting strings
+import sys										# for system arguments
+from datetime import datetime, timedelta		# to parse time; add, subtract time differences
 
 
 if __name__ == "__main__":
@@ -22,6 +22,9 @@ if __name__ == "__main__":
  		adv.append(anna.AdVec())
  	loadtimes = [timedelta(minutes=0)]*INSTANCES
  	reloads = [0]*INSTANCES
+ 	errors = [0]*INSTANCES
+ 	xvfbfails = []
+ 	breakout = False
  	par_adv = []
 	
 	fo = open(LOG_FILE, "r")
@@ -30,29 +33,41 @@ if __name__ == "__main__":
 	for line in fo:
 		chunks = re.split("\|\|", line)
 		chunks[len(chunks)-1] = chunks[len(chunks)-1].rstrip()
+		if(chunks[0] == 'g' and r==0):
+			r += 1
+			ass = chunks[1:]
+ 			#print ass
  		if(chunks[0] == 'g' and r >0 ):
  			r += 1
- 			par_adv.append({'adv':adv, 'ass':ass})
+ 			par_adv.append({'adv':adv, 'ass':ass, 'xf':xvfbfails, 
+ 						'break':breakout, 'loadtimes':loadtimes, 'reloads':reloads, 'errors':errors})
  			sys.stdout.write(".")
 			sys.stdout.flush()
 			adv = []
 			for i in range(0, INSTANCES):
  				adv.append(anna.AdVec())
+ 			loadtimes = [timedelta(minutes=0)]*INSTANCES
+			reloads = [0]*INSTANCES
+			errors = [0]*INSTANCES
+ 			xvfbfails = []
+ 			breakout = False
 			ass = chunks[1:]
-		if(chunks[0] == 'g' and r==0):
-			r += 1
-			ass = chunks[1:]
- 			#print ass
  		if(chunks[0] == 'Xvfbfailure'):
- 			
+ 			xtreat, xid = chunks[1], chunks[2]
+ 			xvfbfails.append(xtreat)
  		if(chunks[1] == 'breakingout'):
- 		
+ 			breakout = True
  		if(chunks[1] == 'loadtime'):
- 		
+ 			t = (datetime.strptime(chunks[2], "%H:%M:%S.%f"))
+ 			delta = timedelta(hours=t.hour, minutes=t.minute, seconds=t.second)
+ 			id = int(chunks[3])
+ 			loadtimes[id] += delta
  		if(chunks[1] == 'reload'):
- 		
+ 			id = int(chunks[2])
+ 			reloads[id] += 1
  		if(chunks[1] == 'errorcollecting'):
- 		
+ 			id = int(chunks[2])
+ 			errors[id] += 1 		
 		else:
   			try:
 				ad = anna.Ad({'Time':datetime.strptime(chunks[2], "%Y-%m-%d %H:%M:%S.%f"), 'Title':chunks[3], 'URL': chunks[4], 'Body': chunks[5].rstrip(), 'cat': "", 'label':chunks[1]})
@@ -62,7 +77,7 @@ if __name__ == "__main__":
  				pass
  	
  	r += 1
- 	par_adv.append({'adv':adv, 'ass':ass})
+ 	par_adv.append({'adv':adv, 'ass':ass, 'xf':xvfbfails, 'break':breakout})
  	sys.stdout.write(".Scanning complete\n")
  	sys.stdout.flush()
  	
