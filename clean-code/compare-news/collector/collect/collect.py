@@ -8,6 +8,11 @@ from selenium.webdriver.common.proxy import *		# for proxy settings
 from xvfbwrapper import Xvfb						# for creating artificial display to run experiments				
 import collectHelper as cole						# functions from collectHelper
 
+import signal										# for timing out external calls
+
+def signal_handler(signum, frame):
+    raise Exception("Timed out!")
+    
 myProxy = "yogi.pdl.cmu.edu:3128"
 
 proxy = Proxy({
