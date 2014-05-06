@@ -101,5 +101,14 @@ if __name__ == "__main__":
 	if (ID > SAMPLES):
 		sys.exit("ERROR: id must be less than total instances")
 	
-	del sys.argv[1:]
-	unittest.main()
+	del sys.argv[1:]	
+	signal.signal(signal.SIGALRM, signal_handler)
+	signal.alarm(2000)   # Ten seconds
+	try:
+		unittest.main()
+	except Exception, msg:
+		print "Timed out!"
+		fo = open(LOG_FILE, "a")
+		fo.write("LaunchFailure||"+str(TREATMENT)+"||"+str(ID)+"\n")
+		fo.close()
+		sys.exit(0)

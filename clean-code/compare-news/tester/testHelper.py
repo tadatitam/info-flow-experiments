@@ -632,6 +632,16 @@ def printCounts(index, adv, ass):				# returns detailed counts of #ads within a 
 		sys.stdout.write("%s \t" %(adv[i].size()))
 	print("")
 
+def printNewsMetrics(unit):
+	adv = unit['adv']
+	ass = unit['ass']
+	xvfbfails = unit['xf']
+	breakouts = unit['break']
+	loadtimes = unit['loadtimes']
+	reloads = unit['reloads']
+	errors = unit['errors']
+ 			
+
 #------------- functions for Machine Learning Analyses ---------------#
 
 def getVectorsFromRun(adv, ass, featChoice):			# returns observation vector from a round

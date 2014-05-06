@@ -70,16 +70,22 @@ if __name__ == "__main__":
  			errors[id] += 1 		
 		else:
   			try:
-				ad = anna.Ad({'Time':datetime.strptime(chunks[2], "%Y-%m-%d %H:%M:%S.%f"), 'Title':chunks[3], 'URL': chunks[4], 'Body': chunks[5].rstrip(), 'cat': "", 'label':chunks[1]})
-# 				ad = anna.Ad({'Time':datetime.strptime(chunks[1], "%Y-%m-%d %H:%M:%S.%f"), 'Title':chunks[2], 'URL': chunks[3], 'Body': chunks[4].rstrip(), 'cat': "", 'label':""})
+				ad = anna.Ad({'Time':datetime.strptime(chunks[2], "%Y-%m-%d %H:%M:%S.%f"), 'Title':chunks[3], 
+						'URL': chunks[4], 'Body': chunks[5].rstrip(), 'cat': "", 'label':chunks[1]})
+# 				ad = anna.Ad({'Time':datetime.strptime(chunks[1], "%Y-%m-%d %H:%M:%S.%f"), 'Title':chunks[2], 
+#						'URL': chunks[3], 'Body': chunks[4].rstrip(), 'cat': "", 'label':""})
 				adv[int(chunks[0])].add(ad)
  			except:
  				pass
  	
  	r += 1
- 	par_adv.append({'adv':adv, 'ass':ass, 'xf':xvfbfails, 'break':breakout})
+ 	par_adv.append({'adv':adv, 'ass':ass, 'xf':xvfbfails, 
+ 			'break':breakout, 'loadtimes':loadtimes, 'reloads':reloads, 'errors':errors})
  	sys.stdout.write(".Scanning complete\n")
  	sys.stdout.flush()
+ 	
+ 	for unit in par_adv:
+ 		printNewsMetrics(unit)
  	
  	# THE FOLLOWING CODE THROWS OUT DATA POINTS THAT ARE BAD!! LIKE ONES WITH AN INSTANCE COLLECTING NO ADS
  	
