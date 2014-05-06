@@ -62,7 +62,9 @@ class Webdriver(unittest.TestCase):
 	def test_webdriver(self):
 		driver = self.driver
 		cole.setLogFile(LOG_FILE)
+		cole.log("browserStarted||"+str(TREATMENT), ID)
 		cole.optIn(driver)							# Enable behavioral ads
+		cole.log("optedIn||"+str(TREATMENT), ID)
 		run = 0
 		while (run < RUNS):
 			print(run)
@@ -75,7 +77,6 @@ class Webdriver(unittest.TestCase):
 				cole.wait_for_others(SAMPLES, ID, ROUND)
 			pref = cole.get_ad_pref(2, driver)
 			cole.log("pref"+"||"+str(TREATMENT)+"||"+", ".join(pref), ID)
-			raw_input("wait")
 			cole.collect_ads(RELOADS, DELAY, LOG_FILE, driver, ID, TREATMENT, 'toi')
 			run = run+1
 
