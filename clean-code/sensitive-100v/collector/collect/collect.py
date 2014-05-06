@@ -32,40 +32,31 @@ class Webdriver(unittest.TestCase):
 			fo.write("Xvfbfailure||"+str(TREATMENT)+"||"+str(ID)+"\n")
 			fo.close()
 			sys.exit(0)
-		signal.signal(signal.SIGALRM, signal_handler)
-		signal.alarm(5)   # Ten seconds
-		try:
-			if(BROWSER=='ff'):
-				if (platform.system()=='Darwin'):
-					self.driver = webdriver.Firefox()
-				elif (platform.system()=='Linux'):
-					self.driver = webdriver.Firefox(proxy=proxy)
-				else:
-					print "Unidentified Platform"
-					sys.exit(0)
-			elif(BROWSER=='chr'):
-				print "WARNING: Expecting chromedriver at specified location !!"
-				if (platform.system()=='Darwin'):
-					chromedriver = "/Users/amitdatta/Desktop/chromedriver/chromedriver_mac"
-					os.environ["webdriver.chrome.driver"] = chromedriver
-					self.driver = webdriver.Chrome(executable_path=chromedriver)
-				elif (platform.system() == 'Linux'):
-					chromedriver = "root/Desktop/chromedriver/chromedriver_linux"
-					os.environ["webdriver.chrome.driver"] = chromedriver
-					chrome_option = webdriver.ChromeOptions()
-					chrome_option.add_argument("--proxy-server=yogi.pdl.cmu.edu:3128" )
-					self.driver = webdriver.Chrome(executable_path=chromedriver, chrome_options=chrome_option)
-				else:
-					print "Unidentified Platform"
-					sys.exit(0)
+		if(BROWSER=='ff'):
+			if (platform.system()=='Darwin'):
+				self.driver = webdriver.Firefox()
+			elif (platform.system()=='Linux'):
+				self.driver = webdriver.Firefox(proxy=proxy)
 			else:
-				print "Unsupported Browser"
+				print "Unidentified Platform"
 				sys.exit(0)
-		except Exception, msg:
-			print "Timed out!"
-			fo = open(LOG_FILE, "a")
-			fo.write("LaunchFailure||"+str(TREATMENT)+"||"+str(ID)+"\n")
-			fo.close()
+		elif(BROWSER=='chr'):
+			print "WARNING: Expecting chromedriver at specified location !!"
+			if (platform.system()=='Darwin'):
+				chromedriver = "/Users/amitdatta/Desktop/chromedriver/chromedriver_mac"
+				os.environ["webdriver.chrome.driver"] = chromedriver
+				self.driver = webdriver.Chrome(executable_path=chromedriver)
+			elif (platform.system() == 'Linux'):
+				chromedriver = "root/Desktop/chromedriver/chromedriver_linux"
+				os.environ["webdriver.chrome.driver"] = chromedriver
+				chrome_option = webdriver.ChromeOptions()
+				chrome_option.add_argument("--proxy-server=yogi.pdl.cmu.edu:3128" )
+				self.driver = webdriver.Chrome(executable_path=chromedriver, chrome_options=chrome_option)
+			else:
+				print "Unidentified Platform"
+				sys.exit(0)
+		else:
+			print "Unsupported Browser"
 			sys.exit(0)
 		self.driver.implicitly_wait(10)
 		self.base_url = "https://www.google.com/"
@@ -116,4 +107,14 @@ if __name__ == "__main__":
 		sys.exit("ERROR: id must be less than total instances")
 	
 	del sys.argv[1:]
-	unittest.main()
+	
+	signal.signal(signal.SIGALRM, signal_handler)
+	signal.alarm(2000)   # Ten seconds
+	try:
+		unittest.main()
+	except Exception, msg:
+		print "Timed out!"
+		fo = open(LOG_FILE, "a")
+		fo.write("LaunchFailure||"+str(TREATMENT)+"||"+str(ID)+"\n")
+		fo.close()
+		sys.exit(0)

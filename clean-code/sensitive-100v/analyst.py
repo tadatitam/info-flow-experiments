@@ -21,9 +21,9 @@ SHORT_COLLECT_PY = "collector/short/collect.py"
 # LOG_FILE = "log.txt"
 RUN_COLLECT_PY = "collector/collect/collect.py"
 
-SAMPLES = 10
+SAMPLES = 8
 TREATMENTS = 2
-BLOCKS = 100
+BLOCKS = 125
 
 
 
