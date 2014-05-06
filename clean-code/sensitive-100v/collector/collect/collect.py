@@ -24,7 +24,7 @@ class Webdriver(unittest.TestCase):
 		self.vdisplay = Xvfb(width=1280, height=720)
 		if(not self.vdisplay.start()):
 			fo = open(LOG_FILE, "a")
-			fo.write("Xvfbfailure||"+str(TREATMENT)+"||"+str(ID))
+			fo.write("Xvfbfailure||"+str(TREATMENT)+"||"+str(ID)+"\n")
 			fo.close()
 			sys.exit(0)
 		if(BROWSER=='ff'):
@@ -75,6 +75,7 @@ class Webdriver(unittest.TestCase):
 				cole.wait_for_others(SAMPLES, ID, ROUND)
 			pref = cole.get_ad_pref(2, driver)
 			cole.log("pref"+"||"+str(TREATMENT)+"||"+", ".join(pref), ID)
+			raw_input("wait")
 			cole.collect_ads(RELOADS, DELAY, LOG_FILE, driver, ID, TREATMENT, 'toi')
 			run = run+1
 

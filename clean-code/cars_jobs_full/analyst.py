@@ -1,6 +1,6 @@
 import os
 
-SITE_FILES = [	"shopping.vehicles.autos.txt",
+SITE_FILES = [	"int_check_jobs.txt",
 				"business.employment.txt",
 				]
 ALEXA_SITES = [	"http://www.alexa.com/topsites/category/Top/Health/Mental_Health/Disorders",
@@ -22,10 +22,11 @@ RUN_COLLECT_PY = "collector/collect/collect.py"
 # 	raw_input("sites and files not matching!")
 
 for i in range(0, len(SITE_FILES)):
-	fo = open("log."+SITE_FILES[i], "w")
-	fo.close()
-# 	os.system("python collector/short/alexa.py %s %s" % (SITE_FILES[i], ALEXA_SITES[i]))
-# 	os.system("python collector/short/shortlist.py %s %s %s " % (SITE_FILES[i], "int_"+SITE_FILES[i], SHORT_COLLECT_PY))
-	os.system("python collector/collect/run.py %s %s %s" % ("log."+SITE_FILES[i], SITE_FILES[i], RUN_COLLECT_PY))
-# 	os.system("python tester/pilot.py %s > %s" % ("log."+SITE_FILES[i], "outa."+SITE_FILES[i]))
-	os.system("python tester/test.py %s > %s" % ("log."+SITE_FILES[i], "outtest."+SITE_FILES[i]))
+	if(i==0):
+		fo = open("log."+SITE_FILES[i], "w")
+		fo.close()
+	# 	os.system("python collector/short/alexa.py %s %s" % (SITE_FILES[i], ALEXA_SITES[i]))
+	# 	os.system("python collector/short/shortlist.py %s %s %s " % (SITE_FILES[i], "int_"+SITE_FILES[i], SHORT_COLLECT_PY))
+		os.system("python collector/collect/run.py %s %s %s" % ("log."+SITE_FILES[i], SITE_FILES[i], RUN_COLLECT_PY))
+	# 	os.system("python tester/pilot.py %s > %s" % ("log."+SITE_FILES[i], "outa."+SITE_FILES[i]))
+	# 	os.system("python tester/test.py %s > %s" % ("log."+SITE_FILES[i], "outtest."+SITE_FILES[i]))

@@ -146,6 +146,7 @@ def wait_for_others(instances, id, round):							# Makes instance with ID 'id' w
 	while(not clear):
 		count += 1
 		if(count > 500):
+			log('breakingout', id)
 			break
 		c = [0]*instances
 		curr_round = 0
@@ -176,26 +177,27 @@ def collect_ads(reloads, delay, file, driver, id, TREATMENT, site):
 	rel = 0
 	while (rel < reloads):	# number of reloads on sites to capture all ads
 		time.sleep(delay)
-# 		try:
-		for i in range(0,1):
-			s = datetime.now()
-			if(site == 'toi'):
-				save_ads_toi(file, driver, id, TREATMENT)
-			elif(site == 'bbc'):
-				save_ads_bbc(file, driver, id, TREATMENT)
-			elif(site == 'guardian'):
-				save_ads_guardian(file, driver, id, TREATMENT)
-			elif(site == 'reuters'):
-				save_ads_reuters(file, driver, id, TREATMENT)
-			elif(site == 'bloomberg'):
-				save_ads_bloomberg(file, driver, id, TREATMENT)
-			else:
-				raw_input("No such site found!")
-			e = datetime.now()
-			log('loadtime||'+str(e-s), id)
-			log('reload', id)
-# 		except:
-# 			pass
+		try:
+			for i in range(0,1):
+				s = datetime.now()
+				if(site == 'toi'):
+					save_ads_toi(file, driver, id, TREATMENT)
+				elif(site == 'bbc'):
+					save_ads_bbc(file, driver, id, TREATMENT)
+				elif(site == 'guardian'):
+					save_ads_guardian(file, driver, id, TREATMENT)
+				elif(site == 'reuters'):
+					save_ads_reuters(file, driver, id, TREATMENT)
+				elif(site == 'bloomberg'):
+					save_ads_bloomberg(file, driver, id, TREATMENT)
+				else:
+					raw_input("No such site found!")
+				e = datetime.now()
+				log('loadtime||'+str(e-s), id)
+				log('reload', id)
+		except:
+			log('errorcollecting', id)
+			pass
 		rel = rel + 1
 
 def save_ads_bloomberg(file, driver, id, TREATMENT):

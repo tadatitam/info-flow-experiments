@@ -64,11 +64,14 @@ class Webdriver(unittest.TestCase):
 			print(run)
 			if(TREATMENT == '0'):
 # 				#cole.train_with_queries(list, 11, ID, driver)
-				time.sleep(5)
+				cole.train_with_sites(SITE_FILE, driver, ID, TREATMENT)
 				cole.wait_for_others(SAMPLES, ID, ROUND)
 			elif(TREATMENT == '1'):
 				cole.train_with_sites(SITE_FILE, driver, ID, TREATMENT)
 				cole.wait_for_others(SAMPLES, ID, ROUND)
+			pref = cole.get_ad_pref(2, driver)
+			cole.log("pref"+"||"+str(TREATMENT)+"||"+", ".join(pref), ID)
+			raw_input("wait")
 			cole.collect_ads(RELOADS, DELAY, LOG_FILE, driver, ID, TREATMENT)
 			run = run+1
 

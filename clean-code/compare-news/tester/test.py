@@ -20,6 +20,8 @@ if __name__ == "__main__":
 	adv = []
 	for i in range(0, INSTANCES):
  		adv.append(anna.AdVec())
+ 	loadtimes = [timedelta(minutes=0)]*INSTANCES
+ 	reloads = [0]*INSTANCES
  	par_adv = []
 	
 	fo = open(LOG_FILE, "r")
@@ -41,6 +43,16 @@ if __name__ == "__main__":
 			r += 1
 			ass = chunks[1:]
  			#print ass
+ 		if(chunks[0] == 'Xvfbfailure'):
+ 			
+ 		if(chunks[1] == 'breakingout'):
+ 		
+ 		if(chunks[1] == 'loadtime'):
+ 		
+ 		if(chunks[1] == 'reload'):
+ 		
+ 		if(chunks[1] == 'errorcollecting'):
+ 		
 		else:
   			try:
 				ad = anna.Ad({'Time':datetime.strptime(chunks[2], "%Y-%m-%d %H:%M:%S.%f"), 'Title':chunks[3], 'URL': chunks[4], 'Body': chunks[5].rstrip(), 'cat': "", 'label':chunks[1]})
