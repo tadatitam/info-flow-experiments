@@ -37,7 +37,7 @@ if __name__ == "__main__":
 			r += 1
 			ass = chunks[1:]
  			#print ass
- 		if(chunks[0] == 'g' and r >0 ):
+ 		elif(chunks[0] == 'g' and r >0 ):
  			r += 1
  			par_adv.append({'adv':adv, 'ass':ass, 'xf':xvfbfails, 
  						'break':breakout, 'loadtimes':loadtimes, 'reloads':reloads, 'errors':errors})
@@ -52,20 +52,20 @@ if __name__ == "__main__":
  			xvfbfails = []
  			breakout = False
 			ass = chunks[1:]
- 		if(chunks[0] == 'Xvfbfailure'):
+ 		elif(chunks[0] == 'Xvfbfailure'):
  			xtreat, xid = chunks[1], chunks[2]
  			xvfbfails.append(xtreat)
- 		if(chunks[1] == 'breakingout'):
+ 		elif(chunks[1] == 'breakingout'):
  			breakout = True
- 		if(chunks[1] == 'loadtime'):
+ 		elif(chunks[1] == 'loadtime'):
  			t = (datetime.strptime(chunks[2], "%H:%M:%S.%f"))
  			delta = timedelta(hours=t.hour, minutes=t.minute, seconds=t.second)
  			id = int(chunks[3])
  			loadtimes[id] += delta
- 		if(chunks[1] == 'reload'):
+ 		elif(chunks[1] == 'reload'):
  			id = int(chunks[2])
  			reloads[id] += 1
- 		if(chunks[1] == 'errorcollecting'):
+ 		elif(chunks[1] == 'errorcollecting'):
  			id = int(chunks[2])
  			errors[id] += 1 		
 		else:

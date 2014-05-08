@@ -1,0 +1,211 @@
+g||1||0
+2014-04-29 10:29:51.819622||training-start||0
+2014-04-29 10:30:00.236722||gay.com||0||1
+2014-04-29 10:30:10.955046||queerty.com||0||1
+2014-04-29 10:30:21.527945||dish.andrewsullivan.com||0||1
+2014-04-29 10:30:30.067990||advocate.com||0||1
+2014-04-29 10:30:41.736966||towleroad.com||0||1
+2014-04-29 10:30:49.161630||out.com||0||1
+2014-04-29 10:30:56.791599||gaystarnews.com||0||1
+2014-04-29 10:31:04.534461||afterellen.com||0||1
+2014-04-29 10:31:11.866209||instinctmagazine.com||0||1
+2014-04-29 10:31:31.884093||timedout-logotv.com||0||1
+2014-04-29 10:33:48.192063||autostraddle.com||0||1
+2014-04-29 10:33:56.646958||newnownext.com||0||1
+2014-04-29 10:34:01.744514||datalounge.com||0||1
+2014-04-29 10:34:11.338730||gopride.com||0||1
+2014-04-29 10:34:19.581596||gaycities.com||0||1
+2014-04-29 10:34:29.245886||huffingtonpost.com/gay-voices/||0||1
+2014-04-29 10:34:37.288743||lgbtqnation.com||0||1
+2014-04-29 10:34:48.429467||hrc.org||0||1
+2014-04-29 10:34:53.688584||outsports.com||0||1
+2014-04-29 10:34:58.719046||reddit.com/r/lgbt||0||1
+2014-04-29 10:35:05.320188||bilerico.com||0||1
+2014-04-29 10:35:12.002949||poz.com||0||1
+2014-04-29 10:35:17.984765||glaad.org||0||1
+2014-04-29 10:35:24.785814||coparents.co.uk||0||1
+2014-04-29 10:35:31.385375||bglad.com||0||1
+2014-04-29 10:35:42.835949||shoe.org||0||1
+2014-04-29 10:35:57.541056||joemygod.blogspot.com||0||1
+2014-04-29 10:36:10.569782||gay.tv||0||1
+2014-04-29 10:36:18.572060||shewired.com||0||1
+2014-04-29 10:36:25.108949||downelink.com||0||1
+2014-04-29 10:36:34.548773||frontiersla.com||0||1
+2014-04-29 10:36:42.287531||gayscout.com||0||1
+2014-04-29 10:36:50.677640||ebar.com||0||1
+2014-04-29 10:36:56.689278||gaydio.co.uk||0||1
+2014-04-29 10:37:03.560492||glsen.org||0||1
+2014-04-29 10:37:10.248986||metroweekly.com||0||1
+2014-04-29 10:37:17.222764||gaylife.about.com||0||1
+2014-04-29 10:37:26.125348||out.com/fashion||0||1
+2014-04-29 10:37:32.493301||emptyclosets.com||0||1
+2014-04-29 10:37:40.300285||gaypatriot.net||0||1
+2014-04-29 10:37:47.442955||outtraveler.com||0||1
+2014-04-29 10:37:59.130515||windycitymediagroup.com||0||1
+2014-04-29 10:38:06.418521||washingtonblade.com||0||1
+2014-04-29 10:38:28.010770||barxotka.com||0||1
+2014-04-29 10:38:34.111551||glaad.org/blog||0||1
+2014-04-29 10:38:42.174801||gaytravel.com||0||1
+2014-04-29 10:38:48.475823||aidsmeds.com||0||1
+2014-04-29 10:38:55.067572||gayauthors.org||0||1
+2014-04-29 10:39:01.725450||iglta.org||0||1
+2014-04-29 10:39:09.061772||gays.com||0||1
+2014-04-29 10:39:15.585705||advocatesforyouth.org||0||1
+2014-04-29 10:39:23.127090||curvemag.com||0||1
+2014-04-29 10:39:29.647060||purpleroofs.com||0||1
+2014-04-29 10:39:41.964851||edgeboston.com||0||1
+2014-04-29 10:39:47.022401||ontopmag.com||0||1
+2014-04-29 10:39:55.588239||immigrationequality.org||0||1
+2014-04-29 10:40:06.451180||usbigirls.com||0||1
+2014-04-29 10:40:14.457872||60by80.com||0||1
+2014-04-29 10:40:25.825392||lesbian.com||0||1
+2014-04-29 10:40:34.742819||baywindows.com||0||1
+2014-04-29 10:40:42.709240||lambdalegal.org||0||1
+2014-04-29 10:40:49.204538||pridenation.com||0||1
+2014-04-29 10:40:59.736062||jeffreysanker.com||0||1
+2014-04-29 10:41:07.119459||equaldex.com||0||1
+2014-04-29 10:41:13.830527||truthwinsout.org||0||1
+2014-04-29 10:41:24.795907||passportmagazine.com||0||1
+2014-04-29 10:41:30.548960||heremedia.com||0||1
+2014-04-29 10:41:36.665686||pridesource.com||0||1
+2014-04-29 10:41:44.585492||navigaytor.net||0||1
+2014-04-29 10:41:54.658110||gayadnetwork.com||0||1
+2014-04-29 10:42:01.872040||prideangel.com||0||1
+2014-04-29 10:42:09.193180||gaygamer.net||0||1
+2014-04-29 10:42:19.665316||travel.co.za||0||1
+2014-04-29 10:42:26.418596||bgay.com||0||1
+2014-04-29 10:42:46.436756||timedout-gaycelluloid.com||0||1
+2014-04-29 10:42:51.466319||nclrights.org||0||1
+2014-04-29 10:43:01.222437||qxmagazine.com||0||1
+2014-04-29 10:43:09.536285||ilga.org||0||1
+2014-04-29 10:43:17.995033||outfest.org||0||1
+2014-04-29 10:43:26.262801||alanilagan.com||0||1
+2014-04-29 10:43:34.910593||atlantisevents.com||0||1
+2014-04-29 10:43:43.813636||equalitygiving.org||0||1
+2014-04-29 10:43:51.074931||heretv.com||0||1
+2014-04-29 10:43:59.328363||lizzythelezzy.com||0||1
+2014-04-29 10:44:10.309265||goodasyou.org||0||1
+2014-04-29 10:44:17.494955||diningoutforlife.com||0||1
+2014-04-29 10:44:24.230319||noh8campaign.com||0||1
+2014-04-29 10:44:36.069483||gaysubmit.com||0||1
+2014-04-29 10:44:42.461036||nglcc.org||0||1
+2014-04-29 10:44:50.564788||wisconsingazette.com||0||1
+2014-04-29 10:44:57.830472||pflag.org||0||1
+2014-04-29 10:45:04.578990||itgetsbetter.org||0||1
+2014-04-29 10:45:12.895523||frameline.org||0||1
+2014-04-29 10:45:19.634431||lesmedia.blogspot.com||0||1
+2014-04-29 10:45:40.111487||timedout-dailydoseofqueer.com||0||1
+2014-04-29 10:45:49.166438||daddydater.com||0||1
+2014-04-29 10:45:57.844975||bisexual.com||0||1
+2014-04-29 10:46:04.452403||nycpride.org||0||1
+2014-04-29 10:46:13.068229||queermeup.com||0||1
+2014-04-29 10:46:20.922802||gmfa.org.uk||0||1
+2014-04-29 10:46:20.923046||training-end||0
+0||1||2014-04-29 10:47:39.723857||5 "Best Wrinkle Creams"||www.iskincarereviews.com||- 2014's Top Wrinkle Creams Reviewed. Results Without Surgery or Needles!
+0||1||2014-04-29 10:47:39.812143||Mercedes 2013 Price Cuts||www.mercedes-benz.car.com||Whopping Discounts On '13 Mercedes! Get Your Mercedes Internet Pricing
+0||1||2014-04-29 10:47:39.812143||3 veggies keeping you fat||www.beyonddiet.com||If you never eat these 3 veggies, You will burn belly fat every day
+0||1||2014-04-29 10:47:39.961526||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+0||1||2014-04-29 10:47:39.961526||Data Mining Courses||stanford.edu/Data-Mining||Online Data Mining Courses, earn World-Class Credentials. Learn More
+2014-04-29 10:47:40.050346||reload||0
+1||0||2014-04-29 10:47:41.618266||3 Veggies keeping you fat||www.beyonddiet.com||- If you never eat these 3 veggies, You will burn belly fat every day
+1||0||2014-04-29 10:47:41.774057||Honda CR-V Clearance 2013||honda-clearance-sale.autosite.com||Massive Honda Sale this Month! See Our Honda CR-V Deals  Save
+1||0||2014-04-29 10:47:41.774057||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+1||0||2014-04-29 10:47:41.887234||Data Mining Courses||stanford.edu/Data-Mining||Online Data Mining Courses, earn World-Class Credentials. Learn More
+1||0||2014-04-29 10:47:41.887234||U.S. Dollar in Distress||www.endofamerica.com||New currency law goes into effect July 1st, 2014. [Disturbing]
+2014-04-29 10:47:41.978788||reload||1
+0||1||2014-04-29 10:47:49.596000||5 "Best Wrinkle Creams"||www.iskincarereviews.com||- 2014's Top Wrinkle Creams Reviewed. Results Without Surgery or Needles!
+0||1||2014-04-29 10:47:49.675551||Mercedes 2013 Price Cuts||www.mercedes-benz.car.com||Whopping Discounts On '13 Mercedes! Get Your Mercedes Internet Pricing
+0||1||2014-04-29 10:47:49.675551||Beautiful Women in Kiev||anastasiadate.com||Ukraine Women are Perfect Wives Marry One  have Borsch Every Day!
+0||1||2014-04-29 10:47:49.780939||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+0||1||2014-04-29 10:47:49.780939||Data Mining Courses||stanford.edu/Data-Mining||Online Data Mining Courses, earn World-Class Credentials. Learn More
+2014-04-29 10:47:49.860893||reload||0
+1||0||2014-04-29 10:47:50.780973||Heart Attack Signs?||www.simplehearttest.com||- Know the 4 Bodily Signs. Take The Simple Heart Test Now
+1||0||2014-04-29 10:47:50.837940||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+1||0||2014-04-29 10:47:50.837940||H-1B Fast Processing||www.lawimm.com||1000s of visas approved: Trust our Experienced lawyers, rest assured.
+1||0||2014-04-29 10:47:50.919079||Data Mining Courses||stanford.edu/Data-Mining||Online Data Mining Courses, earn World-Class Credentials. Learn More
+1||0||2014-04-29 10:47:50.919079||U.S. Dollar in Distress||www.endofamerica.com||New currency law goes into effect July 1st, 2014. [Disturbing]
+2014-04-29 10:47:50.978475||reload||1
+1||0||2014-04-29 10:47:59.805578||3 Veggies keeping you fat||www.beyonddiet.com||- If you never eat these 3 veggies, You will burn belly fat every day
+1||0||2014-04-29 10:47:59.866538||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+1||0||2014-04-29 10:47:59.866538||U.S. Dollar in Distress||www.endofamerica.com||New currency law goes into effect July 1st, 2014. [Disturbing]
+1||0||2014-04-29 10:47:59.977344||Data Mining Courses||stanford.edu/Data-Mining||Online Data Mining Courses, earn World-Class Credentials. Learn More
+1||0||2014-04-29 10:47:59.977344||Heart Attack Signs?||www.simplehearttest.com||Know the 4 Bodily Signs. Take The Simple Heart Test Now
+2014-04-29 10:48:00.058072||reload||1
+0||1||2014-04-29 10:48:00.558604||U.S. Dollar in Distress||www.endofamerica.com||- New currency law goes into effect July 1st, 2014. [Disturbing]
+0||1||2014-04-29 10:48:00.623466||Mercedes 2013 Price Cuts||www.mercedes-benz.car.com||Whopping Discounts On '13 Mercedes! Get Your Mercedes Internet Pricing
+0||1||2014-04-29 10:48:00.623466||Beautiful Women in Kiev||anastasiadate.com||Ukraine Women are Perfect Wives Marry One  have Borsch Every Day!
+0||1||2014-04-29 10:48:00.714885||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+0||1||2014-04-29 10:48:00.714885||Data Mining Courses||stanford.edu/Data-Mining||Online Data Mining Courses, earn World-Class Credentials. Learn More
+2014-04-29 10:48:00.775402||reload||0
+1||0||2014-04-29 10:48:08.772577||3 Veggies keeping you fat||www.beyonddiet.com||- If you never eat these 3 veggies, You will burn belly fat every day
+1||0||2014-04-29 10:48:08.831395||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+1||0||2014-04-29 10:48:08.831395||H-1B Fast Processing||www.lawimm.com||1000s of visas approved: Trust our Experienced lawyers, rest assured.
+1||0||2014-04-29 10:48:08.912449||Data Mining Courses||stanford.edu/Data-Mining||Online Data Mining Courses, earn World-Class Credentials. Learn More
+1||0||2014-04-29 10:48:08.912449||U.S. Dollar in Distress||www.endofamerica.com||New currency law goes into effect July 1st, 2014. [Disturbing]
+2014-04-29 10:48:08.973937||reload||1
+0||1||2014-04-29 10:48:11.068701||5 "Best Wrinkle Creams"||www.iskincarereviews.com||- 2014's Top Wrinkle Creams Reviewed. Results Without Surgery or Needles!
+0||1||2014-04-29 10:48:11.122287||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+0||1||2014-04-29 10:48:11.122287||Data Mining Courses||stanford.edu/Data-Mining||Online Data Mining Courses, earn World-Class Credentials. Learn More
+0||1||2014-04-29 10:48:11.224487||3 Veggies keeping you fat||www.beyonddiet.com||If you never eat these 3 veggies, You will burn belly fat every day
+0||1||2014-04-29 10:48:11.224487||Best Dividend Stocks||dividends.wyattresearch.com||5 Stocks That are Cash Machines for Retirement. New Free Stock Report.
+2014-04-29 10:48:11.301955||reload||0
+1||0||2014-04-29 10:48:18.741213||3 veggies keeping you fat||www.beyonddiet.com||- If you never eat these 3 veggies, You will burn belly fat every day
+1||0||2014-04-29 10:48:18.810208||2013 Nissan Clearance||reply.com/Nissan||New Nissan at Clearance Prices. Act Today and Save $1000's
+1||0||2014-04-29 10:48:18.810208||Ziering Hair Transplants||zieringmedical.com||Book Your Procedure Before Your Next Birthday  Get a $1000 Credit!
+1||0||2014-04-29 10:48:18.904487||Data Mining Courses||stanford.edu/Data-Mining||Online Data Mining Courses, earn World-Class Credentials. Learn More
+1||0||2014-04-29 10:48:18.904487||U.S. Dollar in Distress||www.endofamerica.com||New currency law goes into effect July 1st, 2014. [Disturbing]
+2014-04-29 10:48:18.971195||reload||1
+0||1||2014-04-29 10:48:19.679916||5 "Best Wrinkle Creams"||www.iskincarereviews.com||- 2014's Top Wrinkle Creams Reviewed. Results Without Surgery or Needles!
+0||1||2014-04-29 10:48:19.736767||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+0||1||2014-04-29 10:48:19.736767||Data Mining Courses||stanford.edu/Data-Mining||Online Data Mining Courses, earn World-Class Credentials. Learn More
+0||1||2014-04-29 10:48:19.828562||3 Veggies keeping you fat||www.beyonddiet.com||If you never eat these 3 veggies, You will burn belly fat every day
+0||1||2014-04-29 10:48:19.828562||10 Stocks to Hold Forever||www.streetauthority.com||Buy them, forget about them, and never sell them.
+2014-04-29 10:48:19.907133||reload||0
+0||1||2014-04-29 10:48:29.023104||5 "Best Wrinkle Creams"||www.iskincarereviews.com||- 2014's Top Wrinkle Creams Reviewed. Results Without Surgery or Needles!
+0||1||2014-04-29 10:48:29.130928||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+0||1||2014-04-29 10:48:29.130928||Data Mining Courses||stanford.edu/Data-Mining||Online Data Mining Courses, earn World-Class Credentials. Learn More
+0||1||2014-04-29 10:48:29.234968||3 Veggies keeping you fat||www.beyonddiet.com||If you never eat these 3 veggies, You will burn belly fat every day
+0||1||2014-04-29 10:48:29.234968||Best Dividend Stocks||dividends.wyattresearch.com||5 Stocks That are Cash Machines for Retirement. New Free Stock Report.
+2014-04-29 10:48:29.330925||reload||0
+1||0||2014-04-29 10:48:29.810717||Heart Attack Signs?||www.simplehearttest.com||- Know the 4 Bodily Signs. Take The Simple Heart Test Now
+1||0||2014-04-29 10:48:29.858295||3 Veggies keeping you fat||www.beyonddiet.com||If you never eat these 3 veggies, You will burn belly fat every day
+1||0||2014-04-29 10:48:29.858295||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+1||0||2014-04-29 10:48:29.945469||Data Mining Courses||stanford.edu/Data-Mining||Online Data Mining Courses, earn World-Class Credentials. Learn More
+1||0||2014-04-29 10:48:29.945469||3 Veggies keeping you fat||www.beyonddiet.com||If you never eat these 3 veggies, You will burn belly fat every day
+2014-04-29 10:48:30.012871||reload||1
+1||0||2014-04-29 10:48:38.761192||3 veggies keeping you fat||www.beyonddiet.com||- If you never eat these 3 veggies, You will burn belly fat every day
+1||0||2014-04-29 10:48:38.808158||3 Veggies keeping you fat||www.beyonddiet.com||If you never eat these 3 veggies, You will burn belly fat every day
+1||0||2014-04-29 10:48:38.808158||U.S. Dollar in Distress||www.endofamerica.com||New currency law goes into effect July 1st, 2014. [Disturbing]
+1||0||2014-04-29 10:48:38.895101||Data Mining Courses||stanford.edu/Data-Mining||Online Data Mining Courses, earn World-Class Credentials. Learn More
+1||0||2014-04-29 10:48:38.895101||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+2014-04-29 10:48:38.968908||reload||1
+0||1||2014-04-29 10:48:39.707496||U.S. Dollar in Distress||www.endofamerica.com||- New currency law goes into effect July 1st, 2014. [Disturbing]
+0||1||2014-04-29 10:48:39.772186||Qatar Airline Tickets||insanelycheapflights.com||Book Your Qatar Airline Flight! Book Today Save Up To 65%
+0||1||2014-04-29 10:48:39.772186||3 veggies keeping you fat||www.beyonddiet.com||If you never eat these 3 veggies, You will burn belly fat every day
+0||1||2014-04-29 10:48:39.892906||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+0||1||2014-04-29 10:48:39.892906||Data Mining Courses||stanford.edu/Data-Mining||Online Data Mining Courses, earn World-Class Credentials. Learn More
+2014-04-29 10:48:39.984887||reload||0
+0||1||2014-04-29 10:48:48.292955||5 "Best Wrinkle Creams"||www.iskincarereviews.com||- 2014's Top Wrinkle Creams Reviewed. Results Without Surgery or Needles!
+1||0||2014-04-29 10:48:48.378380||Rimini Street Savings||info.riministreet.com/Sap3rdParty||- How Can Third-party Support Save Money  Drive Strategic Innovation?
+0||1||2014-04-29 10:48:48.383871||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+0||1||2014-04-29 10:48:48.383871||Data Mining Courses||stanford.edu/Data-Mining||Online Data Mining Courses, earn World-Class Credentials. Learn More
+1||0||2014-04-29 10:48:48.444242||3 Veggies keeping you fat||www.beyonddiet.com||If you never eat these 3 veggies, You will burn belly fat every day
+1||0||2014-04-29 10:48:48.444242||Beautiful Women in Kiev||anastasiadate.com||Ukraine Women are Perfect Wives Marry One  have Borsch Every Day!
+0||1||2014-04-29 10:48:48.484849||3 Veggies keeping you fat||www.beyonddiet.com||If you never eat these 3 veggies, You will burn belly fat every day
+1||0||2014-04-29 10:48:48.546220||Data Mining Courses||stanford.edu/Data-Mining||Online Data Mining Courses, earn World-Class Credentials. Learn More
+0||1||2014-04-29 10:48:48.484849||Best Dividend Stocks||dividends.wyattresearch.com||5 Stocks That are Cash Machines for Retirement. New Free Stock Report.
+2014-04-29 10:48:48.617474||reload||0
+1||0||2014-04-29 10:48:48.546220||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+2014-04-29 10:48:48.654938||reload||1
+1||0||2014-04-29 10:48:57.145207||Heart Attack Signs?||www.simplehearttest.com||- Know the 4 Bodily Signs. Take The Simple Heart Test Now
+1||0||2014-04-29 10:48:57.211140||3 veggies keeping you fat||www.beyonddiet.com||If you never eat these 3 veggies, You will burn belly fat every day
+1||0||2014-04-29 10:48:57.211140||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+1||0||2014-04-29 10:48:57.321613||Data Mining Courses||stanford.edu/Data-Mining||Online Data Mining Courses, earn World-Class Credentials. Learn More
+1||0||2014-04-29 10:48:57.321613||U.S. Dollar in Distress||www.endofamerica.com||New currency law goes into effect July 1st, 2014. [Disturbing]
+2014-04-29 10:48:57.396702||reload||1
+0||1||2014-04-29 10:48:57.715783||2013 Nissan Sale||reply.com/Nissan||- All 2013 Remaining Models Must Go. See Prices from Overstocked Dealers
+0||1||2014-04-29 10:48:57.800376||Qatar Airline Tickets||insanelycheapflights.com||Book Your Qatar Airline Flight! Book Today Save Up To 65%
+0||1||2014-04-29 10:48:57.800376||Bulk Lot Online Auctions||www.liquidation.com||Bulk Lot Auctions, 500+ Categories. Online Auctions Start At Just $100!
+0||1||2014-04-29 10:48:57.905037||Data Mining Courses||stanford.edu/Data-Mining||Online Data Mining Courses, earn World-Class Credentials. Learn More
+0||1||2014-04-29 10:48:57.905037||3 Veggies keeping you fat||www.beyonddiet.com||If you never eat these 3 veggies, You will burn belly fat every day
+2014-04-29 10:48:57.999614||reload||0

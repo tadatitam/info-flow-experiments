@@ -1,0 +1,243 @@
+g||1||0
+2014-05-05 22:51:48.703643||training-start||0
+2014-05-05 22:51:55.380761||drugabuse.gov||0||1
+2014-05-05 22:52:06.077281||aa.org||0||1
+2014-05-05 22:52:12.684700||soberrecovery.com||0||1
+2014-05-05 22:52:18.727851||niaaa.nih.gov||0||1
+2014-05-05 22:52:25.278060||drugfree.org||0||1
+2014-05-05 22:52:32.455874||hazelden.org||0||1
+2014-05-05 22:52:44.588604||crchealth.com||0||1
+2014-05-05 22:52:51.810738||soberrecovery.com/forums/||0||1
+2014-05-05 22:53:11.831731||timedout-cdc.gov/tobacco/||0
+2014-05-05 22:54:59.199836||smartrecovery.org||0||1
+2014-05-05 22:55:05.393853||drugpolicy.org||0||1
+2014-05-05 22:55:10.772950||justice.gov/dea/||0||1
+2014-05-05 22:55:18.137682||chestnet.org||0||1
+2014-05-05 22:55:23.184328||whyquit.com||0||1
+2014-05-05 22:55:32.819356||smokefree.gov||0||1
+2014-05-05 22:55:40.748735||quitsmoking.about.com||0||1
+2014-05-05 22:55:48.309380||asam.org||0||1
+2014-05-05 22:55:55.041362||ncadd.org||0||1
+2014-05-05 22:56:01.307472||teens.drugabuse.gov||0||1
+2014-05-05 22:56:07.144598||e-aa.org||0||1
+2014-05-05 22:56:13.926073||alcoholrehab.com||0||1
+2014-05-05 22:56:19.585123||theagapecenter.com||0||1
+2014-05-05 22:56:26.950908||na.org||0||1
+2014-05-05 22:56:32.365427||stop-tabac.ch||0||1
+2014-05-05 22:56:38.440707||promises.com||0||1
+2014-05-05 22:56:46.366750||inspiremalibu.com||0||1
+2014-05-05 22:56:53.399139||al-anon.org||0||1
+2014-05-05 22:57:00.351318||passagesmalibu.com||0||1
+2014-05-05 22:57:09.582425||thecabinchiangmai.com||0||1
+2014-05-05 22:57:16.206679||xa-speakers.org||0||1
+2014-05-05 22:57:21.993127||quitnet.com||0||1
+2014-05-05 22:57:28.070955||phoenixhouse.org||0||1
+2014-05-05 22:57:35.653213||nysmokefree.com||0||1
+2014-05-05 22:57:43.392174||aagrapevine.org||0||1
+2014-05-05 22:57:49.907918||tobaccocontrol.bmj.com||0||1
+2014-05-05 22:57:59.777027||thetruth.com||0||1
+2014-05-05 22:58:06.978556||michaelshouse.com||0||1
+2014-05-05 22:58:13.995242||bettyfordcenter.org||0||1
+2014-05-05 22:58:22.133550||thebeachcomberrehabilitation.com||0||1
+2014-05-05 22:58:29.672173||ash.org.uk||0||1
+2014-05-05 22:58:36.609036||marijuana-anonymous.org||0||1
+2014-05-05 22:58:44.197641||patmoorefoundation.com||0||1
+2014-05-05 22:58:57.104271||alcoholicsanonymous.org.au||0||1
+2014-05-05 22:59:06.875302||caron.org||0||1
+2014-05-05 22:59:12.573654||addictionrecoveryguide.org||0||1
+2014-05-05 22:59:19.111651||themeadows.com||0||1
+2014-05-05 22:59:24.581135||aa.org/bigbookonline/||0||1
+2014-05-05 22:59:32.196958||rollinghillscr.org||0||1
+2014-05-05 22:59:39.412358||atforum.com||0||1
+2014-05-05 22:59:45.292894||attcnetwork.org/index.asp||0||1
+2014-05-05 22:59:53.154047||silkworth.net||0||1
+2014-05-05 22:59:59.079066||soberhousing.net||0||1
+2014-05-05 23:00:12.533184||soberforever.net||0||1
+2014-05-05 23:00:19.730213||celebraterecovery.com||0||1
+2014-05-05 23:00:25.661813||adultchildren.org||0||1
+2014-05-05 23:00:31.547203||oxfordhouse.org||0||1
+2014-05-05 23:00:39.165539||hopebythesea.com||0||1
+2014-05-05 23:00:45.246630||ca.org||0||1
+2014-05-05 23:00:53.467752||alcoholics-anonymous.org.uk||0||1
+2014-05-05 23:01:00.867439||lacoaa.org||0||1
+2014-05-05 23:01:07.985935||unityrehab.com||0||1
+2014-05-05 23:01:13.787939||nyintergroup.org||0||1
+2014-05-05 23:01:20.562137||discoveryplace.info||0||1
+2014-05-05 23:01:27.837035||aasf.org||0||1
+2014-05-05 23:01:33.590123||whyquit.com/joel/||0||1
+2014-05-05 23:01:39.731314||tobacco.org||0||1
+2014-05-05 23:01:46.549698||nacolorado.org||0||1
+2014-05-05 23:01:51.879632||aa.org/lang/en/central_offices.cfm||0||1
+2014-05-05 23:02:13.046693||naadac.org||0||1
+2014-05-05 23:02:19.691919||aageorgia.org||0||1
+2014-05-05 23:02:26.573472||tarzanatc.org||0||1
+2014-05-05 23:02:35.892023||visionsteen.com||0||1
+2014-05-05 23:02:44.257586||aa-dc.org||0||1
+2014-05-05 23:02:50.538512||lungchicago.org||0||1
+2014-05-05 23:02:58.050892||winr.org||0||1
+2014-05-05 23:03:04.696888||rightstep.com||0||1
+2014-05-05 23:03:11.940446||aa-intergroup.org||0||1
+2014-05-05 23:03:19.611280||hanleycenter.org||0||1
+2014-05-05 23:03:24.949166||indiana.edu/~engs/||0||1
+2014-05-05 23:03:30.217769||alanonla.org||0||1
+2014-05-05 23:03:40.555020||hope-rehab-center-thailand.com||0||1
+2014-05-05 23:03:46.863179||cyberrecovery.net||0||1
+2014-05-05 23:03:53.727846||thewatershed.com||0||1
+2014-05-05 23:03:59.150513||opioids.com||0||1
+2014-05-05 23:04:07.014725||therefuge-ahealingplace.com||0||1
+2014-05-05 23:04:14.201699||austinrecovery.org||0||1
+2014-05-05 23:04:19.969459||nassauny-aa.org||0||1
+2014-05-05 23:04:26.121206||therecoveryplace.net||0||1
+2014-05-05 23:04:37.955965||quit.org.au||0||1
+2014-05-05 23:04:46.341347||castlecraig.co.uk||0||1
+2014-05-05 23:04:58.088462||alcohol.org.nz||0||1
+2014-05-05 23:05:04.360231||en.wikipedia.org/wiki/alcoholics_anonymous||0||1
+2014-05-05 23:05:09.827955||vistataos.com||0||1
+2014-05-05 23:05:16.910440||cadca.org||0||1
+2014-05-05 23:05:24.975660||medicinenet.com/alcohol_abuse_and_alcoholism/article.htm||0||1
+2014-05-05 23:05:35.126756||xa-speakers.org/pafiledb.php||0||1
+2014-05-05 23:05:40.338696||atlantaaa.org||0||1
+2014-05-05 23:05:47.556746||methadone.org||0||1
+2014-05-05 23:05:52.726231||oas.samhsa.gov||0||1
+2014-05-05 23:05:59.925462||crlcorp.com||0||1
+2014-05-05 23:05:59.925729||training-end||0
+2014-05-05 23:06:15.907522||pref||1||||0
+2014-05-05 23:06:20.300812||pref||0||||1
+1||0||2014-05-05 23:09:38.764467||Automated Voter Contact||www.voiceshot.com||- Low cost. Phone calls  text. Landline only delivery option.
+1||0||2014-05-05 23:09:39.426108||Franklin University ™||franklin.edu/Get-Free-Info-Now||Official Franklin University Site. Get More Information Online Now!
+1||0||2014-05-05 23:09:39.426108||Kate Middleton Photos||kate-middleton.stylebistro.com||Stunning Pictures of Princess Kate Middleton and the Royal Family.
+1||0||2014-05-05 23:09:39.534622||GQ® Official Site||gq.com||Subscribe to GQ® for $15/yr and get a free bag. Low price guarantee
+1||0||2014-05-05 23:09:39.534622||Top Realtors In Your Area||www.agentmachine.com||Your Search For An Experienced And Trusted Local Realtor Ends Here!
+2014-05-05 23:09:39.649273||loadtime||0:00:05.720915||1
+2014-05-05 23:09:39.649332||reload||1
+0||1||2014-05-05 23:09:45.017297||Honda CR-V Clearance 2013||honda-clearance-sale.autosite.com||- Massive Honda Sale this Month! See Our Honda CR-V Deals  Save
+0||1||2014-05-05 23:09:45.433223||The Watershed Rehab||www.thewatershed.com/Help||- Drug  Alcohol Rehabilitation Call Today For Help Now!
+0||1||2014-05-05 23:09:45.499473||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+0||1||2014-05-05 23:09:45.499473||Healthcare Analytics Tool||www.tableausoftware.com/Healthcare||Visually Analyze Profit  Revenue. Tableau for Healthcare. Free Trial!
+2014-05-05 23:09:45.580977||loadtime||0:00:03.892492||0
+2014-05-05 23:09:45.581040||reload||0
+1||0||2014-05-05 23:09:48.046826||Real Estate Listing Leads||www.trulia.com/Real-Estate-Leads||- Advertise your listings on Trulia and meet active local buyers.
+1||0||2014-05-05 23:09:48.524231||Credit Card Application||www.cardhub.com||Apply for a VISA, Master Card, etc. Compare  Quickly Get the Best Card
+1||0||2014-05-05 23:09:48.524231||Kate Middleton Photos||kate-middleton.stylebistro.com||Stunning Pictures of Princess Kate Middleton and the Royal Family.
+1||0||2014-05-05 23:09:48.626764||Franklin University ™||franklin.edu/Get-Free-Info-Now||Official Franklin University Site. Get More Information Online Now!
+1||0||2014-05-05 23:09:48.626764||Home Value Estimator||www.realestate.com||Don't Know What Your Home is Worth It's Free  Just Takes Seconds
+2014-05-05 23:09:48.687164||loadtime||0:00:04.036592||1
+2014-05-05 23:09:48.687196||reload||1
+0||1||2014-05-05 23:09:55.204090||The Watershed Rehab||www.thewatershed.com/Help||- Drug  Alcohol Rehabilitation Call Today For Help Now!
+0||1||2014-05-05 23:09:55.838564||Obma's New 30% Tax||www.endofamerica.com||IRS officials say new Obama law will go into effect July 1st, 2014.
+0||1||2014-05-05 23:09:55.838564||Honda CR-V Clearance 2013||honda-clearance-sale.autosite.com||Massive Honda Sale this Month! See Our Honda CR-V Deals  Save
+0||1||2014-05-05 23:09:56.598940||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+0||1||2014-05-05 23:09:56.598940||Healthcare Analytics Tool||www.tableausoftware.com/Healthcare||Visually Analyze Profit  Revenue. Tableau for Healthcare. Free Trial!
+2014-05-05 23:09:56.865444||loadtime||0:00:06.283136||0
+2014-05-05 23:09:56.865504||reload||0
+1||0||2014-05-05 23:09:58.446825||Today's Deal: $59 Flights||insanelycheapflights.com||- Fly Anywhere In The U.S. As Low As $59!
+1||0||2014-05-05 23:09:58.852109||Credit Card Application||www.cardhub.com||Apply for a VISA, Master Card, etc. Compare  Quickly Get the Best Card
+1||0||2014-05-05 23:09:58.852109||Kate Middleton Photos||kate-middleton.stylebistro.com||Stunning Pictures of Princess Kate Middleton and the Royal Family.
+1||0||2014-05-05 23:09:58.956077||Franklin University ™||franklin.edu/Get-Free-Info-Now||Official Franklin University Site. Get More Information Online Now!
+1||0||2014-05-05 23:09:58.956077||Home Value Estimator||www.realestate.com||Don't Know What Your Home is Worth It's Free  Just Takes Seconds
+2014-05-05 23:09:59.034347||loadtime||0:00:05.346277||1
+2014-05-05 23:09:59.034401||reload||1
+0||1||2014-05-05 23:10:05.607608||Transfer your H1||www.transfer-your-h1.com||- simple, straight forward and easy transfer of H1B, L1, and F1 Visas
+0||1||2014-05-05 23:10:06.165289||The Watershed Rehab||www.thewatershed.com/Help||- Drug  Alcohol Rehabilitation Call Today For Help Now!
+0||1||2014-05-05 23:10:06.300569||Honda CR-V Clearance 2013||honda-clearance-sale.autosite.com||Massive Honda Sale this Month! See Our Honda CR-V Deals  Save
+0||1||2014-05-05 23:10:06.300569||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+2014-05-05 23:10:06.437241||loadtime||0:00:04.571179||0
+2014-05-05 23:10:06.437278||reload||0
+1||0||2014-05-05 23:10:07.991511||Real Estate Listing Leads||www.trulia.com/Real-Estate-Leads||- Advertise your listings on Trulia and meet active local buyers.
+1||0||2014-05-05 23:10:09.180135||Credit Card Application||www.cardhub.com||Apply for a VISA, Master Card, etc. Compare  Quickly Get the Best Card
+1||0||2014-05-05 23:10:09.180135||Kate Middleton Photos||kate-middleton.stylebistro.com||Stunning Pictures of Princess Kate Middleton and the Royal Family.
+1||0||2014-05-05 23:10:09.289921||Franklin University ™||franklin.edu/Get-Free-Info-Now||Official Franklin University Site. Get More Information Online Now!
+1||0||2014-05-05 23:10:09.289921||Buy Utsav Sarees Online||www.utsavfashion.com/Sarees||Over 12K Designs to Choose From. Get A Free Gift too. Buy Now!
+2014-05-05 23:10:09.379907||loadtime||0:00:05.344248||1
+2014-05-05 23:10:09.379966||reload||1
+0||1||2014-05-05 23:10:11.819039||The Watershed Rehab||www.thewatershed.com/Help||- Drug  Alcohol Rehabilitation Call Today For Help Now!
+0||1||2014-05-05 23:10:18.495043||Obma's New 30% Tax||www.endofamerica.com||IRS officials say new Obama law will go into effect July 1st, 2014.
+0||1||2014-05-05 23:10:18.495043||Healthcare Analytics Tool||www.tableausoftware.com/Healthcare||Visually Analyze Profit  Revenue. Tableau for Healthcare. Free Trial!
+0||1||2014-05-05 23:10:18.668754||Honda CR-V Clearance 2013||honda-clearance-sale.autosite.com||Massive Honda Sale this Month! See Our Honda CR-V Deals  Save
+0||1||2014-05-05 23:10:18.668754||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+2014-05-05 23:10:19.023022||loadtime||0:00:07.584728||0
+2014-05-05 23:10:19.023082||reload||0
+1||0||2014-05-05 23:10:14.427219||Today's Deal: $59 Flights||insanelycheapflights.com||- Fly Anywhere In The U.S. As Low As $59!
+1||0||2014-05-05 23:10:20.261448||Credit Card Application||www.cardhub.com||Apply for a VISA, Master Card, etc. Compare  Quickly Get the Best Card
+1||0||2014-05-05 23:10:20.261448||Kate Middleton Photos||kate-middleton.stylebistro.com||Stunning Pictures of Princess Kate Middleton and the Royal Family.
+1||0||2014-05-05 23:10:20.609913||Garcinia Cambogia Warning||drhoangwiki.com/Garcinia-Secret||Shocking! Here's What We Found When We Researched Garcinia Cambogia.
+1||0||2014-05-05 23:10:20.609913||Franklin University ™||franklin.edu/Get-Free-Info-Now||Official Franklin University Site. Get More Information Online Now!
+2014-05-05 23:10:20.723029||loadtime||0:00:06.341795||1
+2014-05-05 23:10:20.723086||reload||1
+0||1||2014-05-05 23:10:28.058278||The Watershed Rehab||www.thewatershed.com/Help||- Drug  Alcohol Rehabilitation Call Today For Help Now!
+0||1||2014-05-05 23:10:28.687392||Healthcare Analytics Tool||www.tableausoftware.com/Healthcare||Visually Analyze Profit  Revenue. Tableau for Healthcare. Free Trial!
+0||1||2014-05-05 23:10:28.687392||Obma's New 30% Tax||www.endofamerica.com||IRS officials say new Obama law will go into effect July 1st, 2014.
+0||1||2014-05-05 23:10:28.815985||Honda CR-V Clearance 2013||honda-clearance-sale.autosite.com||Massive Honda Sale this Month! See Our Honda CR-V Deals  Save
+0||1||2014-05-05 23:10:28.815985||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+2014-05-05 23:10:28.907054||loadtime||0:00:04.881398||0
+2014-05-05 23:10:28.907087||reload||0
+1||0||2014-05-05 23:10:29.431156||Arrest Records: 2 Secrets||instantcheckmate.com||- 1) Enter Name and State. 2) Access Full Background Checks Instantly.
+1||0||2014-05-05 23:10:29.951582||Airline Tickets - 80% Off||beoo.com||Find the Cheapest Airline Ticket. Over 8000 Travelers Like Beoo.com
+1||0||2014-05-05 23:10:29.951582||Credit Card Application||www.cardhub.com||Apply for a VISA, Master Card, etc. Compare  Quickly Get the Best Card
+1||0||2014-05-05 23:10:30.121473||Kate Middleton Photos||kate-middleton.stylebistro.com||Stunning Pictures of Princess Kate Middleton and the Royal Family.
+1||0||2014-05-05 23:10:30.121473||Qatar Airline Tickets||insanelycheapflights.com||Book Your Qatar Airline Flight! Book Today Save Up To 65%
+2014-05-05 23:10:30.208274||loadtime||0:00:04.483900||1
+2014-05-05 23:10:30.208321||reload||1
+0||1||2014-05-05 23:10:37.599200||The Watershed Rehab||www.thewatershed.com/Help||- Drug  Alcohol Rehabilitation Call Today For Help Now!
+0||1||2014-05-05 23:10:37.873964||Healthcare Analytics Tool||www.tableausoftware.com/Healthcare||Visually Analyze Profit  Revenue. Tableau for Healthcare. Free Trial!
+0||1||2014-05-05 23:10:37.873964||Apply For A Credit Card||www.creditcards.com||0% APR, No Annual Fees  Cash Back. Compare Offers  Apply Here Today.
+0||1||2014-05-05 23:10:38.024185||Honda CR-V Clearance 2013||honda-clearance-sale.autosite.com||Massive Honda Sale this Month! See Our Honda CR-V Deals  Save
+0||1||2014-05-05 23:10:38.024185||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+2014-05-05 23:10:38.104177||loadtime||0:00:04.195845||0
+2014-05-05 23:10:38.104218||reload||0
+1||0||2014-05-05 23:10:40.977579||Central Air Conditioners||smarter.com/CentralAirConditioners||- Compare  Save on All Models of Central Air Conditioners. Shop Now.
+1||0||2014-05-05 23:10:41.205691||Credit Card Application||www.cardhub.com||Apply for a VISA, Master Card, etc. Compare  Quickly Get the Best Card
+1||0||2014-05-05 23:10:41.205691||Kate Middleton Photos||kate-middleton.stylebistro.com||Stunning Pictures of Princess Kate Middleton and the Royal Family.
+1||0||2014-05-05 23:10:41.504241||Franklin University ™||franklin.edu/Get-Free-Info-Now||Official Franklin University Site. Get More Information Online Now!
+1||0||2014-05-05 23:10:41.504241||Home Value Estimator||www.realestate.com||Don't Know What Your Home is Worth It's Free  Just Takes Seconds
+2014-05-05 23:10:41.659502||loadtime||0:00:06.449886||1
+2014-05-05 23:10:41.659549||reload||1
+0||1||2014-05-05 23:10:46.549101||The Watershed Rehab||www.thewatershed.com/Help||- Drug  Alcohol Rehabilitation Call Today For Help Now!
+0||1||2014-05-05 23:10:46.764009||Healthcare Analytics Tool||www.tableausoftware.com/Healthcare||Visually Analyze Profit  Revenue. Tableau for Healthcare. Free Trial!
+0||1||2014-05-05 23:10:46.764009||Honda CR-V Clearance 2013||honda-clearance-sale.autosite.com||Massive Honda Sale this Month! See Our Honda CR-V Deals  Save
+0||1||2014-05-05 23:10:46.922445||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+0||1||2014-05-05 23:10:46.922445||Kate Middleton Photos||kate-middleton.stylebistro.com||Stunning Pictures of Princess Kate Middleton and the Royal Family.
+2014-05-05 23:10:47.039224||loadtime||0:00:03.933766||0
+2014-05-05 23:10:47.039264||reload||0
+1||0||2014-05-05 23:10:50.959502||Today's Deal: $59 Flights||insanelycheapflights.com||- Fly Anywhere In The U.S. As Low As $59!
+1||0||2014-05-05 23:10:51.407668||Franklin University ™||franklin.edu/Get-Free-Info-Now||Official Franklin University Site. Get More Information Online Now!
+1||0||2014-05-05 23:10:51.407668||Credit Card Application||www.cardhub.com||Apply for a VISA, Master Card, etc. Compare  Quickly Get the Best Card
+1||0||2014-05-05 23:10:51.583211||Home Value Estimator||www.realestate.com||Don't Know What Your Home is Worth It's Free  Just Takes Seconds
+1||0||2014-05-05 23:10:51.583211||Kate Middleton Photos||kate-middleton.stylebistro.com||Stunning Pictures of Princess Kate Middleton and the Royal Family.
+2014-05-05 23:10:51.657821||loadtime||0:00:04.997401||1
+2014-05-05 23:10:51.657857||reload||1
+0||1||2014-05-05 23:10:55.767124||The Watershed Rehab||www.thewatershed.com/Help||- Drug  Alcohol Rehabilitation Call Today For Help Now!
+0||1||2014-05-05 23:10:55.937893||Healthcare Analytics Tool||www.tableausoftware.com/Healthcare||Visually Analyze Profit  Revenue. Tableau for Healthcare. Free Trial!
+0||1||2014-05-05 23:10:55.937893||Finish Line ® Official||www.finishline.com||Shop The Best Selection Of Premium Footwear  More! Get Free Shipping.
+0||1||2014-05-05 23:10:56.040836||Honda CR-V Clearance 2013||honda-clearance-sale.autosite.com||Massive Honda Sale this Month! See Our Honda CR-V Deals  Save
+0||1||2014-05-05 23:10:56.040836||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+2014-05-05 23:10:56.116739||loadtime||0:00:04.076232||0
+2014-05-05 23:10:56.116780||reload||0
+1||0||2014-05-05 23:11:00.633693||Airline Tickets From $49||topratedtravel.net/CheapFlights||- 1000's Of Deals On Domestic  International Flights. Save Today!
+1||0||2014-05-05 23:11:00.967826||Credit Card Application||www.cardhub.com||Apply for a VISA, Master Card, etc. Compare  Quickly Get the Best Card
+1||0||2014-05-05 23:11:00.967826||Kate Middleton Photos||kate-middleton.stylebistro.com||Stunning Pictures of Princess Kate Middleton and the Royal Family.
+1||0||2014-05-05 23:11:01.074344||Garcinia Cambogia Warning||drhoangwiki.com/Garcinia-Secret||Shocking! Here's What We Found When We Researched Garcinia Cambogia.
+1||0||2014-05-05 23:11:01.074344||Download Cleaner for Mac||mackeeper.zeobit.com||Clean Mac files Right Now. Award-winning System Utility!
+2014-05-05 23:11:01.214996||loadtime||0:00:04.556800||1
+2014-05-05 23:11:01.215035||reload||1
+0||1||2014-05-05 23:11:04.676096||The Watershed Rehab||www.thewatershed.com/Help||- Drug  Alcohol Rehabilitation Call Today For Help Now!
+0||1||2014-05-05 23:11:04.970539||Healthcare Analytics Tool||www.tableausoftware.com/Healthcare||Visually Analyze Profit  Revenue. Tableau for Healthcare. Free Trial!
+0||1||2014-05-05 23:11:04.970539||Honda CR-V Clearance 2013||honda-clearance-sale.autosite.com||Massive Honda Sale this Month! See Our Honda CR-V Deals  Save
+0||1||2014-05-05 23:11:05.113161||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+0||1||2014-05-05 23:11:05.113161||Heart Attack Signs?||www.simplehearttest.com||Know the 4 Bodily Signs. Take The Simple Heart Test Now
+2014-05-05 23:11:05.187320||loadtime||0:00:04.069558||0
+2014-05-05 23:11:05.187355||reload||0
+1||0||2014-05-05 23:11:09.477057||Today's Deal: $59 Flights||insanelycheapflights.com||- Fly Anywhere In The U.S. As Low As $59!
+1||0||2014-05-05 23:11:09.808687||Credit Card Application||www.cardhub.com||Apply for a VISA, Master Card, etc. Compare  Quickly Get the Best Card
+1||0||2014-05-05 23:11:09.808687||Kate Middleton Photos||kate-middleton.stylebistro.com||Stunning Pictures of Princess Kate Middleton and the Royal Family.
+1||0||2014-05-05 23:11:09.908598||Automated Voter Contact||www.voiceshot.com||Phone calls. Text messages. Instant set up. 50% off reg, price
+1||0||2014-05-05 23:11:09.908598||Garcinia Cambogia Warning||drhoangwiki.com/Garcinia-Secret||Shocking! Here's What We Found When We Researched Garcinia Cambogia.
+2014-05-05 23:11:09.981957||loadtime||0:00:03.766465||1
+2014-05-05 23:11:09.981989||reload||1
+0||1||2014-05-05 23:11:10.354162||The Watershed Rehab||www.thewatershed.com/Help||- Drug  Alcohol Rehabilitation Call Today For Help Now!
+0||1||2014-05-05 23:11:13.964541||Healthcare Analytics Tool||www.tableausoftware.com/Healthcare||Visually Analyze Profit  Revenue. Tableau for Healthcare. Free Trial!
+0||1||2014-05-05 23:11:13.964541||Honda CR-V Clearance 2013||honda-clearance-sale.autosite.com||Massive Honda Sale this Month! See Our Honda CR-V Deals  Save
+0||1||2014-05-05 23:11:14.045207||New Nissans From $11,990||reply.com/Nissan||Dealers Are Slashing Prices! Everything Must Go.
+0||1||2014-05-05 23:11:14.045207||Transfer your H1||www.transfer-your-h1.com||simple, straight forward and easy transfer of H1B, L1, and F1 Visas
+2014-05-05 23:11:14.112378||loadtime||0:00:03.923788||0
+2014-05-05 23:11:14.112415||reload||0

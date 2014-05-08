@@ -1,0 +1,14 @@
+g||1||0
+2014-05-05 17:40:47.179414||training-start||0
+2014-05-05 17:40:55.999818||bounty.com||0||1
+2014-05-05 17:41:02.982431||marchofdimes.com||0||1
+2014-05-05 17:41:02.982990||training-end||0
+2014-05-05 17:41:19.076623||pref||1||||0
+2014-05-05 17:41:23.186251||pref||0||||1
+0||1||2014-05-05 17:41:26.514979||New Nissans From $11,990||reply.com/Nissan||- Dealers Are Slashing Prices! Everything Must Go.
+0||1||2014-05-05 17:41:27.114260||Honda CR-V Clearance 2013||honda-clearance-sale.autosite.com||Massive Honda Dealership Sale Now! Get Our Lowest CR-V Price  Save
+0||1||2014-05-05 17:41:27.114260||Send any Gift to India||www.gifttoindia24x7.com||Surprise your loved one today. Same day Delivery. Buy Online!
+0||1||2014-05-05 17:41:27.204147||Healthcare Analytics Tool||www.tableausoftware.com/Healthcare||Visually Analyze Profit  Revenue. Tableau for Healthcare. Free Trial!
+0||1||2014-05-05 17:41:27.204147||Send Money to India||www.remit2india.com/USA||Get ₹ per USD + Zero Fees. Send Money To Any Bank. Remit Now!
+2014-05-05 17:41:27.270870||loadtime||0:00:03.192702||0
+2014-05-05 17:41:27.272473||reload||0

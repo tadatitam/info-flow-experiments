@@ -191,7 +191,8 @@ class AdVec:
 
 	def __init__(self):
 		self.data = []
-	
+		self.label = -1
+		
 	def index(self, ad):
 		return self.data.index(ad)
 		
@@ -631,6 +632,16 @@ def printCounts(index, adv, ass):				# returns detailed counts of #ads within a 
 	for i in range(0, len(ass)):
 		sys.stdout.write("%s \t" %(adv[i].size()))
 	print("")
+
+def printNewsMetrics(unit):
+	adv = unit['adv']
+	ass = unit['ass']
+	xvfbfails = unit['xf']
+	breakouts = unit['break']
+	loadtimes = unit['loadtimes']
+	reloads = unit['reloads']
+	errors = unit['errors']
+ 			
 
 #------------- functions for Machine Learning Analyses ---------------#
 

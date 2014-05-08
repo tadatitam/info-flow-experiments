@@ -35,12 +35,15 @@ if __name__ == "__main__":
 				table[l[j]] = i
 		return table, l
 	
+	fo = open(LOG_FILE, "a")
+	fo.write("config||"+int(SAMPLES)+"||"+int(TREATMENTS)+"\n")
 	for j in range(0, BLOCKS):
 		print "Round ", j+1
 		table, l = getRandomTable(SAMPLES, TREATMENTS)		
 		print table
 		fo = open(LOG_FILE, "a")
-		fo.write("g||")
+		fo.write("assign||")
+		fo.write(str(j)+"||")
 		for i in range(0, SAMPLES-1):
 			fo.write(str(l[i]) + "||")
 		fo.write(str(l[SAMPLES-1]) + "\n")
