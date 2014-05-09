@@ -970,7 +970,7 @@ def MLAnalysis(par_adv):
 	ua,uind=np.unique(y,return_inverse=True)
 	count=np.bincount(uind)
 	print ua, count
-# 	featureSelection(X,y,feat,featChoice,splittype,splitfrac,nfolds=10,nfeat=5,list=1)
+	featureSelection(X,y,feat,featChoice,splittype,splitfrac,nfolds=10,nfeat=10,list=1)
 	print "CVPtest"
 	CVPtest(X, y, feat, splittype, splitfrac, nfolds=10, ptest=1, chi2=0, list=1, verbose=True)
 	

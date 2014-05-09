@@ -104,16 +104,16 @@ if __name__ == "__main__":
  	# THE FOLLOWING CODE THROWS OUT DATA POINTS THAT ARE BAD!! LIKE ONES WITH AN INSTANCE COLLECTING NO ADS
  	
  	par_adv = par_adv[:100]
- 	new_par_adv = []
- 	print len(par_adv)
- 	for unit in par_adv:
- 		flag=0
- 		for adv in unit['adv']:
- 			if(adv.size() < 1):
- 				flag=1
- 		if(flag==0):
- 			new_par_adv.append(unit)
- 	print len(new_par_adv)
- 	par_adv = new_par_adv
+#  	new_par_adv = []
+#  	print len(par_adv)
+#  	for unit in par_adv:
+#  		flag=0
+#  		for adv in unit['adv']:
+#  			if(adv.size() < 1):
+#  				flag=1
+#  		if(flag==0):
+#  			new_par_adv.append(unit)
+#  	print len(new_par_adv)
+#  	par_adv = new_par_adv
  	
 	anna.MLAnalysis(par_adv)
