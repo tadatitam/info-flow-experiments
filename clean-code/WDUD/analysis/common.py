@@ -1,7 +1,6 @@
 import re										# regular expressions
-from stemming.porter2 import stem
+from stemming.porter2 import stem				# Porter Snowball Stemming
 from nltk.corpus import stopwords 				# for removing stop-words
-from nltk.stem.snowball import EnglishStemmer	# Snowball Stemming
 	
 ########### CHOICES FOR THE AD-COMPARISON, AD-IDENTIFICATION #############
 
@@ -66,11 +65,7 @@ def perm_unique_helper(listunique,result_list,d):
 def stem_low_wvec(words):				# return stemmed and lower case words from the input list of words
 	stemmer = EnglishStemmer()
 	for i in range(0, len(words)):
-		print words[i], 
-		t = words[i].encode("utf8")
-		words[i] = stemmer.stem(t)
-# 		words[i] = stem(words[i]).lower()
-		print words[i]
+		words[i] = stem(words[i]).lower()
 	return words
 
 def unique_words(words):				# returns a set of unique words from the input list of words
