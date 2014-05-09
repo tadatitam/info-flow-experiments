@@ -2,10 +2,8 @@ import unittest, time, re
 import sys
 import math
 
-# ad and ad_vector classes
-# import ad
-import adVector
-import ad
+# common, ad and ad_vector classes
+import adVector, ad, common
 
 # for statistical test, plots
 import random
@@ -16,7 +14,6 @@ import matplotlib
 from datetime import datetime, timedelta
 
 # for Porter Stemming and removing stop-words
-from stemming.porter2 import stem
 from nltk.corpus import stopwords 
 
 ## feature selection
@@ -59,32 +56,6 @@ W_CHOICE = NUM
 
 ########### HELPER CLASSES AND FUNCTIONS #############
 
-#------------- to generate unique permutations ---------------#
-
-class unique_element:
-    def __init__(self,value,occurrences):
-        self.value = value
-        self.occurrences = occurrences
-
-def perm_unique(elements):
-    bins = np.bincount(elements)
-    listunique = []
-    for i in range(0,len(bins)):
-    	listunique.append(unique_element(i, bins[i]))
-    u=len(elements)
-    return perm_unique_helper(listunique,[0]*u,u-1)
-
-def perm_unique_helper(listunique,result_list,d):
-    if d < 0:
-        yield tuple(result_list)
-    else:
-        for i in listunique:
-            if i.occurrences > 0:
-                result_list[d]=i.value
-                i.occurrences-=1
-                for g in  perm_unique_helper(listunique,result_list,d-1):
-                    yield g
-                i.occurrences+=1
 
 #------------- to round off numbers ---------------#
 
@@ -143,7 +114,6 @@ def dot_prod(vec1, vec2):		# dot product of two vectors
 		sum = sum + vec1[i]*vec2[i]
 	return sum
 
-
 #------------- to convert Ad Vectors to feature vectors ---------------#
 
 def word_vectors(list):
@@ -151,10 +121,10 @@ def word_vectors(list):
 	for ads in list:
 		ad_union = ad_union.union(ads)
 	words = ad_union.advec_to_words()
-	stemmed_words = stem_low_wvec(words)
+	stemmed_words = common.stem_low_wvec(words)
 	filtered_words = [w for w in stemmed_words if not w in stopwords.words('english')]
-	word_v = unique_words(filtered_words)
-	word_v = strip_vec(word_v)
+	word_v = common.unique_words(filtered_words)
+	word_v = common.strip_vec(word_v)
 	wv_list = []
 	labels = []
 	for ads in list:
@@ -182,36 +152,6 @@ def temp_ad_vectors(list):
 	for ads in list:
 		tav_list.append(ad_union.gen_temp_ad_vec(ads))
 	return tav_list, ad_union
-
-#------------- functions helping Word based analysis ---------------#
-
-def stem_low_wvec(words):				# return stemmed and lower case words from the input list of words
-	for i in range(0, len(words)):
-		words[i] = stem(words[i]).lower()
-	return words
-
-def unique_words(words):				# returns a set of unique words from the input list of words
-	unq = []
-	for word in words:
-		present = False
-		for un in unq:
-			if (un == word):
-				present = True
-				break
-		if(not present):
-			unq.append(word)
-	return unq
-
-def strip_vec(list):					# removes the blank '', digits, $, & words
-	try:
-		if(list[0] == ''):
-			del list[-len(list)]
-		if(list[len(list)-1] == ''):
-			del list[-1]
-	except:
-		pass
-	chars = set('0123456789$&')
-	return [x for x in list if not (any((c in chars) for c in x))]
 
 
 #------------- functions to plot figures ---------------#
@@ -398,7 +338,7 @@ def getVectorsFromExp(advdicts, featChoice):			# returns observation vector from
 	if(labels[0] == ''):
 		for advdict in advdicts:
 			ass = advdict['ass']
-			y1 = [0]*len(ass)								# !! need to change this to set the label vector from labels in the ads
+			y1 = [0]*len(ass)
 			for i in ass[0:len(ass)/2]:
 				y1[int(i)] = 1
 			y.extend(y1)
@@ -650,7 +590,7 @@ def MLpTest(X_test, y_test, clf):									# permutation test
 	Tobs = stat_ML(X_test, y_test, clf)
 # 	print Tobs
 	under = 0
-	a = list(perm_unique(y_test))
+	a = list(common.perm_unique(y_test))
 	for new_y_test in a:
 		Tpi = stat_ML(X_test, np.array(new_y_test), clf)			# No need to compute this. prediction X_test doesnt change
 # 		print new_y_test
@@ -680,8 +620,6 @@ def genContTable(X, y, clf):										# generates contingency table
 	return cont_tab
 
 def MLAnalysis(par_adv, featChoice='ads', splitfrac=0.1, splittype='timed'):
-	featChoice = 'ads'
-	splitfrac = 0.1
 	splittype = 'timed' #'timed'/'rand'
 	X,y,feat = getVectorsFromExp(par_adv, featChoice)
 	print X.shape
@@ -690,7 +628,7 @@ def MLAnalysis(par_adv, featChoice='ads', splitfrac=0.1, splittype='timed'):
 	ua,uind=np.unique(y,return_inverse=True)
 	count=np.bincount(uind)
 	print ua, count
-# 	featureSelection(X,y,feat,featChoice,splittype,splitfrac,nfolds=10,nfeat=5,list=1)
+	featureSelection(X,y,feat,featChoice,splittype,splitfrac,nfolds=10,nfeat=5,list=1)
 	print "CVPtest"
 	CVPtest(X, y, feat, splittype, splitfrac, nfolds=10, ptest=1, chi2=0, list=1, verbose=True)
 
@@ -777,11 +715,11 @@ def get_ads_from_log(log_file, old=False):
 			adv[int(chunks[1])].add(ind_ad)
 		else:				# only to analyze old log files
 			try:
-# 	 			ind_ad = ad.Ad({'Time':datetime.strptime(chunks[2], "%Y-%m-%d %H:%M:%S.%f"), 'Title':chunks[3], 
-# 	 					'URL': chunks[4], 'Body': chunks[5].rstrip(), 'cat': "", 'label':chunks[1]})
-	 			ind_ad = ad.Ad({'Time':datetime.strptime(chunks[1], "%Y-%m-%d %H:%M:%S.%f"), 'Title':chunks[2], 
-	 					'URL': chunks[3], 'Body': chunks[4].rstrip(), 'cat': "", 'label':""})
-# 	 			ind_ad.display()
+				ind_ad = ad.Ad({'Time':datetime.strptime(chunks[2], "%Y-%m-%d %H:%M:%S.%f"), 'Title':chunks[3], 
+						'URL': chunks[4], 'Body': chunks[5].rstrip(), 'cat': "", 'label':chunks[1]})
+# 	 			ind_ad = ad.Ad({'Time':datetime.strptime(chunks[1], "%Y-%m-%d %H:%M:%S.%f"), 'Title':chunks[2], 
+# 	 					'URL': chunks[3], 'Body': chunks[4].rstrip(), 'cat': "", 'label':""})
+# 				ind_ad.display()
 				adv[int(chunks[0])].add(ind_ad)
 			except:
 				pass

@@ -1,7 +1,5 @@
-import re
-import sys
-import math
-import ad
+import re, sys, math
+import ad, common
 
 
 ########### CHOICES FOR THE AD-COMPARISON, AD-IDENTIFICATION #############
@@ -157,13 +155,13 @@ class AdVector:
 		else:
 			print("Illegal W_CHOICE")
 			raw_input("Press Enter to exit")
-			sys.exit()
+			sys.exit(0)
 		
 	def gen_word_vec(self, word_v, choice):		# generates a vector of words from AdVector, fits it to word_v
 		vec = []
 		words = self.advec_to_words()
-		stemmed_words = stem_low_wvec(words)
-		words = strip_vec(words)
+		stemmed_words = common.stem_low_wvec(words)
+		words = common.strip_vec(words)
 		# print words
 		for word in word_v:
 			if(choice == NUM):

@@ -138,10 +138,10 @@ def train_with_sites(FILE, driver, id, TREATMENT):					# Visits all pages in FIL
 		chunks = re.split("\|\|", line)
 		site = chunks[0].strip()
 		try:
-			driver.set_page_load_timeout(20)
+			driver.set_page_load_timeout(40)
 			driver.get(site)
 			time.sleep(5)
-			log(site, str(id)+"||"+TREATMENT)
+			log(site+"||"+str(TREATMENT), id)
 		except:
 			log("timedout-"+line.rstrip(), id)
 	log('training-end', id)

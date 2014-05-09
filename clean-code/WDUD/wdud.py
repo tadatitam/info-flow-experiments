@@ -41,7 +41,7 @@ def collect_sites_from_alexa(alexa_link="http://www.alexa.com/topsites", output_
 	
 	PATH="./"+output_file
 	if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
-		response = raw_input("This will overwrite file %s. Continue? (y/n)" % output_file)
+		response = raw_input("This will overwrite file %s. Continue? (Y/n)" % output_file)
 		if response == 'n':
 			sys.exit(0)
 	fo = open(output_file, "w")
@@ -55,7 +55,7 @@ def begin_experiment(log_file="log.txt", samples=2,
 		treatments=[], blocks=1, runs=1, reloads=10, delay=5, browser='firefox'):	
 	PATH="./"+log_file
 	if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
-		response = raw_input("This will overwrite file %s. Continue? (y/n)" % log_file)
+		response = raw_input("This will overwrite file %s. Continue? (Y/n)" % log_file)
 		if response == 'n':
 			sys.exit(0)
 	fo = open(log_file, "w")

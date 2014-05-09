@@ -1,4 +1,3 @@
-from subprocess import Popen
 from multiprocessing import Process
 import glob, sys
 import random
@@ -8,12 +7,10 @@ import collect
 def begin(log_file="log.txt", samples=2, 
 		treatments=[], blocks=1, runs=1, reloads=10, delay=5, browser='firefox'):
 	LOG_FILE = log_file
-	COLLECT_PY = "experimenter/collect.py"
 	SAMPLES = samples
 	TREATMENTS = len(treatments)
 	BLOCKS = blocks
 
-	test = glob.glob(COLLECT_PY)[0]
 	processes = []
 
 	RUNS = runs

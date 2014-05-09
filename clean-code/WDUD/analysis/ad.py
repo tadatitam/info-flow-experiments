@@ -1,6 +1,7 @@
 import re										# regular expressions
 from stemming.porter2 import stem				# for Porter Stemming 
 from nltk.corpus import stopwords 				# for removing stop-words
+import common
 	
 ########### CHOICES FOR THE AD-COMPARISON, AD-IDENTIFICATION #############
 
@@ -13,33 +14,14 @@ TITLE_BODY = 3
 NUM = 1
 LOG_NUM = 2
 
-
-#------------- for stripping html tags from html strings ---------------#
-
-from HTMLParser import HTMLParser
-
-class MLStripper(HTMLParser):
-    def __init__(self):
-        self.reset()
-        self.fed = []
-    def handle_data(self, d):
-        self.fed.append(d)
-    def get_data(self):
-        return ''.join(self.fed)
-
-def strip_tags(html):
-    s = MLStripper()
-    s.feed(html)
-    return s.get_data()
-
 ########### AD CLASS #############
 
 class Ad:
 
 	def __init__(self, ad):
-		self.title = strip_tags(ad['Title'])
-		self.url = strip_tags(ad['URL'])
-		self.body = strip_tags(ad['Body'])
+		self.title = common.strip_tags(ad['Title'])
+		self.url = common.strip_tags(ad['URL'])
+		self.body = common.strip_tags(ad['Body'])
 		self.cat = ad['cat']
 		self.time = ad['Time']
 		self.label = ad['label']
@@ -102,8 +84,8 @@ class Ad:
 	def fit_to_feat(self, word_v, choice):			# fits an ad to a feature vector, returns a weight vector
 		vec = []
 		words = self.ad_to_words()
-		stemmed_words = stem_low_wvec(words)
-		words = strip_vec(words)
+		stemmed_words = common.stem_low_wvec(words)
+		words = common.strip_vec(words)
 		# print words
 		for word in word_v:
 			if(choice == NUM):
