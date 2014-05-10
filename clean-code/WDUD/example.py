@@ -2,7 +2,7 @@ import wdud
 import analysis.functions as analyst
 
 site_file = 'substance.txt'
-log_file = 'log2.substance.txt'
+log_file = 'log.example.txt'
 
 ## Collect sites from alexa
 
