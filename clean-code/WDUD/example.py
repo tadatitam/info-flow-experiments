@@ -25,4 +25,4 @@ wdud.begin_experiment(treatments=[treatment2, treatment1], samples=2, blocks=1, 
 
 coll = analyst.get_ads_from_log(log_file)
 print "Number of blocks collected:", len(coll[0])
-analyst.MLAnalysis(coll, featChoice='ads')
+analyst.MLAnalysis(coll, featChoice='ads', old=False)

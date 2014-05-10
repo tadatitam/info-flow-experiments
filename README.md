@@ -58,5 +58,5 @@ import analysis.functions as analyst
 ## Analyze Data
 coll = analyst.get_ads_from_log(log_file)
 print "Number of blocks collected:", len(coll[0])
-analyst.MLAnalysis(coll, featChoice='ads')
+analyst.MLAnalysis(coll, featChoice='ads', old=False)
 ```
