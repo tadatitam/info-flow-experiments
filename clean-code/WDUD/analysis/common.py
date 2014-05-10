@@ -14,6 +14,13 @@ NUM = 1
 LOG_NUM = 2
 
 
+#------------- to round off numbers ---------------#
+
+def round_figures(x, n):
+	"""Returns x rounded to n significant figures."""
+	return round(x, int(n - math.ceil(math.log10(abs(x)))))
+
+
 #------------- for stripping html tags from html strings ---------------#
 
 from HTMLParser import HTMLParser
@@ -63,7 +70,6 @@ def perm_unique_helper(listunique,result_list,d):
 #------------- functions helping Word based analysis ---------------#
 
 def stem_low_wvec(words):				# return stemmed and lower case words from the input list of words
-	stemmer = EnglishStemmer()
 	for i in range(0, len(words)):
 		words[i] = stem(words[i]).lower()
 	return words

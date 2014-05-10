@@ -27,8 +27,10 @@ proxy = Proxy({
 
 class Webdriver(unittest.TestCase):
 	def setUp(self):
-		self.vdisplay = Xvfb(width=1280, height=720)
-		if(not self.vdisplay.start()):
+		global vdisplay 
+		vdisplay = Xvfb(width=1280, height=720)
+# 		global vdisplay = vdisplay
+		if(not vdisplay.start()):
 			fo = open(LOG_FILE, "a")
 			fo.write("Xvfbfailure||"+str(TREATMENTID)+"||"+str(ID)+"\n")
 			fo.close()
@@ -83,7 +85,7 @@ class Webdriver(unittest.TestCase):
     
 	def tearDown(self):
 		self.driver.quit()
-		self.vdisplay.stop()
+		vdisplay.stop()
 		self.assertEqual([], self.verificationErrors)
 
 
@@ -101,44 +103,23 @@ def run_script(id, samples, treatment, runs, reloads, delay, browser, logfile, r
 	TREATMENTS = treatments
 	if (ID > SAMPLES):
 		sys.exit("ERROR: id must be less than total instances")
-		
-	signal.signal(signal.SIGALRM, signal_handler)
+	
+	timeout = 10
+	
+	old_handler = signal.signal(signal.SIGALRM, signal_handler)
 	signal.alarm(timeout)   # 2000 seconds
 	try:
 		suite = unittest.TestLoader().loadTestsFromTestCase(Webdriver)
-		unittest.TextTestRunner(verbosity=2).run(suite)
+		unittest.TextTestRunner(verbosity=1).run(suite)
 	except Exception, msg:
-		print "Timed out!"
+		print "Whaddyup bro!", ID
+	finally:
+		print "Hello!", ID
+		vdisplay.stop()
 		fo = open(LOG_FILE, "a")
 		fo.write("LaunchFailure||"+str(TREATMENTID)+"||"+str(ID)+"\n")
 		fo.close()
+		signal.signal(signal.SIGALRM, old_handler)
 		sys.exit(0)
-
-
-# if __name__ == "__main__":
-# 	global ID, SAMPLES, TREATMENT, RUNS, RELOADS, DELAY, BROWSER, ROUND, LOG_FILE, SITE_FILE, STR_TREAT
-# 	ID = int(sys.argv[1])
-# 	SAMPLES = int(sys.argv[2])
-# 	TREATMENT = int(sys.argv[3])
-# 	RUNS = int(sys.argv[4])
-# 	RELOADS = int(sys.argv[5])
-# 	DELAY = int(sys.argv[6])
-# 	BROWSER = sys.argv[7]
-# 	LOG_FILE = sys.argv[8]
-# 	ROUND = sys.argv[9]
-# 	STR_TREAT = sys.arg[10]
-# 	if (ID > SAMPLES):
-# 		sys.exit("ERROR: id must be less than total instances")
-# 	
-# 	del sys.argv[1:]
-# 	
-# 	signal.signal(signal.SIGALRM, signal_handler)
-# 	signal.alarm(2000)   # Ten seconds
-# 	try:
-# 		unittest.main()
-# 	except Exception, msg:
-# 		print "Timed out!"
-# 		fo = open(LOG_FILE, "a")
-# 		fo.write("LaunchFailure||"+str(TREATMENT)+"||"+str(ID)+"\n")
-# 		fo.close()
-# 		sys.exit(0)
+	
+	signal.alarm(0)

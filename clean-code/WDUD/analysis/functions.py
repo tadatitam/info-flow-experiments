@@ -57,13 +57,6 @@ W_CHOICE = NUM
 ########### HELPER CLASSES AND FUNCTIONS #############
 
 
-#------------- to round off numbers ---------------#
-
-def round_figures(x, n):
-	"""Returns x rounded to n significant figures."""
-	return round(x, int(n - math.ceil(math.log10(abs(x)))))
-
-
 ########### FUNCTIONS TO CARRY OUT ANALYSIS #############
 
 #------------- for Ad Set Comparison ---------------#
@@ -130,7 +123,7 @@ def word_vectors(list):
 	for ads in list:
 		wv_list.append(ads.gen_word_vec(word_v, W_CHOICE))
 		labels.append(ads.label)
-	return wv_list, labels, word_v				## Returning word_v as feature
+	return wv_list, labels, word_v						## Returns word_v as feature
 
 def ad_vectors(list):
 	ad_union = adVector.AdVector()
@@ -141,7 +134,7 @@ def ad_vectors(list):
 	for ads in list:
 		av_list.append(ad_union.gen_ad_vec(ads))
 		labels.append(ads.label)
-	return av_list, labels, ad_union			## Returning entire ads as feature
+	return av_list, labels, ad_union					## Returns entire ad as feature
 
 def temp_ad_vectors(list):
 	ad_union = adVector.AdVector()
@@ -154,7 +147,7 @@ def temp_ad_vectors(list):
 	return tav_list, ad_union
 
 
-#------------- functions to plot figures ---------------#
+#------------- functions to plot figures from a list of feature vectors ---------------#
 
 def histogramPlots(list):
 	a, b = ad_vectors(list)
@@ -287,7 +280,7 @@ def testWrapper(adv, ass, keywords, type):
 # 		print vec
 # 		print chi2, p, ex
 		e = datetime.now()
-	return round_figures(res, 6), e-s
+	return common.round_figures(res, 6), e-s
 	
 def printCounts(index, adv, ass):				# returns detailed counts of #ads within a round
 	advm, advf = vec_for_stats(adv, ass)
