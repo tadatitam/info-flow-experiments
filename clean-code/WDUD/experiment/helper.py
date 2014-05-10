@@ -1,7 +1,8 @@
-import time, re							# time.sleep, re.split
-import sys								# some prints
-from selenium import webdriver			# for running the driver on websites
-from datetime import datetime			# for tagging ads with datetime
+import time, re											# time.sleep, re.split
+import sys												# some prints
+from selenium import webdriver							# for running the driver on websites
+from datetime import datetime							# for tagging log with datetime
+from selenium.webdriver.common.keys import Keys			# to press keys on a webpage
 
 # strip html
 from HTMLParser import HTMLParser
@@ -41,6 +42,7 @@ def applyTreatment(driver, treatmentprof, id, treatmentid):
 	if(treatment==''):						# null treatment
 		time.sleep(5)
 		return
+	log('training-start', id)
 	parts = re.split("\|\+\|", treatment)
 	for part in parts:
 		chunks = re.split("\|\:\|", part)
@@ -48,6 +50,9 @@ def applyTreatment(driver, treatmentprof, id, treatmentid):
 			train_with_sites(chunks[1], driver, id, treatmentid)
 		if(chunks[0] == 'gender'):
 			set_gender(chunks[1], driver)
+		if(chunks[0] == 'interest'):
+			set_ad_pref(chunks[1], driver)
+	log('training-end', id)
 
 def login2Google(username, password, driver):
 	driver.find_element_by_xpath(".//a[span[span[@class='gbit']]]").click()
@@ -114,7 +119,20 @@ def get_gender(driver):												# Read gender from Google Ad Settings
 	inn = str(div.get_attribute('innerHTML'))
 	return inn[0]
 
-def get_ad_pref(choice, driver):									# Returns list of Ad preferences
+def set_ad_pref(pref, driver, choice=2):									# Set an ad pref
+	try:
+		driver.get("https://www.google.com/settings/ads")
+		if (choice == 1):
+			driver.find_element_by_css_selector("div.Vu div.bd div.Qc div div div.cc").click()	#For search related preferences
+		elif (choice == 2):
+			driver.find_element_by_xpath(".//div[@class='Rg hF']/div[@class='wf']/div[@class='jf Uh']/div[@class='Uc']/div/div[@class='lh Ld c-X-Aa c-X-Ac']").click()	#For website related preferences
+		driver.find_element_by_xpath(".//input[@class='yQfFt a-Ca CvD2w']").send_keys(pref)
+		driver.find_element_by_xpath(".//div[@class='QJTE8e nhosSe ta']").click()
+		driver.find_element_by_xpath(".//div[@class='c-ca-ba a-b a-b-E ly hE']").click()
+	except:
+		print "No interests matched '%s'. Skipping." %(pref)
+	
+def get_ad_pref(driver, choice=2):									# Returns list of Ad preferences
 	pref = []
 # 		try:
 	driver.get("https://www.google.com/settings/ads")
@@ -132,7 +150,6 @@ def get_ad_pref(choice, driver):									# Returns list of Ad preferences
 	return pref	
 
 def train_with_sites(FILE, driver, id, TREATMENT):					# Visits all pages in FILE
-	log('training-start', id)
 	fo = open(FILE, "r")
 	for line in fo:
 		chunks = re.split("\|\|", line)
@@ -144,7 +161,6 @@ def train_with_sites(FILE, driver, id, TREATMENT):					# Visits all pages in FIL
 			log(site+"||"+str(TREATMENT), id)
 		except:
 			log("timedout-"+line.rstrip(), id)
-	log('training-end', id)
 
 def log(msg, id):													# Maintains a log of visitations
 	fo = open(LOG_FILE, "a")

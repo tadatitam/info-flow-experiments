@@ -2,17 +2,15 @@ import unittest, time								# unittest starts of the testing environment for br
 import os, platform									# for running  os, platform specific function calls
 import sys											# sys.argv
 import re											# to parse treatments
+from datetime import datetime						# for tagging log with datetime
 
 from selenium import webdriver						# for running the driver on websites
 from selenium.webdriver.common.proxy import *		# for proxy settings
 
 from xvfbwrapper import Xvfb						# for creating artificial display buffers to run experiments				
-import collectHelper as cole						# functions from collectHelper
+import helper as cole								# functions from collectHelper
 
 import signal										# for timing out external calls
-
-def signal_handler(signum, frame):
-    raise Exception("Timed out!")
 
 myProxy = "yogi.pdl.cmu.edu:3128"
 
@@ -24,17 +22,18 @@ proxy = Proxy({
     'noProxy': '' # set this value as desired
     })
 
-
+class TimeoutException(Exception): 
+    pass 
+    
 class Webdriver(unittest.TestCase):
 	def setUp(self):
-		global vdisplay 
-		vdisplay = Xvfb(width=1280, height=720)
-# 		global vdisplay = vdisplay
-		if(not vdisplay.start()):
-			fo = open(LOG_FILE, "a")
-			fo.write("Xvfbfailure||"+str(TREATMENTID)+"||"+str(ID)+"\n")
-			fo.close()
-			sys.exit(0)
+		self.vdisplay = Xvfb(width=1280, height=720)
+		self.vdisplay.start()
+# 		if(not vdisplay.start()):
+# 			fo = open(LOG_FILE, "a")
+# 			fo.write("Xvfbfailure||"+str(TREATMENTID)+"||"+str(ID)+"\n")
+# 			fo.close()
+# 			sys.exit(0)
 		if(BROWSER=='firefox'):
 			if (platform.system()=='Darwin'):
 				self.driver = webdriver.Firefox()
@@ -77,23 +76,20 @@ class Webdriver(unittest.TestCase):
 		while (run < RUNS):
 			cole.applyTreatment(driver, TREATMENTS[TREATMENTID], ID, TREATMENTID)
 			cole.wait_for_others(SAMPLES, ID, ROUND)
-			pref = cole.get_ad_pref(2, driver)
+			pref = cole.get_ad_pref(driver)
 			cole.log("pref"+"||"+str(TREATMENTID)+"||"+", ".join(pref), ID)
 			cole.collect_ads(RELOADS, DELAY, LOG_FILE, driver, ID, TREATMENTID, 'toi')
 			run = run+1
 
-    
 	def tearDown(self):
+		self.vdisplay.stop()
 		self.driver.quit()
-		vdisplay.stop()
-		self.assertEqual([], self.verificationErrors)
 
-
-def run_script(id, samples, treatment, runs, reloads, delay, browser, logfile, round, treatments, timeout=2000):
+def run_script(id, samples, treatmentid, runs, reloads, delay, browser, logfile, round, treatments, timeout=2000):
 	global ID, SAMPLES, TREATMENTID, RUNS, RELOADS, DELAY, BROWSER, ROUND, LOG_FILE, SITE_FILE, TREATMENTS
 	ID = id
 	SAMPLES = samples
-	TREATMENTID = treatment
+	TREATMENTID = treatmentid
 	RUNS = runs
 	RELOADS = reloads
 	DELAY = delay
@@ -103,23 +99,26 @@ def run_script(id, samples, treatment, runs, reloads, delay, browser, logfile, r
 	TREATMENTS = treatments
 	if (ID > SAMPLES):
 		sys.exit("ERROR: id must be less than total instances")
+		
 	
-	timeout = 10
+	def signal_handler(signum, frame):
+		print "Timeout!"
+		fo = open(LOG_FILE, "a")
+		fo.write(str(datetime.now())+"||TimedOut||"+str(TREATMENTID)+"||"+str(ID)+"\n")
+		fo.close()
+		raise TimeoutException("Timed out!")
+		
+# 	timeout = 10	
 	
 	old_handler = signal.signal(signal.SIGALRM, signal_handler)
 	signal.alarm(timeout)   # 2000 seconds
 	try:
 		suite = unittest.TestLoader().loadTestsFromTestCase(Webdriver)
 		unittest.TextTestRunner(verbosity=1).run(suite)
-	except Exception, msg:
-		print "Whaddyup bro!", ID
+	except TimeoutException:
+		return
 	finally:
-		print "Hello!", ID
-		vdisplay.stop()
-		fo = open(LOG_FILE, "a")
-		fo.write("LaunchFailure||"+str(TREATMENTID)+"||"+str(ID)+"\n")
-		fo.close()
+		print "Instance", ID, "exiting!"
 		signal.signal(signal.SIGALRM, old_handler)
-		sys.exit(0)
 	
 	signal.alarm(0)

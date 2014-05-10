@@ -405,7 +405,7 @@ def trainTest(algos, X, y, splittype, splitfrac, nfolds, list, ptest, chi2, verb
 			
 	return max_clf
 
-def featureSelection(X,y,feat,featChoice,splittype,splitfrac,nfolds,nfeat,list):
+def featureSelection(X,y,feat,treatnames,featChoice,splittype,splitfrac,nfolds,nfeat,list):
 
 	algos = {	
 				'logit':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'penalty':['l1']},
@@ -414,10 +414,23 @@ def featureSelection(X,y,feat,featChoice,splittype,splitfrac,nfolds,nfeat,list):
 
 	clf = trainTest(algos, X, y, splittype, splitfrac, nfolds, list, ptest=0, chi2=0)
 	
-	randomized_logistic = RandomizedLogisticRegression()
-	raw_input("Write randlogreg!!")
+# 	maxC = clf.get_params()['C']
+# 	
+# 	if(list==1):
+# 		X = np.array([item for sublist in X for item in sublist])
+# 		y = np.array([item for sublist in y for item in sublist])	
+# 		
+# 	randLog = RandomizedLogisticRegression(C=maxC).fit(X,y)
+# 	indices = np.where(randLog.get_support())[0]
+# 	print randLog.all_scores_
+# 	print indices
+# 	raw_input("wait")
+# 	for i in indices:
+# 		print i
+# 		feat.choose_by_index(i).printStuff(10, 10, 10)
+# 	raw_input("Write randlogreg!!")
 	
-	printTopKFeatures(X, y, feat, featChoice, clf, nfeat, list)
+	printTopKFeatures(X, y, feat, treatnames, featChoice, clf, nfeat, list)
 	
 # 	clf = trainTest(algos, X, y, splittype, splitfrac, nfolds, list, ptest=0, chi2=0)
 # 	ua,uind=np.unique(clf.coef_[0],return_inverse=True)
@@ -444,7 +457,7 @@ def CVPtest(X, y, feat, splittype, splitfrac, nfolds, list, ptest=1, chi2=1, ver
 	clf = trainTest(algos, X, y, splittype, splitfrac, nfolds, list, ptest=ptest, chi2=chi2, verbose=verbose)
 
 
-def printTopKFeatures(X, y, feat, featChoice, max_clf, k, list):		# prints top k features from max_clf+some numbers
+def printTopKFeatures(X, y, feat, treatnames, featChoice, max_clf, k, list):		# prints top k features from max_clf+some numbers
 	if(list==1):
 		X = np.array([item for sublist in X for item in sublist])
 		y = np.array([item for sublist in y for item in sublist])
@@ -458,14 +471,14 @@ def printTopKFeatures(X, y, feat, featChoice, max_clf, k, list):		# prints top k
 	n_classes = max_clf.coef_.shape[0]
 	if(n_classes == 1):
 		topk1 = np.argsort(max_clf.coef_[0])[::-1][:k]
-		print "\nFeatures for class 1:"
+		print "\nFeatures for class %s:" %(str(treatnames[1]))
 		for i in topk1:
 			if(featChoice == 'ads'):
 				feat.choose_by_index(i).printStuff(max_clf.coef_[0][i], A[i], B[i])
 			elif(featChoice == 'words'):
 				print feat[i]
 		topk0 = np.argsort(max_clf.coef_[0])[:k]
-		print "\n\nFeatures for class 0:"
+		print "\n\nFeatures for class %s:" %(str(treatnames[0]))
 		for i in topk0:
 			if(featChoice == 'ads'):
 				feat.choose_by_index(i).printStuff(max_clf.coef_[0][i], A[i], B[i])
@@ -474,7 +487,7 @@ def printTopKFeatures(X, y, feat, featChoice, max_clf, k, list):		# prints top k
 	else:
 		for i in range(0,n_classes):
 			topk = np.argsort(max_clf.coef_[i])[::-1][:k]
-			print "Features for class %s:" %(i+1)
+			print "Features for class %s:" %(str(treatnames[i]))
 			for j in topk:
 				if(featChoice == 'ads'):
 					feat.choose_by_index(j).display()
@@ -612,7 +625,9 @@ def genContTable(X, y, clf):										# generates contingency table
 																	#	y_pred=1	tab[1,0]	tab[1,1]
 	return cont_tab
 
-def MLAnalysis(par_adv, featChoice='ads', splitfrac=0.1, splittype='timed'):
+def MLAnalysis(collection, featChoice='ads', splitfrac=0.1, splittype='timed'):
+	par_adv = collection[0]
+	treatnames = collection[1]
 	splittype = 'timed' #'timed'/'rand'
 	X,y,feat = getVectorsFromExp(par_adv, featChoice)
 	print X.shape
@@ -621,44 +636,51 @@ def MLAnalysis(par_adv, featChoice='ads', splitfrac=0.1, splittype='timed'):
 	ua,uind=np.unique(y,return_inverse=True)
 	count=np.bincount(uind)
 	print ua, count
-	featureSelection(X,y,feat,featChoice,splittype,splitfrac,nfolds=10,nfeat=5,list=1)
+	featureSelection(X,y,feat,treatnames,featChoice,splittype,splitfrac,nfolds=10,nfeat=5,list=1)
 	print "CVPtest"
 	CVPtest(X, y, feat, splittype, splitfrac, nfolds=10, ptest=1, chi2=0, list=1, verbose=True)
 
 
-def applyLabels2AdVecs(adv, ass, SAMPLES, TREATMENTS):
-	size = SAMPLES/TREATMENTS
-	for i in range(0, TREATMENTS):
+def applyLabels2AdVecs(adv, ass, samples, treatments):
+	size = samples/treatments
+	for i in range(0, treatments):
 		for j in range(0, size):
 			adv[int(ass[i*size+j])].setLabel(i)
 
 def get_ads_from_log(log_file, old=False):
-	LOG_FILE = log_file			# Input Log file as command line argument
-	fo = open(LOG_FILE, "r")
+	treatnames = []
+	fo = open(log_file, "r")
 	line = fo.readline()
-	fo.close()
 	chunks = re.split("\|\|", line)
 	if(old):
 		gmarker = 'g'
-		TREATMENTS = 2
-		SAMPLES = len(chunks)-1
+		treatments = 2
+		treatnames = ['0', '1']
+		samples = len(chunks)-1
 	else:
 		gmarker = 'assign'
-		TREATMENTS = int(chunks[1])
-		SAMPLES = int(chunks[2])
-	
+		treatments = int(chunks[2])
+		samples = int(chunks[1])
+		line = fo.readline()
+		chunks = re.split("\|\|", line)
+		for i in range(1, len(chunks)):
+			treatnames.append(chunks[i].strip())
+		print treatnames
+		print treatments
+	assert treatments == len(treatnames)
+	fo.close()
 	adv = []
-	for i in range(0, SAMPLES):
+	for i in range(0, samples):
  		adv.append(adVector.AdVector())
- 	loadtimes = [timedelta(minutes=0)]*SAMPLES
- 	reloads = [0]*SAMPLES
- 	errors = [0]*SAMPLES
+ 	loadtimes = [timedelta(minutes=0)]*samples
+ 	reloads = [0]*samples
+ 	errors = [0]*samples
  	xvfbfails = []
  	breakout = False
  	par_adv = []
  	ass = []
 		
-	fo = open(LOG_FILE, "r")
+	fo = open(log_file, "r")
 	r = 0	
 	sys.stdout.write("Scanning ads")
 	for line in fo:
@@ -666,8 +688,11 @@ def get_ads_from_log(log_file, old=False):
 		chunks[len(chunks)-1] = chunks[len(chunks)-1].rstrip()
 		if(chunks[0] == gmarker and r==0):
 			r += 1
-			ass = chunks[1:]
-			applyLabels2AdVecs(adv, ass, SAMPLES, TREATMENTS)
+			ass = chunks[2:]
+			if(old):	
+				ass = chunks[1:]
+			assert len(ass) == samples
+			applyLabels2AdVecs(adv, ass, samples, treatments)
  			#print ass
  		elif(chunks[0] == gmarker and r >0 ):
  			r += 1
@@ -676,15 +701,18 @@ def get_ads_from_log(log_file, old=False):
  			sys.stdout.write(".")
 			sys.stdout.flush()
 			adv = []
-			for i in range(0, SAMPLES):
+			for i in range(0, samples):
  				adv.append(adVector.AdVector())
- 			loadtimes = [timedelta(minutes=0)]*SAMPLES
-			reloads = [0]*SAMPLES
-			errors = [0]*SAMPLES
+ 			loadtimes = [timedelta(minutes=0)]*samples
+			reloads = [0]*samples
+			errors = [0]*samples
  			xvfbfails = []
  			breakout = False
-			ass = chunks[1:]
-			applyLabels2AdVecs(adv, ass, SAMPLES, TREATMENTS)
+			ass = chunks[2:]
+			if(old):	
+				ass = chunks[1:]
+			assert len(ass) == samples
+			applyLabels2AdVecs(adv, ass, samples, treatments)
  		elif(chunks[0] == 'Xvfbfailure'):
  			xtreat, xid = chunks[1], chunks[2]
  			xvfbfails.append(xtreat)
@@ -722,4 +750,4 @@ def get_ads_from_log(log_file, old=False):
  			'break':breakout, 'loadtimes':loadtimes, 'reloads':reloads, 'errors':errors})
  	sys.stdout.write(".Scanning complete\n")
  	sys.stdout.flush()
- 	return par_adv	
+ 	return [par_adv, treatnames]	

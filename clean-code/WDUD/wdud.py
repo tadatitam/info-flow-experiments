@@ -37,29 +37,29 @@ class Treatment:
 		self.count += 1
 		
 
-def collect_sites_from_alexa(alexa_link="http://www.alexa.com/topsites", output_file="out.txt", pages=4):	# n-number of pages on Alexa
+def collect_sites_from_alexa(alexa_link="http://www.alexa.com/topsites", output_file="out.txt", nsites=5):	# n-number of pages on Alexa
 	
 	PATH="./"+output_file
 	if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
-		response = raw_input("This will overwrite file %s. Continue? (Y/n)" % output_file)
+		response = raw_input("This will overwrite file %s... Continue? (Y/n)" % output_file)
 		if response == 'n':
 			sys.exit(0)
 	fo = open(output_file, "w")
 	fo.close()
 	print "Beginning Collection"
 # 	os.system("python experimenter/alexa.py %s %s %s" % (output_file, alexa_link, n))
-	alexa.run_script(alexa_link, output_file, pages)
+	alexa.run_script(alexa_link, output_file, nsites)
 	print "Collection Complete. Results stored in ", output_file
 
 def begin_experiment(log_file="log.txt", samples=2, 
-		treatments=[], blocks=1, runs=1, reloads=10, delay=5, browser='firefox'):	
+		treatments=[], blocks=1, runs=1, reloads=10, delay=5, browser='firefox', timeout=2000):	
 	PATH="./"+log_file
 	if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
-		response = raw_input("This will overwrite file %s. Continue? (Y/n)" % log_file)
+		response = raw_input("This will overwrite file %s... Continue? (Y/n)" % log_file)
 		if response == 'n':
 			sys.exit(0)
 	fo = open(log_file, "w")
 	fo.close()
 	print "Starting Experiment"
-	trials.begin(log_file, samples, treatments, blocks, runs, reloads, delay, browser)
+	trials.begin(log_file, samples, treatments, blocks, runs, reloads, delay, browser, timeout)
 	print "Experiment Complete"

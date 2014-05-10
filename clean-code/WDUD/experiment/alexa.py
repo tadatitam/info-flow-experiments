@@ -6,7 +6,7 @@ from selenium import webdriver						# for running the driver on websites
 from selenium.webdriver.common.proxy import *		# for proxy settings
 
 from xvfbwrapper import Xvfb						# for creating artificial display to run experiments				
-import collectHelper as cole						# functions from collectHelper
+import helper as cole								# functions from collectHelper
 
 LOG_FILE = "log"
 myProxy = "yogi.pdl.cmu.edu:3128"
@@ -61,25 +61,27 @@ class Webdriver(unittest.TestCase):
 		fo.close()
 		driver = self.driver
 		driver.get(SITE)
-		for i in range(0,N):
+		count = 0
+		while(count < N):
 			els = driver.find_elements_by_css_selector("li.site-listing div.desc-container p.desc-paragraph a")
 			for el in els:
-				t = el.get_attribute('innerHTML').lower()
-# 				print t
-				fo = open(AD_FILE, "a")
-				fo.write(t + '\n')
-				fo.close()
+				if(count < N):
+					t = el.get_attribute('innerHTML').lower()
+					fo = open(AD_FILE, "a")
+					fo.write(t + '\n')
+					fo.close()
+					count += 1
 			driver.find_element_by_css_selector("a.next").click()
     
 	def tearDown(self):
 		self.driver.quit()
 		self.assertEqual([], self.verificationErrors)
 
-def run_script(site, file, n):
+def run_script(site, file, nsites):
 	global AD_FILE, SITE, BROWSER, N
 	BROWSER = 'ff'
 	AD_FILE = file
 	SITE = site
-	N = n
+	N = nsites
 	suite = unittest.TestLoader().loadTestsFromTestCase(Webdriver)
-	unittest.TextTestRunner(verbosity=2).run(suite)
+	unittest.TextTestRunner(verbosity=1).run(suite)

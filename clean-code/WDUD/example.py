@@ -2,23 +2,27 @@ import wdud
 import analysis.functions as analyst
 
 site_file = 'substance.txt'
-log = 'log.substance.txt'
+log_file = 'log.example.txt'
 
-# wdud.collect_sites_from_alexa(pages=4, output_file=site_file, 
-# 	alexa_link="http://www.alexa.com/topsites/category/Top/Health/Addictions/Substance_Abuse")
+## Collect sites from alexa
+
+wdud.collect_sites_from_alexa(nsites=5, output_file=site_file, 
+	alexa_link="http://www.alexa.com/topsites/category/Top/Health/Addictions/Substance_Abuse")
+
+## Set up treatments
+
 treatment1 = wdud.Treatment('null')
-treatment2 = wdud.Treatment('substance')
-treatment2.add_gender('m')
+treatment2 = wdud.Treatment('example')
+treatment2.add_interest("wine")
+treatment2.add_gender("male")
+treatment2.add_site_file(site_file)
 
-wdud.begin_experiment(treatments=[treatment2, treatment1], samples=2, blocks=2, reloads=2, log_file=log)
+## Run Experiment
 
-# coll = analyst.get_ads_from_log("log_fake.txt", old=True)
+wdud.begin_experiment(treatments=[treatment2, treatment1], samples=2, blocks=1, reloads=2, log_file=log_file)
 
-# coll = analyst.get_ads_from_log("log.substance.txt", old=True)
-# print len(coll)
-# print len(coll[0]['adv'][0].data)
-# 
-# analyst.MLAnalysis(coll, featChoice='words')
+## Analyze Data
 
-
-
+coll = analyst.get_ads_from_log(log_file)
+print "Number of blocks collected:", len(coll[0])
+analyst.MLAnalysis(coll, featChoice='ads')

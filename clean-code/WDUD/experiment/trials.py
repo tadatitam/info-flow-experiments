@@ -5,19 +5,8 @@ import numpy as np
 import collect
 
 def begin(log_file="log.txt", samples=2, 
-		treatments=[], blocks=1, runs=1, reloads=10, delay=5, browser='firefox'):
-	LOG_FILE = log_file
-	SAMPLES = samples
-	TREATMENTS = len(treatments)
-	BLOCKS = blocks
-
-	processes = []
-
-	RUNS = runs
-	RELOADS = reloads
-	DELAY = delay
-	BROWSER = browser
-
+		treatments=[], blocks=1, runs=1, reloads=10, delay=5, browser='firefox', timeout=2000):
+	ntreat = len(treatments)
 	#random.seed(123)
 	
 	treatnames = ""
@@ -27,44 +16,37 @@ def begin(log_file="log.txt", samples=2,
 		else:
 			treatnames += "||"+treatments[i].name
 	
-	def getRandomTable(SAMPLES, TREATMENTS):
-		l = np.arange(SAMPLES)
+	def getRandomTable(samples, ntreat):
+		l = np.arange(samples)
 		random.shuffle(l)
-		if(SAMPLES % TREATMENTS != 0):
-			print "Warning: Samples in each round [%s] not divisible by number of treatments [%s]" %(SAMPLES, TREATMENTS)
+		if(samples % ntreat != 0):
+			print "Warning: Samples in each round [%s] not divisible by number of treatments [%s]" %(samples, ntreat)
 			print "Assignment done randomly"
 			raw_input("Press enter to continue")
-		size = SAMPLES/TREATMENTS
-		table = [TREATMENTS]*SAMPLES
-		for i in range(0, TREATMENTS):
+		size = samples/ntreat
+		table = [ntreat]*samples
+		for i in range(0, ntreat):
 			for j in range(size*i, size*(i+1)):
 				table[l[j]] = i
 		return table, l
 	
-	fo = open(LOG_FILE, "a")
-	fo.write("config||"+str(SAMPLES)+"||"+str(TREATMENTS)+"\n")
+	fo = open(log_file, "a")
+	fo.write("config||"+str(samples)+"||"+str(ntreat)+"\n")
 	fo.write("treatnames||"+treatnames+"\n")
-	for j in range(0, BLOCKS):
+	for j in range(0, blocks):
 		print "Block ", j+1
-		table, l = getRandomTable(SAMPLES, TREATMENTS)		
+		table, l = getRandomTable(samples, ntreat)		
 # 		print table
-		fo = open(LOG_FILE, "a")
+		fo = open(log_file, "a")
 		fo.write("assign||")
 		fo.write(str(j)+"||")
-		for i in range(0, SAMPLES-1):
+		for i in range(0, samples-1):
 			fo.write(str(l[i]) + "||")
-		fo.write(str(l[SAMPLES-1]) + "\n")
+		fo.write(str(l[samples-1]) + "\n")
 		fo.close()
 		
 		procs = []
-		for i in range(0,SAMPLES):
-			procs.append(Process(target=collect.run_script, args=(i, SAMPLES, table[i], RUNS, RELOADS, DELAY, BROWSER, LOG_FILE, j+1, treatments,)))
-#     	procs.append(Process(target=func_1, args=('sir',)))
+		for i in range(0,samples):
+			procs.append(Process(target=collect.run_script, args=(i, samples, table[i], runs, reloads, delay, browser, log_file, j+1, treatments, timeout, )))
 		map(lambda x: x.start(), procs)
 		map(lambda x: x.join(), procs)
-# 		for i in range(0,SAMPLES):
-# 			print 'python %s %s %s %s %s %s %s %s %s %s %s' % (test, i, SAMPLES, table[i], RUNS, RELOADS, DELAY, BROWSER, LOG_FILE, j+1, treatments)
-# 			processes.append(Popen('python %s %s %s %s %s %s %s %s %s %s %s' % (test, i, SAMPLES, table[i], RUNS, RELOADS, DELAY, BROWSER, LOG_FILE, j+1, treatments), shell=True))
-# 
-# 		for process in processes:
-# 			process.wait()
