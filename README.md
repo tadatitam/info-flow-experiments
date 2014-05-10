@@ -8,9 +8,7 @@ Requirements
 WDUD Assistant runs only on UNIX environments. It uses some standard packages listed here. The commands provided for installation are for Ubuntu.
 In order to run WDUD experiments and data collection, you will need the following packages:
 
-  - selenium
-```pip install selenium
-```
+  - selenium```pip install selenium```
   - xvfb ```apt-get install xvfb```
   - xvfbwrapper ```pip install xvfbwrapper```
 
