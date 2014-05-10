@@ -56,7 +56,7 @@ Example: Running Data Analysis
 import analysis.functions as analyst
 
 ## Analyze Data
-coll = analyst.get_ads_from_log(log_file)
+coll = analyst.get_ads_from_log(log_file, old=False)
 print "Number of blocks collected:", len(coll[0])
-analyst.MLAnalysis(coll, featChoice='ads', old=False)
+analyst.MLAnalysis(coll, featChoice='ads')
 ```

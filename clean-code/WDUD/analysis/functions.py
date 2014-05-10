@@ -665,8 +665,6 @@ def get_ads_from_log(log_file, old=False):
 		chunks = re.split("\|\|", line)
 		for i in range(1, len(chunks)):
 			treatnames.append(chunks[i].strip())
-		print treatnames
-		print treatments
 	assert treatments == len(treatnames)
 	fo.close()
 	adv = []

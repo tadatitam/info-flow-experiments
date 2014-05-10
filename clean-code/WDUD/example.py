@@ -2,7 +2,7 @@ import wdud
 import analysis.functions as analyst
 
 site_file = 'substance.txt'
-log_file = 'log.example.txt'
+log_file = 'log2.substance.txt'
 
 ## Collect sites from alexa
 
@@ -23,6 +23,6 @@ wdud.begin_experiment(treatments=[treatment2, treatment1], samples=2, blocks=1, 
 
 ## Analyze Data
 
-coll = analyst.get_ads_from_log(log_file)
+coll = analyst.get_ads_from_log(log_file, old=False)
 print "Number of blocks collected:", len(coll[0])
-analyst.MLAnalysis(coll, featChoice='ads', old=False)
+analyst.MLAnalysis(coll, featChoice='ads')
