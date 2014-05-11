@@ -24,7 +24,12 @@ class Webdriver(unittest.TestCase):
 	def setUp(self):
 		self.vdisplay = Xvfb(width=1280, height=720)
 		self.vdisplay.start()
-		if(BROWSER=='ff'):
+# 		if(not vdisplay.start()):
+# 			fo = open(LOG_FILE, "a")
+# 			fo.write("Xvfbfailure||"+str(TREATMENTID)+"||"+str(ID)+"\n")
+# 			fo.close()
+# 			sys.exit(0)
+		if(BROWSER=='firefox'):
 			if (platform.system()=='Darwin'):
 				self.driver = webdriver.Firefox()
 			elif (platform.system()=='Linux'):
@@ -32,14 +37,13 @@ class Webdriver(unittest.TestCase):
 			else:
 				print "Unidentified Platform"
 				sys.exit(0)
-		elif(BROWSER=='chr'):
-			print "WARNING: Expecting chromedriver at specified location !!"
+		elif(BROWSER=='chrome'):
 			if (platform.system()=='Darwin'):
-				chromedriver = "/Users/amitdatta/Desktop/chromedriver/chromedriver_mac"
+				chromedriver = "./experiment/chromedriver/chromedriver_mac"
 				os.environ["webdriver.chrome.driver"] = chromedriver
 				self.driver = webdriver.Chrome(executable_path=chromedriver)
 			elif (platform.system() == 'Linux'):
-				chromedriver = "root/Desktop/chromedriver/chromedriver_linux"
+				chromedriver = "./experiment/chromedriver/chromedriver_linux"
 				os.environ["webdriver.chrome.driver"] = chromedriver
 				chrome_option = webdriver.ChromeOptions()
 				chrome_option.add_argument("--proxy-server=yogi.pdl.cmu.edu:3128" )
@@ -53,7 +57,7 @@ class Webdriver(unittest.TestCase):
 		self.driver.implicitly_wait(10)
 		self.base_url = "https://www.google.com/"
 		self.verificationErrors = []
-		self.driver.set_page_load_timeout(10)
+		self.driver.set_page_load_timeout(40)
 		self.accept_next_alert = True
 	
 	def test_webdriver(self):
@@ -77,9 +81,9 @@ class Webdriver(unittest.TestCase):
 		self.driver.quit()
 		self.assertEqual([], self.verificationErrors)
 
-def run_script(site, file, nsites):
+def run_script(site, file, nsites, browser):
 	global AD_FILE, SITE, BROWSER, N
-	BROWSER = 'ff'
+	BROWSER = browser
 	AD_FILE = file
 	SITE = site
 	N = nsites

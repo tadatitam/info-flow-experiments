@@ -45,11 +45,11 @@ class Webdriver(unittest.TestCase):
 		elif(BROWSER=='chrome'):
 			print "WARNING: Expecting chromedriver at specified location !!"
 			if (platform.system()=='Darwin'):
-				chromedriver = "chromedriver/chromedriver_mac"
+				chromedriver = "./experiment/chromedriver/chromedriver_mac"
 				os.environ["webdriver.chrome.driver"] = chromedriver
 				self.driver = webdriver.Chrome(executable_path=chromedriver)
 			elif (platform.system() == 'Linux'):
-				chromedriver = "chromedriver/chromedriver_linux"
+				chromedriver = "./experiment/chromedriver/chromedriver_linux"
 				os.environ["webdriver.chrome.driver"] = chromedriver
 				chrome_option = webdriver.ChromeOptions()
 				chrome_option.add_argument("--proxy-server=yogi.pdl.cmu.edu:3128" )

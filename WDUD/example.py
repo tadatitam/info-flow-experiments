@@ -5,8 +5,8 @@ log_file = 'log1.substance.txt'
 
 # ## Collect sites from alexa
 # 
-# wdud.collect_sites_from_alexa(nsites=5, output_file=site_file, 
-# 	alexa_link="http://www.alexa.com/topsites/category/Top/Health/Addictions/Substance_Abuse")
+wdud.collect_sites_from_alexa(nsites=5, output_file=site_file, browser='chrome', 
+	alexa_link="http://www.alexa.com/topsites/category/Top/Health/Addictions/Substance_Abuse")
 # 
 # ## Set up treatments
 # 
@@ -22,4 +22,4 @@ log_file = 'log1.substance.txt'
 # 
 # ## Analyze Data
 
-wdud.run_analysis(log_file)
+# wdud.run_analysis(log_file, verbose=True)

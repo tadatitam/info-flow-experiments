@@ -41,7 +41,8 @@ class Treatment:
 		self.count += 1
 		
 
-def collect_sites_from_alexa(alexa_link="http://www.alexa.com/topsites", output_file="out.txt", nsites=5):	# n-number of pages on Alexa
+def collect_sites_from_alexa(alexa_link="http://www.alexa.com/topsites", 
+		output_file="out.txt", nsites=5, browser='firefox'):	# n-number of pages on Alexa
 	
 	PATH="./"+output_file
 	if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
@@ -52,7 +53,7 @@ def collect_sites_from_alexa(alexa_link="http://www.alexa.com/topsites", output_
 	fo.close()
 	print "Beginning Collection"
 # 	os.system("python experimenter/alexa.py %s %s %s" % (output_file, alexa_link, n))
-	alexa.run_script(alexa_link, output_file, nsites)
+	alexa.run_script(alexa_link, output_file, nsites, browser)
 	print "Collection Complete. Results stored in ", output_file
 
 def run_experiment(log_file="log.txt", samples=2, 
@@ -68,12 +69,11 @@ def run_experiment(log_file="log.txt", samples=2,
 	trials.begin(log_file, samples, treatments, blocks, runs, reloads, delay, browser, timeout)
 	print "Experiment Complete"
 
-def run_analysis(log_file):
-	collection, names = converter.get_ads_from_log(log_file, old=True)
-	collection = collection[:20]
+def run_analysis(log_file, old=False, verbose=False):
+	collection, names = converter.get_ads_from_log(log_file, old)
 	X,y,feat = converter.get_feature_vectors(collection, featChoice='ads')
 	stat.print_counts(X,y)
-	ml.run_ml_analysis(X,y,feat,names, verbose=True)
+	ml.run_ml_analysis(X,y,feat,names, verbose)
 	
 	
 	
