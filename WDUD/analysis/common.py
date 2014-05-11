@@ -1,18 +1,7 @@
 import re										# regular expressions
 from stemming.porter2 import stem				# Porter Snowball Stemming
 from nltk.corpus import stopwords 				# for removing stop-words
-	
-########### CHOICES FOR THE AD-COMPARISON, AD-IDENTIFICATION #############
-
-# Choices for what to uniquely identify an ad with
-URL = 1
-TITLE_URL = 2
-TITLE_BODY = 3
-
-# Choices for assigning weight to the vector
-NUM = 1
-LOG_NUM = 2
-
+import math
 
 #------------- to round off numbers ---------------#
 
@@ -69,12 +58,12 @@ def perm_unique_helper(listunique,result_list,d):
 
 #------------- functions helping Word based analysis ---------------#
 
-def stem_low_wvec(words):				# return stemmed and lower case words from the input list of words
+def stem_low_wvec(words):				# check return stemmed and lower case words from the input list of words
 	for i in range(0, len(words)):
 		words[i] = stem(words[i]).lower()
 	return words
 
-def unique_words(words):				# returns a set of unique words from the input list of words
+def unique_words(words):				# check returns a set of unique words from the input list of words
 	unq = []
 	for word in words:
 		present = False
@@ -86,7 +75,7 @@ def unique_words(words):				# returns a set of unique words from the input list 
 			unq.append(word)
 	return unq
 
-def strip_vec(list):					# removes the blank '', digits, $, & words
+def strip_vec(list):					# check removes the blank '', digits, $, & words
 	try:
 		if(list[0] == ''):
 			del list[-len(list)]
@@ -96,3 +85,23 @@ def strip_vec(list):					# removes the blank '', digits, $, & words
 		pass
 	chars = set('0123456789$&')
 	return [x for x in list if not (any((c in chars) for c in x))]
+	
+#------------- for Vector Operations ---------------#
+
+def cosine_sim(vec1, vec2):		# cosine similarity of two vectors
+	return (dot_prod(vec1, vec2)/(vec_mag(vec1)*vec_mag(vec2)))
+
+def vec_mag(vec):				# magnitude of a vector
+	sum = 0.0
+	for i in vec:
+		sum = sum + i*i
+	return math.sqrt(sum)
+
+def dot_prod(vec1, vec2):		# dot product of two vectors
+	sum = 0.0
+	if(len(vec1) != len(vec2)):
+		print("Dot product doesnt exist")
+		sys.exit()
+	for i in range(0, len(vec1)):
+		sum = sum + vec1[i]*vec2[i]
+	return sum

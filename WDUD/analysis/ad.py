@@ -1,6 +1,5 @@
 import re										# regular expressions
 from stemming.porter2 import stem				# for Porter Stemming 
-from nltk.corpus import stopwords 				# for removing stop-words
 import common
 	
 ########### CHOICES FOR THE AD-COMPARISON, AD-IDENTIFICATION #############
@@ -81,15 +80,15 @@ class Ad:
 		list = [x for x in list if len(x)>1]
 		return list
 		
-	def fit_to_feat(self, word_v, choice):			# fits an ad to a feature vector, returns a weight vector
+	def fit_to_feat(self, word_v, wchoice):			# fits an ad to a feature vector, returns a weight vector
 		vec = []
 		words = self.ad_to_words()
 		stemmed_words = common.stem_low_wvec(words)
 		words = common.strip_vec(words)
 		# print words
 		for word in word_v:
-			if(choice == NUM):
+			if(wchoice == NUM):
 				vec.append(float(words.count(word)))
-			elif(choice == LOG_NUM):
+			elif(wchoice == LOG_NUM):
 				vec.append(math.log(float(words.count(word))))
 		return vec

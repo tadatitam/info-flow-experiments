@@ -157,38 +157,39 @@ class AdVector:
 			raw_input("Press Enter to exit")
 			sys.exit(0)
 		
-	def gen_word_vec(self, word_v, choice):		# generates a vector of words from AdVector, fits it to word_v
+	def gen_word_vec(self, word_v, wchoice=W_CHOICE):		# check generates a vector of words from AdVector, fits it to word_v
 		vec = []
 		words = self.advec_to_words()
 		stemmed_words = common.stem_low_wvec(words)
 		words = common.strip_vec(words)
 		# print words
 		for word in word_v:
-			if(choice == NUM):
+			if(wchoice == NUM):
 				vec.append(float(words.count(word)))
-			elif(choice == LOG_NUM):
+			elif(wchoice == LOG_NUM):
 				vec.append(math.log(float(words.count(word))))
 		return vec
 	
-	def gen_ad_vec(self, ads):					# self is ad_union	# generates a vector of ads from AdVector
+	def gen_ad_vec(self, ads, choice=CHOICE):				# check self is ad_union	# generates a vector of ads from AdVector
 		vec = [0]*self.size()
 		for ad in self.data:
 			for lad in ads.data:
-				if(ad.identical_ad(lad, CHOICE)):
-					vec[self.index(ad)] += 1
+				if(ad.identical_ad(lad, choice)):
+					vec[self.index(ad)] += 1.
 		return vec	
 		
-	def gen_temp_ad_vec(self, ads):		# self is ad_union
+	def gen_temp_ad_vec(self, ads, choice=CHOICE):		# self is ad_union
 		vec = [0]*ads.size()
 		i = 0
 		j = 0
 		for ad in ads.data:
 			for lad in self.data:
-				if(self.same_ads(ad, lad)):
+				if(ad.identical_ad(lad, choice)):
 					vec[i] = self.index(lad)
 			i += 1
-		return vec				
-	def advec_to_words(self):
+		return vec		
+				
+	def advec_to_words(self):						# check
 		line = ""
 		for ad in self.data:
 			line = line + " " + ad.title+ " " + ad.body
@@ -207,3 +208,30 @@ class AdVector:
 		for ad in self.data:
 			vec.append(ad.fit_to_feat(feat))
 		return vec
+
+#------------- Guha's functions for AdVec Comparison ---------------#
+
+def ad_sim(ads1, ads2):								# check
+	if(SIM_CHOICE == JACCARD):
+		return jaccard_index(ads1, ads2)
+	elif(SIM_CHOICE == COSINE):
+		return ad_cosine_sim(ads1, ads2)
+	else:
+		print("Illegal SIM_CHOICE")
+		raw_input("Press Enter to Exit")
+		sys.exit()
+
+def jaccard_index(ads1, ads2):
+	ad_union = ads1.union(ads2)
+	ad_int = ads1.intersect(ads2)
+	return (float(ad_int.size())/float(ad_union.size()))
+
+def ad_cosine_sim(ads1, ads2):						# check
+	ad_union = ads1.union(ads2)
+	vec1 = []
+	vec2 = []
+	for ad in ad_union.data:
+		vec1.append(ads1.ad_weight(ad, W_CHOICE))
+		vec2.append(ads2.ad_weight(ad, W_CHOICE))
+	return common.cosine_sim(vec1, vec2)
+	

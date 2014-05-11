@@ -2,6 +2,10 @@ import sys, os
 import experiment.alexa as alexa
 import experiment.trials as trials
 
+import analysis.converter as converter
+import analysis.stat as stat
+import analysis.ml as ml
+
 # from analyst import *
 
 class Treatment:
@@ -51,7 +55,7 @@ def collect_sites_from_alexa(alexa_link="http://www.alexa.com/topsites", output_
 	alexa.run_script(alexa_link, output_file, nsites)
 	print "Collection Complete. Results stored in ", output_file
 
-def begin_experiment(log_file="log.txt", samples=2, 
+def run_experiment(log_file="log.txt", samples=2, 
 		treatments=[], blocks=1, runs=1, reloads=10, delay=5, browser='firefox', timeout=2000):	
 	PATH="./"+log_file
 	if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
@@ -63,3 +67,19 @@ def begin_experiment(log_file="log.txt", samples=2,
 	print "Starting Experiment"
 	trials.begin(log_file, samples, treatments, blocks, runs, reloads, delay, browser, timeout)
 	print "Experiment Complete"
+
+def run_analysis(log_file):
+	collection, names = converter.get_ads_from_log(log_file, old=True)
+	collection = collection[:20]
+	X,y,feat = converter.get_feature_vectors(collection, featChoice='ads')
+	stat.print_counts(X,y)
+	ml.run_ml_analysis(X,y,feat,names, verbose=True)
+	
+	
+	
+	
+	
+	
+	
+	
+	
