@@ -112,6 +112,7 @@ def set_gender(gender, driver):										# Set gender on Google Ad Settings page
 	elif(gender == 'f'):
 		s[1].click()						# FEMALE
 	driver.find_element_by_xpath(".//div[@class='Sg c-X-M']/div[@class='Dh']/div[@class='c-ca-ba a-b a-b-E Suvpmb']").click()
+	log("setGender="gender+"||"+str(TREATMENT), id)
 
 def get_gender(driver):												# Read gender from Google Ad Settings
 	driver.get("https://www.google.com/settings/ads")
@@ -134,19 +135,19 @@ def set_ad_pref(pref, driver, choice=2):									# Set an ad pref
 	
 def get_ad_pref(driver, choice=2):									# Returns list of Ad preferences
 	pref = []
-# 		try:
-	driver.get("https://www.google.com/settings/ads")
-	if (choice == 1):
-		driver.find_element_by_css_selector("div.Vu div.bd div.Qc div div div.cc").click()	#For search related preferences
-	elif (choice == 2):
-		driver.find_element_by_xpath(".//div[@class='Rg hF']/div[@class='wf']/div[@class='jf Uh']/div[@class='Uc']/div/div[@class='lh Ld c-X-Aa c-X-Ac']").click()	#For website related preferences
-	idiv = driver.find_element_by_xpath(".//div[@class='Sg kiLTY c-X-M'][@style='']")
-	ints = idiv.find_elements_by_xpath(".//table[@class='wUOaYd']/tbody[@class='p4tSkf']/tr[@class='J8YeRd zm']/td[@class='b1VwRc zRvkrf']")
-	for interest in ints:
-		pref.append(str(interest.get_attribute('innerHTML')))
-		#raw_input("Waiting...")
-# 		except:
-# 			pass
+	try:
+		driver.get("https://www.google.com/settings/ads")
+		if (choice == 1):
+			driver.find_element_by_css_selector("div.Vu div.bd div.Qc div div div.cc").click()	#For search related preferences
+		elif (choice == 2):
+			driver.find_element_by_xpath(".//div[@class='Rg hF']/div[@class='wf']/div[@class='jf Uh']/div[@class='Uc']/div/div[@class='lh Ld c-X-Aa c-X-Ac']").click()	#For website related preferences
+		idiv = driver.find_element_by_xpath(".//div[@class='Sg kiLTY c-X-M'][@style='']")
+		ints = idiv.find_elements_by_xpath(".//table[@class='wUOaYd']/tbody[@class='p4tSkf']/tr[@class='J8YeRd zm']/td[@class='b1VwRc zRvkrf']")
+		for interest in ints:
+			pref.append(str(interest.get_attribute('innerHTML')))
+			#raw_input("Waiting...")
+	except:
+		pass
 	return pref	
 
 def train_with_sites(FILE, driver, id, TREATMENT):					# Visits all pages in FILE
