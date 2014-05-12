@@ -38,7 +38,9 @@ In order to run an experiment, you first need to import the wdud module.
 ```python
 import wdud
 ```
-Then you can set up the two treatments to apply to the two groups. You can initialize a treatment with its name as follows.
+### Setting up treatments
+
+You can initialize a treatment with its name as follows.
 ```python
 treatment = wdud.Treatment("name")
 ```
@@ -56,11 +58,13 @@ You can also specify websites to visit. The *site_file* contains a list of websi
 ```python
 treatment.visit_sites(site_file)
 ```
+##### Populate site_file
 The WDUD assistant also allows you to collect the list of sites from any [alexa category](http://www.alexa.com/topsites/category/Top) into a file. For example, the following collects the top 5 websites on Alexa for employment and saves them in *employment.txt*
 ```python
 wdud.collect_sites_from_alexa(output_file="employment.txt", nsites=5, browser="firefox",
         alexa_link="http://www.alexa.com/topsites/category/Top/Business/Employment")
 ```
+### Run Experiment
 Once the treatments are set up, you are ready to run the experiment. You must at least specify the list of treatments in order to run the experiment; all other parameters have default values. The *log_file* maintains a log of the experiments. All data from the experiments are stored in this file in a special-character separated format, with each new line containing an entry. The *log_file* is later used to perform data analysis. 
 
 You can specify the number of blocks of the experiment in *blocks*. *samples* specifies the number of browser instances running in a block. *runs* specifies the number of iterations of treatment and collection a single browser instance goes through. 
@@ -72,6 +76,7 @@ The experiment can be run on either "firefox" or "chrome" browsers as of now, an
 wdud.run_experiment(treatments, log_file="log.txt", blocks=20, samples=2, 
         runs=1, collection_site="toi", reloads=10, delay=5, browser="firefox", timeout=2000)	
 ```
+### Perform Analysis
 After collection, the analysis can be carried out as follows. *log_file* specifies the log file from the experiment. *splitfrac* indicates the splitting fraction for the training and testing data. If it is set to 0.1, the first 90% of the blocks are used for training, and the last 10% are used for testing. The number of folds in k-fold cross validation is specified in *nfolds*. *blocks* must be at least as large as *nfolds*. 
 
 *feat_choice* can be either "ads" or "words". It specifies what to the classifier uses as features. The number of features output from the feature selection algorithm is given by *nfeat*. 
@@ -79,18 +84,18 @@ After collection, the analysis can be carried out as follows. *log_file* specifi
 wdud.run_analysis(log_file="log.txt", splitfrac=0.1, nfolds=10, 
 		feat_choice="ads", nfeat=5, verbose=False)
 ```
-The following is a full example.
+### Full Example
 ```python
 import wdud
 
 site_file = 'employment.txt'
 
-## Collect sites from alexa
+# Collect sites from alexa
 
 wdud.collect_sites_from_alexa(nsites=5, output_file=site_file, browser="firefox", 
 	alexa_link="http://www.alexa.com/topsites/category/Top/Business/Employment")
 
-## Set up treatments
+# Set up treatments
 
 treatment1 = wdud.Treatment("female")
 treatment1.set_gender("female")
@@ -100,11 +105,11 @@ treatment2 = wdud.Treatment("male")
 treatment2.set_gender("male")
 treatment2.visit_sites(site_file)
 
-## Run Experiment
+# Run Experiment
 
 wdud.run_experiment(treatments=[treatment2, treatment1], samples=2, blocks=10, reloads=2)
 
-## Analyze Data
+# Analyze Data
 
 wdud.run_analysis()
 ```
