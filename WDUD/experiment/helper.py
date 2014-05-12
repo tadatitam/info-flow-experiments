@@ -49,7 +49,7 @@ def applyTreatment(driver, treatmentprof, id, treatmentid):
 		if(chunks[0] == 'site'):
 			train_with_sites(chunks[1], driver, id, treatmentid)
 		if(chunks[0] == 'gender'):
-			set_gender(chunks[1], driver)
+			set_gender(chunks[1], driver, id, treatmentid)
 		if(chunks[0] == 'interest'):
 			set_ad_pref(chunks[1], driver)
 	log('training-end', id)
@@ -103,7 +103,7 @@ def adsFromNames(NAME_FILE, OUT_FILE, reloads, driver):				# Search names, Colle
 				print "Timed Out"
 				pass
 
-def set_gender(gender, driver):										# Set gender on Google Ad Settings page
+def set_gender(gender, driver, id, treatmentid):										# Set gender on Google Ad Settings page
 	driver.get("https://www.google.com/settings/ads")
 	driver.find_element_by_xpath(".//div[@class='jf Uh']/div[@class='Uc']/div/div[@class='lh Ld c-X-Aa c-X-Ac']").click()
 	s = driver.find_elements_by_xpath(".//div[@class='Wn xm']/div[@class='jy']/div/span[@class='a-p-ga']")
@@ -112,7 +112,7 @@ def set_gender(gender, driver):										# Set gender on Google Ad Settings page
 	elif(gender == 'f'):
 		s[1].click()						# FEMALE
 	driver.find_element_by_xpath(".//div[@class='Sg c-X-M']/div[@class='Dh']/div[@class='c-ca-ba a-b a-b-E Suvpmb']").click()
-	log("setGender="gender+"||"+str(TREATMENT), id)
+	log("setGender="+gender+"||"+str(treatmentid), id)
 
 def get_gender(driver):												# Read gender from Google Ad Settings
 	driver.get("https://www.google.com/settings/ads")
@@ -150,7 +150,7 @@ def get_ad_pref(driver, choice=2):									# Returns list of Ad preferences
 		pass
 	return pref	
 
-def train_with_sites(FILE, driver, id, TREATMENT):					# Visits all pages in FILE
+def train_with_sites(FILE, driver, id, treatmentid):					# Visits all pages in FILE
 	fo = open(FILE, "r")
 	for line in fo:
 		chunks = re.split("\|\|", line)
@@ -159,7 +159,7 @@ def train_with_sites(FILE, driver, id, TREATMENT):					# Visits all pages in FIL
 			driver.set_page_load_timeout(40)
 			driver.get(site)
 			time.sleep(5)
-			log(site+"||"+str(TREATMENT), id)
+			log(site+"||"+str(treatmentid), id)
 		except:
 			log("timedout-"+line.rstrip(), id)
 
@@ -202,7 +202,7 @@ def wait_for_others(instances, id, round):							# Makes instance with ID 'id' w
 				clear = False
 	
 
-def collect_ads(reloads, delay, file, driver, id, TREATMENT, site):
+def collect_ads(reloads, delay, file, driver, id, treatmentid, site):
 	rel = 0
 	while (rel < reloads):	# number of reloads on sites to capture all ads
 		time.sleep(delay)
@@ -210,15 +210,15 @@ def collect_ads(reloads, delay, file, driver, id, TREATMENT, site):
 			for i in range(0,1):
 				s = datetime.now()
 				if(site == 'toi'):
-					save_ads_toi(file, driver, id, TREATMENT)
+					save_ads_toi(file, driver, id, treatmentid)
 				elif(site == 'bbc'):
-					save_ads_bbc(file, driver, id, TREATMENT)
+					save_ads_bbc(file, driver, id, treatmentid)
 				elif(site == 'guardian'):
-					save_ads_guardian(file, driver, id, TREATMENT)
+					save_ads_guardian(file, driver, id, treatmentid)
 				elif(site == 'reuters'):
-					save_ads_reuters(file, driver, id, TREATMENT)
+					save_ads_reuters(file, driver, id, treatmentid)
 				elif(site == 'bloomberg'):
-					save_ads_bloomberg(file, driver, id, TREATMENT)
+					save_ads_bloomberg(file, driver, id, treatmentid)
 				else:
 					raw_input("No such site found!")
 				e = datetime.now()
@@ -229,7 +229,7 @@ def collect_ads(reloads, delay, file, driver, id, TREATMENT, site):
 			pass
 		rel = rel + 1
 
-def save_ads_bloomberg(file, driver, id, TREATMENT):
+def save_ads_bloomberg(file, driver, id, treatmentid):
 	sys.stdout.write(".")
 	sys.stdout.flush()
 	driver.set_page_load_timeout(60)
@@ -247,7 +247,7 @@ def save_ads_bloomberg(file, driver, id, TREATMENT):
 		t = li.find_element_by_css_selector("td.rh-titlec div a span").get_attribute('innerHTML')
 		l = li.find_element_by_css_selector("td.rh-urlc div div a span").get_attribute('innerHTML')
 		b = li.find_element_by_css_selector("td.rh-bodyc div span").get_attribute('innerHTML')
-		f = strip_tags("ad||"+str(id)+"||"+tim+"||"+t+"||"+l+"||"+b).encode("utf8")
+		f = strip_tags("ad||"+str(id)+"||"+str(treatmentid)+"||"+tim+"||"+t+"||"+l+"||"+b).encode("utf8")
 		fo = open(file, "a")
 		fo.write(f + '\n')
 		fo.close()
@@ -255,7 +255,7 @@ def save_ads_bloomberg(file, driver, id, TREATMENT):
 	driver.switch_to_default_content()
 	driver.switch_to_default_content()
 
-def save_ads_reuters(file, driver, id, TREATMENT):
+def save_ads_reuters(file, driver, id, treatmentid):
 	sys.stdout.write(".")
 	sys.stdout.flush()
 	driver.set_page_load_timeout(60)
@@ -273,7 +273,7 @@ def save_ads_reuters(file, driver, id, TREATMENT):
 		t = li.find_element_by_css_selector("td.rh-titlec div a span").get_attribute('innerHTML')
 		l = li.find_element_by_css_selector("td.rh-urlc div div a span").get_attribute('innerHTML')
 		b = li.find_element_by_css_selector("td.rh-bodyc div span").get_attribute('innerHTML')
-		f = strip_tags("ad||"+str(id)+"||"+tim+"||"+t+"||"+l+"||"+b).encode("utf8")
+		f = strip_tags("ad||"+str(id)+"||"+str(treatmentid)+"||"+tim+"||"+t+"||"+l+"||"+b).encode("utf8")
 		fo = open(file, "a")
 		fo.write(f + '\n')
 		fo.close()
@@ -281,7 +281,7 @@ def save_ads_reuters(file, driver, id, TREATMENT):
 	driver.switch_to_default_content()
 	driver.switch_to_default_content()
 
-def save_ads_guardian(file, driver, id, TREATMENT):
+def save_ads_guardian(file, driver, id, treatmentid):
 	sys.stdout.write(".")
 	sys.stdout.flush()
 	driver.set_page_load_timeout(60)
@@ -293,12 +293,12 @@ def save_ads_guardian(file, driver, id, TREATMENT):
 		ps = el.find_elements_by_css_selector("p")
 		b = ps[1].get_attribute('innerHTML')
 		l = ps[2].find_element_by_css_selector("a").get_attribute('innerHTML')
-		t = strip_tags("ad||"+str(id)+"||"+str(TREATMENT)+"||"+time+"||"+t+"||"+l+"||"+b).encode("utf8")
+		t = strip_tags("ad||"+str(id)+"||"+str(treatmentid)+"||"+time+"||"+t+"||"+l+"||"+b).encode("utf8")
 		fo = open(file, "a")
 		fo.write(t + '\n')
 		fo.close()
 
-def save_ads_toi(file, driver, id, TREATMENT):
+def save_ads_toi(file, driver, id, treatmentid):
 	sys.stdout.write(".")
 	sys.stdout.flush()
 	driver.set_page_load_timeout(60)
@@ -310,7 +310,7 @@ def save_ads_toi(file, driver, id, TREATMENT):
 	for ad in ads:
 		aa = ad.find_elements_by_xpath(".//tbody/tr/td/a")
 		bb = ad.find_elements_by_xpath(".//tbody/tr/td/span")
-		t = strip_tags("ad||"+str(id)+"||"+str(TREATMENT)+"||"+time+"||"+aa[0].get_attribute('innerHTML')+ "||" + aa[1].get_attribute('innerHTML')+ "||" + bb[0].get_attribute('innerHTML')).encode("utf8")
+		t = strip_tags("ad||"+str(id)+"||"+str(treatmentid)+"||"+time+"||"+aa[0].get_attribute('innerHTML')+ "||" + aa[1].get_attribute('innerHTML')+ "||" + bb[0].get_attribute('innerHTML')).encode("utf8")
 		fo = open(file, "a")
 		fo.write(t + '\n')
 		fo.close()
@@ -322,7 +322,7 @@ def save_ads_toi(file, driver, id, TREATMENT):
 	for ad in ads:
 		aa = ad.find_elements_by_xpath(".//tbody/tr/td/a")
 		bb = ad.find_elements_by_xpath(".//tbody/tr/td/span")
-		t = strip_tags("ad||"+str(id)+"||"+str(TREATMENT)+"||"+time+"||"+aa[0].get_attribute('innerHTML')+ "||" + aa[1].get_attribute('innerHTML')+ "||" + bb[0].get_attribute('innerHTML')).encode("utf8")
+		t = strip_tags("ad||"+str(id)+"||"+str(treatmentid)+"||"+time+"||"+aa[0].get_attribute('innerHTML')+ "||" + aa[1].get_attribute('innerHTML')+ "||" + bb[0].get_attribute('innerHTML')).encode("utf8")
 		fo = open(file, "a")
 		fo.write(t + '\n')
 		fo.close()
@@ -334,13 +334,13 @@ def save_ads_toi(file, driver, id, TREATMENT):
 	for ad in ads:
 		aa = ad.find_elements_by_xpath(".//tbody/tr/td/a")
 		bb = ad.find_elements_by_xpath(".//tbody/tr/td/span")
-		t = strip_tags("ad||"+str(id)+"||"+str(TREATMENT)+"||"+time+"||"+aa[0].get_attribute('innerHTML')+ "||" + aa[1].get_attribute('innerHTML')+ "||" + bb[0].get_attribute('innerHTML')).encode("utf8")
+		t = strip_tags("ad||"+str(id)+"||"+str(treatmentid)+"||"+time+"||"+aa[0].get_attribute('innerHTML')+ "||" + aa[1].get_attribute('innerHTML')+ "||" + bb[0].get_attribute('innerHTML')).encode("utf8")
 		fo = open(file, "a")
 		fo.write(t + '\n')
 		fo.close()
 	driver.switch_to_default_content()
 
-def save_ads_bbc(file, driver, id, TREATMENT):
+def save_ads_bbc(file, driver, id, treatmentid):
 	sys.stdout.write(".")
 	sys.stdout.flush()
 # 		global ad_int
@@ -353,7 +353,7 @@ def save_ads_bbc(file, driver, id, TREATMENT):
 		ps = el.find_elements_by_css_selector("p")
 		b = ps[0].get_attribute('innerHTML')
 		l = ps[1].find_element_by_css_selector("a").get_attribute('innerHTML')
-		t = strip_tags("ad||"+str(id)+"||"+str(TREATMENT)+"||"+time+"||"+t+"||"+l+"||"+b).encode("utf8")
+		t = strip_tags("ad||"+str(id)+"||"+str(treatmentid)+"||"+time+"||"+t+"||"+l+"||"+b).encode("utf8")
 		fo = open(file, "a")
 		fo.write(t + '\n')
 		fo.close()
