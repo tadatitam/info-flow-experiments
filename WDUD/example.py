@@ -1,7 +1,7 @@
 import wdud
 
 site_file = 'employment.txt'
-log_file = 'log.test.txt'
+log_file = 'log.genjobs.txt'
 
 ## Collect sites from alexa
 
@@ -20,7 +20,7 @@ treatment2.visit_sites(site_file)
 
 ## Run Experiment
 
-wdud.run_experiment(treatments=[treatment2, treatment1], samples=2, blocks=10, reloads=2, log_file=log_file)
+wdud.run_experiment(treatments=[treatment2, treatment1], samples=10, blocks=100, reloads=10, log_file=log_file)
 
 ## Analyze Data
 
