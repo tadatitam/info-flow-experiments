@@ -78,15 +78,15 @@ class Webdriver(unittest.TestCase):
 			cole.wait_for_others(SAMPLES, ID, ROUND)
 			pref = cole.get_ad_pref(driver)
 			cole.log("pref"+"||"+str(TREATMENTID)+"||"+", ".join(pref), ID)
-			cole.collect_ads(RELOADS, DELAY, LOG_FILE, driver, ID, TREATMENTID, 'toi')
+			cole.collect_ads(RELOADS, DELAY, LOG_FILE, driver, ID, TREATMENTID, COL_SITE)
 			run = run+1
 
 	def tearDown(self):
 		self.vdisplay.stop()
 		self.driver.quit()
 
-def run_script(id, samples, treatmentid, runs, reloads, delay, browser, logfile, round, treatments, timeout=2000):
-	global ID, SAMPLES, TREATMENTID, RUNS, RELOADS, DELAY, BROWSER, ROUND, LOG_FILE, SITE_FILE, TREATMENTS
+def run_script(id, samples, treatmentid, runs, col_site, reloads, delay, browser, logfile, round, treatments, timeout=2000):
+	global ID, SAMPLES, TREATMENTID, RUNS, COL_SITE, RELOADS, DELAY, BROWSER, ROUND, LOG_FILE, SITE_FILE, TREATMENTS
 	ID = id
 	SAMPLES = samples
 	TREATMENTID = treatmentid
@@ -97,6 +97,7 @@ def run_script(id, samples, treatmentid, runs, reloads, delay, browser, logfile,
 	LOG_FILE = logfile
 	ROUND = round
 	TREATMENTS = treatments
+	COL_SITE = col_site
 	if (ID > SAMPLES):
 		sys.exit("ERROR: id must be less than total instances")
 		

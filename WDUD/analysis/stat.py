@@ -129,7 +129,7 @@ def table_22(adv, ass, keywords):					# creates 2x2 contingency table using keyw
 	
 def get_perm(ylabel):								# generates a permutation for block_p_test
 	blocks = ylabel.shape[0]
-	yret = ylabel[:][:]
+	yret = np.copy(ylabel)
 	for i in range(0,blocks):
 		random.shuffle(yret[i])
 	return yret

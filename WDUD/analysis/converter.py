@@ -45,7 +45,7 @@ def temp_ad_vectors(list):
 		labels.append(ads.label)
 	return tav_list, labels, ad_union
 
-def get_feature_vectors(advdicts, featChoice):			# check returns observation vector from a list of rounds
+def get_feature_vectors(advdicts, feat_choice):			# check returns observation vector from a list of rounds
 	n = len(advdicts[0]['ass'])
 	list = []
 	y = []
@@ -54,9 +54,9 @@ def get_feature_vectors(advdicts, featChoice):			# check returns observation vec
  	sys.stdout.flush()
 	for advdict in advdicts:
 		list.extend(advdict['adv'])
-	if(featChoice == 'words'):
+	if(feat_choice == 'words'):
 		X, labels, feat = word_vectors(list)
-	elif(featChoice == 'ads'):
+	elif(feat_choice == 'ads'):
 		X, labels, feat = ad_vectors(list)
 	if(labels[0] == ''):
 		for advdict in advdicts:

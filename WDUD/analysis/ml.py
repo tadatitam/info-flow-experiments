@@ -61,7 +61,7 @@ def train_and_test(algos, X, y, splittype='timed', splitfrac=0.1, nfolds=10, blo
 	X_train, y_train, X_test, y_test = split_data(X, y, splittype, splitfrac, verbose)
 	if(verbose):
 		print "Training Set size: ", len(y_train), "blocks"
-		print "Testin Set size: ", len(y_test), "blocks"
+		print "Testing Set size: ", len(y_test), "blocks"
 	clf, CVscore = select_and_fit_classifier(nfolds, algos, X_train, y_train, splittype, splitfrac, blocked, verbose)
 	print "CVscore: ", CVscore
 	print "Test accuracy: ", test_accuracy(clf, X_test, y_test, blocked)
@@ -69,7 +69,7 @@ def train_and_test(algos, X, y, splittype='timed', splitfrac=0.1, nfolds=10, blo
 	print "p-value: ", pvalue
 	return clf
 
-def print_top_features(X, y, feat, treatnames, max_clf, featChoice, k=5, blocked=1):		# prints top k features from max_clf+some numbers
+def print_top_features(X, y, feat, treatnames, max_clf, feat_choice, k=5, blocked=1):		# prints top k features from max_clf+some numbers
 	if(blocked==1):
 		X = np.array([item for sublist in X for item in sublist])
 		y = np.array([item for sublist in y for item in sublist])
@@ -85,25 +85,25 @@ def print_top_features(X, y, feat, treatnames, max_clf, featChoice, k=5, blocked
 		topk1 = np.argsort(max_clf.coef_[0])[::-1][:k]
 		print "\nFeatures for class %s:" %(str(treatnames[1]))
 		for i in topk1:
-			if(featChoice == 'ads'):
+			if(feat_choice == 'ads'):
 				feat.choose_by_index(i).printStuff(max_clf.coef_[0][i], A[i], B[i])
-			elif(featChoice == 'words'):
+			elif(feat_choice == 'words'):
 				print feat[i]
 		topk0 = np.argsort(max_clf.coef_[0])[:k]
 		print "\n\nFeatures for class %s:" %(str(treatnames[0]))
 		for i in topk0:
-			if(featChoice == 'ads'):
+			if(feat_choice == 'ads'):
 				feat.choose_by_index(i).printStuff(max_clf.coef_[0][i], A[i], B[i])
-			elif(featChoice == 'words'):
+			elif(feat_choice == 'words'):
 				print feat[i]
 	else:
 		for i in range(0,n_classes):
 			topk = np.argsort(max_clf.coef_[i])[::-1][:k]
 			print "Features for class %s:" %(str(treatnames[i]))
 			for j in topk:
-				if(featChoice == 'ads'):
+				if(feat_choice == 'ads'):
 					feat.choose_by_index(j).display()
-				elif(featChoice == 'words'):
+				elif(feat_choice == 'words'):
 					print feat[j]
 			print "coefs: ", max_clf.coef_[i][topk]
 	
@@ -157,7 +157,7 @@ def crossVal_algo(k, algo, params, X, y, splittype, splitfrac, blocked, verbose=
 			classifier = clf
 	return max, max_params, classifier
 
-def run_ml_analysis(X, y, feat, treatnames, featChoice='ads', nfeat=5, splittype='timed', splitfrac=0.1, 
+def run_ml_analysis(X, y, feat, treatnames, feat_choice='ads', nfeat=5, splittype='timed', splitfrac=0.1, 
 		nfolds=10, blocked=1, ptest=1, verbose=False):				# main function, calls cross_validation, then runs chi2
 
 	algos = {	
@@ -170,4 +170,4 @@ def run_ml_analysis(X, y, feat, treatnames, featChoice='ads', nfeat=5, splittype
 				
 			}
 	clf = train_and_test(algos, X, y, splittype, splitfrac, nfolds, blocked, ptest, verbose)
-	print_top_features(X, y, feat, treatnames, clf, featChoice, nfeat, blocked)
+	print_top_features(X, y, feat, treatnames, clf, feat_choice, nfeat, blocked)
