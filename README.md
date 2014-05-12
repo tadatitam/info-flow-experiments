@@ -92,7 +92,7 @@ site_file = 'employment.txt'
 
 # Collect sites from alexa
 
-wdud.collect_sites_from_alexa(nsites=5, output_file=site_file, browser="firefox", 
+wdud.collect_sites_from_alexa(nsites=5, output_file=site_file,
 	alexa_link="http://www.alexa.com/topsites/category/Top/Business/Employment")
 
 # Set up treatments
