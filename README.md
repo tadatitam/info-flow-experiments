@@ -107,7 +107,7 @@ treatment2.visit_sites(site_file)
 
 # Run Experiment
 
-wdud.run_experiment(treatments=[treatment2, treatment1])
+wdud.run_experiment(treatments=[treatment1, treatment2])
 
 # Analyze Data
 
