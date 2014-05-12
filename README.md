@@ -1,6 +1,8 @@
 WDUD Assistant
 =========
 
+# Group wdud [/]
+
 WDUD Assistant is a Web Data Usage Detection Tool. 
 
 Requirements
