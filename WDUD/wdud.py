@@ -78,11 +78,11 @@ def run_experiment(treatments, log_file="log.txt", blocks=20, samples=2,
 	print "Experiment Complete"
 
 def run_analysis(log_file="log.txt", splitfrac=0.1, nfolds=10, 
-		feat_choice="ads", nfeat=5, old=False, verbose=False):
+		feat_choice="ads", nfeat=5, verbose=False):
 	if(feat_choice != "ads" and feat_choice != "words"):
 		print "Illegal feat_choice", feat_choice
 		return
-	collection, names = converter.get_ads_from_log(log_file, old)
+	collection, names = converter.get_ads_from_log(log_file)
 	if len(collection) < nfolds:
 		print "Too few blocks (%s). Analysis requires at least as many blocks as nfolds (%s)." % (len(collection), nfolds)
 		return

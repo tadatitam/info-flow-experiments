@@ -82,19 +82,19 @@ def apply_labels_to_AdVecs(adv, ass, samples, treatments):			# check
 		for j in range(0, size):
 			adv[int(ass[i*size+j])].setLabel(i)
 
-def get_ads_from_log(log_file, old=False):							# check
+def get_ads_from_log(log_file):							# check
 	treatnames = []
 	fo = open(log_file, "r")
 	line = fo.readline()
 	chunks = re.split("\|\|", line)
-	if(old):
+	if(chunks[0] == 'g'):
+		old = True
 		gmarker = 'g'
 		treatments = 2
 		treatnames = ['0', '1']
 		samples = len(chunks)-1
-		print treatments
-		print treatnames
 	else:
+		old = False
 		gmarker = 'assign'
 		treatments = int(chunks[2])
 		samples = int(chunks[1])

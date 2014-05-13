@@ -191,10 +191,15 @@ def print_counts(X,y):											# check
 	ua,uind=np.unique(y,return_inverse=True)
 	count=np.bincount(uind)
 	counts = [0]*len(ua)
+	ucounts = [0]*len(ua)
+	ucounter = [[0.]*X.shape[2]]*len(ua)
 	for i in range(0, X.shape[0]):
 		for j in range(0, X.shape[1]):
 			counts[y[i][j]] += int(sum(X[i][j]))
-	print "[treatments] [instances] [features] :: ", ua, count, counts
+			ucounter[y[i][j]] += np.sign(X[i][j])
+	ucounts = np.sum(np.sign(ucounter), axis=1)
+	print ucounts
+	print "[treatments] [instances] [features] [uniq] :: ", ua, count, counts, ucounts
 
 
 

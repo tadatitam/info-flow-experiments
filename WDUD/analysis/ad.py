@@ -33,16 +33,23 @@ class Ad:
 		self.time = time
 		self.label = lbl
 	
-	def printStuff(self, coeff, a, b):
+	def printStuff(self, coeff, C, c):
 # 		print "\multicolumn{1}{l}{", self.title, "; \url{", self.url, "}} & \multirow{2}{*}{", round(coeff, 3), 
 # 		print "} & \multirow{2}{*}{", a, "(", round(100.*a/(a+b), 1), "\%)} & \multirow{2}{*}{", b, "(", round(100.*b/(a+b), 1), "\%)}\\\\"
 # 		print "\multicolumn{1}{l}{", self.body, "}\\\\"
 # 		print "\hline"
 		
-		print "\TitleParbox{", self.title, "; \url{", self.url, "}; ", self.body, "} & ",
-		print round(coeff, 3), " & ", a, "(", round(100.*a/(a+b), 1), "\%) & ", b, "(", round(100.*b/(a+b), 1), "\%) \\\\"
+# 		print "\TitleParbox{", self.title, "; \url{", self.url, "}; ", self.body, "} & ",
+# 		print round(coeff, 3), " & ", a, "(", round(100.*a/(a+b), 1), "\%) & ", b, "(", round(100.*b/(a+b), 1), "\%) \\\\"
+# 		print "\hline \\\\"
+		
+		print "\multirow{3}{*}{\TitleParbox{", self.title, "; \url{", self.url, "}; ", self.body, "}} & ",
+		print "\multirow{3}{*}{", round(coeff, 3), "} &\n", int(c[0]), " & ", int(c[1]), " & ", int(C[0]), "& ", int(C[1]), " \\\\"
+		print " & ", " & ", int(c[2]), " & ", int(c[3]), " & ", int(C[2]), "& ", int(C[3]), " \\\\"
+		print "\cline{3-6}"
+		print " & ", " & ", int(c[4]), " & ", int(c[5]), " & ", int(C[4]), "& ", int(C[5]), " \\\\"
 		print "\hline \\\\"
-
+		
 	
 	def display(self):
 		print ("Title: "+self.title)
