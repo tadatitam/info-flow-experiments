@@ -170,10 +170,10 @@ def get_ads_from_log(log_file):							# check
 			adv[int(chunks[1])].add(ind_ad)
 		else:							# to analyze old log files
 			try:
-				ind_ad = ad.Ad({'Time':datetime.strptime(chunks[2], "%Y-%m-%d %H:%M:%S.%f"), 'Title':chunks[3], 
-						'URL': chunks[4], 'Body': chunks[5].rstrip(), 'cat': "", 'label':chunks[1]})
-# 	 			ind_ad = ad.Ad({'Time':datetime.strptime(chunks[1], "%Y-%m-%d %H:%M:%S.%f"), 'Title':chunks[2], 
-# 	 					'URL': chunks[3], 'Body': chunks[4].rstrip(), 'cat': "", 'label':""})
+# 				ind_ad = ad.Ad({'Time':datetime.strptime(chunks[2], "%Y-%m-%d %H:%M:%S.%f"), 'Title':chunks[3], 
+# 						'URL': chunks[4], 'Body': chunks[5].rstrip(), 'cat': "", 'label':chunks[1]})
+	 			ind_ad = ad.Ad({'Time':datetime.strptime(chunks[1], "%Y-%m-%d %H:%M:%S.%f"), 'Title':chunks[2], 
+	 					'URL': chunks[3], 'Body': chunks[4].rstrip(), 'cat': "", 'label':""})
 				adv[int(chunks[0])].add(ind_ad)
 			except:
 				pass
