@@ -1,8 +1,9 @@
-import time, re											# time.sleep, re.split
-import sys												# some prints
-from selenium import webdriver							# for running the driver on websites
-from datetime import datetime							# for tagging log with datetime
-from selenium.webdriver.common.keys import Keys			# to press keys on a webpage
+import time, re														# time.sleep, re.split
+import sys															# some prints
+from selenium import webdriver										# for running the driver on websites
+from datetime import datetime										# for tagging log with datetime
+from selenium.webdriver.common.keys import Keys						# to press keys on a webpage
+from selenium.webdriver.common.action_chains import ActionChains	# to move mouse over
 
 # strip html
 from HTMLParser import HTMLParser
@@ -51,7 +52,9 @@ def applyTreatment(driver, treatmentprof, id, treatmentid):
 		if(chunks[0] == 'gender'):
 			set_gender(chunks[1], driver, id, treatmentid)
 		if(chunks[0] == 'interest'):
-			set_ad_pref(chunks[1], driver)
+			set_ad_pref(chunks[1], driver, id, treatmentid)
+		if(chunks[0] == 'rinterest'):
+			remove_ad_pref(chunks[1], driver, id, treatmentid)
 	log('training-end', id)
 
 def login2Google(username, password, driver):
@@ -120,7 +123,33 @@ def get_gender(driver):												# Read gender from Google Ad Settings
 	inn = str(div.get_attribute('innerHTML'))
 	return inn[0]
 
-def set_ad_pref(pref, driver, choice=2):									# Set an ad pref
+def remove_ad_pref(pref, driver, id, treatmentid, choice=2):
+# 	try:
+	driver.get("https://www.google.com/settings/ads")
+	if (choice == 1):
+		driver.find_element_by_css_selector("div.Vu div.bd div.Qc div div div.cc").click()	#For search related preferences
+	elif (choice == 2):
+		driver.find_element_by_xpath(".//div[@class='Rg hF']/div[@class='wf']/div[@class='jf Uh']/div[@class='Uc']/div/div[@class='lh Ld c-X-Aa c-X-Ac']").click()	#For website related preferences
+	
+	time.sleep(1)
+	trs = driver.find_elements_by_xpath(".//tr[@class='J8YeRd zm']")
+	rem = []
+	for tr in trs:
+		td = tr.find_element_by_xpath(".//td[@class='b1VwRc zRvkrf']").get_attribute('innerHTML')
+		div = tr.find_element_by_xpath(".//td[@class='bNhkN']/div")
+		print td
+		if pref.lower() in div.get_attribute('aria-label').lower():
+			hover = ActionChains(driver).move_to_element(div)
+			hover.perform()
+			time.sleep(5)
+			div.click()
+	time.sleep(20000)
+	driver.find_element_by_xpath(".//div[@class='c-ca-ba a-b a-b-E ly hE']").click()
+	log("setInterest="+pref+"||"+str(treatmentid), id)
+# 	except:
+# 		print "No interests matched '%s'. Skipping." %(pref)
+
+def set_ad_pref(pref, driver, id, treatmentid, choice=2):									# Set an ad pref
 	try:
 		driver.get("https://www.google.com/settings/ads")
 		if (choice == 1):
@@ -129,7 +158,12 @@ def set_ad_pref(pref, driver, choice=2):									# Set an ad pref
 			driver.find_element_by_xpath(".//div[@class='Rg hF']/div[@class='wf']/div[@class='jf Uh']/div[@class='Uc']/div/div[@class='lh Ld c-X-Aa c-X-Ac']").click()	#For website related preferences
 		driver.find_element_by_xpath(".//input[@class='yQfFt a-Ca CvD2w']").send_keys(pref)
 		driver.find_element_by_xpath(".//div[@class='QJTE8e nhosSe ta']").click()
+		time.sleep(1)
+		trs = driver.find_elements_by_xpath(".//tr[@class='J8YeRd zm']")
+		for tr in trs:
+			td = tr.find_element_by_xpath(".//td[@class='b1VwRc zRvkrf']").get_attribute('innerHTML')
 		driver.find_element_by_xpath(".//div[@class='c-ca-ba a-b a-b-E ly hE']").click()
+		log("setInterest="+td+"||"+str(treatmentid), id)
 	except:
 		print "No interests matched '%s'. Skipping." %(pref)
 	

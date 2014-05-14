@@ -41,6 +41,13 @@ class Treatment:
 			self.str += "|+|interest|:|"+interest
 		self.count += 1
 
+	def remove_interest(self, interest='Auto'):
+		if(self.count==0):
+			self.str += "rinterest|:|"+interest
+		else:
+			self.str += "|+|rinterest|:|"+interest
+		self.count += 1
+
 
 def collect_sites_from_alexa(alexa_link="http://www.alexa.com/topsites", 
 		output_file="out.txt", nsites=5, browser="firefox"):
