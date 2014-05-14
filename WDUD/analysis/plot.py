@@ -12,6 +12,31 @@ import matplotlib
 
 #------------- functions to plot figures from a list of feature vectors ---------------#
 
+def treatment_feature_histogram(X,y,feat):
+	obs = np.array([[0.]*len(X[0])]*2)
+	for i in range(0, len(y)):
+		obs[y[i]] += X[i]
+	colors = ['b', 'r', 'g', 'm', 'k']							# Can plot upto 5 different colors
+	pos = np.arange(1, len(obs[0])+1)
+	width = 0.5     # gives histogram aspect to the bar diagram
+	gridLineWidth=0.1
+	fig, ax = plt.subplots()
+# 	ax.xaxis.grid(True, zorder=0)
+	ax.yaxis.grid(True, zorder=0)
+	matplotlib.rc('xtick', labelsize=1)
+# 	matplotlib.gca().tight_layout()
+	for i in range(0, len(obs)):
+		lbl = "treatment "+str(i)
+		plt.bar(pos, obs[i], width, color=colors[i], alpha=0.5, label = lbl)
+	plt.xticks(pos+width/2., feat.data, rotation="vertical")		# useful only for categories
+	#plt.axis([-1, len(obs[2]), 0, len(ran1)/2+10])
+	feat.display()
+	plt.legend()
+	(matplotlib.pyplot).tight_layout()
+	# saving:
+	fig.savefig("fig.eps")
+	plt.show()
+
 def histogramPlots(list):
 	a, b = converter.ad_vectors(list)
 	obs = np.array(a)

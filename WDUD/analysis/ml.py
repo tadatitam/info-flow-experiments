@@ -1,6 +1,8 @@
 import numpy as np
 import stat
 
+from datetime import datetime							# for getting times for computation
+
 ## CV
 from sklearn import cross_validation
 from itertools import product
@@ -62,11 +64,19 @@ def train_and_test(algos, X, y, splittype='timed', splitfrac=0.1, nfolds=10, blo
 	if(verbose):
 		print "Training Set size: ", len(y_train), "blocks"
 		print "Testing Set size: ", len(y_test), "blocks"
+	s = datetime.now()
 	clf, CVscore = select_and_fit_classifier(nfolds, algos, X_train, y_train, splittype, splitfrac, blocked, verbose)
+	e = datetime.now()
+	if(verbose):
+		print "---Time for selecting classifier: ", str(e-s)
 	print "CVscore: ", CVscore
 	print "Test accuracy: ", test_accuracy(clf, X_test, y_test, blocked)
+	s = datetime.now()
 	pvalue = stat.block_p_test(X_test, y_test, clf)
+	e = datetime.now()
 	print "p-value: ", pvalue
+	if(verbose):
+		print "---Time for running permutation test: ", str(e-s)
 	return clf
 
 def print_top_features(X, y, feat, treatnames, clf, feat_choice, nfeat=5, blocked=1):		# prints top nfeat features from clf+some numbers
@@ -194,7 +204,7 @@ def run_ml_analysis(X, y, feat, treatnames, feat_choice='ads', nfeat=5, splittyp
 		nfolds=10, blocked=1, ptest=1, verbose=False):				# main function, calls cross_validation, then runs chi2
 
 	algos = {	
-				'logit':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'penalty':['l1', 'l2']},
+				'logit':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'penalty':['l2']},
 # 				'svc':{'C':np.logspace(-5.0, 15.0, num=21, base=2)}	
 # 				'kNN':{'k':np.arange(1,20,2), 'p':[1,2,3]}, 
 # 				'polySVM':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'degree':[1,2,3,4]},

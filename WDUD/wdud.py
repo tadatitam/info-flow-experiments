@@ -1,10 +1,13 @@
 import sys, os
+from datetime import datetime							# for getting times for computation
+
 import experiment.alexa as alexa
 import experiment.trials as trials
 
 import analysis.converter as converter
 import analysis.stat as stat
 import analysis.ml as ml
+import analysis.plot as plot
 
 class Treatment:
 
@@ -83,15 +86,20 @@ def run_analysis(log_file="log.txt", splitfrac=0.1, nfolds=10,
 		print "Illegal feat_choice", feat_choice
 		return
 	collection, names = converter.get_ads_from_log(log_file)
-	collection = collection[:100]
+	collection = collection[:200]
 	if len(collection) < nfolds:
 		print "Too few blocks (%s). Analysis requires at least as many blocks as nfolds (%s)." % (len(collection), nfolds)
 		return
+	intX, inty, intFeat = converter.get_interest_vectors(collection)
+	plot.treatment_feature_histogram(intX, inty, intFeat)
+	s = datetime.now()
 	X,y,feat = converter.get_feature_vectors(collection, feat_choice='ads')
-	stat.print_counts(X,y)
+	e = datetime.now()
+	if(verbose):
+		print "Time for constructing feature vectors: ", str(e-s)
+		stat.print_counts(X,y)
 	ml.run_ml_analysis(X, y, feat, names, feat_choice, nfeat, splitfrac=splitfrac, 
 		nfolds=nfolds, verbose=verbose)
-	
 	
 	
 	

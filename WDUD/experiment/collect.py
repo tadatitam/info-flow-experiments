@@ -77,7 +77,7 @@ class Webdriver(unittest.TestCase):
 			cole.applyTreatment(driver, TREATMENTS[TREATMENTID], ID, TREATMENTID)
 			cole.wait_for_others(SAMPLES, ID, ROUND)
 			pref = cole.get_ad_pref(driver)
-			cole.log("pref"+"||"+str(TREATMENTID)+"||"+", ".join(pref), ID)
+			cole.log("pref"+"||"+str(TREATMENTID)+"||"+"@ ".join(pref), ID)
 			cole.collect_ads(RELOADS, DELAY, LOG_FILE, driver, ID, TREATMENTID, COL_SITE)
 			run = run+1
 

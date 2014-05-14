@@ -160,6 +160,8 @@ def train_with_sites(FILE, driver, id, treatmentid):					# Visits all pages in F
 			driver.get(site)
 			time.sleep(5)
 			log(site+"||"+str(treatmentid), id)
+			pref = get_ad_pref(driver)
+			log("pref"+"||"+str(treatmentid)+"||"+"@ ".join(pref), id)
 		except:
 			log("timedout-"+line.rstrip(), id)
 
@@ -220,7 +222,7 @@ def collect_ads(reloads, delay, file, driver, id, treatmentid, site):
 				elif(site == 'bloomberg'):
 					save_ads_bloomberg(file, driver, id, treatmentid)
 				else:
-					raw_input("No such site found!")
+					raw_input("No such site found: %s!" % site)
 				e = datetime.now()
 				log('loadtime||'+str(e-s), id)
 				log('reload', id)
