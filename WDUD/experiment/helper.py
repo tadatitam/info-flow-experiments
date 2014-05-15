@@ -206,8 +206,8 @@ def train_with_sites(FILE, driver, id, treatmentid):					# Visits all pages in F
 			driver.get(site)
 			time.sleep(5)
 			log(site+"||"+str(treatmentid), id)
-			pref = get_ad_pref(driver)
-			log("pref"+"||"+str(treatmentid)+"||"+"@".join(pref), id)
+# 			pref = get_ad_pref(driver)
+# 			log("pref"+"||"+str(treatmentid)+"||"+"@".join(pref), id)
 		except:
 			log("timedout-"+line.rstrip(), id)
 

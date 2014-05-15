@@ -10,17 +10,17 @@ log_file = 'log2.dating.txt'
 # 
 # ## Set up treatments
 # 
-treatment1 = wdud.Treatment("keptfitness")
+treatment1 = wdud.Treatment("keptdating")
 treatment1.visit_sites(site_file)
 
-treatment2 = wdud.Treatment("removedfitness")
+treatment2 = wdud.Treatment("removeddating")
 treatment2.visit_sites(site_file)
 treatment2.remove_interest("dating")
 treatment2.remove_interest("romance")
 # 
 # ## Run Experiment
 # 
-wdud.run_experiment(treatments=[treatment2, treatment1], samples=2, blocks=1, reloads=1, log_file=log_file, timeout=1000)
+wdud.run_experiment(treatments=[treatment2, treatment1], samples=10, blocks=100, reloads=10, log_file=log_file, timeout=1000)
 # 
 # ## Analyze Data
 
