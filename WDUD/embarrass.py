@@ -1,7 +1,7 @@
 import wdud
 
-site_file = 'weight2.txt'
-log_file = 'log2.weight.txt'
+site_file = 'dating2.txt'
+log_file = 'log2.dating.txt'
 # 
 # ## Collect sites from alexa
 # 
@@ -14,11 +14,12 @@ treatment1 = wdud.Treatment("null")
 
 treatment2 = wdud.Treatment("weight")
 treatment2.visit_sites(site_file)
-treatment2.remove_interest("fitness")
+treatment2.remove_interest("dating")
+treatment2.remove_interest("romance")
 # 
 # ## Run Experiment
 # 
-wdud.run_experiment(treatments=[treatment2, treatment1], samples=10, blocks=200, reloads=10, log_file=log_file, timeout=1000)
+wdud.run_experiment(treatments=[treatment2, treatment1], samples=2, blocks=1, reloads=1, log_file=log_file, timeout=1000)
 # 
 # ## Analyze Data
 

@@ -127,7 +127,9 @@ def remove_ad_pref(pref, driver, id, treatmentid, choice=2):
 # 	try:
 	prefs = get_ad_pref(driver)
 	log("prepref"+"||"+str(treatmentid)+"||"+"@".join(prefs), id)
+	driver.set_page_load_timeout(40)
 	driver.get("https://www.google.com/settings/ads")
+	time.sleep(20)
 	rem = []
 	while(1):
 		if (choice == 1):
@@ -140,9 +142,11 @@ def remove_ad_pref(pref, driver, id, treatmentid, choice=2):
 			td = tr.find_element_by_xpath(".//td[@class='b1VwRc zRvkrf']")
 			div = tr.find_element_by_xpath(".//td[@class='bNhkN']/div")
 			int = td.get_attribute('innerHTML')
+			print int
 			if pref.lower() in div.get_attribute('aria-label').lower():
+				print pref
 				flag=1
-				hover = ActionChains(driver).move_to_element(div)
+				hover = ActionChains(driver).move_to_element(td)
 				hover.perform()
 				time.sleep(1)
 				td.click()
