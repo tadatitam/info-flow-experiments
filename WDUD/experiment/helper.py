@@ -126,26 +126,34 @@ def get_gender(driver):												# Read gender from Google Ad Settings
 def remove_ad_pref(pref, driver, id, treatmentid, choice=2):
 # 	try:
 	driver.get("https://www.google.com/settings/ads")
-	if (choice == 1):
-		driver.find_element_by_css_selector("div.Vu div.bd div.Qc div div div.cc").click()	#For search related preferences
-	elif (choice == 2):
-		driver.find_element_by_xpath(".//div[@class='Rg hF']/div[@class='wf']/div[@class='jf Uh']/div[@class='Uc']/div/div[@class='lh Ld c-X-Aa c-X-Ac']").click()	#For website related preferences
-	
-	time.sleep(1)
-	trs = driver.find_elements_by_xpath(".//tr[@class='J8YeRd zm']")
 	rem = []
-	for tr in trs:
-		td = tr.find_element_by_xpath(".//td[@class='b1VwRc zRvkrf']").get_attribute('innerHTML')
-		div = tr.find_element_by_xpath(".//td[@class='bNhkN']/div")
-		print td
-		if pref.lower() in div.get_attribute('aria-label').lower():
-			hover = ActionChains(driver).move_to_element(div)
-			hover.perform()
-			time.sleep(5)
-			div.click()
-	time.sleep(20000)
+	while(1):
+		if (choice == 1):
+			driver.find_element_by_css_selector("div.Vu div.bd div.Qc div div div.cc").click()	#For search related preferences
+		elif (choice == 2):
+			driver.find_element_by_xpath(".//div[@class='Rg hF']/div[@class='wf']/div[@class='jf Uh']/div[@class='Uc']/div/div[@class='lh Ld c-X-Aa c-X-Ac']").click()	#For website related preferences
+		trs = driver.find_elements_by_xpath(".//tr[@class='J8YeRd zm']")
+		flag=0
+		for tr in trs:
+			td = tr.find_element_by_xpath(".//td[@class='b1VwRc zRvkrf']")
+			div = tr.find_element_by_xpath(".//td[@class='bNhkN']/div")
+			int = td.get_attribute('innerHTML')
+			if pref.lower() in div.get_attribute('aria-label').lower():
+				flag=1
+				hover = ActionChains(driver).move_to_element(div)
+				hover.perform()
+				time.sleep(1)
+				td.click()
+				div.click()
+				rem.append(int)
+				driver.refresh()
+				time.sleep(5)
+				break
+			print rem
+		if(flag == 0):
+			break
 	driver.find_element_by_xpath(".//div[@class='c-ca-ba a-b a-b-E ly hE']").click()
-	log("setInterest="+pref+"||"+str(treatmentid), id)
+	log("remInterest="+"@".join(rem)+"||"+str(treatmentid), id)
 # 	except:
 # 		print "No interests matched '%s'. Skipping." %(pref)
 
@@ -195,7 +203,7 @@ def train_with_sites(FILE, driver, id, treatmentid):					# Visits all pages in F
 			time.sleep(5)
 			log(site+"||"+str(treatmentid), id)
 			pref = get_ad_pref(driver)
-			log("pref"+"||"+str(treatmentid)+"||"+"@ ".join(pref), id)
+			log("pref"+"||"+str(treatmentid)+"||"+"@".join(pref), id)
 		except:
 			log("timedout-"+line.rstrip(), id)
 

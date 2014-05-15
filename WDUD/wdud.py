@@ -93,12 +93,13 @@ def run_analysis(log_file="log.txt", splitfrac=0.1, nfolds=10,
 		print "Illegal feat_choice", feat_choice
 		return
 	collection, names = converter.get_ads_from_log(log_file)
-	collection = collection[:200]
+	collection = collection[:100]
 	if len(collection) < nfolds:
 		print "Too few blocks (%s). Analysis requires at least as many blocks as nfolds (%s)." % (len(collection), nfolds)
 		return
 	intX, inty, intFeat = converter.get_interest_vectors(collection)
-	plot.treatment_feature_histogram(intX, inty, intFeat)
+	print intX, inty
+# 	plot.treatment_feature_histogram(intX, inty, intFeat)
 	s = datetime.now()
 	X,y,feat = converter.get_feature_vectors(collection, feat_choice='ads')
 	e = datetime.now()

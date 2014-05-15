@@ -1,6 +1,6 @@
 import wdud
 
-site_file = 'weight.txt'
+site_file = 'weight2.txt'
 log_file = 'log2.weight.txt'
 # 
 # ## Collect sites from alexa
@@ -13,8 +13,7 @@ log_file = 'log2.weight.txt'
 treatment1 = wdud.Treatment("null")
 
 treatment2 = wdud.Treatment("weight")
-# treatment2.visit_sites(site_file)
-treatment2.add_interest("fitness")
+treatment2.visit_sites(site_file)
 treatment2.remove_interest("fitness")
 # 
 # ## Run Experiment
