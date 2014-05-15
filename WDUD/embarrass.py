@@ -18,7 +18,7 @@ treatment2.remove_interest("fitness")
 # 
 # ## Run Experiment
 # 
-wdud.run_experiment(treatments=[treatment2, treatment1], samples=2, blocks=10, reloads=1, log_file=log_file)
+wdud.run_experiment(treatments=[treatment2, treatment1], samples=10, blocks=200, reloads=10, log_file=log_file, timeout=1000)
 # 
 # ## Analyze Data
 

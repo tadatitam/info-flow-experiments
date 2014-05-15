@@ -125,6 +125,8 @@ def get_gender(driver):												# Read gender from Google Ad Settings
 
 def remove_ad_pref(pref, driver, id, treatmentid, choice=2):
 # 	try:
+	prefs = get_ad_pref(driver)
+	log("prepref"+"||"+str(treatmentid)+"||"+"@".join(prefs), id)
 	driver.get("https://www.google.com/settings/ads")
 	rem = []
 	while(1):
