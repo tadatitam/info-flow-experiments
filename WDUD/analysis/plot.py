@@ -22,20 +22,21 @@ def treatment_feature_histogram(X,y,feat):
 	gridLineWidth=0.1
 	fig, ax = plt.subplots()
 # 	ax.xaxis.grid(True, zorder=0)
-	ax.yaxis.grid(True, zorder=0)
+# 	ax.yaxis.grid(True, zorder=0)
 	matplotlib.rc('xtick', labelsize=1)
 # 	matplotlib.gca().tight_layout()
-	for i in range(0, len(obs)):
-		lbl = "treatment "+str(i)
-		plt.bar(pos, obs[i], width, color=colors[i], alpha=0.5, label = lbl)
+# 	for i in range(0, len(obs)):
+# 		lbl = "treatment "+str(i)
+	plt.bar(pos, obs[0], width, color=colors[0], alpha=0.5)
 	plt.xticks(pos+width/2., feat.data, rotation="vertical")		# useful only for categories
 	#plt.axis([-1, len(obs[2]), 0, len(ran1)/2+10])
+	plt.ylabel("# agents")
 	feat.display()
 	plt.legend()
 	(matplotlib.pyplot).tight_layout()
 	# saving:
-	fig.savefig("fig.eps")
-	plt.show()
+	fig.savefig("disability.eps")
+# 	plt.show()
 
 def histogramPlots(list):
 	a, b = converter.ad_vectors(list)

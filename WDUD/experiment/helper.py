@@ -129,7 +129,6 @@ def remove_ad_pref(pref, driver, id, treatmentid, choice=2):
 	log("prepref"+"||"+str(treatmentid)+"||"+"@".join(prefs), id)
 	driver.set_page_load_timeout(40)
 	driver.get("https://www.google.com/settings/ads")
-	time.sleep(20)
 	rem = []
 	while(1):
 		if (choice == 1):
