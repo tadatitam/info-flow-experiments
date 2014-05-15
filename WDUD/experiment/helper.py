@@ -142,9 +142,7 @@ def remove_ad_pref(pref, driver, id, treatmentid, choice=2):
 			td = tr.find_element_by_xpath(".//td[@class='b1VwRc zRvkrf']")
 			div = tr.find_element_by_xpath(".//td[@class='bNhkN']/div")
 			int = td.get_attribute('innerHTML')
-			print int
 			if pref.lower() in div.get_attribute('aria-label').lower():
-				print pref
 				flag=1
 				hover = ActionChains(driver).move_to_element(td)
 				hover.perform()
@@ -155,7 +153,7 @@ def remove_ad_pref(pref, driver, id, treatmentid, choice=2):
 				driver.refresh()
 				time.sleep(5)
 				break
-			print rem
+# 			print rem
 		if(flag == 0):
 			break
 	driver.find_element_by_xpath(".//div[@class='c-ca-ba a-b a-b-E ly hE']").click()
