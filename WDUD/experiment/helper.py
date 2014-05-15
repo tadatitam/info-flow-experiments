@@ -26,17 +26,19 @@ def setLogFile(FILE):
 	global LOG_FILE
 	LOG_FILE = FILE
 
-def optOut(driver):													# Opt out of behavioral advertising on Google
+def optOut(driver, id, treatmentid):													# Opt out of behavioral advertising on Google
 	driver.set_page_load_timeout(20)
 	driver.get("https://www.google.com/settings/ads")
 	driver.find_element_by_xpath(".//div[@class ='lh amHZad Ld']").click()
 	time.sleep(2)
 	driver.execute_script("document.getElementsByName('ok')[1].click();")	
+	log("optedOut||"+str(treatmentid), id)
 
-def optIn(driver):													# Opt in to behavioral advertising on Google
+def optIn(driver, id, treatmentid):													# Opt in to behavioral advertising on Google
 	driver.set_page_load_timeout(20)
 	driver.get("https://www.google.com/settings/ads")
 	driver.find_element_by_xpath(".//div[@class ='lh Ld oXMGic']").click()
+	log("optedIn||"+str(treatmentid), id)
 
 def applyTreatment(driver, treatmentprof, id, treatmentid):
 	treatment = treatmentprof.str
@@ -47,6 +49,10 @@ def applyTreatment(driver, treatmentprof, id, treatmentid):
 	parts = re.split("\|\+\|", treatment)
 	for part in parts:
 		chunks = re.split("\|\:\|", part)
+		if(chunks[0] == 'optout'):
+			optOut(driver, id, treatmentid)
+		if(chunks[0] == 'optin'):
+			optIn(driver, id, treatmentid)
 		if(chunks[0] == 'site'):
 			train_with_sites(chunks[1], driver, id, treatmentid)
 		if(chunks[0] == 'gender'):
@@ -86,7 +92,7 @@ def adsFromNames(NAME_FILE, OUT_FILE, reloads, driver):				# Search names, Colle
 				driver.find_element_by_id("searchfield").send_keys(q)
 				driver.find_element_by_id("searchbuttonNav").click()
 				board = driver.find_element_by_css_selector("div#adcontainer1 iframe")
-				driver.switch_to_frame(board)
+				driver.switch_to.frame(board)
 				ads = driver.find_elements_by_css_selector("div#adBlock div div div div.adStd")
 				for ad in ads:
 					samay = str(datetime.now())
@@ -100,7 +106,7 @@ def adsFromNames(NAME_FILE, OUT_FILE, reloads, driver):				# Search names, Colle
 					fo = open(OUT_FILE, "a")
 					fo.write(f + '\n')
 					fo.close()
-				driver.switch_to_default_content()
+				driver.switch_to.default_content()
 				rel = rel+1
 			except:
 				print "Timed Out"
@@ -199,7 +205,7 @@ def train_with_sites(FILE, driver, id, treatmentid):					# Visits all pages in F
 	fo = open(FILE, "r")
 	for line in fo:
 		chunks = re.split("\|\|", line)
-		site = chunks[0].strip()
+		site = "http://"+chunks[0].strip()
 		try:
 			driver.set_page_load_timeout(40)
 			driver.get(site)
@@ -283,12 +289,12 @@ def save_ads_bloomberg(file, driver, id, treatmentid):
 	driver.get("http://www.bloomberg.com/")	
 	tim = str(datetime.now())
 	frame0 = driver.find_element_by_xpath(".//iframe[@src='/bcom/home/iframe/google-adwords']")
-	driver.switch_to_frame(frame0)
+	driver.switch_to.frame(frame0)
 	frame1 = driver.find_element_by_xpath(".//iframe[@id='aswift_0']")
-	driver.switch_to_frame(frame1)
+	driver.switch_to.frame(frame1)
 	time.sleep(2)
 	frame2 = driver.find_element_by_xpath(".//iframe[@id='google_ads_frame1']")
-	driver.switch_to_frame(frame2)
+	driver.switch_to.frame(frame2)
 	lis = driver.find_elements_by_css_selector("div#adunit div#ads ul li")
 	for li in lis:
 		t = li.find_element_by_css_selector("td.rh-titlec div a span").get_attribute('innerHTML')
@@ -298,9 +304,9 @@ def save_ads_bloomberg(file, driver, id, treatmentid):
 		fo = open(file, "a")
 		fo.write(f + '\n')
 		fo.close()
-	driver.switch_to_default_content()
-	driver.switch_to_default_content()
-	driver.switch_to_default_content()
+	driver.switch_to.default_content()
+	driver.switch_to.default_content()
+	driver.switch_to.default_content()
 
 def save_ads_reuters(file, driver, id, treatmentid):
 	sys.stdout.write(".")
@@ -309,12 +315,12 @@ def save_ads_reuters(file, driver, id, treatmentid):
 	driver.get("http://www.reuters.com/news/us")	
 	tim = str(datetime.now())
 	frame0 = driver.find_element_by_xpath(".//iframe[@id='pmad-rt-frame']")
-	driver.switch_to_frame(frame0)
+	driver.switch_to.frame(frame0)
 	frame1 = driver.find_element_by_xpath(".//iframe[@id='aswift_0']")
-	driver.switch_to_frame(frame1)
+	driver.switch_to.frame(frame1)
 	time.sleep(2)
 	frame2 = driver.find_element_by_xpath(".//iframe[@id='google_ads_frame1']")
-	driver.switch_to_frame(frame2)
+	driver.switch_to.frame(frame2)
 	lis = driver.find_elements_by_css_selector("div#adunit div#ads ul li")
 	for li in lis:
 		t = li.find_element_by_css_selector("td.rh-titlec div a span").get_attribute('innerHTML')
@@ -324,9 +330,9 @@ def save_ads_reuters(file, driver, id, treatmentid):
 		fo = open(file, "a")
 		fo.write(f + '\n')
 		fo.close()
-	driver.switch_to_default_content()
-	driver.switch_to_default_content()
-	driver.switch_to_default_content()
+	driver.switch_to.default_content()
+	driver.switch_to.default_content()
+	driver.switch_to.default_content()
 
 def save_ads_guardian(file, driver, id, treatmentid):
 	sys.stdout.write(".")
@@ -352,7 +358,7 @@ def save_ads_toi(file, driver, id, treatmentid):
 	driver.get("http://timesofindia.indiatimes.com/international-home")
 	time = str(datetime.now())
 	frames = driver.find_elements_by_xpath(".//iframe[@src='http://timesofindia.indiatimes.com/configspace/ads/TOI_INTL_home_right.html']")
-	driver.switch_to_frame(frames[0])
+	driver.switch_to.frame(frames[0])
 	ads = driver.find_elements_by_xpath(".//tbody/tr/td/table")
 	for ad in ads:
 		aa = ad.find_elements_by_xpath(".//tbody/tr/td/a")
@@ -361,9 +367,9 @@ def save_ads_toi(file, driver, id, treatmentid):
 		fo = open(file, "a")
 		fo.write(t + '\n')
 		fo.close()
-	driver.switch_to_default_content()
+	driver.switch_to.default_content()
 	frames = driver.find_elements_by_xpath(".//iframe[@id='adhomepage']")
-	driver.switch_to_frame(frames[0])
+	driver.switch_to.frame(frames[0])
 	ads = driver.find_elements_by_xpath(".//tbody/tr/td/table")
 	time = str(datetime.now())
 	for ad in ads:
@@ -373,9 +379,9 @@ def save_ads_toi(file, driver, id, treatmentid):
 		fo = open(file, "a")
 		fo.write(t + '\n')
 		fo.close()
-	driver.switch_to_default_content()
+	driver.switch_to.default_content()
 	frames = driver.find_elements_by_xpath(".//iframe[@src='http://timesofindia.indiatimes.com/configspace/ads/TOI_INTL_home_bottom.html']")
-	driver.switch_to_frame(frames[0])
+	driver.switch_to.frame(frames[0])
 	ads = driver.find_elements_by_xpath(".//tbody/tr/td/table")
 	time = str(datetime.now())
 	for ad in ads:
@@ -385,7 +391,7 @@ def save_ads_toi(file, driver, id, treatmentid):
 		fo = open(file, "a")
 		fo.write(t + '\n')
 		fo.close()
-	driver.switch_to_default_content()
+	driver.switch_to.default_content()
 
 def save_ads_bbc(file, driver, id, treatmentid):
 	sys.stdout.write(".")

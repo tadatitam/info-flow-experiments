@@ -12,7 +12,7 @@ import matplotlib
 
 #------------- functions to plot figures from a list of feature vectors ---------------#
 
-def treatment_feature_histogram(X,y,feat):
+def treatment_feature_histogram(X,y,feat, names):
 	obs = np.array([[0.]*len(X[0])]*2)
 	for i in range(0, len(y)):
 		obs[y[i]] += X[i]
@@ -27,7 +27,7 @@ def treatment_feature_histogram(X,y,feat):
 # 	matplotlib.gca().tight_layout()
 # 	for i in range(0, len(obs)):
 # 		lbl = "treatment "+str(i)
-	plt.bar(pos, obs[0], width, color=colors[0], alpha=0.5)
+	plt.bar(pos, obs[1], width, color=colors[0], alpha=0.5)
 	plt.xticks(pos+width/2., feat.data, rotation="vertical")		# useful only for categories
 	#plt.axis([-1, len(obs[2]), 0, len(ran1)/2+10])
 	plt.ylabel("# agents")
@@ -35,7 +35,7 @@ def treatment_feature_histogram(X,y,feat):
 	plt.legend()
 	(matplotlib.pyplot).tight_layout()
 	# saving:
-	fig.savefig("disability.eps")
+	fig.savefig("+".join(names)+".eps")
 # 	plt.show()
 
 def histogramPlots(list):

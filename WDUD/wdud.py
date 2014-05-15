@@ -23,6 +23,20 @@ class Treatment:
 			self.str += "|+|site|:|"+file
 		self.count += 1
 	
+	def opt_out(self):
+		if(self.count==0):
+			self.str += "optout|:|"
+		else:
+			self.str += "|+|optout|:|"
+		self.count += 1	
+		
+	def opt_in(self):
+		if(self.count==0):
+			self.str += "optin|:|"
+		else:
+			self.str += "|+|optin|:|"
+		self.count += 1
+		
 	def set_gender(self, gender='m'):
 		if (gender.lower()=='m' or gender.lower()=='male'):
 			gender = 'm'
@@ -98,9 +112,8 @@ def run_analysis(log_file="log.txt", splitfrac=0.1, nfolds=10,
 		print "Too few blocks (%s). Analysis requires at least as many blocks as nfolds (%s)." % (len(collection), nfolds)
 		return
 	intX, inty, intFeat = converter.get_interest_vectors(collection)
-	print intX, inty
-	plot.treatment_feature_histogram(intX, inty, intFeat)
-	return
+	plot.treatment_feature_histogram(intX, inty, intFeat, names)
+# 	return
 	s = datetime.now()
 	X,y,feat = converter.get_feature_vectors(collection, feat_choice='ads')
 	e = datetime.now()
