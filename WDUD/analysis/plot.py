@@ -27,12 +27,13 @@ def treatment_feature_histogram(X,y,feat, names):
 # 	matplotlib.gca().tight_layout()
 # 	for i in range(0, len(obs)):
 # 		lbl = "treatment "+str(i)
-	plt.bar(pos, obs[1], width, color=colors[0], alpha=0.5)
+	plt.bar(pos, obs[0], width, color=colors[0], alpha=0.5)
 	plt.xticks(pos+width/2., feat.data, rotation="vertical")		# useful only for categories
 	#plt.axis([-1, len(obs[2]), 0, len(ran1)/2+10])
 	plt.ylabel("# agents")
 	feat.display()
-	plt.legend()
+	print obs[0]
+# 	plt.legend()
 	(matplotlib.pyplot).tight_layout()
 	# saving:
 	fig.savefig("+".join(names)+".eps")
