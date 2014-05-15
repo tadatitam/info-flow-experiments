@@ -10,9 +10,10 @@ log_file = 'log2.dating.txt'
 # 
 # ## Set up treatments
 # 
-treatment1 = wdud.Treatment("null")
+treatment1 = wdud.Treatment("keptfitness")
+treatment1.visit_sites(site_file)
 
-treatment2 = wdud.Treatment("weight")
+treatment2 = wdud.Treatment("removedfitness")
 treatment2.visit_sites(site_file)
 treatment2.remove_interest("dating")
 treatment2.remove_interest("romance")
