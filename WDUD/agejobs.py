@@ -23,7 +23,7 @@ treatment2.visit_sites(site_file)
 # 
 # ## Run Experiment
 # 
-wdud.run_experiment(treatments=[treatment2, treatment1], samples=10, blocks=100, reloads=10, log_file=log_file, timeout=1000)
+wdud.run_experiment(treatments=[treatment2, treatment1], samples=2, blocks=100, reloads=10, log_file=log_file, timeout=1000)
 # 
 # ## Analyze Data
 

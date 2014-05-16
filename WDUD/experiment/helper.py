@@ -164,8 +164,8 @@ def remove_ad_pref(pref, driver, id, treatmentid, choice=2):
 		if (choice == 1):
 			driver.find_element_by_css_selector("div.Vu div.bd div.Qc div div div.cc").click()	#For search related preferences
 		elif (choice == 2):
-			driver.find_element_by_xpath(".//div[@class='Rg hF']/div[@class='wf']/div[@class='jf Uh']/div[@class='Uc']/div/div[@class='lh Ld c-X-Aa c-X-Ac']").click()	#For website related preferences
-		trs = driver.find_elements_by_xpath(".//tr[@class='J8YeRd zm']")
+			driver.find_elements_by_xpath(".//div[@class='Ci Og c-wa-pc c-wa-Tc']")[3].click()
+		trs = driver.find_elements_by_xpath(".//tr[@class='YD lm']")
 		flag=0
 		for tr in trs:
 			td = tr.find_element_by_xpath(".//td[@class='b1VwRc zRvkrf']")
@@ -215,9 +215,8 @@ def get_ad_pref(driver, choice=2):									# Returns list of Ad preferences
 		if (choice == 1):
 			driver.find_element_by_css_selector("div.Vu div.bd div.Qc div div div.cc").click()	#For search related preferences
 		elif (choice == 2):
-			driver.find_element_by_xpath(".//div[@class='Rg hF']/div[@class='wf']/div[@class='jf Uh']/div[@class='Uc']/div/div[@class='lh Ld c-X-Aa c-X-Ac']").click()	#For website related preferences
-		idiv = driver.find_element_by_xpath(".//div[@class='Sg kiLTY c-X-M'][@style='']")
-		ints = idiv.find_elements_by_xpath(".//table[@class='wUOaYd']/tbody[@class='p4tSkf']/tr[@class='J8YeRd zm']/td[@class='b1VwRc zRvkrf']")
+			driver.find_elements_by_xpath(".//div[@class='Ci Og c-wa-pc c-wa-Tc']")[3].click()
+		ints = driver.find_elements_by_xpath(".//tr[@class='YD lm']/td[@class='Ro aL']")
 		for interest in ints:
 			pref.append(str(interest.get_attribute('innerHTML')))
 			#raw_input("Waiting...")
