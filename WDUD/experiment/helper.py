@@ -59,6 +59,8 @@ def applyTreatment(driver, treatmentprof, id, treatmentid):
 			train_with_sites(chunks[1], driver, id, treatmentid)
 		if(chunks[0] == 'gender'):
 			set_gender(chunks[1], driver, id, treatmentid)
+		if(chunks[0] == 'age'):
+			set_age(int(chunks[1]), driver, id, treatmentid)
 		if(chunks[0] == 'interest'):
 			set_ad_pref(chunks[1], driver, id, treatmentid)
 		if(chunks[0] == 'rinterest'):
@@ -125,6 +127,25 @@ def set_gender(gender, driver, id, treatmentid):										# Set gender on Google
 		s[1].click()						# FEMALE
 	driver.find_element_by_xpath(".//div[@class='Sg c-X-M']/div[@class='Dh']/div[@class='c-ca-ba a-b a-b-E Suvpmb']").click()
 	log("setGender="+gender+"||"+str(treatmentid), id)
+
+def set_age(age, driver, id, treatmentid):										# Set age on Google Ad Settings page
+	driver.get("https://www.google.com/settings/ads")
+	driver.find_elements_by_xpath(".//div[@class='jf Uh']/div[@class='Uc']/div/div[@class='lh Ld c-X-Aa c-X-Ac']")[1].click()
+	if(age>=18 and age<=24):
+		box = driver.find_elements_by_xpath(".//div[@class='a-p S2s7Ze KAcil'][@data-value='1']/span")[1]
+	elif(age>=25 and age<=34):	
+		box = driver.find_elements_by_xpath(".//div[@class='a-p S2s7Ze KAcil'][@data-value='2']/span")[1]
+	elif(age>=35 and age<=44):	
+		box = driver.find_elements_by_xpath(".//div[@class='a-p S2s7Ze KAcil'][@data-value='3']/span")[0]
+	elif(age>=45 and age<=54):	
+		box = driver.find_elements_by_xpath(".//div[@class='a-p S2s7Ze KAcil'][@data-value='4']/span")[0]
+	elif(age>=55 and age<=64):
+		box = driver.find_elements_by_xpath(".//div[@class='a-p S2s7Ze KAcil'][@data-value='5']/span")[0]
+	elif(age>=65):
+		box = driver.find_elements_by_xpath(".//div[@class='a-p S2s7Ze KAcil'][@data-value='6']/span")[0]
+	box.click()
+	driver.find_elements_by_xpath(".//div[@class='Sg c-X-M']/div[@class='Dh']/div[@class='c-ca-ba a-b a-b-E Suvpmb']")[1].click()
+	log("setAge="+str(age)+"||"+str(treatmentid), id)
 
 def get_gender(driver):												# Read gender from Google Ad Settings
 	driver.get("https://www.google.com/settings/ads")

@@ -43,10 +43,23 @@ class Treatment:
 			gender = 'm'
 		elif (gender.lower()=='f' or gender.lower()=='female'):
 			gender = 'f'
+		else:
+			print "Gender option not available. Exiting."
+			sys.exit(0)
 		if(self.count==0):
 			self.str += "gender|:|"+gender
 		else:
 			self.str += "|+|gender|:|"+gender
+		self.count += 1
+	
+	def set_age(self, age):
+		if(age<18):
+			print "Age under 18 cannot be set. Exiting."
+			sys.exit(0)
+		if(self.count==0):
+			self.str += "age|:|"+str(age)
+		else:
+			self.str += "|+|age|:|"+str(age)
 		self.count += 1
 	
 	def add_interest(self, interest='Auto'):
@@ -103,6 +116,13 @@ def run_experiment(treatments, log_file="log.txt", blocks=20, samples=2,
 	print "Experiment Complete"
 
 def shortlist_sites(site_file, target_file, browser='firefox'):
+	PATH="./"+target_file
+	if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
+		response = raw_input("This will overwrite file %s... Continue? (Y/n)" % target_file)
+		if response == 'n':
+			sys.exit(0)
+	fo = open(target_file, "w")
+	fo.close()
 	fo = open(site_file, "r")
 	for line in fo:
 		site = line.strip()
