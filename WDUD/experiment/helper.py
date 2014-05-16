@@ -27,7 +27,7 @@ def setLogFile(FILE):
 	LOG_FILE = FILE
 
 def optOut(driver, id=-1, treatmentid=-1):													# Opt out of behavioral advertising on Google
-	driver.set_page_load_timeout(20)
+	driver.set_page_load_timeout(40)
 	driver.get("https://www.google.com/settings/ads")
 	driver.find_element_by_xpath(".//div[@class ='Ci Lw Og']").click()
 	time.sleep(2)
@@ -36,7 +36,7 @@ def optOut(driver, id=-1, treatmentid=-1):													# Opt out of behavioral a
 		log("optedOut||"+str(treatmentid), id)
 
 def optIn(driver, id=-1, treatmentid=-1):													# Opt in to behavioral advertising on Google
-	driver.set_page_load_timeout(20)
+	driver.set_page_load_timeout(40)
 	driver.get("https://www.google.com/settings/ads")
 	driver.find_element_by_xpath(".//div[@class ='Ci Og fK']").click()
 	if(id != -1):
@@ -118,6 +118,7 @@ def adsFromNames(NAME_FILE, OUT_FILE, reloads, driver):				# Search names, Colle
 				pass
 
 def set_gender(gender, driver, id, treatmentid):										# Set gender on Google Ad Settings page
+	driver.set_page_load_timeout(40)
 	driver.get("https://www.google.com/settings/ads")
 	driver.find_elements_by_xpath(".//div[@class='Ci Og c-wa-pc c-wa-Tc']")[0].click()
 	if(gender == 'm'):
