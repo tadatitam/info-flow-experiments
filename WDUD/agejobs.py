@@ -1,7 +1,7 @@
 import wdud
 
-# site_file = 'cars2.txt'
-log_file = 'log.age.txt'
+site_file = 'short.business.employment.txt'
+log_file = 'log.agejobs.txt'
 # 
 # ## Collect sites from alexa
 # 
@@ -13,10 +13,12 @@ log_file = 'log.age.txt'
 treatment1 = wdud.Treatment("18")
 treatment1.opt_in()
 treatment1.set_age(18)
+treatment1.visit_sites(site_file)
 
 treatment2 = wdud.Treatment("65")
 treatment2.opt_in()
 treatment2.set_age(65)
+treatment2.visit_sites(site_file)
 
 # 
 # ## Run Experiment
