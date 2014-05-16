@@ -61,6 +61,7 @@ def applyTreatment(driver, treatmentprof, id, treatmentid):
 			set_ad_pref(chunks[1], driver, id, treatmentid)
 		if(chunks[0] == 'rinterest'):
 			remove_ad_pref(chunks[1], driver, id, treatmentid)
+		time.sleep(2)
 	log('training-end', id)
 
 def login2Google(username, password, driver):

@@ -18,24 +18,25 @@ def treatment_feature_histogram(X,y,feat, names):
 		obs[y[i]] += X[i]
 	colors = ['b', 'r', 'g', 'm', 'k']							# Can plot upto 5 different colors
 	pos = np.arange(1, len(obs[0])+1)
-	width = 0.5     # gives histogram aspect to the bar diagram
+	width = 0.1     # gives histogram aspect to the bar diagram
 	gridLineWidth=0.1
 	fig, ax = plt.subplots()
 # 	ax.xaxis.grid(True, zorder=0)
 # 	ax.yaxis.grid(True, zorder=0)
 	matplotlib.rc('xtick', labelsize=1)
 # 	matplotlib.gca().tight_layout()
-# 	for i in range(0, len(obs)):
+	for i in range(0, len(obs)):
 # 		lbl = "treatment "+str(i)
-	plt.bar(pos, obs[0], width, color=colors[0], alpha=0.5)
+		plt.bar(pos+i*width, obs[i], width, color=colors[i], alpha=0.5, label=names[i])
+# 	plt.bar(pos, obs[0], width, color=colors[0], alpha=0.5)
 	plt.xticks(pos+width/2., feat.data, rotation="vertical")		# useful only for categories
 	#plt.axis([-1, len(obs[2]), 0, len(ran1)/2+10])
 	plt.ylabel("# agents")
 	feat.display()
 	print obs[0]
-# 	plt.legend()
-	(matplotlib.pyplot).tight_layout()
+	plt.legend()
 	# saving:
+	(matplotlib.pyplot).tight_layout()
 	fig.savefig("+".join(names)+".eps")
 # 	plt.show()
 

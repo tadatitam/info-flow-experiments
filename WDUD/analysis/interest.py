@@ -17,7 +17,9 @@ class Interests:
 		return len(self.data)
 
 	def set_from_string(self, str):
-		chunks = re.split(',', str)
+		chunks = re.split('@', str)
+		if len(chunks)==1:
+			chunks = re.split(',', str)
 		for i in range(0, len(chunks)):
 			chunks[i] = chunks[i].replace("&amp;", "&").strip()
 		self.data.extend(chunks)

@@ -1,7 +1,7 @@
 import wdud
 
 site_file = 'cars2.txt'
-log_file = 'log2.carsF.txt'
+log_file = 'log2.carsG.txt'
 # 
 # ## Collect sites from alexa
 # 
@@ -10,9 +10,10 @@ log_file = 'log2.carsF.txt'
 # 
 # ## Set up treatments
 # 
-treatment1 = wdud.Treatment("in-cars")
+treatment1 = wdud.Treatment("in-cars-out")
 treatment1.opt_in()
 treatment1.visit_sites(site_file)
+treatment1.opt_out()
 
 treatment2 = wdud.Treatment("in-out-cars")
 treatment2.opt_in()
@@ -22,7 +23,7 @@ treatment2.visit_sites(site_file)
 # 
 # ## Run Experiment
 # 
-wdud.run_experiment(treatments=[treatment2, treatment1], samples=2, blocks=100, reloads=10, log_file=log_file, timeout=1000)
+wdud.run_experiment(treatments=[treatment2, treatment1], samples=10, blocks=100, reloads=10, log_file=log_file, timeout=1000)
 # 
 # ## Analyze Data
 
