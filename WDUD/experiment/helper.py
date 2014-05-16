@@ -29,7 +29,7 @@ def setLogFile(FILE):
 def optOut(driver, id=-1, treatmentid=-1):													# Opt out of behavioral advertising on Google
 	driver.set_page_load_timeout(20)
 	driver.get("https://www.google.com/settings/ads")
-	driver.find_element_by_xpath(".//div[@class ='lh amHZad Ld']").click()
+	driver.find_element_by_xpath(".//div[@class ='Ci Lw Og']").click()
 	time.sleep(2)
 	driver.execute_script("document.getElementsByName('ok')[1].click();")	
 	if(id != -1):
@@ -38,7 +38,7 @@ def optOut(driver, id=-1, treatmentid=-1):													# Opt out of behavioral a
 def optIn(driver, id=-1, treatmentid=-1):													# Opt in to behavioral advertising on Google
 	driver.set_page_load_timeout(20)
 	driver.get("https://www.google.com/settings/ads")
-	driver.find_element_by_xpath(".//div[@class ='lh Ld oXMGic']").click()
+	driver.find_element_by_xpath(".//div[@class ='Ci Og fK']").click()
 	if(id != -1):
 		log("optedIn||"+str(treatmentid), id)
 
@@ -119,37 +119,37 @@ def adsFromNames(NAME_FILE, OUT_FILE, reloads, driver):				# Search names, Colle
 
 def set_gender(gender, driver, id, treatmentid):										# Set gender on Google Ad Settings page
 	driver.get("https://www.google.com/settings/ads")
-	driver.find_element_by_xpath(".//div[@class='jf Uh']/div[@class='Uc']/div/div[@class='lh Ld c-X-Aa c-X-Ac']").click()
-	s = driver.find_elements_by_xpath(".//div[@class='Wn xm']/div[@class='jy']/div/span[@class='a-p-ga']")
+	driver.find_elements_by_xpath(".//div[@class='Ci Og c-wa-pc c-wa-Tc']")[0].click()
 	if(gender == 'm'):
-		s[0].click()						# MALE			
+		box = driver.find_elements_by_xpath(".//div[@class='a-o wu XK'][@data-value='1']/span")[0]			# MALE			
 	elif(gender == 'f'):
-		s[1].click()						# FEMALE
-	driver.find_element_by_xpath(".//div[@class='Sg c-X-M']/div[@class='Dh']/div[@class='c-ca-ba a-b a-b-E Suvpmb']").click()
+		box = driver.find_elements_by_xpath(".//div[@class='a-o wu XK'][@data-value='2']/span")[0]			# FEMALE
+	box.click()
+	driver.find_elements_by_xpath(".//div[@class='c-ca-ba a-b a-b-H cn']")[0].click()
 	log("setGender="+gender+"||"+str(treatmentid), id)
 
 def set_age(age, driver, id, treatmentid):										# Set age on Google Ad Settings page
 	driver.get("https://www.google.com/settings/ads")
-	driver.find_elements_by_xpath(".//div[@class='jf Uh']/div[@class='Uc']/div/div[@class='lh Ld c-X-Aa c-X-Ac']")[1].click()
+	driver.find_elements_by_xpath(".//div[@class='Ci Og c-wa-pc c-wa-Tc']")[1].click()
 	if(age>=18 and age<=24):
-		box = driver.find_elements_by_xpath(".//div[@class='a-p S2s7Ze KAcil'][@data-value='1']/span")[1]
+		box = driver.find_elements_by_xpath(".//div[@class='a-o wu XK'][@data-value='1']/span")[1]
 	elif(age>=25 and age<=34):	
-		box = driver.find_elements_by_xpath(".//div[@class='a-p S2s7Ze KAcil'][@data-value='2']/span")[1]
+		box = driver.find_elements_by_xpath(".//div[@class='a-o wu XK'][@data-value='2']/span")[1]
 	elif(age>=35 and age<=44):	
-		box = driver.find_elements_by_xpath(".//div[@class='a-p S2s7Ze KAcil'][@data-value='3']/span")[0]
+		box = driver.find_elements_by_xpath(".//div[@class='a-o wu XK'][@data-value='3']/span")[0]
 	elif(age>=45 and age<=54):	
-		box = driver.find_elements_by_xpath(".//div[@class='a-p S2s7Ze KAcil'][@data-value='4']/span")[0]
+		box = driver.find_elements_by_xpath(".//div[@class='a-o wu XK'][@data-value='4']/span")[0]
 	elif(age>=55 and age<=64):
-		box = driver.find_elements_by_xpath(".//div[@class='a-p S2s7Ze KAcil'][@data-value='5']/span")[0]
+		box = driver.find_elements_by_xpath(".//div[@class='a-o wu XK'][@data-value='5']/span")[0]
 	elif(age>=65):
-		box = driver.find_elements_by_xpath(".//div[@class='a-p S2s7Ze KAcil'][@data-value='6']/span")[0]
+		box = driver.find_elements_by_xpath(".//div[@class='a-o wu XK'][@data-value='6']/span")[0]
 	box.click()
-	driver.find_elements_by_xpath(".//div[@class='Sg c-X-M']/div[@class='Dh']/div[@class='c-ca-ba a-b a-b-E Suvpmb']")[1].click()
+	driver.find_elements_by_xpath(".//div[@class='c-ca-ba a-b a-b-H cn']")[1].click()
 	log("setAge="+str(age)+"||"+str(treatmentid), id)
 
 def get_gender(driver):												# Read gender from Google Ad Settings
 	driver.get("https://www.google.com/settings/ads")
-	div = driver.find_element_by_xpath(".//div[@class='jf Uh']/div[@class='Uc']/div/span[@class='PJzbEd']")
+	div = driver.find_elements_by_xpath(".//div[@class='nm Jw']/div[@class='km']/div/span[@class='ii']")[0]
 	inn = str(div.get_attribute('innerHTML'))
 	return inn[0]
 
