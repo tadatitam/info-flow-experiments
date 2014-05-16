@@ -70,14 +70,14 @@ class Webdriver(unittest.TestCase):
 		driver = self.driver
 		cole.optIn(driver)
 		driver.get(SITE)
-		time.sleep(10)
+		time.sleep(20)
 		#raw_input("wait")
 		pref = cole.get_ad_pref(2, driver)
 		print SITE
 		print 'pref=', pref
 		if pref != []:
 			fo = open(TARGET_FILE, "a")
-			fo.write(SITE+"||"+", ".join(pref)+'\n')
+			fo.write(SITE+"||"+"@".join(pref)+'\n')
 			fo.close()
 
 	def tearDown(self):

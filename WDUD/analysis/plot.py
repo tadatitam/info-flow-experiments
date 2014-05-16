@@ -37,7 +37,7 @@ def treatment_feature_histogram(X,y,feat, names):
 	plt.legend()
 	# saving:
 	(matplotlib.pyplot).tight_layout()
-	fig.savefig("+".join(names)+".eps")
+	fig.savefig("./plots/"+"+".join(names)+".eps")
 # 	plt.show()
 
 def histogramPlots(list):
