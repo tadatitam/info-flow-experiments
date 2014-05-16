@@ -26,19 +26,21 @@ def setLogFile(FILE):
 	global LOG_FILE
 	LOG_FILE = FILE
 
-def optOut(driver, id, treatmentid):													# Opt out of behavioral advertising on Google
+def optOut(driver, id=-1, treatmentid=-1):													# Opt out of behavioral advertising on Google
 	driver.set_page_load_timeout(20)
 	driver.get("https://www.google.com/settings/ads")
 	driver.find_element_by_xpath(".//div[@class ='lh amHZad Ld']").click()
 	time.sleep(2)
 	driver.execute_script("document.getElementsByName('ok')[1].click();")	
-	log("optedOut||"+str(treatmentid), id)
+	if(id != -1):
+		log("optedOut||"+str(treatmentid), id)
 
-def optIn(driver, id, treatmentid):													# Opt in to behavioral advertising on Google
+def optIn(driver, id=-1, treatmentid=-1):													# Opt in to behavioral advertising on Google
 	driver.set_page_load_timeout(20)
 	driver.get("https://www.google.com/settings/ads")
 	driver.find_element_by_xpath(".//div[@class ='lh Ld oXMGic']").click()
-	log("optedIn||"+str(treatmentid), id)
+	if(id != -1):
+		log("optedIn||"+str(treatmentid), id)
 
 def applyTreatment(driver, treatmentprof, id, treatmentid):
 	treatment = treatmentprof.str

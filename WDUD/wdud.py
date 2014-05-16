@@ -3,6 +3,7 @@ from datetime import datetime							# for getting times for computation
 
 import experiment.alexa as alexa
 import experiment.trials as trials
+import experiment.shortlist as short
 
 import analysis.converter as converter
 import analysis.stat as stat
@@ -100,6 +101,12 @@ def run_experiment(treatments, log_file="log.txt", blocks=20, samples=2,
 	print "Starting Experiment"
 	trials.begin(log_file, samples, treatments, blocks, runs, collection_site, reloads, delay, browser, timeout)
 	print "Experiment Complete"
+
+def shortlist_sites(site_file, target_file, browser='firefox'):
+	fo = open(site_file, "r")
+	for line in fo:
+		site = line.strip()
+		short.shortlist_sites(site, target_file)
 
 def run_analysis(log_file="log.txt", splitfrac=0.1, nfolds=10, 
 		feat_choice="ads", nfeat=5, verbose=False):
