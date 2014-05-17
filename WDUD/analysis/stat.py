@@ -89,7 +89,7 @@ def new_p_test(X_test, y_test, clf):							# permutation test
 			under += 1
 	return (1.0*under) / (1.0*len(a))
 	
-def block_p_test(oXtest, oytest, clf, alpha=0.05, iterations=1000000):				# block permutation test
+def block_p_test(oXtest, oytest, clf, alpha=0.01, iterations=1000000):				# block permutation test
 	blockSize = oXtest.shape[1]
 	blocks = oXtest.shape[0]
 	ypred = np.array([[-1]*blockSize]*blocks)
