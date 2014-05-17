@@ -235,7 +235,13 @@ def proportion_confint(count, nobs, alpha=0.05, method='normal'):
         raise NotImplementedError('method "%s" is not available' % method)
     return ci_low, ci_upp
 
-
+def find_word_in_collection(collection, words):
+	counts = [0,0]
+	for col in collection:
+		advs = col['adv']
+		for adv in advs:
+			counts[adv.label] += adv.freq_contains(words)
+	return counts
 
 def print_counts_in_block(index, adv, ass):							# returns detailed counts of #ads within a round
 	advm, advf = vec_for_stats(adv, ass)

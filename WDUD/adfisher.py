@@ -140,7 +140,6 @@ def run_analysis(log_file="log.txt", splitfrac=0.1, nfolds=10,
 		return
 	intX, inty, intFeat = converter.get_interest_vectors(collection)
 # 	plot.treatment_feature_histogram(intX, inty, intFeat, names)
-# 	return
 	s = datetime.now()
 	X,y,feat = converter.get_feature_vectors(collection, feat_choice='ads')
 	e = datetime.now()

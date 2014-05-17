@@ -79,10 +79,10 @@ class AdVector:
 				c1 += 1
 		return c1
 		
-	def freq_contains(self, nonce):
+	def freq_contains(self, nonces):
 		count = 0
 		for ad in self.data:
-			if(ad.contains(nonce)):
+			if(ad.contains(nonces)):
 				count +=1
 		return count
 			
