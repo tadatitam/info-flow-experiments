@@ -8,7 +8,7 @@ import ad, common
 URL = 1
 TITLE_URL = 2
 TITLE_BODY = 3
-CHOICE = URL
+CHOICE = TITLE_URL
 
 # Choices for measure of similarity
 JACCARD = 1

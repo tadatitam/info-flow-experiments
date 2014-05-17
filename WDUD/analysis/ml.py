@@ -1,6 +1,8 @@
 import numpy as np
 import stat
 
+from datetime import datetime							# for getting times for computation
+
 ## CV
 from sklearn import cross_validation
 from itertools import product
@@ -14,7 +16,7 @@ from sklearn.svm import LinearSVC
 
 #------------- functions for Machine Learning Analyses ---------------#
 
-def split_data(X, y, splittype, splitfrac, verbose=False):	
+def split_data(X, y, splittype='timed', splitfrac=0.1, verbose=False):	
 	if(splittype == 'rand'):
 		rs1 = cross_validation.ShuffleSplit(len(X), n_iter=1, test_size=splitfrac)
 		for train, test in rs1:
@@ -62,50 +64,91 @@ def train_and_test(algos, X, y, splittype='timed', splitfrac=0.1, nfolds=10, blo
 	if(verbose):
 		print "Training Set size: ", len(y_train), "blocks"
 		print "Testing Set size: ", len(y_test), "blocks"
+	s = datetime.now()
 	clf, CVscore = select_and_fit_classifier(nfolds, algos, X_train, y_train, splittype, splitfrac, blocked, verbose)
+	e = datetime.now()
+	if(verbose):
+		print "---Time for selecting classifier: ", str(e-s)
 	print "CVscore: ", CVscore
 	print "Test accuracy: ", test_accuracy(clf, X_test, y_test, blocked)
+	s = datetime.now()
 	pvalue = stat.block_p_test(X_test, y_test, clf)
+	e = datetime.now()
 	print "p-value: ", pvalue
+	if(verbose):
+		print "---Time for running permutation test: ", str(e-s)
 	return clf
 
-def print_top_features(X, y, feat, treatnames, max_clf, feat_choice, k=5, blocked=1):		# prints top k features from max_clf+some numbers
+def print_top_features(X, y, feat, treatnames, clf, feat_choice, nfeat=5, blocked=1):		# prints top nfeat features from clf+some numbers
+	X_train, y_train, X_test, y_test = split_data(X, y, verbose=True)
 	if(blocked==1):
 		X = np.array([item for sublist in X for item in sublist])
 		y = np.array([item for sublist in y for item in sublist])
+		X_train = np.array([item for sublist in X_train for item in sublist])
+		y_train = np.array([item for sublist in y_train for item in sublist])
+		X_test = np.array([item for sublist in X_test for item in sublist])
+		y_test = np.array([item for sublist in y_test for item in sublist])
 	A = np.array([0.]*len(X[0]))
 	B = np.array([0.]*len(X[0]))
+	a = np.array([0.]*len(X[0]))
+	b = np.array([0.]*len(X[0]))
 	for i in range(len(X)):
 		if(y[i] == 1):
 			A = A + X[i]
+			a = a + np.sign(X[i])
 		elif(y[i] == 0):
 			B = B + X[i]
-	n_classes = max_clf.coef_.shape[0]
+			b = b + np.sign(X[i])
+	Atrain = np.array([0.]*len(X_train[0]))
+	Btrain = np.array([0.]*len(X_train[0]))
+	atrain = np.array([0.]*len(X_train[0]))
+	btrain = np.array([0.]*len(X_train[0]))
+	for i in range(len(X_train)):
+		if(y_train[i] == 1):
+			Atrain = Atrain + X_train[i]
+			atrain = atrain + np.sign(X_train[i])
+		elif(y_train[i] == 0):
+			Btrain = Btrain + X_train[i]
+			btrain = btrain + np.sign(X_train[i])
+	Atest = np.array([0.]*len(X_test[0]))
+	Btest = np.array([0.]*len(X_test[0]))
+	atest = np.array([0.]*len(X_test[0]))
+	btest = np.array([0.]*len(X_test[0]))
+	for i in range(len(X_test)):
+		if(y_test[i] == 1):
+			Atest = Atest + X_test[i]
+			atest = atest + np.sign(X_test[i])
+		elif(y_test[i] == 0):
+			Btest = Btest + X_test[i]
+			btest = btest + np.sign(X_test[i])
+	n_classes = clf.coef_.shape[0]
 	if(n_classes == 1):
-		topk1 = np.argsort(max_clf.coef_[0])[::-1][:k]
+		topk1 = np.argsort(clf.coef_[0])[::-1][:nfeat]
 		print "\nFeatures for class %s:" %(str(treatnames[1]))
 		for i in topk1:
 			if(feat_choice == 'ads'):
-				feat.choose_by_index(i).printStuff(max_clf.coef_[0][i], A[i], B[i])
+				feat.choose_by_index(i).printStuff(clf.coef_[0][i], 
+				[Atrain[i], Btrain[i], Atest[i], Btest[i], A[i], B[i]], [atrain[i], btrain[i], atest[i], btest[i], a[i], b[i]])
 			elif(feat_choice == 'words'):
 				print feat[i]
-		topk0 = np.argsort(max_clf.coef_[0])[:k]
+		topk0 = np.argsort(clf.coef_[0])[:nfeat]
 		print "\n\nFeatures for class %s:" %(str(treatnames[0]))
 		for i in topk0:
 			if(feat_choice == 'ads'):
-				feat.choose_by_index(i).printStuff(max_clf.coef_[0][i], A[i], B[i])
+				feat.choose_by_index(i).printStuff(clf.coef_[0][i], 
+				[Atrain[i], Btrain[i], Atest[i], Btest[i], A[i], B[i]], [atrain[i], btrain[i], atest[i], btest[i], a[i], b[i]])
 			elif(feat_choice == 'words'):
 				print feat[i]
 	else:
 		for i in range(0,n_classes):
-			topk = np.argsort(max_clf.coef_[i])[::-1][:k]
+			topk = np.argsort(clf.coef_[i])[::-1][:nfeat]
 			print "Features for class %s:" %(str(treatnames[i]))
 			for j in topk:
 				if(feat_choice == 'ads'):
 					feat.choose_by_index(j).display()
 				elif(feat_choice == 'words'):
 					print feat[j]
-			print "coefs: ", max_clf.coef_[i][topk]
+			print "coefs: ", clf.coef_[i][topk]
 	
 
 def crossVal_algo(k, algo, params, X, y, splittype, splitfrac, blocked, verbose=False):				# performs cross_validation
@@ -161,7 +204,7 @@ def run_ml_analysis(X, y, feat, treatnames, feat_choice='ads', nfeat=5, splittyp
 		nfolds=10, blocked=1, ptest=1, verbose=False):				# main function, calls cross_validation, then runs chi2
 
 	algos = {	
-				'logit':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'penalty':['l1', 'l2']},
+				'logit':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'penalty':['l2']},
 # 				'svc':{'C':np.logspace(-5.0, 15.0, num=21, base=2)}	
 # 				'kNN':{'k':np.arange(1,20,2), 'p':[1,2,3]}, 
 # 				'polySVM':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'degree':[1,2,3,4]},
