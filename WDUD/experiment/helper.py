@@ -27,7 +27,7 @@ def setLogFile(FILE):
 	LOG_FILE = FILE
 
 def optOut(driver, id=-1, treatmentid=-1):													# Opt out of behavioral advertising on Google
-	driver.set_page_load_timeout(40)
+	driver.set_page_load_timeout(60)
 	driver.get("https://www.google.com/settings/ads")
 	driver.find_element_by_xpath(".//div[@class ='Ci Lw Og']").click()
 	time.sleep(2)
@@ -36,7 +36,7 @@ def optOut(driver, id=-1, treatmentid=-1):													# Opt out of behavioral a
 		log("optedOut||"+str(treatmentid), id)
 
 def optIn(driver, id=-1, treatmentid=-1):													# Opt in to behavioral advertising on Google
-	driver.set_page_load_timeout(40)
+	driver.set_page_load_timeout(60)
 	driver.get("https://www.google.com/settings/ads")
 	driver.find_element_by_xpath(".//div[@class ='Ci Og fK']").click()
 	if(id != -1):
@@ -197,14 +197,15 @@ def set_ad_pref(pref, driver, id, treatmentid, choice=2):									# Set an ad pr
 		if (choice == 1):
 			driver.find_element_by_css_selector("div.Vu div.bd div.Qc div div div.cc").click()	#For search related preferences
 		elif (choice == 2):
-			driver.find_element_by_xpath(".//div[@class='Rg hF']/div[@class='wf']/div[@class='jf Uh']/div[@class='Uc']/div/div[@class='lh Ld c-X-Aa c-X-Ac']").click()	#For website related preferences
-		driver.find_element_by_xpath(".//input[@class='yQfFt a-Ca CvD2w']").send_keys(pref)
-		driver.find_element_by_xpath(".//div[@class='QJTE8e nhosSe ta']").click()
+			driver.find_elements_by_xpath(".//div[@class='Ci Og c-wa-pc c-wa-Tc']")[3].click()
+		driver.find_element_by_xpath(".//input[@class='dL a-Sa ZD']").send_keys(pref)
+		driver.find_element_by_xpath(".//div[@class='WD TD Ha']").click()
 		time.sleep(1)
-		trs = driver.find_elements_by_xpath(".//tr[@class='J8YeRd zm']")
+		trs = driver.find_elements_by_xpath(".//tr[@class='YD lm']")
 		for tr in trs:
-			td = tr.find_element_by_xpath(".//td[@class='b1VwRc zRvkrf']").get_attribute('innerHTML')
-		driver.find_element_by_xpath(".//div[@class='c-ca-ba a-b a-b-E ly hE']").click()
+			td = tr.find_element_by_xpath(".//td[@class='Ro aL']").get_attribute('innerHTML')
+			print td
+		driver.find_element_by_xpath(".//div[@class='c-ca-ba a-b a-b-H dD Iw']").click()
 		log("setInterest="+td+"||"+str(treatmentid), id)
 	except:
 		print "No interests matched '%s'. Skipping." %(pref)

@@ -13,6 +13,7 @@ log_file = 'log.genjobs.txt'
 treatment1 = wdud.Treatment("female")
 treatment1.opt_in()
 treatment1.set_gender("female")
+treatment1.add_interest("Dating & Personals")
 treatment1.visit_sites(site_file)
 
 treatment2 = wdud.Treatment("male")
