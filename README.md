@@ -86,7 +86,7 @@ treatment.add_interest("Autos & Vehicles")
 treatment.remove_interest("Basketball")
 treatment.opt_out()
 ```
-There are few things one must be careful about here. None of the settings are available on the Google Ad Settings page unless one `opts in' first. Also, there is no setting for a specific age, but only for an age group. AdFisher sets the corresponding age group when given an age. Upon searching for an interest to add, Google provides a range of options when available. AdFisher will only add the first interest prompted by Google. However, when removing an interest, AdFisher will delete all interests that contain the keyword. For example ```remove_interest("Basketball")``` will remove both *Basketball* and *Basketball Equipment*, if present.
+There are few things one must be careful about here. None of the settings are available on the Google Ad Settings page unless one 'opts in' first. Also, there is no setting for a specific age, but only for an age group. AdFisher sets the corresponding age group when given an age. Upon searching for an interest to add, Google provides a range of options when available. AdFisher will only add the first interest prompted by Google. However, when removing an interest, AdFisher will delete all interests that contain the keyword. For example ```remove_interest("Basketball")``` will remove both *Basketball* and *Basketball Equipment*, if present.
 ##### Visit Sites
 AdFisher also allows you to visit websites as part of the treatment.By passing the name of a file containing the URLs of websites, AdFisher will propel the corresponding agents to visit all the websites one after the other.
 ```python
