@@ -1,7 +1,7 @@
 AdFisher
 =========
 
-AdFisher is a Web Data Usage Detection Tool. 
+AdFisher is a tool for running Automated Experiments on Personalized Ad Settings. 
 
 Requirements
 -----------
