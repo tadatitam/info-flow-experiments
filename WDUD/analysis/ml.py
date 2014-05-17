@@ -124,7 +124,7 @@ def print_top_features(X, y, feat, treatnames, clf, feat_choice, nfeat=5, blocke
 	n_classes = clf.coef_.shape[0]
 	if(n_classes == 1):
 		topk1 = np.argsort(clf.coef_[0])[::-1][:nfeat]
-		print "\nFeatures for class %s:" %(str(treatnames[1]))
+		print "\nFeatures for treatment %s:" %(str(treatnames[1]))
 		for i in topk1:
 			if(feat_choice == 'ads'):
 				feat.choose_by_index(i).printStuff(clf.coef_[0][i], 
@@ -132,7 +132,7 @@ def print_top_features(X, y, feat, treatnames, clf, feat_choice, nfeat=5, blocke
 			elif(feat_choice == 'words'):
 				print feat[i]
 		topk0 = np.argsort(clf.coef_[0])[:nfeat]
-		print "\n\nFeatures for class %s:" %(str(treatnames[0]))
+		print "\n\nFeatures for treatment %s:" %(str(treatnames[0]))
 		for i in topk0:
 			if(feat_choice == 'ads'):
 				feat.choose_by_index(i).printStuff(clf.coef_[0][i], 
@@ -142,7 +142,7 @@ def print_top_features(X, y, feat, treatnames, clf, feat_choice, nfeat=5, blocke
 	else:
 		for i in range(0,n_classes):
 			topk = np.argsort(clf.coef_[i])[::-1][:nfeat]
-			print "Features for class %s:" %(str(treatnames[i]))
+			print "Features for treatment %s:" %(str(treatnames[i]))
 			for j in topk:
 				if(feat_choice == 'ads'):
 					feat.choose_by_index(j).display()
