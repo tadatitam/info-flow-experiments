@@ -17,7 +17,7 @@ Selenium is a web-browser automation framework. Xvfb allows for headless testing
 xvfbwrapper is a python wrapper for the same. 
 To carry out the data analysis requires the following packages:
   - numpy, scipy, matplotlib ```sudo apt-get install python-numpy python-scipy python-matplotlib```
-  - scikit learn ```pip install -U scikit-learn```
+  - scikit learn ```pip install scikit-learn```
   - stemming ```pip install stemming```
   - nltk ```pip install -U pyyaml nltk```
      - You also need to download the nltk stopwords corpus by typing the following commands in your python interpreter. 
