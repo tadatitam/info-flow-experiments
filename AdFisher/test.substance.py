@@ -11,11 +11,11 @@ adfisher.collect_sites_from_alexa(nsites=100, output_file=site_file, browser="fi
 ## Set up treatments
 
 treatment1 = adfisher.Treatment("substance")
+treatment1.opt_in()
 treatment1.visit_sites(site_file)
 
 treatment2 = adfisher.Treatment("null")
-#treatment2.set_gender("male")
-#treatment2.visit_sites(site_file)
+treatment2.opt_in()
 
 ## Run Experiment
 
