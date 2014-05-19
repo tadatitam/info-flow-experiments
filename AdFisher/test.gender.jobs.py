@@ -22,7 +22,7 @@ treatment2.visit_sites(site_file)
 
 ## Run Experiment
 
-adfisher.run_experiment(treatments=[treatment2, treatment1], samples=2, blocks=100, reloads=10, log_file=log_file)
+adfisher.run_experiment(treatments=[treatment1, treatment2], samples=10, blocks=100, reloads=10, log_file=log_file)
 
 ## Analyze Data
 
