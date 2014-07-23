@@ -4,7 +4,7 @@ import common
 class Interests:
 	
 	def __init__(self):
-		self.data = []	
+		self.data = []
 		self.label = -1	
 		
 	def setLabel(self, lbl):
@@ -15,7 +15,10 @@ class Interests:
 		
 	def size(self):
 		return len(self.data)
-
+	
+	def remove_interest(self):
+		self.data = []		
+		
 	def set_from_string(self, str):
 		chunks = re.split('@', str)
 		if len(chunks)==1:

@@ -1,0 +1,10 @@
+google.com
+facebook.com
+youtube.com
+yahoo.com
+amazon.com
+wikipedia.org
+twitter.com
+linkedin.com
+ebay.com
+craigslist.org

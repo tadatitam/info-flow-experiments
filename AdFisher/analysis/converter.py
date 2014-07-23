@@ -73,6 +73,7 @@ def get_interest_vectors(advdicts):
 			y.extend(y1)
 	else:
 		y = [int(i) for i in labels]
+	feat.data[feat.data.index('')] = 'None'
 	print "Complete"
 	return np.array(X), np.array(y), feat
 
@@ -200,6 +201,9 @@ def get_ads_from_log(log_file):							# check
  		elif(chunks[1] == 'errorcollecting'):
  			id = int(chunks[2])
  			errors[id] += 1
+ 		elif(chunks[1] == 'prepref'):
+ 			id = int(chunks[4])
+ 			ints[id].remove_interest()
  		elif(chunks[1] == 'pref'):
  			id = int(chunks[4])
  			int_str = chunks[3]
