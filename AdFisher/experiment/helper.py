@@ -197,7 +197,7 @@ def set_ad_pref(pref, driver, id, treatmentid, choice=2):									# Set an ad pr
 		if (choice == 1):
 			driver.find_element_by_css_selector("div.Vu div.bd div.Qc div div div.cc").click()	#For search related preferences
 		elif (choice == 2):
-			driver.find_elements_by_xpath(".//div[@class='Ci Og c-wa-pc c-wa-Tc']")[3].click()
+			driver.find_elements_by_xpath(".//div[@class='ri Lf c-ea-pb c-ea-Ub']")[3].click()
 		driver.find_element_by_xpath(".//input[@class='dL a-Sa ZD']").send_keys(pref)
 		driver.find_element_by_xpath(".//div[@class='WD TD Ha']").click()
 		time.sleep(1)
@@ -217,8 +217,8 @@ def get_ad_pref(driver, choice=2):									# Returns list of Ad preferences
 		if (choice == 1):
 			driver.find_element_by_css_selector("div.Vu div.bd div.Qc div div div.cc").click()	#For search related preferences
 		elif (choice == 2):
-			driver.find_elements_by_xpath(".//div[@class='Ci Og c-wa-pc c-wa-Tc']")[3].click()
-		ints = driver.find_elements_by_xpath(".//tr[@class='YD lm']/td[@class='Ro aL']")
+			driver.find_elements_by_xpath(".//div[@class='ri Lf c-ea-pb c-ea-Ub']")[3].click()
+		ints = driver.find_elements_by_xpath(".//tr[@class='SF Fn']/td[@class='Vq UL']")
 		for interest in ints:
 			pref.append(str(interest.get_attribute('innerHTML')))
 			#raw_input("Waiting...")
