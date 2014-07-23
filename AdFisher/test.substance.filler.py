@@ -25,7 +25,8 @@ treatment2.visit_sites(filler_file)
 
 ## Run Experiment
 
-adfisher.run_experiment(treatments=[treatment1, treatment2], samples=10, blocks=100, reloads=10, log_file=log_file)
+adfisher.run_experiment(treatments=[treatment1, treatment2], 
+	samples=10, blocks=100, reloads=10, log_file=log_file, timeout=2500)
 
 ## Analyze Data
 
