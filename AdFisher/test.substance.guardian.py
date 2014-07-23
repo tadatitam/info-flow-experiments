@@ -14,11 +14,11 @@ log_file = 'log.substance.txt'
 	
 ## Set up treatments
 
-treatment1 = adfisher.Treatment("substance.filler")
+treatment1 = adfisher.Treatment("substance")
 treatment1.opt_in()
 treatment1.visit_sites(site_file)
 
-treatment2 = adfisher.Treatment("filler")
+treatment2 = adfisher.Treatment("null")
 treatment2.opt_in()
 
 ## Run Experiment
