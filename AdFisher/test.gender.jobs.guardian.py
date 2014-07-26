@@ -23,7 +23,7 @@ treatment2.visit_sites(site_file)
 ## Run Experiment
 
 adfisher.run_experiment(treatments=[treatment1, treatment2], collection_site="guardian", 
-	samples=2, blocks=100, reloads=10, log_file=log_file)
+	samples=10, blocks=100, reloads=10, log_file=log_file)
 	
 ## Analyze Data
 

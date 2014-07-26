@@ -62,8 +62,10 @@ def applyTreatment(driver, treatmentprof, id, treatmentid):
 		if(chunks[0] == 'age'):
 			set_age(int(chunks[1]), driver, id, treatmentid)
 		if(chunks[0] == 'interest'):
+			print "Adding Interests"
 			set_ad_pref(chunks[1], driver, id, treatmentid)
 		if(chunks[0] == 'rinterest'):
+			print "Removing Interests"
 			remove_ad_pref(chunks[1], driver, id, treatmentid)
 		time.sleep(2)
 	log('training-end', id)
@@ -155,41 +157,39 @@ def get_gender(driver):												# Read gender from Google Ad Settings
 	return inn[0]
 
 def remove_ad_pref(pref, driver, id, treatmentid, choice=2):
-# 	try:
-	prefs = get_ad_pref(driver)
-	log("prepref"+"||"+str(treatmentid)+"||"+"@".join(prefs), id)
-	driver.set_page_load_timeout(40)
-	driver.get("https://www.google.com/settings/ads")
-	rem = []
-	while(1):
+	try:
+		prefs = get_ad_pref(driver)
+		log("prepref"+"||"+str(treatmentid)+"||"+"@".join(prefs), id)
+		driver.set_page_load_timeout(40)
+		driver.get("https://www.google.com/settings/ads")
 		if (choice == 1):
 			driver.find_element_by_css_selector("div.Vu div.bd div.Qc div div div.cc").click()	#For search related preferences
 		elif (choice == 2):
-			driver.find_elements_by_xpath(".//div[@class='Ci Og c-wa-pc c-wa-Tc']")[3].click()
-		trs = driver.find_elements_by_xpath(".//tr[@class='YD lm']")
-		flag=0
-		for tr in trs:
-			td = tr.find_element_by_xpath(".//td[@class='b1VwRc zRvkrf']")
-			div = tr.find_element_by_xpath(".//td[@class='bNhkN']/div")
-			int = td.get_attribute('innerHTML')
-			if pref.lower() in div.get_attribute('aria-label').lower():
-				flag=1
-				hover = ActionChains(driver).move_to_element(td)
-				hover.perform()
-				time.sleep(1)
-				td.click()
-				div.click()
-				rem.append(int)
-				driver.refresh()
-				time.sleep(5)
+			driver.find_elements_by_xpath(".//div[@class='ri Lf c-ea-pb c-ea-Ub']")[3].click()
+		rem = []
+		while(1):
+			trs = driver.find_elements_by_xpath(".//tr[@class='SF Fn']")
+			flag=0
+			for tr in trs:
+				td = tr.find_element_by_xpath(".//td[@class='Vq UL']")
+				div = tr.find_element_by_xpath(".//td[@class='Wq']/div")
+				int = td.get_attribute('innerHTML')
+				if pref.lower() in div.get_attribute('aria-label').lower():
+					flag=1
+					hover = ActionChains(driver).move_to_element(td)
+					hover.perform()
+					time.sleep(1)
+					td.click()
+					div.click()
+					rem.append(int)
+					time.sleep(2)
+					break
+			if(flag == 0):
 				break
-# 			print rem
-		if(flag == 0):
-			break
-	driver.find_element_by_xpath(".//div[@class='c-ca-ba a-b a-b-E ly hE']").click()
-	log("remInterest="+"@".join(rem)+"||"+str(treatmentid), id)
-# 	except:
-# 		print "No interests matched '%s'. Skipping." %(pref)
+		driver.find_element_by_xpath(".//div[@class='c-T-S a-b a-b-B XE ty']").click()
+		log("remInterest="+"@".join(rem)+"||"+str(treatmentid), id)
+	except:
+		print "No interests matched '%s'. Skipping." %(pref)
 
 def set_ad_pref(pref, driver, id, treatmentid, choice=2):									# Set an ad pref
 	try:
@@ -198,17 +198,17 @@ def set_ad_pref(pref, driver, id, treatmentid, choice=2):									# Set an ad pr
 			driver.find_element_by_css_selector("div.Vu div.bd div.Qc div div div.cc").click()	#For search related preferences
 		elif (choice == 2):
 			driver.find_elements_by_xpath(".//div[@class='ri Lf c-ea-pb c-ea-Ub']")[3].click()
-		driver.find_element_by_xpath(".//input[@class='dL a-Sa ZD']").send_keys(pref)
-		driver.find_element_by_xpath(".//div[@class='WD TD Ha']").click()
+		driver.find_element_by_xpath(".//input[@class='XL a-oa TF']").send_keys(pref)
+		driver.find_element_by_xpath(".//div[@class='QF NF na']").click()
 		time.sleep(1)
-		trs = driver.find_elements_by_xpath(".//tr[@class='YD lm']")
+		trs = driver.find_elements_by_xpath(".//tr[@class='SF Fn']")
 		for tr in trs:
-			td = tr.find_element_by_xpath(".//td[@class='Ro aL']").get_attribute('innerHTML')
+			td = tr.find_element_by_xpath(".//td[@class='Vq UL']").get_attribute('innerHTML')
 			print td
-		driver.find_element_by_xpath(".//div[@class='c-ca-ba a-b a-b-H dD Iw']").click()
-		log("setInterest="+td+"||"+str(treatmentid), id)
+			log("setInterests="+td+"||"+str(treatmentid), id)
+		driver.find_element_by_xpath(".//div[@class='c-T-S a-b a-b-B XE ty']").click()
 	except:
-		print "No interests matched '%s'. Skipping." %(pref)
+		print "Error setting interests containing '%s'. Skipping." %(pref)
 	
 def get_ad_pref(driver, choice=2):									# Returns list of Ad preferences
 	pref = []
