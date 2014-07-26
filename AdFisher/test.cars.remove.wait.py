@@ -16,7 +16,7 @@ treatment2.opt_in()
 
 ## Run Experiment
 
-adfisher.run_experiment(treatments=[treatment1, treatment2], samples=10, blocks=100, reloads=10, log_file=log_file, timeout=1000)
+adfisher.run_experiment(treatments=[treatment1, treatment2], samples=10, blocks=100, reloads=10, log_file=log_file, timeout=2000)
 
 ## Analyze Data
 
