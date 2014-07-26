@@ -1,12 +1,13 @@
 import adfisher
 
 site_file = 'cars.txt'
-log_file = 'log.cars.choice.txt'
+log_file = 'log.cars.removeall.txt'
 
 ## Set up treatments
 
 treatment1 = adfisher.Treatment("cars-removeall")
 treatment1.opt_in()
+treatment1.add_interest("a")
 treatment1.visit_sites(site_file)
 treatment1.remove_interest("")
 
