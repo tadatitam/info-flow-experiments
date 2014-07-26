@@ -16,7 +16,7 @@ log_file = 'log.substance.txt'
 
 treatment1 = adfisher.Treatment("substance")
 treatment1.opt_in()
-treatment1.visit_sites(site_file)
+#treatment1.visit_sites(site_file)
 
 treatment2 = adfisher.Treatment("null")
 treatment2.opt_in()
@@ -24,7 +24,7 @@ treatment2.opt_in()
 ## Run Experiment
 
 adfisher.run_experiment(treatments=[treatment1, treatment2], collection_site="guardian", 
-	samples=10, blocks=100, reloads=10, log_file=log_file)
+	samples=2, blocks=100, reloads=10, log_file=log_file)
 
 ## Analyze Data
 
