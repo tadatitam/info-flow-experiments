@@ -5,14 +5,13 @@ log_file = 'log.cars.removeall.txt'
 
 ## Set up treatments
 
-treatment1 = adfisher.Treatment("cars")
+treatment1 = adfisher.Treatment("cars-removeall")
 treatment1.opt_in()
 treatment1.visit_sites(site_file)
+treatment1.remove_interest("")
 
-treatment2 = adfisher.Treatment("cars-removeall")
+treatment2 = adfisher.Treatment("null")
 treatment2.opt_in()
-treatment2.visit_sites(site_file)
-treatment2.remove_interest("")
 
 
 ## Run Experiment
