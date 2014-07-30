@@ -117,6 +117,12 @@ def get_age(driver):												# Read age from Google Ad Settings
 	div = driver.find_elements_by_xpath(".//span[@class='"+READ_SPAN+"']")[1]
 	inn = str(div.get_attribute('innerHTML'))
 	return inn
+		
+def get_language(driver):												# Read language from Google Ad Settings
+	driver.get("https://www.google.com/settings/ads")
+	div = driver.find_elements_by_xpath(".//span[@class='"+READ_SPAN+"']")[2]
+	inn = str(div.get_attribute('innerHTML'))
+	return inn
 	
 def set_age(age, driver, id, treatmentid):										# Set age on Google Ad Settings page
 	driver.get("https://www.google.com/settings/ads")
@@ -243,6 +249,8 @@ def wait_for_others(instances, id, round):							# Makes instance with ID 'id' w
 		for line in fo:
 			chunks = re.split("\|\|", line)
 			tim = chunks[0]
+			if(tim == 'treatnames'):
+				continue
 			msg = chunks[1]
 			id1 = chunks[2].rstrip()
 			if(tim == 'assign'):

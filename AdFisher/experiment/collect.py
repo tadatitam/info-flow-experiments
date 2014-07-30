@@ -77,6 +77,12 @@ class Webdriver(unittest.TestCase):
 			time.sleep(20)
 			pref = cole.get_ad_pref(driver)
 			cole.log("pref"+"||"+str(TREATMENTID)+"||"+"@".join(pref), ID)
+			gender = cole.get_gender(driver)
+			cole.log("gender"+"||"+str(TREATMENTID)+"||"+gender, ID)
+			age = cole.get_age(driver)
+			cole.log("age"+"||"+str(TREATMENTID)+"||"+age, ID)
+			language = cole.get_language(driver)
+			cole.log("language"+"||"+str(TREATMENTID)+"||"+language, ID)
 			cole.collect_ads(RELOADS, DELAY, LOG_FILE, driver, ID, TREATMENTID, COL_SITE)
 			run = run+1
 
