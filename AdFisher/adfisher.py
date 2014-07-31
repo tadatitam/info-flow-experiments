@@ -104,10 +104,10 @@ def run_experiment(treatments, log_file="log.txt", blocks=20, samples=2,
 		print "Illegal collection_site ", collection_site
 		return
 	PATH="./"+log_file
-	if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
-		response = raw_input("This will overwrite file %s... Continue? (Y/n)" % log_file)
-		if response == 'n':
-			sys.exit(0)
+# 	if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
+# 		response = raw_input("This will overwrite file %s... Continue? (Y/n)" % log_file)
+# 		if response == 'n':
+# 			sys.exit(0)
 	fo = open(log_file, "w")
 	fo.close()
 	print "Starting Experiment"
