@@ -200,18 +200,18 @@ def set_ad_pref(pref, driver, id, treatmentid, choice=2):									# Set an ad pr
 	
 def get_ad_pref(driver, choice=2):									# Returns list of Ad preferences
 	pref = []
-	try:
-		driver.get("https://www.google.com/settings/ads")
-		if (choice == 1):
-			driver.find_element_by_css_selector("div.Vu div.bd div.Qc div div div.cc").click()	#For search related preferences
-		elif (choice == 2):
-			driver.find_elements_by_xpath(".//div[@class='"+EDIT_DIV+"']")[3].click()
-		ints = driver.find_elements_by_xpath(".//tr[@class='"+PREF_TR+"']/td[@class='"+PREF_TD+"']")
-		for interest in ints:
-			pref.append(str(interest.get_attribute('innerHTML')))
-			#raw_input("Waiting...")
-	except:
-		pass
+# 	try:
+	driver.get("https://www.google.com/settings/ads")
+	if (choice == 1):
+		driver.find_element_by_css_selector("div.Vu div.bd div.Qc div div div.cc").click()	#For search related preferences
+	elif (choice == 2):
+		driver.find_elements_by_xpath(".//div[@class='"+EDIT_DIV+"']")[3].click()
+	ints = driver.find_elements_by_xpath(".//tr[@class='"+PREF_TR+"']/td[@class='"+PREF_TD+"']")
+	for interest in ints:
+		pref.append(str(interest.get_attribute('innerHTML')))
+		#raw_input("Waiting...")
+# 	except:
+# 		pass
 	return pref	
 
 def train_with_sites(FILE, driver, id, treatmentid):					# Visits all pages in FILE

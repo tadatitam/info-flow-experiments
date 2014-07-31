@@ -72,7 +72,7 @@ class Webdriver(unittest.TestCase):
 		driver.get(SITE)
 		time.sleep(20)
 		#raw_input("wait")
-		pref = cole.get_ad_pref(2, driver)
+		pref = cole.get_ad_pref(driver)
 		print SITE
 		print 'pref=', pref
 		if pref != []:
