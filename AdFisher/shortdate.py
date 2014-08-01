@@ -1,9 +1,9 @@
 import adfisher
 
 site_file = 'dating_all.txt'
-# log_file = 'log.gender.txt'
+log_file = 'log.shortdate.txt'
 
-adfisher.shortlist_sites(site_file, target_file="int_"+site_file)
+adfisher.shortlist_sites(site_file, target_file="int_"+site_file, timeout=100)
 
 log_file = 'log.dating.remove.txt'
 
