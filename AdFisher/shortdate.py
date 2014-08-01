@@ -16,6 +16,7 @@ treatment2 = adfisher.Treatment("removeddating")
 treatment2.visit_sites("int_"+site_file)
 treatment2.remove_interest("dating")
 treatment2.remove_interest("romance")
+treatment2.remove_interest("relationship")
 
 ## Run Experiment
 

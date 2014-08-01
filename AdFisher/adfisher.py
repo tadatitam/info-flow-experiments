@@ -114,7 +114,7 @@ def run_experiment(treatments, log_file="log.txt", blocks=20, samples=2,
 	trials.begin(log_file, samples, treatments, blocks, runs, collection_site, reloads, delay, browser, timeout)
 	print "Experiment Complete"
 
-def shortlist_sites(site_file, target_file, browser='firefox'):
+def shortlist_sites(site_file, target_file, browser='firefox', timeout=100):
 	PATH="./"+target_file
 	if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
 		response = raw_input("This will overwrite file %s... Continue? (Y/n)" % target_file)
@@ -125,7 +125,7 @@ def shortlist_sites(site_file, target_file, browser='firefox'):
 	fo = open(site_file, "r")
 	for line in fo:
 		site = line.strip()
-		short.shortlist_sites(site, target_file)
+		short.shortlist_sites(site, target_file, timeout=timeout)
 
 def run_analysis(log_file="log.txt", splitfrac=0.1, nfolds=10, 
 		feat_choice="ads", nfeat=5, verbose=False):

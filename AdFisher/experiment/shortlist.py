@@ -24,6 +24,8 @@ proxy = Proxy({
     'noProxy': '' # set this value as desired
     })
 
+class TimeoutException(Exception): 
+    pass 
 
 class Webdriver(unittest.TestCase):
 	def setUp(self):
@@ -84,10 +86,31 @@ class Webdriver(unittest.TestCase):
 		self.vdisplay.stop()
 		self.driver.quit()
 
-def shortlist_sites(site, target_file, browser='firefox'):
+def shortlist_sites(site, target_file, browser='firefox', timeout=100):
 	global BROWSER, SITE, TARGET_FILE
 	BROWSER = browser
 	SITE = site
 	TARGET_FILE = target_file
-	suite = unittest.TestLoader().loadTestsFromTestCase(Webdriver)
-	unittest.TextTestRunner(verbosity=1).run(suite)
+	
+	def signal_handler(signum, frame):
+		print "Timeout!"
+# 		fo = open(LOG_FILE, "a")
+# 		fo.write(str(datetime.now())+"||TimedOut||"+str(TREATMENTID)+"||"+str(ID)+"\n")
+# 		fo.close()
+		raise TimeoutException("Timed out!")
+		
+# 	timeout = 10	
+	
+	old_handler = signal.signal(signal.SIGALRM, signal_handler)
+	signal.alarm(timeout)   # 2000 seconds
+	try:
+		suite = unittest.TestLoader().loadTestsFromTestCase(Webdriver)
+		unittest.TextTestRunner(verbosity=1).run(suite)
+	except TimeoutException:
+		return
+	finally:
+		print "Shortlist process exiting!"
+		signal.signal(signal.SIGALRM, old_handler)
+	
+	signal.alarm(0)
+
