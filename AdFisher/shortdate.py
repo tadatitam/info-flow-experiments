@@ -8,8 +8,6 @@ adfisher.collect_sites_from_alexa(nsites=100, output_file=site_file, browser="fi
 
 adfisher.shortlist_sites(site_file, target_file="int_"+site_file, timeout=100)
 
-log_file = 'log.dating.remove.txt'
-
 ## Set up treatments
 
 treatment1 = adfisher.Treatment("keptdating")
