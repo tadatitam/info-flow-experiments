@@ -53,6 +53,24 @@ def stat_CC(ypred, ylabel):									# number of correctly classified instances i
 				CC += 1
 	return CC
 
+def stat_kw2(X_test, y_test):
+	blocks = y_test.shape[0]
+	blockSize = y_test.shape[1]
+	kw0 = 0
+	kw1 = 0
+	for i in range(0,blocks):
+		for j in range(0, blockSize):
+			if(y_test[i][j]==1):
+				kw1 += X_test[i][j]
+			elif(y_test[i][j]==0):
+				kw0 += X_test[i][j]
+			else:
+				raw_input("More classes than expected")
+				print "Exiting..."
+				sys.exit(0)
+# 	print kw1, kw0
+	return -(kw1 - kw0)
+	
 #------------- Permutation Tests ---------------#
 
 def old_p_test(adv, ass, keywords, stat):					# oakland permutation test
@@ -89,6 +107,20 @@ def new_p_test(X_test, y_test, clf):							# permutation test
 			under += 1
 	return (1.0*under) / (1.0*len(a))
 	
+def block_p_test_mode2(Xtest, ytest, alpha=0.01, iterations=100000):				# block permutation test
+	Tobs = stat_kw2(Xtest, ytest)
+	print "----!! Stat is computing treat1 - treat0 !!----"
+	print 'Tobs: ', Tobs
+	print "----!! Counting number of times Tobs <= Tpi !!----"
+	under = 0
+	for i in range(0,iterations):
+		yperm = get_perm(ytest)
+		Tpi = stat_kw2(Xtest, yperm)
+		if round(Tobs, 10) <= round(Tpi, 10):
+			under += 1
+	print proportion_confint(under, iterations, alpha, 'beta')
+	return (1.0*under) / (1.0*iterations)
+		
 def block_p_test(oXtest, oytest, clf, alpha=0.01, iterations=1000000):				# block permutation test
 	blockSize = oXtest.shape[1]
 	blocks = oXtest.shape[0]

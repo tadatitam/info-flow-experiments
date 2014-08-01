@@ -43,13 +43,17 @@ class Ad:
 # 		print round(coeff, 3), " & ", a, "(", round(100.*a/(a+b), 1), "\%) & ", b, "(", round(100.*b/(a+b), 1), "\%) \\\\"
 # 		print "\hline \\\\"
 		
-		print "\multirow{3}{*}{\TitleParbox{", self.title, "; \url{", self.url, "}; ", self.body, "}} & ",
-		print "\multirow{3}{*}{", round(coeff, 3), "} &\n", int(c[0]), " & ", int(c[1]), " & ", int(C[0]), "& ", int(C[1]), " \\\\"
-		print " & ", " & ", int(c[2]), " & ", int(c[3]), " & ", int(C[2]), "& ", int(C[3]), " \\\\"
-		print "\cline{3-6}"
-		print " & ", " & ", int(c[4]), " & ", int(c[5]), " & ", int(C[4]), "& ", int(C[5]), " \\\\"
-		print "\hline \\\\"
+# 		print "\multirow{3}{*}{\TitleParbox{", self.title, "; \url{", self.url, "}; ", self.body, "}} & ",
+# 		print "\multirow{3}{*}{", round(coeff, 3), "} &\n", int(c[0]), " & ", int(c[1]), " & ", int(C[0]), "& ", int(C[1]), " \\\\"
+# 		print " & ", " & $", int(c[2]), "$ & $", int(c[3]), "$ & $", int(C[2]), "$ & $", int(C[3]), "$ \\\\"
+# 		print "\cline{3-6}"
+# 		print " & ", " & $", int(c[4]), "$ & $", int(c[5]), "$ & $", int(C[4]), "$ & $", int(C[5]), "$ \\\\"
+# 		print "\hline \\\\"
 		
+		print self.title, " & \url{", self.url, "} & $", round(coeff, 3), "$ & $", 
+		print int(c[4]), "$ & $", int(c[5]), "$ & & $", int(C[4]), "$ & $", int(C[5]), "$ \\\\"
+		
+
 	
 	def display(self):
 		print ("Title: "+self.title)
@@ -71,7 +75,9 @@ class Ad:
 			
 	def contains(self, nonces):
 		for nonce in nonces:
-			if (nonce in self.title.lower() or nonce in self.url.lower() or nonce in self.body.lower()):
+			if (nonce in self.title.lower()):# or nonce in self.url.lower() or nonce in self.body.lower()):
+# 				print self.label,
+# 				self.display()
 				return True
 		return False
 					

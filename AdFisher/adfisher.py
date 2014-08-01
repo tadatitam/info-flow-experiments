@@ -94,7 +94,7 @@ def collect_sites_from_alexa(alexa_link="http://www.alexa.com/topsites",
 	alexa.run_script(alexa_link, output_file, nsites, browser)
 	print "Collection Complete. Results stored in ", output_file
 
-def run_experiment(treatments, log_file="log.txt", blocks=20, samples=2, 
+def run_experiment(treatments, log_file="log.txt", blocks=20, agents=2, 
 		runs=1, collection_site="toi", reloads=10, delay=5, browser="firefox", timeout=2000):	
 	if(browser != "firefox" and browser != "chrome"):
 		print "Illegal browser choice", browser
@@ -111,7 +111,7 @@ def run_experiment(treatments, log_file="log.txt", blocks=20, samples=2,
 	fo = open(log_file, "w")
 	fo.close()
 	print "Starting Experiment"
-	trials.begin(log_file, samples, treatments, blocks, runs, collection_site, reloads, delay, browser, timeout)
+	trials.begin(log_file, agents, treatments, blocks, runs, collection_site, reloads, delay, browser, timeout)
 	print "Experiment Complete"
 
 def shortlist_sites(site_file, target_file, browser='firefox', timeout=100):
@@ -133,13 +133,24 @@ def run_analysis(log_file="log.txt", splitfrac=0.1, nfolds=10,
 		print "Illegal feat_choice", feat_choice
 		return
 	collection, names = converter.get_ads_from_log(log_file)
-	collection = collection[:100]
-# 	print stat.find_word_in_collection(collection, ['rehabilitation'])
+	collection = collection[:10]
+	
+	print stat.find_word_in_collection(collection, ['dating', 'romance', 'love'])
+# 	X,y = converter.get_keyword_vectors(collection, keywords=['fitness'])
+	X,y = converter.get_keyword_vectors(collection, keywords=['dating', 'romance', 'love'])
+# 	X,y = converter.get_keyword_vectors(collection, keywords=['$200k+'])
+	s = datetime.now()
+	print stat.block_p_test_mode2(X, y, iterations=10000)
+	e = datetime.now()
+	if(verbose):
+		print "Time for permutation test: ", str(e-s)
+	raw_input("wait")
+
 	if len(collection) < nfolds:
 		print "Too few blocks (%s). Analysis requires at least as many blocks as nfolds (%s)." % (len(collection), nfolds)
 		return
-# 	intX, inty, intFeat = converter.get_interest_vectors(collection)
-# 	plot.treatment_feature_histogram(intX, inty, intFeat, names)
+	intX, inty, intFeat = converter.get_interest_vectors(collection)
+	plot.treatment_feature_histogram(intX, inty, intFeat, names)
 	s = datetime.now()
 	X,y,feat = converter.get_feature_vectors(collection, feat_choice='ads')
 	e = datetime.now()
