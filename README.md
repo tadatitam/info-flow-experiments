@@ -54,10 +54,19 @@ treatment2 = adfisher.Treatment("male")
 treatment2.set_gender("male")
 treatment2.visit_sites(site_file)
 
-# Run Experiment
+## Set up measurement
 
-adfisher.run_experiment(treatments=[treatment2, treatment1], samples=2, blocks=10)
+measurement = adfisher.Measurement()
+measurement.get_age()
+measurement.get_gender()
+measurement.get_language()
+measurement.get_interests()
+measurement.get_ads(site="toi", reloads=10, delay=5)
 
+## Run Experiment
+
+adfisher.run_experiment(treatments=[treatment1, treatment2], measurement=measurement, 
+	agents=10, blocks=100, log_file=log_file)
 # Analyze Data
 
 adfisher.run_analysis()
@@ -97,17 +106,31 @@ In case you would like to collect the names of websites associated with a partic
 adfisher.collect_sites_from_alexa(output_file="employment.txt", nsites=100, browser="firefox",
         alexa_link="http://www.alexa.com/topsites/category/Top/Business/Employment")
 ```
+### Setting up measurement
+AdFisher gives you the option to specify what measurements you want to collect on the browser agents after the completion of application of respective treatments. Initialize a measurement using the following statement.
+```python
+measurement = adfisher.Measurement()
+```
+AdFisher currently allows you to read the age, gender, language, and interests set on Google's Ad Settings, and collect advertisments from "toi" (Times of India), "bbc", "guardian", "reuters" or "bloomberg". You can also set the number of reloads of a news websites, or the delay between successive reloads.
+
+```python
+measurement.get_age()
+measurement.get_gender()
+measurement.get_language()
+measurement.get_interests()
+measurement.get_ads(site="toi", reloads=10, delay=5)
+```
+
 ### Run Experiment
-Once the treatments are set up, you are ready to run the experiment. You must at least specify the list of treatments in order to run the experiment; all other parameters have default values. The *log_file* maintains a log of the experiments. All data from the experiments are stored in this file in a special-character separated format, with each new line containing an entry. The *log_file* is later used to perform data analysis. 
+Once the treatments and measurement are set up, you are ready to run the experiment. You must at least specify the list of treatments in order to run the experiment; all other parameters have default values. The *log_file* maintains a log of the experiments. All data from the experiments are stored in this file in a special-character separated format, with each new line containing an entry. The *log_file* is later used to perform data analysis. 
 
 You can specify the number of blocks of the experiment in *blocks*. *samples* specifies the number of browser instances running in a block. *runs* specifies the number of iterations of treatment and collection a single browser instance goes through. 
 
-By setting the *collection_site*, you can change which site to collect Google ads from. As of now, *collection_site* may be either of "toi" (Times of India), "bbc", "guardian", "reuters" or "bloomberg". With *reloads*, you can specify the number of times the collection site is reloaded to collect ads, and *delay* is the time delay in seconds between successive reloads. 
 
 The experiment can be run on either "firefox" or "chrome" browsers as of now, and that can be specified with the *browser* parameter. You can set the timeout of a particular block by specifying the *timeout* parameter. By default, a block times out after 2000 seconds (~30 mins). 
 ```python
-adfisher.run_experiment(treatments, log_file="log.txt", blocks=20, samples=2, 
-        runs=1, collection_site="toi", reloads=10, delay=5, browser="firefox", timeout=2000)	
+adfisher.run_experiment(treatments, measurement, log_file="log.txt", blocks=20, agents=2, 
+        runs=1, browser="firefox", timeout=2000)	
 ```
 ### Perform Analysis
 After collection, the analysis can be carried out as follows. *log_file* specifies the log file from the experiment. *splitfrac* indicates the splitting fraction for the training and testing data. If it is set to 0.1, the first 90% of the blocks are used for training, and the last 10% are used for testing. The number of folds in k-fold cross validation is specified in *nfolds*. *blocks* must be at least as large as *nfolds*. 
