@@ -42,22 +42,6 @@ def setLogFile(FILE):
 	global LOG_FILE
 	LOG_FILE = FILE
 
-def optIn(driver, id=-1, treatmentid=-1):													# Opt in to behavioral advertising on Google
-	driver.set_page_load_timeout(60)
-	driver.get("https://www.google.com/settings/ads")
-	driver.find_element_by_xpath(".//div[@class ='"+OPTIN_DIV+"']").click()
-	if(id != -1):
-		log("optedIn||"+str(treatmentid), id)
-
-def optOut(driver, id=-1, treatmentid=-1):													# Opt out of behavioral advertising on Google
-	driver.set_page_load_timeout(60)
-	driver.get("https://www.google.com/settings/ads")
-	driver.find_element_by_xpath(".//div[@class ='"+OPTOUT_DIV+"']").click()
-	time.sleep(2)
-	driver.execute_script("document.getElementsByName('ok')[1].click();")	
-	if(id != -1):
-		log("optedOut||"+str(treatmentid), id)
-
 def applyTreatment(driver, treatmentprof, id, treatmentid):
 	treatment = treatmentprof.str
 	if(treatment==''):						# null treatment
@@ -85,6 +69,45 @@ def applyTreatment(driver, treatmentprof, id, treatmentid):
 			remove_ad_pref(chunks[1], driver, id, treatmentid)
 		time.sleep(2)
 	log('training-end', id)
+
+def collectMeasurement(driver, measurement, id, treatmentid):
+	m = measurement.str
+	log('measurement-start', id)
+	parts = re.split("\+", m)
+	for part in parts:
+		chunks = re.split("\|\|", part)
+		if(chunks[0] == 'age'):
+			age = get_age(driver)
+			log("age"+"||"+str(treatmentid)+"||"+age, id)
+		if(chunks[0] == 'gender'):
+			gender = get_gender(driver)
+			log("gender"+"||"+str(treatmentid)+"||"+gender, id)
+		if(chunks[0] == 'language'):
+			language = get_language(driver)
+			log("language"+"||"+str(treatmentid)+"||"+language, id)
+		if(chunks[0] == 'interests'):
+			pref = get_ad_pref(driver)
+			log("pref"+"||"+str(treatmentid)+"||"+"@".join(pref), id)
+		if(chunks[0] == 'ads'):
+			collect_ads(int(chunks[2]), int(chunks[3]), LOG_FILE, driver, id, treatmentid, chunks[1])
+		
+	log('measurement-end', id)
+
+def optIn(driver, id=-1, treatmentid=-1):													# Opt in to behavioral advertising on Google
+	driver.set_page_load_timeout(60)
+	driver.get("https://www.google.com/settings/ads")
+	driver.find_element_by_xpath(".//div[@class ='"+OPTIN_DIV+"']").click()
+	if(id != -1):
+		log("optedIn||"+str(treatmentid), id)
+
+def optOut(driver, id=-1, treatmentid=-1):													# Opt out of behavioral advertising on Google
+	driver.set_page_load_timeout(60)
+	driver.get("https://www.google.com/settings/ads")
+	driver.find_element_by_xpath(".//div[@class ='"+OPTOUT_DIV+"']").click()
+	time.sleep(2)
+	driver.execute_script("document.getElementsByName('ok')[1].click();")	
+	if(id != -1):
+		log("optedOut||"+str(treatmentid), id)
 
 def login2Google(username, password, driver):
 	driver.find_element_by_xpath(".//a[span[span[@class='gbit']]]").click()

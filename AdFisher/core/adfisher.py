@@ -76,6 +76,51 @@ class Treatment:
 			self.str += "|+|rinterest|:|"+interest
 		self.count += 1
 
+class Measurement:
+
+	def __init__(self):
+		self.count=0
+		self.str = "" 
+		
+	def get_age(self):
+		if(self.count==0):
+			self.str += "age"
+		else:
+			self.str += "+age"
+		self.count += 1
+		
+	def get_gender(self):
+		if(self.count==0):
+			self.str += "gender"
+		else:
+			self.str += "+gender"
+		self.count += 1
+			
+	def get_language(self):
+		if(self.count==0):
+			self.str += "language"
+		else:
+			self.str += "+language"
+		self.count += 1
+		
+	def get_interests(self):
+		if(self.count==0):
+			self.str += "interests"
+		else:
+			self.str += "+interests"
+		self.count += 1		
+		
+	def get_ads(self, site='toi', reloads=10, delay=5):
+		if(site != "toi" and site != "bbc" and 
+		site != "guardian" and site != "reuters" and site != "bloomberg"):
+			print "Illegal collection_site ", collection_site, ". Exiting."
+			sys.exit(0)
+		if(self.count==0):
+			self.str += "ads||"+site+"||"+str(reloads)+"||"+str(delay)
+		else:
+			self.str += "+ads||"+site+"||"+str(reloads)+"||"+str(delay)
+		self.count += 1
+
 
 def collect_sites_from_alexa(alexa_link="http://www.alexa.com/topsites", 
 		output_file="out.txt", nsites=5, browser="firefox"):
@@ -94,24 +139,21 @@ def collect_sites_from_alexa(alexa_link="http://www.alexa.com/topsites",
 	alexa.run_script(alexa_link, output_file, nsites, browser)
 	print "Collection Complete. Results stored in ", output_file
 
-def run_experiment(treatments, log_file="log.txt", blocks=20, agents=2, 
-		runs=1, collection_site="toi", reloads=10, delay=5, browser="firefox", timeout=2000):	
+def run_experiment(treatments, measurement, log_file="log.txt", blocks=20, agents=2, 
+		runs=1, browser="firefox", timeout=2000):	
 	if(browser != "firefox" and browser != "chrome"):
 		print "Illegal browser choice", browser
 		return
-	if(collection_site != "toi" and collection_site != "bbc" and 
-		collection_site != "guardian" and collection_site != "reuters" and collection_site != "bloomberg"):
-		print "Illegal collection_site ", collection_site
-		return
 	PATH="./"+log_file
-# 	if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
-# 		response = raw_input("This will overwrite file %s... Continue? (Y/n)" % log_file)
-# 		if response == 'n':
-# 			sys.exit(0)
+	if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
+		response = raw_input("This will overwrite file %s... Continue? (Y/n)" % log_file)
+		if response == 'n':
+			sys.exit(0)
 	fo = open(log_file, "w")
 	fo.close()
 	print "Starting Experiment"
-	trials.begin(log_file, agents, treatments, blocks, runs, collection_site, reloads, delay, browser, timeout)
+	trials.begin(treatments=treatments, measurement=measurement, 
+		agents=agents, blocks=blocks, runs=runs, browser=browser, timeout=timeout, log_file=log_file)
 	print "Experiment Complete"
 
 def shortlist_sites(site_file, target_file, browser='firefox', timeout=100):
@@ -127,25 +169,12 @@ def shortlist_sites(site_file, target_file, browser='firefox', timeout=100):
 		site = line.strip()
 		short.shortlist_sites(site, target_file, timeout=timeout)
 
-def run_analysis(log_file="log.txt", splitfrac=0.1, nfolds=10, 
+def run_ml_analysis(log_file="log.txt", splitfrac=0.1, nfolds=10, 
 		feat_choice="ads", nfeat=5, verbose=False):
 	if(feat_choice != "ads" and feat_choice != "words"):
 		print "Illegal feat_choice", feat_choice
 		return
-	collection, names = converter.get_ads_from_log(log_file)
-	collection = collection[:10]
-	
-	print stat.find_word_in_collection(collection, ['dating', 'romance', 'love'])
-# 	X,y = converter.get_keyword_vectors(collection, keywords=['fitness'])
-	X,y = converter.get_keyword_vectors(collection, keywords=['dating', 'romance', 'love'])
-# 	X,y = converter.get_keyword_vectors(collection, keywords=['$200k+'])
-	s = datetime.now()
-	print stat.block_p_test_mode2(X, y, iterations=10000)
-	e = datetime.now()
-	if(verbose):
-		print "Time for permutation test: ", str(e-s)
-	raw_input("wait")
-
+	collection, names = converter.get_ads_from_log(log_file)	
 	if len(collection) < nfolds:
 		print "Too few blocks (%s). Analysis requires at least as many blocks as nfolds (%s)." % (len(collection), nfolds)
 		return
@@ -159,7 +188,17 @@ def run_analysis(log_file="log.txt", splitfrac=0.1, nfolds=10,
 		stat.print_counts(X,y)
 	ml.run_ml_analysis(X, y, feat, names, feat_choice, nfeat, splitfrac=splitfrac, 
 		nfolds=nfolds, verbose=verbose)
-	
+
+def run_kw_analysis(log_file="log.txt", keywords=[], verbose=False):	
+	collection, names = converter.get_ads_from_log(log_file)
+	print stat.find_word_in_collection(collection, keywords)
+	X,y = converter.get_keyword_vectors(collection, keywords)
+	s = datetime.now()
+	print "p-value:"
+	print stat.block_p_test_mode2(X, y, iterations=10000)
+	e = datetime.now()
+	if(verbose):
+		print "Time for permutation test: ", str(e-s)
 	
 	
 	

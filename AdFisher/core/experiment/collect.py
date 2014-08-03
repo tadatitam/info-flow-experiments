@@ -73,37 +73,27 @@ class Webdriver(unittest.TestCase):
 		run = 0
 		while (run < RUNS):
 			cole.applyTreatment(driver, TREATMENTS[TREATMENTID], ID, TREATMENTID)
-			cole.wait_for_others(SAMPLES, ID, ROUND)
+			cole.wait_for_others(AGENTS, ID, ROUND)
 			time.sleep(20)
-			pref = cole.get_ad_pref(driver)
-			cole.log("pref"+"||"+str(TREATMENTID)+"||"+"@".join(pref), ID)
-			gender = cole.get_gender(driver)
-			cole.log("gender"+"||"+str(TREATMENTID)+"||"+gender, ID)
-			age = cole.get_age(driver)
-			cole.log("age"+"||"+str(TREATMENTID)+"||"+age, ID)
-			language = cole.get_language(driver)
-			cole.log("language"+"||"+str(TREATMENTID)+"||"+language, ID)
-			cole.collect_ads(RELOADS, DELAY, LOG_FILE, driver, ID, TREATMENTID, COL_SITE)
+			cole.collectMeasurement(driver, MEASUREMENT, ID, TREATMENTID)
 			run = run+1
 
 	def tearDown(self):
 		self.vdisplay.stop()
 		self.driver.quit()
 
-def run_script(id, samples, treatmentid, runs, col_site, reloads, delay, browser, logfile, round, treatments, timeout=2000):
-	global ID, SAMPLES, TREATMENTID, RUNS, COL_SITE, RELOADS, DELAY, BROWSER, ROUND, LOG_FILE, SITE_FILE, TREATMENTS
+def run_script(id, agents, treatmentid, runs, browser, logfile, round, treatments, measurement, timeout=2000):
+	global ID, AGENTS, TREATMENTID, RUNS, BROWSER, ROUND, LOG_FILE, SITE_FILE, TREATMENTS, MEASUREMENT
 	ID = id
-	SAMPLES = samples
+	AGENTS = agents
 	TREATMENTID = treatmentid
 	RUNS = runs
-	RELOADS = reloads
-	DELAY = delay
 	BROWSER = browser
 	LOG_FILE = logfile
 	ROUND = round
 	TREATMENTS = treatments
-	COL_SITE = col_site
-	if (ID > SAMPLES):
+	MEASUREMENT = measurement
+	if (ID > AGENTS):
 		sys.exit("ERROR: id must be less than total instances")
 		
 	

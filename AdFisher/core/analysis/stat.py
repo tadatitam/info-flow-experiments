@@ -109,9 +109,9 @@ def new_p_test(X_test, y_test, clf):							# permutation test
 	
 def block_p_test_mode2(Xtest, ytest, alpha=0.01, iterations=100000):				# block permutation test
 	Tobs = stat_kw2(Xtest, ytest)
-	print "----!! Stat is computing treat1 - treat0 !!----"
+# 	print "----!! Stat is computing treat1 - treat0 !!----"
 	print 'Tobs: ', Tobs
-	print "----!! Counting number of times Tobs <= Tpi !!----"
+# 	print "----!! Counting number of times Tobs <= Tpi !!----"
 	under = 0
 	for i in range(0,iterations):
 		yperm = get_perm(ytest)
