@@ -29,4 +29,4 @@ adfisher.run_experiment(treatments=[treatment1, treatment2], measurement=measure
 
 ## Analyze Data
 
-adfisher.run_ml_analysis(log_file, verbose=True)
+adfisher.run_kw_analysis(log_file, keywords=['dating'], verbose=True)

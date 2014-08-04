@@ -69,7 +69,7 @@ def stat_kw2(X_test, y_test):
 				print "Exiting..."
 				sys.exit(0)
 # 	print kw1, kw0
-	return -(kw1 - kw0)
+	return (kw1 - kw0)
 	
 #------------- Permutation Tests ---------------#
 
@@ -107,15 +107,18 @@ def new_p_test(X_test, y_test, clf):							# permutation test
 			under += 1
 	return (1.0*under) / (1.0*len(a))
 	
-def block_p_test_mode2(Xtest, ytest, alpha=0.01, iterations=100000):				# block permutation test
-	Tobs = stat_kw2(Xtest, ytest)
+def block_p_test_mode2(Xtest, ytest, flipped=False, alpha=0.01, iterations=100000):				# block permutation test
+	factor = 1
+	if(flipped):
+		factor = -1
+	Tobs = factor*stat_kw2(Xtest, ytest)
 # 	print "----!! Stat is computing treat1 - treat0 !!----"
 	print 'Tobs: ', Tobs
 # 	print "----!! Counting number of times Tobs <= Tpi !!----"
 	under = 0
 	for i in range(0,iterations):
 		yperm = get_perm(ytest)
-		Tpi = stat_kw2(Xtest, yperm)
+		Tpi = factor*stat_kw2(Xtest, yperm)
 		if round(Tobs, 10) <= round(Tpi, 10):
 			under += 1
 	print proportion_confint(under, iterations, alpha, 'beta')

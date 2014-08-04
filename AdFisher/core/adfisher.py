@@ -189,13 +189,13 @@ def run_ml_analysis(log_file="log.txt", splitfrac=0.1, nfolds=10,
 	ml.run_ml_analysis(X, y, feat, names, feat_choice, nfeat, splitfrac=splitfrac, 
 		nfolds=nfolds, verbose=verbose)
 
-def run_kw_analysis(log_file="log.txt", keywords=[], verbose=False):	
+def run_kw_analysis(log_file="log.txt", keywords=[], flipped=False, verbose=False):	
 	collection, names = converter.get_ads_from_log(log_file)
 	print stat.find_word_in_collection(collection, keywords)
 	X,y = converter.get_keyword_vectors(collection, keywords)
 	s = datetime.now()
 	print "p-value:"
-	print stat.block_p_test_mode2(X, y, iterations=10000)
+	print stat.block_p_test_mode2(X, y, flipped=flipped, iterations=10000)
 	e = datetime.now()
 	if(verbose):
 		print "Time for permutation test: ", str(e-s)

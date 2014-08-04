@@ -69,7 +69,7 @@ adfisher.run_experiment(treatments=[treatment1, treatment2], measurement=measure
 	agents=10, blocks=100, log_file=log_file)
 # Analyze Data
 
-adfisher.run_analysis()
+adfisher.run_ml_analysis()
 
 ```
 
@@ -133,11 +133,20 @@ adfisher.run_experiment(treatments, measurement, log_file="log.txt", blocks=20, 
         runs=1, browser="firefox", timeout=2000)	
 ```
 ### Perform Analysis
-After collection, the analysis can be carried out as follows. *log_file* specifies the log file from the experiment. *splitfrac* indicates the splitting fraction for the training and testing data. If it is set to 0.1, the first 90% of the blocks are used for training, and the last 10% are used for testing. The number of folds in k-fold cross validation is specified in *nfolds*. *blocks* must be at least as large as *nfolds*. 
+
+After collection, the analysis can be carried out in two modes. First, where a keyword based statistic is used to carry out the permutation test. By default, the statistic is the difference in the number of ads containing the keywords from treatment1 and the same from treatment2. Since this is a one-sided test, you can also test the other end of the spectrum by simply setting the *flipped* argument to True. *log_file* specifies the log file from the experiment. 
+
+```python
+adfisher.run_kw_analysis(log_file="log.txt", keywords=['rehab'], flipped=False, verbose=False)
+```
+
+However, if you choose to use Machine Learning to choose your test statistic, you can run the analysis in the second mode.
+*splitfrac* indicates the splitting fraction for the training and testing data. If it is set to 0.1, the first 90% of the blocks are used for training, and the last 10% are used for testing. The number of folds in k-fold cross validation is specified in *nfolds*. *blocks* must be at least as large as *nfolds*. 
 
 *feat_choice* can be either "ads" or "words". It specifies what to the classifier uses as features. The number of features output from the feature selection algorithm is given by *nfeat*. 
 ```python
-adfisher.run_analysis(log_file="log.txt", splitfrac=0.1, nfolds=10, 
+adfisher.run_ml_analysis(log_file="log.txt", splitfrac=0.1, nfolds=10, 
 		feat_choice="ads", nfeat=5, verbose=False)
 ```
 This calls a sequence of analysis techniques. First, the parameteres of classifier is selected by running k-fold cross validation. Then this classifier is used to generate statistics to run a permutation test, which is a statistical test for significance. Finally, the top features are printed out for each of the treatments. 
+
