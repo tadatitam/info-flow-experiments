@@ -35,7 +35,7 @@ Example
 -----------
 An example piece of code to run the experiment and perform the analysis looks as follows.
 ```python
-import adfisher
+import core.adfisher as adfisher
 
 site_file = 'employment.txt'
 
