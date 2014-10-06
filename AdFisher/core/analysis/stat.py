@@ -107,7 +107,7 @@ def new_p_test(X_test, y_test, clf):							# permutation test
 			under += 1
 	return (1.0*under) / (1.0*len(a))
 	
-def block_p_test_mode2(Xtest, ytest, flipped=False, alpha=0.01, iterations=100000):				# block permutation test
+def block_p_test_mode2(Xtest, ytest, flipped=False, alpha=0.01, iterations=1000):	# block p-test with kw
 	factor = 1
 	if(flipped):
 		factor = -1
