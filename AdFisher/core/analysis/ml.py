@@ -128,37 +128,38 @@ def print_top_features(X, y, feat, treatnames, clf, feat_choice, nfeat=5, blocke
 		elif(y_test[i] == 0):
 			Btest = Btest + X_test[i]
 			btest = btest + np.sign(X_test[i])
-	n_classes = 2#clf.feature_importances_.shape[0]			#`~~~~~~~~~~
+	n_classes = 1#clf.feature_importances_.shape[0]			#`~~~~~~~~~~
+	feature_scores = clf.feature_importances_
 	print clf.feature_importances_.shape			#`~~~~~~~~~~
 	print np.count_nonzero(clf.feature_importances_)
 	raw_input("wait")
-	if(n_classes == 1 or True):			#`~~~~~~~~~~
-		topk1 = np.argsort(clf.feature_importances_)[::-1][:nfeat]			#`~~~~~~~~~~
+	if(n_classes == 1):			#`~~~~~~~~~~
+		topk1 = np.argsort(feature_scores)[::-1][:nfeat]			#`~~~~~~~~~~
 		print "\nFeatures for treatment %s:" %(str(treatnames[1]))
 		for i in topk1:
 			if(feat_choice == 'ads'):
-				feat.choose_by_index(i).printStuff(clf.feature_importances_[i], 			#`~~~~~~~~~~
+				feat.choose_by_index(i).printStuff(feature_scores[i], 			#`~~~~~~~~~~
 				[Atrain[i], Btrain[i], Atest[i], Btest[i], A[i], B[i]], [atrain[i], btrain[i], atest[i], btest[i], a[i], b[i]])
 			elif(feat_choice == 'words'):
 				print feat[i]
-		topk0 = np.argsort(clf.feature_importances_)[:nfeat]			#`~~~~~~~~~~
+		topk0 = np.argsort(feature_scores)[:nfeat]			#`~~~~~~~~~~
 		print "\n\nFeatures for treatment %s:" %(str(treatnames[0]))
 		for i in topk0:
 			if(feat_choice == 'ads'):
-				feat.choose_by_index(i).printStuff(clf.feature_importances_[i], 			#`~~~~~~~~~~
+				feat.choose_by_index(i).printStuff(feature_scores[i], 			#`~~~~~~~~~~
 				[Atrain[i], Btrain[i], Atest[i], Btest[i], A[i], B[i]], [atrain[i], btrain[i], atest[i], btest[i], a[i], b[i]])
 			elif(feat_choice == 'words'):
 				print feat[i]
 	else:
 		for i in range(0,n_classes):
-			topk = np.argsort(clf.feature_importances_[i])[::-1][:nfeat]			#`~~~~~~~~~~
+			topk = np.argsort(feature_scores[i])[::-1][:nfeat]			#`~~~~~~~~~~
 			print "Features for treatment %s:" %(str(treatnames[i]))
 			for j in topk:
 				if(feat_choice == 'ads'):
 					feat.choose_by_index(j).display()
 				elif(feat_choice == 'words'):
 					print feat[j]
-			print "coefs: ", clf.feature_importances_[i][topk]			#`~~~~~~~~~~ replace feature_importances_ with coef_[0]
+			print "coefs: ", feature_scores[i][topk]			#`~~~~~~~~~~ replace feature_importances_ with coef_[0]
 	return topk0, topk1
 	
 
