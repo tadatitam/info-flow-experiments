@@ -13,6 +13,7 @@ from sklearn import svm
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import LinearSVC
 from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.linear_model import RandomizedLogisticRegression
 
 def split_data(X, y, splittype='timed', splitfrac=0.1, verbose=False):	
 	if(splittype == 'rand'):
@@ -129,9 +130,10 @@ def print_top_features(X, y, feat, treatnames, clf, feat_choice, nfeat=5, blocke
 			Btest = Btest + X_test[i]
 			btest = btest + np.sign(X_test[i])
 	n_classes = 1#clf.feature_importances_.shape[0]			#`~~~~~~~~~~
-	feature_scores = clf.feature_importances_
-	print clf.feature_importances_.shape			#`~~~~~~~~~~
-	print np.count_nonzero(clf.feature_importances_)
+# 	feature_scores = clf.feature_importances_
+	feature_scores = clf.coef_[0]
+	print feature_scores.shape			#`~~~~~~~~~~
+	print np.count_nonzero(feature_scores)
 	raw_input("wait")
 	if(n_classes == 1):			#`~~~~~~~~~~
 		topk1 = np.argsort(feature_scores)[::-1][:nfeat]			#`~~~~~~~~~~
@@ -203,6 +205,9 @@ def crossVal_algo(k, algo, params, X, y, splittype, splitfrac, blocked, verbose=
 			if(algo=='logit'):
 				clf = LogisticRegression(penalty=p[params.keys().index('penalty')], dual=False, 
 					C=p[params.keys().index('C')])
+			if(algo=='randlog'):
+				clf = RandomizedLogisticRegression(C=p[params.keys().index('C')])
+# 					(scaling=0.5, sample_fraction=0.75, n_resampling=200, selection_threshold=0.25, tol=0.001, fit_intercept=True, verbose=False, normalize=True, random_state=None, n_jobs=1, pre_dispatch='3*n_jobs', memory=Memory(cachedir=None))
 			clf.fit(X_train, y_train)
 			score += clf.score(X_test, y_test)
 		score /= k
@@ -218,8 +223,9 @@ def run_ml_analysis(X, y, feat, treatnames, feat_choice='ads', nfeat=5, splittyp
 		nfolds=10, blocked=1, ptest=1, verbose=False):				# main function, calls cross_validation, then runs chi2
 
 	algos = {	
-# 				'logit':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'penalty':['l2']},
-				'tree':{'ne':np.arange(5,10,2)},
+				'logit':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'penalty':['l1']},
+# 				'randlog':{'C':np.logspace(-5.0, 15.0, num=21, base=2)},
+# 				'tree':{'ne':np.arange(5,10,2)},
 # 				'svc':{'C':np.logspace(-5.0, 15.0, num=21, base=2)}	
 # 				'kNN':{'k':np.arange(1,20,2), 'p':[1,2,3]}, 
 # 				'polySVM':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'degree':[1,2,3,4]},
