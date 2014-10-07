@@ -6,20 +6,22 @@ AdFisher is a tool for running Automated Experiments on Personalized Ad Settings
 Requirements
 -----------
 AdFisher runs only on UNIX environments. It uses some standard packages listed here. 
-The commands provided for installation work on Ubuntu.
+The commands provided for installation work on Ubuntu and OS X. You may find it useful to install packages using `pip`. 
+You can install `pip` by following the instructions given [here](http://pip.readthedocs.org/en/latest/installing.html)
 In order to run experiments and data collection, you will need the following packages:
 
-  - selenium```pip install selenium```
-  - xvfb ```apt-get install xvfb```
-  - xvfbwrapper ```pip install xvfbwrapper```
+  - selenium```sudo pip install selenium```
+  - xvfb ```sudo apt-get install xvfb```
+  - xvfbwrapper ```sudo pip install xvfbwrapper```
 
 Selenium is a web-browser automation framework. Xvfb allows for headless testing. 
-xvfbwrapper is a python wrapper for the same. 
+xvfbwrapper is a python wrapper for the same []. 
+The Xvfb package is not present on OS X, but you have to install xvfbwrapper.
 To carry out the data analysis requires the following packages:
   - numpy, scipy, matplotlib ```sudo apt-get install python-numpy python-scipy python-matplotlib```
-  - scikit learn ```pip install scikit-learn```
-  - stemming ```pip install stemming```
-  - nltk ```pip install -U pyyaml nltk```
+  - scikit learn ```sudo pip install scikit-learn```
+  - stemming ```sudo pip install stemming```
+  - nltk ```sudo pip install -U pyyaml nltk```
      - You also need to download the nltk stopwords corpus by typing the following commands in your python interpreter. 
 ```python
 import nltk
@@ -33,7 +35,8 @@ We use the stemming package to stem words, and the nltk stopwords corpus for ide
 
 Example
 -----------
-An example piece of code to run the experiment and perform the analysis looks as follows.
+An example piece of code to run the experiment and perform the analysis looks as follows. 
+This script must be run within the AdFisher directory - the one which also has the `core` folder.
 ```python
 import core.adfisher as adfisher
 
@@ -76,7 +79,7 @@ adfisher.run_ml_analysis()
 Now, we explain each part of the above script in detail.
 In order to run an experiment, you first need to import the adfisher module.
 ```python
-import adfisher
+import core.adfisher as adfisher
 ```
 ### Setting up treatments
 You can initialize a treatment with its name as follows.
