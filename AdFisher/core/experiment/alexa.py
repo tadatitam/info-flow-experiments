@@ -33,8 +33,7 @@ class Webdriver(unittest.TestCase):
 			if (platform.system()=='Darwin'):
 				self.driver = webdriver.Firefox()
 			elif (platform.system()=='Linux'):
-# 				self.driver = webdriver.Firefox(proxy=proxy)
-				self.driver = webdriver.Firefox()
+				self.driver = webdriver.Firefox(proxy=proxy)
 			else:
 				print "Unidentified Platform"
 				sys.exit(0)
