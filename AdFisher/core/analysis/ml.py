@@ -36,8 +36,8 @@ def select_and_fit_classifier(nfolds, algos, X_train, y_train, splittype, splitf
 	max_score = 0
 	for algo in algos.keys():
 		score, mPar, clf = crossVal_algo(nfolds, algo, algos[algo], X_train, y_train, splittype, splitfrac, blocked)
-		if(verbose):
-			print score, mPar
+# 		if(verbose):
+# 			print score, mPar
 		if(score > max_score):
 			max_clf = clf
 			max_score = score

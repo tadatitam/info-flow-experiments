@@ -7,16 +7,16 @@ Requirements
 -----------
 AdFisher runs only on UNIX environments. It uses some standard packages listed here. 
 The commands provided for installation work on Ubuntu and OS X. You may find it useful to install packages using `pip`. 
-You can install `pip` by following the instructions given [here](http://pip.readthedocs.org/en/latest/installing.html)
-In order to run experiments and data collection, you will need the following packages:
+You can install `pip` by following the instructions provided [here](http://pip.readthedocs.org/en/latest/installing.html).
+In order to run experiments for data collection, you will need the following packages:
 
   - selenium```sudo pip install selenium```
   - xvfb ```sudo apt-get install xvfb```
   - xvfbwrapper ```sudo pip install xvfbwrapper```
 
 Selenium is a web-browser automation framework. Xvfb allows for headless testing. 
-xvfbwrapper is a python wrapper for the same []. 
-The Xvfb package is not present on OS X, but you have to install xvfbwrapper.
+xvfbwrapper is a python wrapper for the same. 
+The Xvfb package is not present on OS X, but you still have to install xvfbwrapper.
 To carry out the data analysis requires the following packages:
   - numpy, scipy, matplotlib ```sudo apt-get install python-numpy python-scipy python-matplotlib```
   - scikit learn ```sudo pip install scikit-learn```

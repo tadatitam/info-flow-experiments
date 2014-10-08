@@ -7,7 +7,7 @@ from datetime import datetime						# for tagging log with datetime
 from selenium import webdriver						# for running the driver on websites
 from selenium.webdriver.common.proxy import *		# for proxy settings
 
-from xvfbwrapper import Xvfb						# for creating artificial display buffers to run experiments				
+# from xvfbwrapper import Xvfb						# for creating artificial display buffers to run experiments				
 import helper as cole								# functions from collectHelper
 
 import signal										# for timing out external calls
@@ -27,8 +27,8 @@ class TimeoutException(Exception):
     
 class Webdriver(unittest.TestCase):
 	def setUp(self):
-		self.vdisplay = Xvfb(width=1280, height=720)
-		self.vdisplay.start()
+# 		self.vdisplay = Xvfb(width=1280, height=720)
+# 		self.vdisplay.start()
 # 		if(not vdisplay.start()):
 # 			fo = open(LOG_FILE, "a")
 # 			fo.write("Xvfbfailure||"+str(TREATMENTID)+"||"+str(ID)+"\n")
@@ -79,7 +79,7 @@ class Webdriver(unittest.TestCase):
 			run = run+1
 
 	def tearDown(self):
-		self.vdisplay.stop()
+# 		self.vdisplay.stop()
 		self.driver.quit()
 
 def run_script(id, agents, treatmentid, runs, browser, logfile, round, treatments, measurement, timeout=2000):

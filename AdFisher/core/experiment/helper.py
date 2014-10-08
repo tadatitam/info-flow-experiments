@@ -16,7 +16,7 @@ SUBMIT_DIV = "c-T-S a-b a-b-B zo"
 
 PREF_INPUT = "XL a-oa TF"
 PREF_INPUT_FIRST = "QF NF na"
-PREF_TR = "SF Fn"
+PREF_TR = "SF Fn bft59e"
 PREF_TD = "Vq UL"
 PREF_OK_DIV = "c-T-S a-b a-b-B XE ty"
 
@@ -118,53 +118,75 @@ def login2Google(username, password, driver):
 	driver.find_element_by_id("gb_71").click()
 
 def set_gender(gender, driver, id, treatmentid):										# Set gender on Google Ad Settings page
-	driver.set_page_load_timeout(40)
-	driver.get("https://www.google.com/settings/ads")
-	driver.find_elements_by_xpath(".//div[@class='"+EDIT_DIV+"']")[0].click()
-	if(gender == 'm'):
-		box = driver.find_elements_by_xpath(".//div[@class='"+RADIO_DIV+"'][@data-value='1']/span")[0]			# MALE			
-	elif(gender == 'f'):
-		box = driver.find_elements_by_xpath(".//div[@class='"+RADIO_DIV+"'][@data-value='2']/span")[0]			# FEMALE
-	box.click()
-	driver.find_elements_by_xpath(".//div[@class='"+SUBMIT_DIV+"']")[0].click()
-	log("setGender="+gender+"||"+str(treatmentid), id)
+	try:
+		driver.set_page_load_timeout(40)
+		driver.get("https://www.google.com/settings/ads")
+		driver.find_elements_by_xpath(".//div[@class='"+EDIT_DIV+"']")[0].click()
+		if(gender == 'm'):
+			box = driver.find_elements_by_xpath(".//div[@class='"+RADIO_DIV+"'][@data-value='1']/span")[0]			# MALE			
+		elif(gender == 'f'):
+			box = driver.find_elements_by_xpath(".//div[@class='"+RADIO_DIV+"'][@data-value='2']/span")[0]			# FEMALE
+		box.click()
+		driver.find_elements_by_xpath(".//div[@class='"+SUBMIT_DIV+"']")[0].click()
+		log("setGender="+gender+"||"+str(treatmentid), id)
+	except:
+		print "Could not set gender"
 
 def get_gender(driver):												# Read gender from Google Ad Settings
-	driver.get("https://www.google.com/settings/ads")
-	div = driver.find_elements_by_xpath(".//span[@class='"+READ_SPAN+"']")[0]
-	inn = str(div.get_attribute('innerHTML'))
+	inn = ""
+	try:
+		driver.set_page_load_timeout(40)
+		driver.get("https://www.google.com/settings/ads")
+		div = driver.find_elements_by_xpath(".//span[@class='"+READ_SPAN+"']")[0]
+		inn = str(div.get_attribute('innerHTML'))
+	except:
+		print "Could not get gender"
 	return inn
 	
 def get_age(driver):												# Read age from Google Ad Settings
-	driver.get("https://www.google.com/settings/ads")
-	div = driver.find_elements_by_xpath(".//span[@class='"+READ_SPAN+"']")[1]
-	inn = str(div.get_attribute('innerHTML'))
+	inn = ""
+	try:
+		driver.set_page_load_timeout(40)
+		driver.get("https://www.google.com/settings/ads")
+		div = driver.find_elements_by_xpath(".//span[@class='"+READ_SPAN+"']")[1]
+		inn = str(div.get_attribute('innerHTML'))
+	except:
+		print "Could not get age"
 	return inn
 		
 def get_language(driver):												# Read language from Google Ad Settings
-	driver.get("https://www.google.com/settings/ads")
-	div = driver.find_elements_by_xpath(".//span[@class='"+READ_SPAN+"']")[2]
-	inn = str(div.get_attribute('innerHTML'))
+	inn = ""
+	try:
+		driver.set_page_load_timeout(40)
+		driver.get("https://www.google.com/settings/ads")
+		div = driver.find_elements_by_xpath(".//span[@class='"+READ_SPAN+"']")[2]
+		inn = str(div.get_attribute('innerHTML'))
+	except:
+		print "Could not get language"
 	return inn
 	
 def set_age(age, driver, id, treatmentid):										# Set age on Google Ad Settings page
-	driver.get("https://www.google.com/settings/ads")
-	driver.find_elements_by_xpath(".//div[@class='"+EDIT_DIV+"']")[1].click()
-	if(age>=18 and age<=24):
-		box = driver.find_elements_by_xpath(".//div[@class='"+RADIO_DIV+"'][@data-value='1']/span")[1]
-	elif(age>=25 and age<=34):	
-		box = driver.find_elements_by_xpath(".//div[@class='"+RADIO_DIV+"'][@data-value='2']/span")[1]
-	elif(age>=35 and age<=44):	
-		box = driver.find_elements_by_xpath(".//div[@class='"+RADIO_DIV+"'][@data-value='3']/span")[0]
-	elif(age>=45 and age<=54):	
-		box = driver.find_elements_by_xpath(".//div[@class='"+RADIO_DIV+"'][@data-value='4']/span")[0]
-	elif(age>=55 and age<=64):
-		box = driver.find_elements_by_xpath(".//div[@class='"+RADIO_DIV+"'][@data-value='5']/span")[0]
-	elif(age>=65):
-		box = driver.find_elements_by_xpath(".//div[@class='"+RADIO_DIV+"'][@data-value='6']/span")[0]
-	box.click()
-	driver.find_elements_by_xpath(".//div[@class='"+SUBMIT_DIV+"']")[1].click()
-	log("setAge="+str(age)+"||"+str(treatmentid), id)
+	try:
+		driver.set_page_load_timeout(40)
+		driver.get("https://www.google.com/settings/ads")
+		driver.find_elements_by_xpath(".//div[@class='"+EDIT_DIV+"']")[1].click()
+		if(age>=18 and age<=24):
+			box = driver.find_elements_by_xpath(".//div[@class='"+RADIO_DIV+"'][@data-value='1']/span")[1]
+		elif(age>=25 and age<=34):	
+			box = driver.find_elements_by_xpath(".//div[@class='"+RADIO_DIV+"'][@data-value='2']/span")[1]
+		elif(age>=35 and age<=44):	
+			box = driver.find_elements_by_xpath(".//div[@class='"+RADIO_DIV+"'][@data-value='3']/span")[0]
+		elif(age>=45 and age<=54):	
+			box = driver.find_elements_by_xpath(".//div[@class='"+RADIO_DIV+"'][@data-value='4']/span")[0]
+		elif(age>=55 and age<=64):
+			box = driver.find_elements_by_xpath(".//div[@class='"+RADIO_DIV+"'][@data-value='5']/span")[0]
+		elif(age>=65):
+			box = driver.find_elements_by_xpath(".//div[@class='"+RADIO_DIV+"'][@data-value='6']/span")[0]
+		box.click()
+		driver.find_elements_by_xpath(".//div[@class='"+SUBMIT_DIV+"']")[1].click()
+		log("setAge="+str(age)+"||"+str(treatmentid), id)
+	except:
+		print "Could not set age"
 
 
 def remove_ad_pref(pref, driver, id, treatmentid, choice=2):
@@ -204,6 +226,7 @@ def remove_ad_pref(pref, driver, id, treatmentid, choice=2):
 
 def set_ad_pref(pref, driver, id, treatmentid, choice=2):									# Set an ad pref
 	try:
+		driver.set_page_load_timeout(40)
 		driver.get("https://www.google.com/settings/ads")
 		if (choice == 1):
 			driver.find_element_by_css_selector("div.Vu div.bd div.Qc div div div.cc").click()	#For search related preferences
@@ -223,18 +246,21 @@ def set_ad_pref(pref, driver, id, treatmentid, choice=2):									# Set an ad pr
 	
 def get_ad_pref(driver, choice=2):									# Returns list of Ad preferences
 	pref = []
-# 	try:
-	driver.get("https://www.google.com/settings/ads")
-	if (choice == 1):
-		driver.find_element_by_css_selector("div.Vu div.bd div.Qc div div div.cc").click()	#For search related preferences
-	elif (choice == 2):
-		driver.find_elements_by_xpath(".//div[@class='"+EDIT_DIV+"']")[3].click()
-	ints = driver.find_elements_by_xpath(".//tr[@class='"+PREF_TR+"']/td[@class='"+PREF_TD+"']")
-	for interest in ints:
-		pref.append(str(interest.get_attribute('innerHTML')))
-		#raw_input("Waiting...")
-# 	except:
-# 		pass
+	try:
+		driver.set_page_load_timeout(40)
+		driver.get("https://www.google.com/settings/ads")
+		if (choice == 1):
+			driver.find_element_by_css_selector("div.Vu div.bd div.Qc div div div.cc").click()	#For search related preferences
+		elif (choice == 2):
+			driver.find_elements_by_xpath(".//div[@class='"+EDIT_DIV+"']")[3].click()
+		ints = driver.find_elements_by_xpath(".//tr[@class='"+PREF_TR+"']/td[@class='"+PREF_TD+"']")
+	# 	print ints
+		for interest in ints:
+			pref.append(str(interest.get_attribute('innerHTML')))
+			#raw_input("Waiting...")
+	except:
+		print "Could not get any interests"
+		pass
 	return pref	
 
 def train_with_sites(FILE, driver, id, treatmentid):					# Visits all pages in FILE
