@@ -22,8 +22,8 @@ proxy = Proxy({
 
 class Webdriver(unittest.TestCase):
 	def setUp(self):
-		self.vdisplay = Xvfb(width=1280, height=720)
-		self.vdisplay.start()
+# 		self.vdisplay = Xvfb(width=1280, height=720)
+# 		self.vdisplay.start()
 # 		if(not vdisplay.start()):
 # 			fo = open(LOG_FILE, "a")
 # 			fo.write("Xvfbfailure||"+str(TREATMENTID)+"||"+str(ID)+"\n")
@@ -33,7 +33,8 @@ class Webdriver(unittest.TestCase):
 			if (platform.system()=='Darwin'):
 				self.driver = webdriver.Firefox()
 			elif (platform.system()=='Linux'):
-				self.driver = webdriver.Firefox(proxy=proxy)
+# 				self.driver = webdriver.Firefox(proxy=proxy)
+				self.driver = webdriver.Firefox()
 			else:
 				print "Unidentified Platform"
 				sys.exit(0)
@@ -78,6 +79,7 @@ class Webdriver(unittest.TestCase):
 			driver.find_element_by_css_selector("a.next").click()
     
 	def tearDown(self):
+# 		self.vdisplay.stop()
 		self.driver.quit()
 		self.assertEqual([], self.verificationErrors)
 
