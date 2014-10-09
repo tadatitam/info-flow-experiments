@@ -67,7 +67,7 @@ def applyTreatment(driver, treatmentprof, id, treatmentid):
 		if(chunks[0] == 'rinterest'):
 			print "Removing Interests"
 			remove_ad_pref(chunks[1], driver, id, treatmentid)
-		time.sleep(2)
+		time.sleep(5)
 	log('training-end', id)
 
 def collectMeasurement(driver, measurement, id, treatmentid):
@@ -90,6 +90,7 @@ def collectMeasurement(driver, measurement, id, treatmentid):
 			log("pref"+"||"+str(treatmentid)+"||"+"@".join(pref), id)
 		if(chunks[0] == 'ads'):
 			collect_ads(int(chunks[2]), int(chunks[3]), LOG_FILE, driver, id, treatmentid, chunks[1])
+		time.sleep(5)
 		
 	log('measurement-end', id)
 

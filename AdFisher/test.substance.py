@@ -25,7 +25,7 @@ measurement.get_ads(site='bbc', reloads=8, delay=5)
 ## Run Experiment
 
 adfisher.run_experiment(treatments=[treatment1, treatment2], measurement=measurement, 
-	agents=2, blocks=18, log_file=log_file, timeout=500)
+	agents=2, blocks=20, log_file=log_file, timeout=500)
 	
 ## Analyze Data
 
