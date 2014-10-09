@@ -5,8 +5,13 @@ import sys											# sys.argv
 from selenium import webdriver						# for running the driver on websites
 from selenium.webdriver.common.proxy import *		# for proxy settings
 
-from xvfbwrapper import Xvfb						# for creating artificial display to run experiments				
+# from xvfbwrapper import Xvfb						# for creating artificial display to run experiments				
 import helper as cole								# functions from collectHelper
+
+
+
+
+
 
 LOG_FILE = "log"
 myProxy = "yogi.pdl.cmu.edu:3128"
@@ -33,7 +38,8 @@ class Webdriver(unittest.TestCase):
 			if (platform.system()=='Darwin'):
 				self.driver = webdriver.Firefox()
 			elif (platform.system()=='Linux'):
-				self.driver = webdriver.Firefox(proxy=proxy)
+# 				self.driver = webdriver.Firefox(proxy=proxy)
+				self.driver = webdriver.Firefox()
 			else:
 				print "Unidentified Platform"
 				sys.exit(0)

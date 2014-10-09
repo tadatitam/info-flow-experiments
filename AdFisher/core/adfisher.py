@@ -44,7 +44,8 @@ class Treatment:
 		elif (gender.lower()=='f' or gender.lower()=='female'):
 			gender = 'f'
 		else:
-			print "Gender option not available. Exiting."
+			print "Gender option '%s' not available. Exiting." %gender
+			print "Try m/male/f/female"
 			sys.exit(0)
 		if(self.count==0):
 			self.str += "gender|:|"+gender

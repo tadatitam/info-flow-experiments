@@ -1,9 +1,7 @@
 import unittest, time								# unittest starts of the testing environment for browsers, time.sleep
 import os, platform									# for running  os, platform specific function calls
-import sys											# sys.argv
-import re											# to parse treatments
+import sys, re										# sys.argv, to parse treatments								# 
 from datetime import datetime						# for tagging log with datetime
-
 from selenium import webdriver						# for running the driver on websites
 from selenium.webdriver.common.proxy import *		# for proxy settings
 
