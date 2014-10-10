@@ -18,7 +18,7 @@ Selenium is a web-browser automation framework. Xvfb allows for headless testing
 xvfbwrapper is a python wrapper for the same. 
 The Xvfb package is not present on OS X, but you still have to install xvfbwrapper.
 To carry out the data analysis requires the following packages:
-  - numpy, scipy, matplotlib ```sudo apt-get install python-numpy python-scipy python-matplotlib```
+  - numpy, scipy, matplotlib ```pip install numpy scipy matplotlib```
   - scikit learn ```sudo pip install scikit-learn```
   - stemming ```sudo pip install stemming```
   - nltk ```sudo pip install -U pyyaml nltk```
