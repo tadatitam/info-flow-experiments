@@ -1,0 +1,9 @@
+config||2||2
+treatnames||control||experimental
+assign||0||0||1
+2014-10-19 00:49:47.213356||optedIn||-1||1
+2014-10-19 00:49:47.862273||optedIn||-1||0
+2014-10-19 00:49:57.685310||setGender=m||exper||1
+2014-10-19 00:49:57.781399||setGender=f||control||0
+response: 1 1 Male
+response: 0 0 Female
