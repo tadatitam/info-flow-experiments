@@ -1,12 +1,12 @@
 config||4||2
 treatnames||control||experimental
-assign||0||3||0||2||1
-response: 1 1 1
+assign||0||0||2||3||1
 response: 0 0 0
-response: 2 1 1
-response: 3 0 0
-assign||1||2||3||1||0
 response: 2 0 0
-response: 3 0 0
+response: 3 1 1
 response: 1 1 1
-response: 0 1 1
+assign||1||1||0||2||3
+response: 2 1 1
+response: 3 1 1
+response: 1 0 0
+response: 0 0 0
