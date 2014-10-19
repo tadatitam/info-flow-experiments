@@ -11,10 +11,14 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
 	make_unit   -- Function that return a unit given a unit_id number (int).  
 	               To keep the units exechangable, the unit_id should only be used as a label in logging.
 	treatments  -- List of functions each of which that takes a unit and does some treatment to it.
-	measurement -- A function that takes a unit and makes some measurements of it.  Should log the results.
+	measurement -- A function that takes a unit and makes some measurements of it.
+	               Should log the results.
 	end_unit    -- A function that takes a unit and cleans it up.
-	laod_results-- 
-	test_stat   -- 
+	load_results-- Load the results from a log file into a pair vectors:
+	                (1) one for each unit's response value
+		        (2) one for the treatment assigned to each unit
+		       with the units in the same order.
+	test_stat   -- Takes a pair of vectors as above and computes a number.
 	num_blocks  -- Number of blocks (rounds) used in the experiment.
 	num_units   -- Number of units in each block.  
                        num_blocks * num_units is the sample size.
@@ -53,7 +57,7 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
 					 num_blocks, num_units, timeout,
 					 log_file, treatment_names)
 	observed_values, observed_assignment = load_results()
-	p_value = permutation_test.exact_test(observed_values, observed_assignment, test_stat)
+	p_value = permutation_test.full_test(observed_values, observed_assignment, test_stat)
 	print "p-value: ", p_value
 
 	#do_experiment(exper_body,

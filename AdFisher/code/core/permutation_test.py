@@ -25,7 +25,7 @@ def perm_unique_helper(listunique,result_list,d):
                     yield g
                 i.occurrences+=1
 
-def exact_test(X_test, y_test, test_stat): 
+def full_test(X_test, y_test, test_stat): 
     """
     The permutation test done exactly.
     Returns a p-value.
