@@ -24,21 +24,24 @@ def make_browser(unit_id, treatment_id):
     return b
 
 # Sets the gender bit of Google's Ad Settings to female.
-def set_female(unit, unit_id):
+def set_female(unit):
     unit.set_gender('f')
+    import time
+    time.sleep(10)
 
 # Sets the gender bit of Google's Ad Settings to male.
-def set_male(unit, unit_id):
+def set_male(unit):
     unit.set_gender('m')
 
 # Measures Google's gender bit and prints it to the log using the same
 # format as found in simple_test.py.
-def measure_gender(unit, unit_id, treatment_id):
-    with open(log_file, "a") as fo:
-        fo.write('response: ' + 
-                 str(unit_id) + ' ' + 
-                 str(treatment_id) + ' ' + 
-                 str(unit.get_gender()) + '\n')    
+# Collecting ads from 3 reloads of bbc
+def measure_ads_bbc(unit):
+	for i in range(0,3):
+		try:
+			unit.save_ads_bbc()
+		except:
+			pass 
 
 
 # Shuts down the browser once we are done with it.
@@ -74,8 +77,8 @@ def test_stat(observed_values, unit_assignment):
     return value
 
 adfisher.do_experiment(make_browser, [set_female, set_male], 
-                       measure_gender, cleanup_browser, 
+                       measure_ads_bbc, cleanup_browser, 
                        load_results, test_stat,
-                       num_blocks=1, num_units=2, timeout=120,
+                       num_blocks=2, num_units=2, timeout=120,
                        log_file=log_file, 
                        treatment_names=["control (female)", "experimental (male)"])

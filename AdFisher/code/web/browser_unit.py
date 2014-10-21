@@ -389,7 +389,7 @@ class BrowserUnit:
 			pass
 		rel = rel + 1
 
-    def save_ads_bloomberg(self, file_name):
+    def save_ads_bloomberg(self):
 	sys.stdout.write(".")
 	sys.stdout.flush()
 	self.driver.set_page_load_timeout(60)
@@ -408,14 +408,14 @@ class BrowserUnit:
 		l = li.find_element_by_css_selector("td.rh-urlc div div a span").get_attribute('innerHTML')
 		b = li.find_element_by_css_selector("td.rh-bodyc div span").get_attribute('innerHTML')
 		f = strip_tags("ad||"+str(self.unit_id)+"||"+str(self.treatment_id)+"||"+tim+"||"+t+"||"+l+"||"+b).encode("utf8")
-		fo = open(file_name, "a")
+		fo = open(self.log_file, "a")
 		fo.write(f + '\n')
 		fo.close()
 	self.driver.switch_to.default_content()
 	self.driver.switch_to.default_content()
 	self.driver.switch_to.default_content()
 
-    def save_ads_reuters(self, file_name):
+    def save_ads_reuters(self):
 	sys.stdout.write(".")
 	sys.stdout.flush()
 	self.driver.set_page_load_timeout(60)
@@ -434,14 +434,14 @@ class BrowserUnit:
 		l = li.find_element_by_css_selector("td.rh-urlc div div a span").get_attribute('innerHTML')
 		b = li.find_element_by_css_selector("td.rh-bodyc div span").get_attribute('innerHTML')
 		f = strip_tags("ad||"+str(self.unit_id)+"||"+str(self.treatment_id)+"||"+tim+"||"+t+"||"+l+"||"+b).encode("utf8")
-		fo = open(file_name, "a")
+		fo = open(self.log_file, "a")
 		fo.write(f + '\n')
 		fo.close()
 	self.driver.switch_to.default_content()
 	self.driver.switch_to.default_content()
 	self.driver.switch_to.default_content()
 
-    def save_ads_guardian(self, file_name):
+    def save_ads_guardian(self):
 	sys.stdout.write(".")
 	sys.stdout.flush()
 	self.driver.set_page_load_timeout(60)
@@ -454,11 +454,11 @@ class BrowserUnit:
 		b = ps[1].get_attribute('innerHTML')
 		l = ps[2].find_element_by_css_selector("a").get_attribute('innerHTML')
 		t = strip_tags("ad||"+str(self.unit_id)+"||"+str(self.treatment_id)+"||"+time+"||"+t+"||"+l+"||"+b).encode("utf8")
-		fo = open(file_name, "a")
+		fo = open(self.log_file, "a")
 		fo.write(t + '\n')
 		fo.close()
 
-    def save_ads_toi(self, file_name):
+    def save_ads_toi(self):
 	sys.stdout.write(".")
 	sys.stdout.flush()
 	self.driver.set_page_load_timeout(60)
@@ -471,7 +471,7 @@ class BrowserUnit:
 		aa = ad.find_elements_by_xpath(".//tbody/tr/td/a")
 		bb = ad.find_elements_by_xpath(".//tbody/tr/td/span")
 		t = strip_tags("ad||"+str(self.unit_id)+"||"+str(self.treatment_id)+"||"+time+"||"+aa[0].get_attribute('innerHTML')+ "||" + aa[1].get_attribute('innerHTML')+ "||" + bb[0].get_attribute('innerHTML')).encode("utf8")
-		fo = open(file_name, "a")
+		fo = open(self.log_file, "a")
 		fo.write(t + '\n')
 		fo.close()
 	self.driver.switch_to.default_content()
@@ -483,7 +483,7 @@ class BrowserUnit:
 		aa = ad.find_elements_by_xpath(".//tbody/tr/td/a")
 		bb = ad.find_elements_by_xpath(".//tbody/tr/td/span")
 		t = strip_tags("ad||"+str(self.unit_id)+"||"+str(self.treatment_id)+"||"+time+"||"+aa[0].get_attribute('innerHTML')+ "||" + aa[1].get_attribute('innerHTML')+ "||" + bb[0].get_attribute('innerHTML')).encode("utf8")
-		fo = open(file_name, "a")
+		fo = open(self.log_file, "a")
 		fo.write(t + '\n')
 		fo.close()
 	self.driver.switch_to.default_content()
@@ -495,12 +495,12 @@ class BrowserUnit:
 		aa = ad.find_elements_by_xpath(".//tbody/tr/td/a")
 		bb = ad.find_elements_by_xpath(".//tbody/tr/td/span")
 		t = strip_tags("ad||"+str(self.unit_id)+"||"+str(self.treatment_id)+"||"+time+"||"+aa[0].get_attribute('innerHTML')+ "||" + aa[1].get_attribute('innerHTML')+ "||" + bb[0].get_attribute('innerHTML')).encode("utf8")
-		fo = open(file_name, "a")
+		fo = open(self.log_file, "a")
 		fo.write(t + '\n')
 		fo.close()
 	self.driver.switch_to.default_content()
 
-    def save_ads_bbc(self, file_name):
+    def save_ads_bbc(self):
 	sys.stdout.write(".")
 	sys.stdout.flush()
 # 		global ad_int
@@ -514,7 +514,7 @@ class BrowserUnit:
 		b = ps[0].get_attribute('innerHTML')
 		l = ps[1].find_element_by_css_selector("a").get_attribute('innerHTML')
 		t = strip_tags("ad||"+str(self.unit_id)+"||"+str(self.treatment_id)+"||"+time+"||"+t+"||"+l+"||"+b).encode("utf8")
-		fo = open(file_name, "a")
+		fo = open(self.log_file, "a")
 		fo.write(t + '\n')
 		fo.close()
 

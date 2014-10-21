@@ -35,14 +35,17 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
 	After doing this for every block, 
         it uses test_stat to run a permutation test on the results using that as the test statistic.
 	"""
-	def exper_body(unit_id, treatment_id):
+	def exper_body(unit_id, treatment_id, block_id):
 		class Test(unittest.TestCase):
 			def setUp(self):
 				self.unit = make_unit(unit_id, treatment_id)
 			def runTest(self):
-				treatments[treatment_id](self.unit, unit_id)
+				self.unit.log("training-start")
+				treatments[treatment_id](self.unit)
+				self.unit.log("training-end")
+				self.unit.wait_for_others(num_units, block_id)
 			def tearDown(self):
-				print "measurment: ", measurement(self.unit, unit_id, treatment_id)
+				print "measurment: ", measurement(self.unit)
 				end_unit(self.unit, unit_id, treatment_id)
 		test = Test()
 		suite = unittest.TestSuite()

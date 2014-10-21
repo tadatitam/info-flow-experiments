@@ -1,9 +1,56 @@
 config||2||2
 treatnames||control (female)||experimental (male)
 assign||0||0||1
-2014-10-21 17:30:26.142188||optedIn||1||1
-2014-10-21 17:30:26.163688||optedIn||0||0
-2014-10-21 17:30:27.360262||setGender=f||0||0
-2014-10-21 17:30:27.377020||setGender=m||1||1
-response: 0 0 Female
-response: 1 1 Male
+2014-10-21 18:34:02.786976||optedIn||0||0
+2014-10-21 18:34:02.787205||training-start||0
+2014-10-21 18:34:03.576386||optedIn||1||1
+2014-10-21 18:34:03.576585||training-start||1
+2014-10-21 18:34:03.767982||setGender=f||0||0
+2014-10-21 18:34:04.484238||setGender=m||1||1
+2014-10-21 18:34:04.484422||training-end||1
+2014-10-21 18:34:13.768808||training-end||0
+ad||0||0||2014-10-21 18:34:19.011092||Hey, Sandra Bullock Lied||lifecoolbeauty.com/sandra-secret||Her Fans Are In Shock. Her Huge Secret Is Finally Exposed!
+ad||0||0||2014-10-21 18:34:19.011092||Better than Reagan?||www.thenewamerica2016.com||Hillary Clinton predicted to be one of the best Presidents ever elected
+ad||0||0||2014-10-21 18:34:19.011092||Man Cheats Credit Score||www.thecreditsolutionprogram.com||1 simple trick  my credit score jumped 217 pts. Banks hate this!
+ad||1||1||2014-10-21 18:34:19.710548||This Will Burn You Up||www.thenewamerica2016.com||Surprising reason Hillary could be among best U.S. Presidents ever.
+ad||1||1||2014-10-21 18:34:19.710548||Technology Managment||theevolutiontechnologygroup.com/||Let us make technology work for you Network and computer managemnt
+ad||1||1||2014-10-21 18:34:19.710548||Better Video Conferencing||bluejeans.com/Video-Conferencing||Compatible w/ Your Current System. Connect With Any Endpoint. Try Now!
+ad||0||0||2014-10-21 18:34:25.849681||Online Content Now on TV||google.com/Chromecast||Stream video and music on your TV wirelessly! Buy now for only $35.
+ad||0||0||2014-10-21 18:34:25.849681||Local Exterminators||www.homeadvisor.com||Enter Your Zip Code  Connect To Local Pest Control Services Today!
+ad||0||0||2014-10-21 18:34:25.849681||Medical Billing Coding||educationconnection.com||Free Course Information. Study Medical Billing  Coding
+ad||1||1||2014-10-21 18:34:26.965779||8% Annuity Return Secret||www.seniorannuityalert.com||Dont Buy An Annuity Til You See Our Secret to 8% Guaranteed* For Life
+ad||1||1||2014-10-21 18:34:26.965779||Medical Billing Coding||educationconnection.com||Free Course Information. Study Medical Billing  Coding
+ad||1||1||2014-10-21 18:34:26.965779||New Currency Law-1st Look||www.endofamerica.com||Devastating new currency law went into effect July 1st, 2014.
+ad||1||1||2014-10-21 18:34:32.685673||Dental Implant Warning||symptomfind.com/CosmeticDentalCare||Critical Info You Need To Know Before Getting Dental Implants.
+ad||1||1||2014-10-21 18:34:32.685673||3 Foods Enlarge Prostate||medixselect.com||Is Your Diet Growing Your Prostate? Top Doctor Explains the Signs
+ad||1||1||2014-10-21 18:34:32.685673||Hey, Sandra Bullock Lied||lifecoolbeauty.com/sandra-secret||Her Fans Are In Shock. Her Huge Secret Is Finally Exposed!
+ad||0||0||2014-10-21 18:34:32.040911||Medical Billing Coding||educationconnection.com||Free Course Information. Study Medical Billing  Coding
+ad||0||0||2014-10-21 18:34:32.040911||*Disability Application||disabilityclaimguide.com/Apply-Now||Do You Qualify for Benefits? Fast, Free  Online Evaluation!
+ad||0||0||2014-10-21 18:34:32.040911||#1 China Wholesale Store||dhgate.com||Clothing/Shoes/Handbags/MP4/DVDs/ Cell Phones/Watches/Electronics.
+assign||1||1||0
+2014-10-21 18:34:42.360189||optedIn||1||0
+2014-10-21 18:34:42.360404||training-start||0
+2014-10-21 18:34:42.521135||optedIn||0||1
+2014-10-21 18:34:42.521324||training-start||1
+2014-10-21 18:34:43.267557||setGender=m||1||0
+2014-10-21 18:34:43.267703||training-end||0
+2014-10-21 18:34:43.464359||setGender=f||0||1
+2014-10-21 18:34:53.465229||training-end||1
+ad||1||0||2014-10-21 18:34:58.705403||The VA Mortgage Loan||www.veteransunited.com||Military Veterans Get $0 Down. Pre-Qualify  Get a Quote in 2 Mins
+ad||1||0||2014-10-21 18:34:58.705403||Local Furnace Companies||localhvacquotes.com||Step 1: Enter Your Zip Code. Step 2: Get Up To Four Free Quotes.
+ad||1||0||2014-10-21 18:34:58.705403||Better than Reagan?||www.thenewamerica2016.com||Hillary Clinton predicted to be one of the best Presidents ever elected
+ad||0||1||2014-10-21 18:35:05.122612||Hey, Sandra Bullock Lied||lifecoolbeauty.com/sandra-secret||Her Fans Are In Shock. Her Huge Secret Is Finally Exposed!
+ad||1||0||2014-10-21 18:35:05.338496||Hillary - Best Pres Ever?||www.thenewamerica2016.com||Her possible plans for America in 2016 should burn you up. [Shocking]
+ad||0||1||2014-10-21 18:35:05.122612||Our next big bankruptcy?||www.endofamerica.com||Guess who’s about to go bankrupt in America--Shocking answer here.
+ad||0||1||2014-10-21 18:35:05.122612||Cheap Internet Providers||2014prices.com/Internet-Packages||Internet Providers - Top 10 Deals October 2014 Hot Offers!
+ad||1||0||2014-10-21 18:35:05.338496||Satellite View My House||www.onlinemapfinder.com||Search Maps, Get Driving Directions Instantly with Free App!
+ad||1||0||2014-10-21 18:35:05.338496||Authorized ADT Dealer||www.infocallnow.com||Free $850 Security System Only $99 Install. Call Now!
+ad||1||0||2014-10-21 18:35:12.722182||This Will Burn You Up||www.thenewamerica2016.com||Surprising reason Hillary could be among best U.S. Presidents ever.
+ad||1||0||2014-10-21 18:35:12.722182||Satellite View My House||www.onlinemapfinder.com||Search Maps, Get Driving Directions Instantly with Free App!
+ad||1||0||2014-10-21 18:35:12.722182||Authorized ADT Dealer||www.infocallnow.com||Free $850 Security System Only $99 Install. Call Now!
+ad||0||1||2014-10-21 18:35:12.362129||Hey, Sandra Bullock Lied||lifecoolbeauty.com/sandra-secret||Her Fans Are In Shock. Her Huge Secret Is Finally Exposed!
+ad||0||1||2014-10-21 18:35:12.362129||Wireless Internet Service||topicologist.com||Fast And Reliable Internet Service. Read Top Customer Views Today!
+ad||0||1||2014-10-21 18:35:12.362129||This Will Burn You Up||www.thenewamerica2016.com||Surprising reason Hillary could be among best U.S. Presidents ever.
+ad||0||1||2014-10-21 18:35:18.880031||Hey, Sandra Bullock Lied||lifecoolbeauty.com/sandra-secret||Her Fans Are In Shock. Her Huge Secret Is Finally Exposed!
+ad||0||1||2014-10-21 18:35:18.880031||Free Book Editing Guide||www.xlibris.com/EditingGuide||Are You Done Writing Your Book? Learn 7 Easy Steps in Book Editing.
+ad||0||1||2014-10-21 18:35:18.880031||Graphene Is The Future||outsiderclub.com/Graphene||Learn How It Will Change The World It's All In This Free Investor Rpt.

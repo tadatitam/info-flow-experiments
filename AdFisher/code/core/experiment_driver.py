@@ -93,7 +93,7 @@ def drive_unit(exper_body,
 	old_handler = signal.signal(signal.SIGALRM, signal_handler)
 	signal.alarm(timeout)
 	try:
-		exper_body(agent_id, treatment_id)
+		exper_body(agent_id, treatment_id, block_id)
 	except TimeoutException:
 		return
 	finally:
