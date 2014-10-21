@@ -79,6 +79,7 @@ class BrowserUnit:
         self.accept_next_alert = True
         self.log_file = log_file
         self.unit_id = unit_id
+        self.treatment_id = treatment_id
 
 
     def log(self, msg):	
@@ -88,7 +89,7 @@ class BrowserUnit:
         fo.close()   
 
 
-    def applyTreatment(self, treatmentprof, treatment_id):
+    def applyTreatment(self, treatmentprof):
         driver = self.driver
         treatment = treatmentprof.str
         if(treatment==''):						# null treatment
@@ -96,7 +97,7 @@ class BrowserUnit:
             return
         log('training-start')
 
-    def collectMeasurement(self, driver, measurement, treatment_id):
+    def collectMeasurement(self, driver, measurement):
 	m = measurement.str
 	log('measurement-start')
 	parts = re.split("\+", m)
@@ -104,31 +105,31 @@ class BrowserUnit:
 		chunks = re.split("\|\|", part)
 		if(chunks[0] == 'age'):
 			age = get_age(driver)
-			log("age"+"||"+str(treatment_id)+"||"+age)
+			log("age"+"||"+str(self.treatment_id)+"||"+age)
 		if(chunks[0] == 'gender'):
 			gender = get_gender(driver)
-			log("gender"+"||"+str(treatment_id)+"||"+gender)
+			log("gender"+"||"+str(self.treatment_id)+"||"+gender)
 		if(chunks[0] == 'language'):
 			language = get_language(driver)
-			log("language"+"||"+str(treatment_id)+"||"+language)
+			log("language"+"||"+str(self.treatment_id)+"||"+language)
 		if(chunks[0] == 'interests'):
 			pref = get_ad_pref(driver)
-			log("pref"+"||"+str(treatment_id)+"||"+"@".join(pref))
+			log("pref"+"||"+str(self.treatment_id)+"||"+"@".join(pref))
 		if(chunks[0] == 'ads'):
-			collect_ads(int(chunks[2]), int(chunks[3]), LOG_FILE, driver, self.unit_id, treatment_id, chunks[1])
+			collect_ads(int(chunks[2]), int(chunks[3]), LOG_FILE, driver, self.unit_id, self.treatment_id, chunks[1])
 		time.sleep(5)
 		
 	log('measurement-end')
 
-    def opt_in(self, treatment_id=-1):
+    def opt_in(self):
         """Opt in to behavioral advertising on Google"""
 	self.driver.set_page_load_timeout(60)
 	self.driver.get("https://www.google.com/settings/ads")
 	self.driver.find_element_by_xpath(".//div[@class ='"+OPTIN_DIV+"']").click()
 	if(self.unit_id != -1):
-		self.log("optedIn||"+str(treatment_id))
+		self.log("optedIn||"+str(self.treatment_id))
 
-    def opt_out(self, treatment_id=-1): 
+    def opt_out(self): 
         """Opt out of behavioral advertising on Google"""
 	self.driver.set_page_load_timeout(60)
 	self.driver.get("https://www.google.com/settings/ads")
@@ -136,7 +137,7 @@ class BrowserUnit:
 	time.sleep(2)
 	self.driver.execute_script("document.getElementsByName('ok')[1].click();")	
 	if(self.unit_id != -1):
-		self.log("optedOut||"+str(treatment_id))
+		self.log("optedOut||"+str(self.treatment_id))
 
     def login2Google(self, username, password):
 	self.driver.find_element_by_xpath(".//a[span[span[@class='gbit']]]").click()
@@ -146,7 +147,7 @@ class BrowserUnit:
 	self.driver.find_element_by_id("gbi4i").click()
 	self.driver.find_element_by_id("gb_71").click()
 
-    def set_gender(self, gender, treatment_id):
+    def set_gender(self, gender):
         """Set gender on Google Ad Settings page"""
         try:
             self.driver.set_page_load_timeout(40)
@@ -158,7 +159,7 @@ class BrowserUnit:
                 box = self.driver.find_elements_by_xpath(".//div[@class='"+RADIO_DIV+"'][@data-value='2']/span")[0]	
             box.click()
             self.driver.find_elements_by_xpath(".//div[@class='"+SUBMIT_DIV+"']")[0].click()
-            self.log("setGender="+gender+"||"+str(treatment_id))
+            self.log("setGender="+gender+"||"+str(self.treatment_id))
         except:
             print "Could not set gender"
 
@@ -198,7 +199,7 @@ class BrowserUnit:
             print "Could not get language"
 	return inn
 	
-    def set_age(self, age, treatment_id):	
+    def set_age(self, age):	
         """Set age on Google Ad Settings page"""
         try:
             self.driver.set_page_load_timeout(40)
@@ -218,15 +219,15 @@ class BrowserUnit:
                 box = self.driver.find_elements_by_xpath(".//div[@class='"+RADIO_DIV+"'][@data-value='6']/span")[0]
             box.click()
             self.driver.find_elements_by_xpath(".//div[@class='"+SUBMIT_DIV+"']")[1].click()
-            self.log("setAge="+str(age)+"||"+str(treatment_id))
+            self.log("setAge="+str(age)+"||"+str(self.treatment_id))
         except:
             print "Could not set age"
 
 
-    def remove_ad_pref(self, pref, treatment_id, choice=2):
+    def remove_ad_pref(self, pref, choice=2):
 	try:
             prefs = get_ad_pref(self.driver)
-            self.log("prepref"+"||"+str(treatment_id)+"||"+"@".join(prefs))
+            self.log("prepref"+"||"+str(self.treatment_id)+"||"+"@".join(prefs))
             self.driver.set_page_load_timeout(40)
             self.driver.get("https://www.google.com/settings/ads")
             if (choice == 1):
@@ -255,11 +256,11 @@ class BrowserUnit:
                     if(flag == 0):
                             break
             self.driver.find_element_by_xpath(".//div[@class='"+PREF_OK_DIV+"']").click()
-            self.log("remInterest="+"@".join(rem)+"||"+str(treatment_id))
+            self.log("remInterest="+"@".join(rem)+"||"+str(self.treatment_id))
 	except:
             print "No interests matched '%s'. Skipping." %(pref)
 
-    def set_ad_pref(self, pref, treatment_id, choice=2): 
+    def set_ad_pref(self, pref, choice=2): 
         """Set an ad pref"""
 	try:
             self.driver.set_page_load_timeout(40)
@@ -276,7 +277,7 @@ class BrowserUnit:
             for tr in trs:
                     td = tr.find_element_by_xpath(".//td[@class='"+PREF_TD+"']").get_attribute('innerHTML')
                     print td
-                    self.log("setInterests="+td+"||"+str(treatment_id))
+                    self.log("setInterests="+td+"||"+str(self.treatment_id))
             self.driver.find_element_by_xpath(".//div[@class='"+PREF_OK_DIV+"']").click()
 	except:
             print "Error setting interests containing '%s'. Skipping." %(pref)
@@ -302,7 +303,7 @@ class BrowserUnit:
             pass
 	return pref	
 
-    def train_with_sites(self, file_name, treatment_id): 
+    def train_with_sites(self, file_name): 
         """Visits all pages in file_name"""
 	fo = open(file_name, "r")
 	for line in fo:
@@ -312,7 +313,7 @@ class BrowserUnit:
 			self.driver.set_page_load_timeout(40)
 			self.driver.get(site)
 			time.sleep(5)
-			self.log(site+"||"+str(treatment_id))
+			self.log(site+"||"+str(self.treatment_id))
                         # pref = get_ad_pref(self.driver)
                         # self.log("pref"+"||"+str(treatment_id)+"||"+"@".join(pref), self.unit_id)
 		except:
@@ -356,7 +357,7 @@ class BrowserUnit:
 				clear = False
 	
 
-    def collect_ads(self, reloads, delay, treatment_id, site, file_name=None):
+    def collect_ads(self, reloads, delay, site, file_name=None):
         """
         file_name is the log_file.
         """
@@ -369,15 +370,15 @@ class BrowserUnit:
 			for i in range(0,1):
 				s = datetime.now()
 				if(site == 'toi'):
-					save_ads_toi(file_name, self.driver, self.unit_id, treatment_id)
+					save_ads_toi(file_name, self.driver, self.unit_id, self.treatment_id)
 				elif(site == 'bbc'):
-					save_ads_bbc(file_name, self.driver, self.unit_id, treatment_id)
+					save_ads_bbc(file_name, self.driver, self.unit_id, self.treatment_id)
 				elif(site == 'guardian'):
-					save_ads_guardian(file_name, self.driver, self.unit_id, treatment_id)
+					save_ads_guardian(file_name, self.driver, self.unit_id, self.treatment_id)
 				elif(site == 'reuters'):
-					save_ads_reuters(file_name, self.driver, self.unit_id, treatment_id)
+					save_ads_reuters(file_name, self.driver, self.unit_id, self.treatment_id)
 				elif(site == 'bloomberg'):
-					save_ads_bloomberg(file_name, self.driver, self.unit_id, treatment_id)
+					save_ads_bloomberg(file_name, self.driver, self.unit_id, self.treatment_id)
 				else:
 					raw_input("No such site found: %s!" % site)
 				e = datetime.now()
@@ -388,7 +389,7 @@ class BrowserUnit:
 			pass
 		rel = rel + 1
 
-    def save_ads_bloomberg(self, file_name, treatment_id):
+    def save_ads_bloomberg(self, file_name):
 	sys.stdout.write(".")
 	sys.stdout.flush()
 	self.driver.set_page_load_timeout(60)
@@ -406,7 +407,7 @@ class BrowserUnit:
 		t = li.find_element_by_css_selector("td.rh-titlec div a span").get_attribute('innerHTML')
 		l = li.find_element_by_css_selector("td.rh-urlc div div a span").get_attribute('innerHTML')
 		b = li.find_element_by_css_selector("td.rh-bodyc div span").get_attribute('innerHTML')
-		f = strip_tags("ad||"+str(self.unit_id)+"||"+str(treatment_id)+"||"+tim+"||"+t+"||"+l+"||"+b).encode("utf8")
+		f = strip_tags("ad||"+str(self.unit_id)+"||"+str(self.treatment_id)+"||"+tim+"||"+t+"||"+l+"||"+b).encode("utf8")
 		fo = open(file_name, "a")
 		fo.write(f + '\n')
 		fo.close()
@@ -414,7 +415,7 @@ class BrowserUnit:
 	self.driver.switch_to.default_content()
 	self.driver.switch_to.default_content()
 
-    def save_ads_reuters(self, file_name, treatment_id):
+    def save_ads_reuters(self, file_name):
 	sys.stdout.write(".")
 	sys.stdout.flush()
 	self.driver.set_page_load_timeout(60)
@@ -432,7 +433,7 @@ class BrowserUnit:
 		t = li.find_element_by_css_selector("td.rh-titlec div a span").get_attribute('innerHTML')
 		l = li.find_element_by_css_selector("td.rh-urlc div div a span").get_attribute('innerHTML')
 		b = li.find_element_by_css_selector("td.rh-bodyc div span").get_attribute('innerHTML')
-		f = strip_tags("ad||"+str(self.unit_id)+"||"+str(treatment_id)+"||"+tim+"||"+t+"||"+l+"||"+b).encode("utf8")
+		f = strip_tags("ad||"+str(self.unit_id)+"||"+str(self.treatment_id)+"||"+tim+"||"+t+"||"+l+"||"+b).encode("utf8")
 		fo = open(file_name, "a")
 		fo.write(f + '\n')
 		fo.close()
@@ -440,7 +441,7 @@ class BrowserUnit:
 	self.driver.switch_to.default_content()
 	self.driver.switch_to.default_content()
 
-    def save_ads_guardian(self, file_name, treatment_id):
+    def save_ads_guardian(self, file_name):
 	sys.stdout.write(".")
 	sys.stdout.flush()
 	self.driver.set_page_load_timeout(60)
@@ -452,12 +453,12 @@ class BrowserUnit:
 		ps = el.find_elements_by_css_selector("p")
 		b = ps[1].get_attribute('innerHTML')
 		l = ps[2].find_element_by_css_selector("a").get_attribute('innerHTML')
-		t = strip_tags("ad||"+str(self.unit_id)+"||"+str(treatment_id)+"||"+time+"||"+t+"||"+l+"||"+b).encode("utf8")
+		t = strip_tags("ad||"+str(self.unit_id)+"||"+str(self.treatment_id)+"||"+time+"||"+t+"||"+l+"||"+b).encode("utf8")
 		fo = open(file_name, "a")
 		fo.write(t + '\n')
 		fo.close()
 
-    def save_ads_toi(self, file_name, treatment_id):
+    def save_ads_toi(self, file_name):
 	sys.stdout.write(".")
 	sys.stdout.flush()
 	self.driver.set_page_load_timeout(60)
@@ -469,7 +470,7 @@ class BrowserUnit:
 	for ad in ads:
 		aa = ad.find_elements_by_xpath(".//tbody/tr/td/a")
 		bb = ad.find_elements_by_xpath(".//tbody/tr/td/span")
-		t = strip_tags("ad||"+str(self.unit_id)+"||"+str(treatment_id)+"||"+time+"||"+aa[0].get_attribute('innerHTML')+ "||" + aa[1].get_attribute('innerHTML')+ "||" + bb[0].get_attribute('innerHTML')).encode("utf8")
+		t = strip_tags("ad||"+str(self.unit_id)+"||"+str(self.treatment_id)+"||"+time+"||"+aa[0].get_attribute('innerHTML')+ "||" + aa[1].get_attribute('innerHTML')+ "||" + bb[0].get_attribute('innerHTML')).encode("utf8")
 		fo = open(file_name, "a")
 		fo.write(t + '\n')
 		fo.close()
@@ -481,7 +482,7 @@ class BrowserUnit:
 	for ad in ads:
 		aa = ad.find_elements_by_xpath(".//tbody/tr/td/a")
 		bb = ad.find_elements_by_xpath(".//tbody/tr/td/span")
-		t = strip_tags("ad||"+str(self.unit_id)+"||"+str(treatment_id)+"||"+time+"||"+aa[0].get_attribute('innerHTML')+ "||" + aa[1].get_attribute('innerHTML')+ "||" + bb[0].get_attribute('innerHTML')).encode("utf8")
+		t = strip_tags("ad||"+str(self.unit_id)+"||"+str(self.treatment_id)+"||"+time+"||"+aa[0].get_attribute('innerHTML')+ "||" + aa[1].get_attribute('innerHTML')+ "||" + bb[0].get_attribute('innerHTML')).encode("utf8")
 		fo = open(file_name, "a")
 		fo.write(t + '\n')
 		fo.close()
@@ -493,13 +494,13 @@ class BrowserUnit:
 	for ad in ads:
 		aa = ad.find_elements_by_xpath(".//tbody/tr/td/a")
 		bb = ad.find_elements_by_xpath(".//tbody/tr/td/span")
-		t = strip_tags("ad||"+str(self.unit_id)+"||"+str(treatment_id)+"||"+time+"||"+aa[0].get_attribute('innerHTML')+ "||" + aa[1].get_attribute('innerHTML')+ "||" + bb[0].get_attribute('innerHTML')).encode("utf8")
+		t = strip_tags("ad||"+str(self.unit_id)+"||"+str(self.treatment_id)+"||"+time+"||"+aa[0].get_attribute('innerHTML')+ "||" + aa[1].get_attribute('innerHTML')+ "||" + bb[0].get_attribute('innerHTML')).encode("utf8")
 		fo = open(file_name, "a")
 		fo.write(t + '\n')
 		fo.close()
 	self.driver.switch_to.default_content()
 
-    def save_ads_bbc(self, file_name, treatment_id):
+    def save_ads_bbc(self, file_name):
 	sys.stdout.write(".")
 	sys.stdout.flush()
 # 		global ad_int
@@ -512,7 +513,7 @@ class BrowserUnit:
 		ps = el.find_elements_by_css_selector("p")
 		b = ps[0].get_attribute('innerHTML')
 		l = ps[1].find_element_by_css_selector("a").get_attribute('innerHTML')
-		t = strip_tags("ad||"+str(self.unit_id)+"||"+str(treatment_id)+"||"+time+"||"+t+"||"+l+"||"+b).encode("utf8")
+		t = strip_tags("ad||"+str(self.unit_id)+"||"+str(self.treatment_id)+"||"+time+"||"+t+"||"+l+"||"+b).encode("utf8")
 		fo = open(file_name, "a")
 		fo.write(t + '\n')
 		fo.close()

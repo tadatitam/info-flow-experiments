@@ -18,8 +18,8 @@ log_file = 'simple_web.log.txt'
 # certain experiments involving Google's Ad Settings easy.  We first
 # have the browser opt into Google tracking so that it has a gender
 # bit to set.
-def make_browser(unit_id):
-    b = browser_unit.BrowserUnit('firefox', log_file, unit_id)
+def make_browser(unit_id, treatment_id):
+    b = browser_unit.BrowserUnit('firefox', log_file, unit_id, treatment_id)
     b.opt_in()
     return b
 

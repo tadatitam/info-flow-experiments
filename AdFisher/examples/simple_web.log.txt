@@ -1,9 +1,9 @@
 config||2||2
 treatnames||control (female)||experimental (male)
-assign||0||1||0
-2014-10-19 11:40:57.701483||optedIn||-1||0
-2014-10-19 11:40:58.440779||optedIn||-1||1
-2014-10-19 11:41:06.934509||setGender=f||control (female)||1
-2014-10-19 11:41:06.953582||setGender=m||experimental (male)||0
-response: 1 0 Female
-response: 0 1 Male
+assign||0||0||1
+2014-10-21 17:09:36.155608||optedIn||-1||1
+2014-10-21 17:09:36.848610||optedIn||-1||0
+2014-10-21 17:09:37.138801||setGender=m||experimental (male)||1
+2014-10-21 17:09:37.811585||setGender=f||control (female)||0
+response: 1 1 Male
+response: 0 0 Female

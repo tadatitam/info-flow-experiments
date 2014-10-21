@@ -38,7 +38,7 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
 	def exper_body(unit_id, treatment_id):
 		class Test(unittest.TestCase):
 			def setUp(self):
-				self.unit = make_unit(unit_id)
+				self.unit = make_unit(unit_id, treatment_id)
 			def runTest(self):
 				treatments[treatment_id](self.unit, unit_id)
 			def tearDown(self):
