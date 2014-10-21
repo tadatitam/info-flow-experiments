@@ -25,11 +25,11 @@ def make_browser(unit_id, treatment_id):
 
 # Sets the gender bit of Google's Ad Settings to female.
 def set_female(unit, unit_id):
-    unit.set_gender('f', 'control (female)')
+    unit.set_gender('f')
 
 # Sets the gender bit of Google's Ad Settings to male.
 def set_male(unit, unit_id):
-    unit.set_gender('m', 'experimental (male)')
+    unit.set_gender('m')
 
 # Measures Google's gender bit and prints it to the log using the same
 # format as found in simple_test.py.

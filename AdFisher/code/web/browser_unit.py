@@ -45,7 +45,7 @@ class BrowserUnit:
     # Google ad settings page class declarations
 
 
-    def __init__(self, browser, log_file, unit_id):
+    def __init__(self, browser, log_file, unit_id, treatment_id):
         if(browser=='firefox'):
             if (platform.system()=='Darwin'):
                 self.driver = webdriver.Firefox()
