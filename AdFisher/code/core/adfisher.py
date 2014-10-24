@@ -56,10 +56,11 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
 	if len(treatment_names) != ntreat:
 		treatment_names = map(lambda i: str(i), range(0,ntreat))
 
-	experiment_driver.run_experiment(exper_body,
-					 num_blocks, num_units, timeout,
-					 log_file, treatment_names)
-	observed_values, observed_assignment = load_results()
+# 	experiment_driver.run_experiment(exper_body,
+# 					 num_blocks, num_units, timeout,
+# 					 log_file, treatment_names)
+					 
+	observed_values, observed_assignment = load_results(log_file)
 	p_value = permutation_test.full_test(observed_values, observed_assignment, test_stat)
 	print "p-value: ", p_value
 

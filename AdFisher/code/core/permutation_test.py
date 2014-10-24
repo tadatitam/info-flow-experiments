@@ -40,7 +40,7 @@ def full_test(X_test, y_test, test_stat):
             under += 1
     return (1.0*under) / (1.0*len(y_permutations))
 
-
+# def blocked_test(X_test, y_test, alpha=0.01, iterations=100000)
 
 #def block_p_test_mode2(Xtest, ytest, flipped=False, alpha=0.01, iterations=100000):				# block permutation test
 #    observed_value_of_test_stat = test_stat(data)

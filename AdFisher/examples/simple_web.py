@@ -11,7 +11,9 @@ sys.path.append("../code")
 import core.adfisher as adfisher
 import web.browser_unit as browser_unit
 
-log_file = 'simple_web.log.txt'
+import core.analysis.converter as converter
+
+log_file = 'test_logs/log.substance.may.txt'
 
 # Creates a new unit by setting up an automated Firefox browser.
 # BrowserUnit is a wrapper class for a browser driver that makes
@@ -41,7 +43,12 @@ def measure_ads_bbc(unit):
 		try:
 			unit.save_ads_bbc()
 		except:
-			pass 
+			pass
+#     with open(log_file, "a") as fo:
+#         fo.write('response: ' + 
+#                  str(unit_id) + ' ' + 
+#                  str(treatment_id) + ' ' + 
+#                  str(unit.get_gender()) + '\n')    
 
 
 # Shuts down the browser once we are done with it.
@@ -50,19 +57,22 @@ def cleanup_browser(unit, unit_id, treatment_id):
 
 
 # Loads the recorded genders from the log file as in simple_test.py.
-def load_results():
-    observed_values = []
-    observed_assignment = []
-    with open(log_file, 'r') as fo:
-        for line in fo:
-            tokens = line.split()
-            if tokens[0] == 'response:':
-                unit_id = int(tokens[1])
-                treatment_id = int(tokens[2])
-                response_value = tokens[3]
-                observed_values.append(response_value)
-                observed_assignment.append(treatment_id)
-    return observed_values, observed_assignment
+def load_results(log_file):
+#     observed_values = []
+#     observed_assignment = []
+	collection, names = converter.get_ads_from_log(log_file)
+	X,y = converter.get_keyword_vectors(collection, [''])
+	print X, y
+#     with open(log_file, 'r') as fo:
+#         for line in fo:
+#             tokens = line.split()
+#             if tokens[0] == 'response:':
+#                 unit_id = int(tokens[1])
+#                 treatment_id = int(tokens[2])
+#                 response_value = tokens[3]
+#                 observed_values.append(response_value)
+#                 observed_assignment.append(treatment_id)
+	return X, y
 
 # Counts up the number of times the second group (treatment id of 1)
 # was measured as male.  Since we set the second group to be male,
