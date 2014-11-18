@@ -12,7 +12,7 @@ import helper as cole								# functions from collectHelper
 
 import signal										# for timing out external calls
 
-myProxy = "yogi.pdl.cmu.edu:3128"
+myProxy = "proxy.pdl.cmu.edu:8080"
 
 proxy = Proxy({
     'proxyType': ProxyType.MANUAL,

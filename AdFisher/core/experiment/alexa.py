@@ -9,7 +9,7 @@ from xvfbwrapper import Xvfb						# for creating artificial display to run exper
 import helper as cole								# functions from collectHelper
 
 LOG_FILE = "log"
-myProxy = "yogi.pdl.cmu.edu:3128"
+myProxy = "proxy.pdl.cmu.edu:8080"
 
 proxy = Proxy({
     'proxyType': ProxyType.MANUAL,
@@ -22,8 +22,8 @@ proxy = Proxy({
 
 class Webdriver(unittest.TestCase):
 	def setUp(self):
-		self.vdisplay = Xvfb(width=1280, height=720)
-		self.vdisplay.start()
+# 		self.vdisplay = Xvfb(width=1280, height=720)
+# 		self.vdisplay.start()
 # 		if(not vdisplay.start()):
 # 			fo = open(LOG_FILE, "a")
 # 			fo.write("Xvfbfailure||"+str(TREATMENTID)+"||"+str(ID)+"\n")

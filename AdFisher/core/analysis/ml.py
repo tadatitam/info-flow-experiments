@@ -80,7 +80,7 @@ def train_and_test(algos, X, y, feat, treatnames, feat_choice, nfeat,
 # 			X_test[i][j][topk0] = 0
 # 	print "New Test accuracy: ", test_accuracy(clf, X_test, y_test, blocked)
 	s = datetime.now()
-	pvalue = stat.block_p_test(X_test, y_test, clf, iterations=1000)
+	pvalue = stat.block_p_test(X_test, y_test, clf)
 	e = datetime.now()
 	print "p-value: ", pvalue
 	if(verbose):
