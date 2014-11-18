@@ -27,7 +27,7 @@ measurement.get_age()
 measurement.get_gender()
 measurement.get_language()
 measurement.get_interests()
-measurement.get_ads(site='toi', reloads=10, delay=5)
+measurement.get_ads(site='bbc', reloads=10, delay=5)
 
 ## Run Experiment
 
