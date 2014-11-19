@@ -2,6 +2,7 @@ import sys, os
 from datetime import datetime							# for getting times for computation
 
 import experiment.alexa as alexa
+import experiment.planner as planner
 import experiment.trials as trials
 import experiment.shortlist as short
 
@@ -121,6 +122,22 @@ class Measurement:
 			self.str += "+ads||"+site+"||"+str(reloads)+"||"+str(delay)
 		self.count += 1
 
+def collect_sites_from_display_planner(words="Depression", 
+		output_file="depression.txt", nsites=100, browser="firefox"):
+	if(browser != "firefox" and browser != "chrome"):
+		print "Illegal browser choice", browser
+		return
+	PATH="./"+output_file
+	if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
+		response = raw_input("This will overwrite file %s... Continue? (Y/n)" % output_file)
+		if response == 'n':
+			sys.exit(0)
+	fo = open(output_file, "w")
+	fo.close()
+	print "Beginning Collection"
+# 	os.system("python experimenter/alexa.py %s %s %s" % (output_file, alexa_link, n))
+	planner.run_script(words, output_file, nsites, browser)
+	print "Collection Complete. Results stored in ", output_file
 
 def collect_sites_from_alexa(alexa_link="http://www.alexa.com/topsites", 
 		output_file="out.txt", nsites=5, browser="firefox"):
