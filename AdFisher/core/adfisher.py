@@ -18,6 +18,13 @@ class Treatment:
 		self.count=0
 		self.str = "" 
 
+	def visit_sites_on_msn(self, link):
+		if(self.count==0):
+			self.str += "msn|:|"+link
+		else:
+			self.str += "|+|msn|:|"+link
+		self.count += 1
+		
 	def visit_sites(self, file):
 		if(self.count==0):
 			self.str += "site|:|"+file
@@ -120,6 +127,13 @@ class Measurement:
 			self.str += "ads||"+site+"||"+str(reloads)+"||"+str(delay)
 		else:
 			self.str += "+ads||"+site+"||"+str(reloads)+"||"+str(delay)
+		self.count += 1
+				
+	def get_bing_ads(self, term, reloads=10, delay=5):
+		if(self.count==0):
+			self.str += "bads||"+term+"||"+str(reloads)+"||"+str(delay)
+		else:
+			self.str += "+bads||"+term+"||"+str(reloads)+"||"+str(delay)
 		self.count += 1
 
 def collect_sites_from_display_planner(words="Depression", 

@@ -8,7 +8,7 @@ from selenium import webdriver						# for running the driver on websites
 from selenium.webdriver.common.proxy import *		# for proxy settings
 
 from xvfbwrapper import Xvfb						# for creating artificial display buffers to run experiments				
-import helper as cole								# functions from collectHelper
+import helper as helper								# functions from Helper
 
 import signal										# for timing out external calls
 
@@ -68,14 +68,14 @@ class Webdriver(unittest.TestCase):
 	
 	def test_webdriver(self):
 		driver = self.driver
-		cole.setLogFile(LOG_FILE)
-		cole.log("browserStarted||"+str(TREATMENTID), ID)
+		helper.setLogFile(LOG_FILE)
+		helper.log("browserStarted||"+str(TREATMENTID), ID)
 		run = 0
 		while (run < RUNS):
-			cole.applyTreatment(driver, TREATMENTS[TREATMENTID], ID, TREATMENTID)
-			cole.wait_for_others(AGENTS, ID, ROUND)
+			helper.applyTreatment(driver, TREATMENTS[TREATMENTID], ID, TREATMENTID)
+			helper.wait_for_others(AGENTS, ID, ROUND)
 			time.sleep(20)
-			cole.collectMeasurement(driver, MEASUREMENT, ID, TREATMENTID)
+			helper.collectMeasurement(driver, MEASUREMENT, ID, TREATMENTID)
 			run = run+1
 
 	def tearDown(self):
