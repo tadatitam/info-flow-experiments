@@ -134,7 +134,7 @@ def print_top_features(X, y, feat, treatnames, clf, feat_choice, nfeat=5, blocke
 	feature_scores = clf.coef_[0]
 	print feature_scores.shape			#`~~~~~~~~~~
 	print np.count_nonzero(feature_scores)
-	raw_input("wait")
+# 	raw_input("wait")
 	if(n_classes == 1):			#`~~~~~~~~~~
 		topk1 = np.argsort(feature_scores)[::-1][:nfeat]			#`~~~~~~~~~~
 		print "\nFeatures for treatment %s:" %(str(treatnames[1]))

@@ -206,7 +206,7 @@ def run_ml_analysis(log_file="log.txt", splitfrac=0.1, nfolds=10,
 		print "Illegal feat_choice", feat_choice
 		return
 	collection, names = converter.get_ads_from_log(log_file)	
-	collection = collection[:20]
+	collection = collection[:100]
 	if len(collection) < nfolds:
 		print "Too few blocks (%s). Analysis requires at least as many blocks as nfolds (%s)." % (len(collection), nfolds)
 		return
@@ -216,7 +216,7 @@ def run_ml_analysis(log_file="log.txt", splitfrac=0.1, nfolds=10,
 	X,y,feat = converter.get_feature_vectors(collection, feat_choice='ads')
 	print X.shape
 	print y.shape
-	raw_input("wait")
+# 	raw_input("wait")
 	e = datetime.now()
 	if(verbose):
 		print "Time for constructing feature vectors: ", str(e-s)
