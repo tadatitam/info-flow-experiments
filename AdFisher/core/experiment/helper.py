@@ -40,19 +40,19 @@ def applyTreatment(driver, treatmentprof, id, treatmentid):
 		if(chunks[0] == 'msn'):
 			bing.visit_sites(chunks[1].strip(), driver, id, treatmentid, LOG_FILE)
 		if(chunks[0] == 'optout'):
-			google.optOut(driver, id, treatmentid)
+			google.optOut(driver, id, treatmentid, LOG_FILE)
 		if(chunks[0] == 'optin'):
-			google.optIn(driver, id, treatmentid)
+			google.optIn(driver, id, treatmentid, LOG_FILE)
 		if(chunks[0] == 'gender'):
-			google.set_gender(chunks[1], driver, id, treatmentid)
+			google.set_gender(chunks[1], driver, id, treatmentid, LOG_FILE)
 		if(chunks[0] == 'age'):
-			google.set_age(int(chunks[1]), driver, id, treatmentid)
+			google.set_age(int(chunks[1]), driver, id, treatmentid, LOG_FILE)
 		if(chunks[0] == 'interest'):
 			print "Adding Interests"
-			google.set_ad_pref(chunks[1], driver, id, treatmentid)
+			google.set_ad_pref(chunks[1], driver, id, treatmentid, LOG_FILE)
 		if(chunks[0] == 'rinterest'):
 			print "Removing Interests"
-			google.remove_ad_pref(chunks[1], driver, id, treatmentid)
+			google.remove_ad_pref(chunks[1], driver, id, treatmentid, LOG_FILE)
 		if(chunks[0] == 'site'):
 			train_with_sites(chunks[1], driver, id, treatmentid)
 		time.sleep(2)

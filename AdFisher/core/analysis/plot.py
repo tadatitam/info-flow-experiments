@@ -4,6 +4,7 @@ import converter
 # for plotting
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 import matplotlib
 
 
@@ -62,24 +63,30 @@ def histogramPlots(list):
 	plt.show()
 	
 def temporalPlots(list):
-	obs = np.array(converter.temp_ad_vectors(list))
+	obs, labels, union = np.array(converter.temp_ad_vectors(list))
 	#obs = np.array(ad_temp_category(list))
 	print obs[0]
 	dates = []
 	colors = ['b.', 'r.', 'g.', 'm.', 'k.']
 	for j in range(0, len(list)):
-		dates.append(matplotlib.dates.date2num([list[j].data[i].time for i in range(0, len(list[j].data))]))
+# 		dates.append(matplotlib.dates.date2num([list[j].data[i].time for i in range(0, len(list[j].data))]))
+		dates.append([list[j].data[i].time for i in range(0, len(list[j].data))])
 	pos = np.arange(len(obs[0]))
 	gridLineWidth=0.1
 	fig, ax = plt.subplots()
-	ax.xaxis.grid(True, zorder=0)
-	ax.yaxis.grid(True, zorder=0)
+# 	ax.xaxis.grid(True, zorder=0)
+# 	ax.yaxis.grid(True, zorder=0)
+	ax.format_xdata = mdates.DateFormatter('%H-%M-%S')
 	for i in range(0, len(list)):
+		print i
+		print obs[i]
+		print dates[i]
 		lbl = "ads"+str(i)
 		obs[i] = [j+1 for j in obs[i]]
-		plt.plot(obs[i], dates[i], colors[i], alpha=0.5, label = lbl)
+		ax.plot(dates[i], obs[i], colors[i], alpha=0.5, label = lbl)
 # 		plt.xticks(pos+width/2., obs[2], rotation='vertical')		# useful only for categories
 	#plt.axis([-1, 500, 0, 700])
+	fig.autofmt_xdate()
 	plt.legend()
 	plt.show()
 	
