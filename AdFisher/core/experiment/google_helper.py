@@ -332,6 +332,7 @@ def save_ads_toi(file, driver, id, treatmentid):
 		driver.execute_script('window.scrollTo(0, {0})'.format(y))
 	
 	scroll_element_into_view(driver, frame)
+	time.sleep(5)
 # 	frame.click()
 # 	ActionChains(driver).move_to_element(frame).perform()
 # 	time.sleep(200)
