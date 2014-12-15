@@ -235,7 +235,6 @@ def save_ads_fox(file, driver, id, treatmentid):
 	driver.switch_to_frame(frame2)
 	lis = driver.find_elements_by_css_selector("div#ads ul li")
 	print len(lis)
-# 	time.sleep(2000)
 	for li in lis:
 		t = li.find_element_by_css_selector("td.rh000c div a span").get_attribute('innerHTML')
 		l = li.find_element_by_css_selector("td.rh010c div div a span").get_attribute('innerHTML')
@@ -323,20 +322,22 @@ def save_ads_toi(file, driver, id, treatmentid):
 	sys.stdout.flush()
 	driver.set_page_load_timeout(60)
 	driver.get("http://timesofindia.indiatimes.com/international-home")
-	time.sleep(20)
+	time.sleep(10)
 	tm = str(datetime.now())
-	frames = driver.find_elements_by_xpath(".//iframe[@id='ad-left-timeswidget']")
+	frame = driver.find_element_by_xpath(".//iframe[@id='ad-left-timeswidget']")
+	ActionChains(driver).move_to_element(frame).perform()
 # 	time.sleep(200)
-	print frames
-	driver.switch_to.frame(frames[0])
-	ads = driver.find_elements_by_xpath("html")
-	print ads
-	print ads[0].get_attribute("innerHTML")
-	time.sleep(20)
+	print frame
+	driver.switch_to.frame(frame)
+	ads = driver.find_elements_by_css_selector("html body table tbody tr td table")
+# 	print len(ads)
+# 	print ads[0].get_attribute("innerHTML")
+# 	time.sleep(2000)
 	for ad in ads:
 		aa = ad.find_elements_by_xpath(".//tbody/tr/td/a")
 		bb = ad.find_elements_by_xpath(".//tbody/tr/td/span")
 		t = strip_tags("ad||"+str(id)+"||"+str(treatmentid)+"||"+tm+"||"+aa[0].get_attribute('innerHTML')+ "||" + aa[1].get_attribute('innerHTML')+ "||" + bb[0].get_attribute('innerHTML')).encode("utf8")
+# 		print t
 		fo = open(file, "a")
 		fo.write(t + '\n')
 		fo.close()
