@@ -18,7 +18,7 @@ measurement.get_ads(site='toi', reloads=200, delay=1)
 
 ## Run Experiment
 
-adfisher.run_experiment(treatments=[treatment1, treatment2], measurement=measurement, 
+adfisher.run_experiment(treatments=[treatment1, treatment1], measurement=measurement, 
 	agents=2, blocks=1, log_file=log_file)
 
 ## Analyze Data
