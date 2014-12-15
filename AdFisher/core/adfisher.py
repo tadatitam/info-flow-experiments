@@ -119,7 +119,7 @@ class Measurement:
 		self.count += 1		
 		
 	def get_ads(self, site='toi', reloads=10, delay=5):
-		if(site != "toi" and site != "bbc" and 
+		if(site != "toi" and site != "bbc" and site != "fox" and
 		site != "guardian" and site != "reuters" and site != "bloomberg"):
 			print "Illegal collection_site ", collection_site, ". Exiting."
 			sys.exit(0)

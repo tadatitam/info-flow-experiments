@@ -65,7 +65,7 @@ def histogramPlots(list):
 def temporalPlots(list):
 	obs, labels, union = np.array(converter.temp_ad_vectors(list))
 	#obs = np.array(ad_temp_category(list))
-	print obs[0]
+# 	print obs[0]
 	dates = []
 	colors = ['b.', 'r.', 'g.', 'm.', 'k.']
 	for j in range(0, len(list)):
@@ -76,11 +76,11 @@ def temporalPlots(list):
 	fig, ax = plt.subplots()
 # 	ax.xaxis.grid(True, zorder=0)
 # 	ax.yaxis.grid(True, zorder=0)
-	ax.format_xdata = mdates.DateFormatter('%H-%M-%S')
+	ax.format_xdata = mdates.DateFormatter('%H-%M-%S.%1f')
 	for i in range(0, len(list)):
-		print i
-		print obs[i]
-		print dates[i]
+# 		print i
+# 		print obs[i]
+# 		print dates[i]
 		lbl = "ads"+str(i)
 		obs[i] = [j+1 for j in obs[i]]
 		ax.plot(dates[i], obs[i], colors[i], alpha=0.5, label = lbl)

@@ -198,29 +198,57 @@ def collect_ads(reloads, delay, LOG_FILE, driver, id, treatmentid, site):
 	rel = 0
 	while (rel < reloads):	# number of reloads on sites to capture all ads
 		time.sleep(delay)
-		try:
-			for i in range(0,1):
-				s = datetime.now()
-				if(site == 'toi'):
-					save_ads_toi(LOG_FILE, driver, id, treatmentid)
-				elif(site == 'bbc'):
-					save_ads_bbc(LOG_FILE, driver, id, treatmentid)
-				elif(site == 'guardian'):
-					save_ads_guardian(LOG_FILE, driver, id, treatmentid)
-				elif(site == 'reuters'):
-					save_ads_reuters(LOG_FILE, driver, id, treatmentid)
-				elif(site == 'bloomberg'):
-					save_ads_bloomberg(LOG_FILE, driver, id, treatmentid)
-				else:
-					raw_input("No such site found: %s!" % site)
-				e = datetime.now()
-				log('loadtime||'+str(e-s), id, LOG_FILE)
-				log('reload', id, LOG_FILE)
-		except:
-			log('errorcollecting', id, LOG_FILE)
-			pass
+# 		try:
+		for i in range(0,1):
+			s = datetime.now()
+			if(site == 'toi'):
+				save_ads_toi(LOG_FILE, driver, id, treatmentid)
+			elif(site == 'bbc'):
+				save_ads_bbc(LOG_FILE, driver, id, treatmentid)
+			elif(site == 'guardian'):
+				save_ads_guardian(LOG_FILE, driver, id, treatmentid)
+			elif(site == 'reuters'):
+				save_ads_reuters(LOG_FILE, driver, id, treatmentid)
+			elif(site == 'bloomberg'):
+				save_ads_bloomberg(LOG_FILE, driver, id, treatmentid)
+			elif(site == 'fox'):
+				save_ads_fox(LOG_FILE, driver, id, treatmentid)
+			else:
+				raw_input("No such site found: %s!" % site)
+			e = datetime.now()
+			log('loadtime||'+str(e-s), id, LOG_FILE)
+			log('reload', id, LOG_FILE)
+# 		except:
+# 			log('errorcollecting', id, LOG_FILE)
+# 			pass
 		rel = rel + 1
 
+def save_ads_fox(file, driver, id, treatmentid):
+	sys.stdout.write(".")
+	sys.stdout.flush()
+	driver.set_page_load_timeout(60)
+	driver.get("http://www.foxnews.com/us/index.html")
+	tim = str(datetime.now())
+	frame1 = driver.find_element_by_xpath(".//iframe[@id='aswift_0']")
+	driver.switch_to_frame(frame1)
+	frame2 = driver.find_element_by_xpath(".//iframe[@id='google_ads_frame1']")
+	driver.switch_to_frame(frame2)
+	lis = driver.find_elements_by_css_selector("div#ads ul li")
+	print len(lis)
+# 	time.sleep(2000)
+	for li in lis:
+		t = li.find_element_by_css_selector("td.rh000c div a span").get_attribute('innerHTML')
+		l = li.find_element_by_css_selector("td.rh010c div div a span").get_attribute('innerHTML')
+		b = li.find_element_by_css_selector("td.rh0111c div span").get_attribute('innerHTML')
+# 		f = (str(id)+"||"+time+"||"+t+"||"+l+"||"+b).encode("utf8")
+		f = strip_tags("ad||"+str(id)+"||"+str(treatmentid)+"||"+tim+"||"+t+"||"+l+"||"+b).encode("utf8")
+		print f
+		fo = open(file, "a")
+		fo.write(f + '\n')
+		fo.close()
+	driver.switch_to_default_content()
+	driver.switch_to_default_content()
+		
 def save_ads_bloomberg(file, driver, id, treatmentid):
 	sys.stdout.write(".")
 	sys.stdout.flush()
@@ -295,42 +323,47 @@ def save_ads_toi(file, driver, id, treatmentid):
 	sys.stdout.flush()
 	driver.set_page_load_timeout(60)
 	driver.get("http://timesofindia.indiatimes.com/international-home")
-	time = str(datetime.now())
-	frames = driver.find_elements_by_xpath(".//iframe[@src='http://timesofindia.indiatimes.com/configspace/ads/TOI_INTL_home_right.html']")
+	time.sleep(20)
+	tm = str(datetime.now())
+	frames = driver.find_elements_by_xpath(".//iframe[@id='ad-left-timeswidget']")
+# 	time.sleep(200)
+	print frames
 	driver.switch_to.frame(frames[0])
-	ads = driver.find_elements_by_xpath(".//tbody/tr/td/table")
+	ads = driver.find_elements_by_xpath("html")
+	print ads
+	print ads[0].get_attribute("innerHTML")
+	time.sleep(20)
 	for ad in ads:
 		aa = ad.find_elements_by_xpath(".//tbody/tr/td/a")
 		bb = ad.find_elements_by_xpath(".//tbody/tr/td/span")
-		t = strip_tags("ad||"+str(id)+"||"+str(treatmentid)+"||"+time+"||"+aa[0].get_attribute('innerHTML')+ "||" + aa[1].get_attribute('innerHTML')+ "||" + bb[0].get_attribute('innerHTML')).encode("utf8")
+		t = strip_tags("ad||"+str(id)+"||"+str(treatmentid)+"||"+tm+"||"+aa[0].get_attribute('innerHTML')+ "||" + aa[1].get_attribute('innerHTML')+ "||" + bb[0].get_attribute('innerHTML')).encode("utf8")
 		fo = open(file, "a")
 		fo.write(t + '\n')
 		fo.close()
-	driver.switch_to.default_content()
-	frames = driver.find_elements_by_xpath(".//iframe[@id='adhomepage']")
-	driver.switch_to.frame(frames[0])
-	ads = driver.find_elements_by_xpath(".//tbody/tr/td/table")
-	time = str(datetime.now())
-	for ad in ads:
-		aa = ad.find_elements_by_xpath(".//tbody/tr/td/a")
-		bb = ad.find_elements_by_xpath(".//tbody/tr/td/span")
-		t = strip_tags("ad||"+str(id)+"||"+str(treatmentid)+"||"+time+"||"+aa[0].get_attribute('innerHTML')+ "||" + aa[1].get_attribute('innerHTML')+ "||" + bb[0].get_attribute('innerHTML')).encode("utf8")
-		fo = open(file, "a")
-		fo.write(t + '\n')
-		fo.close()
-	driver.switch_to.default_content()
-	frames = driver.find_elements_by_xpath(".//iframe[@src='http://timesofindia.indiatimes.com/configspace/ads/TOI_INTL_home_bottom.html']")
-	driver.switch_to.frame(frames[0])
-	ads = driver.find_elements_by_xpath(".//tbody/tr/td/table")
-	time = str(datetime.now())
-	for ad in ads:
-		aa = ad.find_elements_by_xpath(".//tbody/tr/td/a")
-		bb = ad.find_elements_by_xpath(".//tbody/tr/td/span")
-		t = strip_tags("ad||"+str(id)+"||"+str(treatmentid)+"||"+time+"||"+aa[0].get_attribute('innerHTML')+ "||" + aa[1].get_attribute('innerHTML')+ "||" + bb[0].get_attribute('innerHTML')).encode("utf8")
-		fo = open(file, "a")
-		fo.write(t + '\n')
-		fo.close()
-	driver.switch_to.default_content()
+	driver.switch_to.default_content()	
+# 	driver.switch_to.frame(frames[1])
+# 	frames = driver.find_elements_by_xpath(".//iframe[@id='adhomepage']")
+# 	driver.switch_to.frame(frames[0])
+# 	ads = driver.find_elements_by_xpath(".//tbody/tr/td/table")
+# 	for ad in ads:
+# 		aa = ad.find_elements_by_xpath(".//tbody/tr/td/a")
+# 		bb = ad.find_elements_by_xpath(".//tbody/tr/td/span")
+# 		t = strip_tags("ad||"+str(id)+"||"+str(treatmentid)+"||"+tm+"||"+aa[0].get_attribute('innerHTML')+ "||" + aa[1].get_attribute('innerHTML')+ "||" + bb[0].get_attribute('innerHTML')).encode("utf8")
+# 		fo = open(file, "a")
+# 		fo.write(t + '\n')
+# 		fo.close()
+# 	driver.switch_to.default_content()
+# 	frames = driver.find_elements_by_xpath(".//iframe[@src='http://timesofindia.indiatimes.com/configspace/ads/TOI_INTL_home_bottom.html']")
+# 	driver.switch_to.frame(frames[0])
+# 	ads = driver.find_elements_by_xpath(".//tbody/tr/td/table")
+# 	for ad in ads:
+# 		aa = ad.find_elements_by_xpath(".//tbody/tr/td/a")
+# 		bb = ad.find_elements_by_xpath(".//tbody/tr/td/span")
+# 		t = strip_tags("ad||"+str(id)+"||"+str(treatmentid)+"||"+tm+"||"+aa[0].get_attribute('innerHTML')+ "||" + aa[1].get_attribute('innerHTML')+ "||" + bb[0].get_attribute('innerHTML')).encode("utf8")
+# 		fo = open(file, "a")
+# 		fo.write(t + '\n')
+# 		fo.close()
+# 	driver.switch_to.default_content()
 
 def save_ads_bbc(file, driver, id, treatmentid):
 	sys.stdout.write(".")
