@@ -325,6 +325,7 @@ def save_ads_toi(file, driver, id, treatmentid):
 	time.sleep(10)
 	tm = str(datetime.now())
 	frame = driver.find_element_by_xpath(".//iframe[@id='ad-left-timeswidget']")
+	frame.click()
 	ActionChains(driver).move_to_element(frame).perform()
 # 	time.sleep(200)
 	print frame

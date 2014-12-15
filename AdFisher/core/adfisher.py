@@ -171,7 +171,7 @@ def collect_sites_from_alexa(alexa_link="http://www.alexa.com/topsites",
 	print "Collection Complete. Results stored in ", output_file
 
 def run_experiment(treatments, measurement, log_file="log.txt", blocks=20, agents=2, 
-		runs=1, browser="firefox", timeout=2000):	
+		runs=1, browser="firefox", timeout=9000000):	
 	if(browser != "firefox" and browser != "chrome"):
 		print "Illegal browser choice", browser
 		return

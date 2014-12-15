@@ -14,12 +14,12 @@ treatment1 = adfisher.Treatment("null1")
 ## Set up measurement
 
 measurement = adfisher.Measurement()
-measurement.get_ads(site='toi', reloads=200, delay=60)
+measurement.get_ads(site='toi', reloads=200, delay=1)
 
 ## Run Experiment
 
-adfisher.run_experiment(treatments=[treatment1], measurement=measurement, 
-	agents=1, blocks=1, log_file=log_file)
+adfisher.run_experiment(treatments=[treatment1, treatment2], measurement=measurement, 
+	agents=2, blocks=1, log_file=log_file)
 
 ## Analyze Data
 
