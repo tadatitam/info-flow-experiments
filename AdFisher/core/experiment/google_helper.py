@@ -325,7 +325,14 @@ def save_ads_toi(file, driver, id, treatmentid):
 	time.sleep(10)
 	tm = str(datetime.now())
 	frame = driver.find_element_by_xpath(".//iframe[@id='ad-left-timeswidget']")
-	frame.click()
+	
+	def scroll_element_into_view(driver, element):
+		"""Scroll element into view"""
+		y = element.location['y']
+		driver.execute_script('window.scrollTo(0, {0})'.format(y))
+	
+	scroll_element_into_view(driver, frame)
+# 	frame.click()
 	ActionChains(driver).move_to_element(frame).perform()
 # 	time.sleep(200)
 	print frame
