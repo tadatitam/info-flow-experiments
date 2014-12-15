@@ -338,8 +338,8 @@ def save_ads_toi(file, driver, id, treatmentid):
 	print frame
 	driver.switch_to.frame(frame)
 	ads = driver.find_elements_by_css_selector("html body table tbody tr td table")
-# 	print len(ads)
-# 	print ads[0].get_attribute("innerHTML")
+	print len(ads)
+	print ads[0].get_attribute("innerHTML")
 # 	time.sleep(2000)
 	for ad in ads:
 		aa = ad.find_elements_by_xpath(".//tbody/tr/td/a")
