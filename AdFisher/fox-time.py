@@ -18,8 +18,8 @@ measurement.get_ads(site='fox', reloads=200, delay=60)
 
 ## Run Experiment
 
-adfisher.run_experiment(treatments=[treatment1], measurement=measurement, 
-	agents=1, blocks=1, log_file=log_file)
+adfisher.run_experiment(treatments=[treatment1, treatment1], measurement=measurement, 
+	agents=2, blocks=1, log_file=log_file)
 
 ## Analyze Data
 
