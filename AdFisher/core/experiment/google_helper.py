@@ -198,29 +198,29 @@ def collect_ads(reloads, delay, LOG_FILE, driver, id, treatmentid, site):
 	rel = 0
 	while (rel < reloads):	# number of reloads on sites to capture all ads
 		time.sleep(delay)
-# 		try:
-		for i in range(0,1):
-			s = datetime.now()
-			if(site == 'toi'):
-				save_ads_toi(LOG_FILE, driver, id, treatmentid)
-			elif(site == 'bbc'):
-				save_ads_bbc(LOG_FILE, driver, id, treatmentid)
-			elif(site == 'guardian'):
-				save_ads_guardian(LOG_FILE, driver, id, treatmentid)
-			elif(site == 'reuters'):
-				save_ads_reuters(LOG_FILE, driver, id, treatmentid)
-			elif(site == 'bloomberg'):
-				save_ads_bloomberg(LOG_FILE, driver, id, treatmentid)
-			elif(site == 'fox'):
-				save_ads_fox(LOG_FILE, driver, id, treatmentid)
-			else:
-				raw_input("No such site found: %s!" % site)
-			e = datetime.now()
-			log('loadtime||'+str(e-s), id, LOG_FILE)
-			log('reload', id, LOG_FILE)
-# 		except:
-# 			log('errorcollecting', id, LOG_FILE)
-# 			pass
+		try:
+			for i in range(0,1):
+				s = datetime.now()
+				if(site == 'toi'):
+					save_ads_toi(LOG_FILE, driver, id, treatmentid)
+				elif(site == 'bbc'):
+					save_ads_bbc(LOG_FILE, driver, id, treatmentid)
+				elif(site == 'guardian'):
+					save_ads_guardian(LOG_FILE, driver, id, treatmentid)
+				elif(site == 'reuters'):
+					save_ads_reuters(LOG_FILE, driver, id, treatmentid)
+				elif(site == 'bloomberg'):
+					save_ads_bloomberg(LOG_FILE, driver, id, treatmentid)
+				elif(site == 'fox'):
+					save_ads_fox(LOG_FILE, driver, id, treatmentid)
+				else:
+					raw_input("No such site found: %s!" % site)
+				e = datetime.now()
+				log('loadtime||'+str(e-s), id, LOG_FILE)
+				log('reload', id, LOG_FILE)
+		except:
+			log('errorcollecting', id, LOG_FILE)
+			pass
 		rel = rel + 1
 
 def save_ads_fox(file, driver, id, treatmentid):
@@ -332,15 +332,15 @@ def save_ads_toi(file, driver, id, treatmentid):
 		driver.execute_script('window.scrollTo(0, {0})'.format(y))
 	
 	scroll_element_into_view(driver, frame)
-	time.sleep(5)
+# 	time.sleep(5)
 # 	frame.click()
 # 	ActionChains(driver).move_to_element(frame).perform()
 # 	time.sleep(200)
 	print frame
 	driver.switch_to.frame(frame)
 	ads = driver.find_elements_by_css_selector("html body table tbody tr td table")
-	print len(ads)
-	print ads[0].get_attribute("innerHTML")
+# 	print len(ads)
+# 	print ads[0].get_attribute("innerHTML")
 # 	time.sleep(2000)
 	for ad in ads:
 		aa = ad.find_elements_by_xpath(".//tbody/tr/td/a")

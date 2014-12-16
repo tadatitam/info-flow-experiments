@@ -14,7 +14,7 @@ treatment1 = adfisher.Treatment("null1")
 ## Set up measurement
 
 measurement = adfisher.Measurement()
-measurement.get_ads(site='toi', reloads=200, delay=1)
+measurement.get_ads(site='toi', reloads=200, delay=60)
 
 ## Run Experiment
 
