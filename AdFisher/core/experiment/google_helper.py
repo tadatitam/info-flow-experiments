@@ -114,6 +114,7 @@ def set_age(age, driver, id, treatmentid, LOG_FILE):										# Set age on Googl
 	gdiv = driver.find_element_by_xpath(".//div[@class='"+AGE_DIV+"']")
 # 	print div.get_attribute("innerHTML")
 	gdiv.find_element_by_xpath(".//div[@class='"+EDIT_DIV+"']").click()
+	time.sleep(3)
 	if(age>=18 and age<=24):
 		box = gdiv.find_element_by_xpath(".//div[@class='"+RADIO_DIV+"'][@data-value='1']/span")
 	elif(age>=25 and age<=34):	
