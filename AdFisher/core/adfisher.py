@@ -208,7 +208,7 @@ def run_ml_analysis(log_file="log.txt", splitfrac=0.1, nfolds=10,
 	collection, names = converter.get_ads_from_log(log_file)	
 # 	collection = collection[:100]
 	print collection[0]['adv']
-	plot.temporalPlots(collection[0]['adv'][0:2])
+	plot.temporalPlots(collection[0]['adv'][0:1])
 	raw_input("wait")
 	if len(collection) < nfolds:
 		print "Too few blocks (%s). Analysis requires at least as many blocks as nfolds (%s)." % (len(collection), nfolds)
