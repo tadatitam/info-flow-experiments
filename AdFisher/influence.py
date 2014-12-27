@@ -18,32 +18,32 @@ treatment1.visit_sites(site_file)
 
 treatment2 = adfisher.Treatment("male35")
 treatment2.opt_in()
-treatment2.set_gender("male")
 treatment2.set_age(35)
+treatment2.set_gender("male")
 treatment2.visit_sites(site_file)
 
 treatment3 = adfisher.Treatment("male55")
 treatment3.opt_in()
-treatment3.set_gender("male")
 treatment3.set_age(55)
+treatment3.set_gender("male")
 treatment3.visit_sites(site_file)
 
 treatment4 = adfisher.Treatment("female18")
 treatment4.opt_in()
-treatment4.set_gender("female")
 treatment4.set_age(18)
+treatment4.set_gender("female")
 treatment4.visit_sites(site_file)
 
 treatment5 = adfisher.Treatment("female35")
 treatment5.opt_in()
-treatment5.set_gender("female")
 treatment5.set_age(35)
+treatment5.set_gender("female")
 treatment5.visit_sites(site_file)
 
 treatment6 = adfisher.Treatment("female55")
 treatment6.opt_in()
-treatment6.set_gender("female")
 treatment6.set_age(55)
+treatment6.set_gender("female")
 treatment6.visit_sites(site_file)
 
 ## Set up measurement
