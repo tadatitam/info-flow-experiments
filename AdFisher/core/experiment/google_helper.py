@@ -112,7 +112,7 @@ def set_age(age, driver, id, treatmentid, LOG_FILE):										# Set age on Googl
 	driver.set_page_load_timeout(40)
 	driver.get("https://www.google.com/settings/ads")
 	gdiv = driver.find_element_by_xpath(".//div[@class='"+AGE_DIV+"']")
-	print div.get_attribute("innerHTML")
+	print gdiv.get_attribute("innerHTML")
 	gdiv.find_element_by_xpath(".//div[@class='"+EDIT_DIV+"']").click()
 	time.sleep(3)
 	if(age>=18 and age<=24):
