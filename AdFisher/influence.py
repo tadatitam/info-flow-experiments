@@ -12,8 +12,8 @@ site_file = "site_files/cars.txt"
 
 treatment1 = adfisher.Treatment("male18")
 treatment1.opt_in()
-treatment1.set_gender("male")
 treatment1.set_age(18)
+treatment1.set_gender("male")
 treatment1.visit_sites(site_file)
 
 treatment2 = adfisher.Treatment("male35")
