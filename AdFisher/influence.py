@@ -49,12 +49,13 @@ treatment6.visit_sites(site_file)
 ## Set up measurement
 
 measurement = adfisher.Measurement()
+measurement.get_interests()
 measurement.get_ads(site='bbc', reloads=10, delay=5)
 
 ## Run Experiment
 
-adfisher.run_experiment(treatments=[treatment1, treatment2, treatment3, treatment4, treatment5, treatment6], measurement=measurement, 
-	agents=6, blocks=100, log_file=log_file)
+adfisher.run_experiment(treatments=[treatment1, treatment2], measurement=measurement, 
+	agents=2, blocks=100, log_file=log_file)
 
 ## Analyze Data
 

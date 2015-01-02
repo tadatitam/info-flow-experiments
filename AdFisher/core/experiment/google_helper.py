@@ -19,11 +19,11 @@ READ_SPAN = "uh"
 RADIO_DIV = "a-u tB ZR"
 SUBMIT_DIV = "c-T-S a-b a-b-A Gs"
 
-PREF_INPUT = "XL a-oa TF"
-PREF_INPUT_FIRST = "QF NF na"
-PREF_TR = "SF Fn"
-PREF_TD = "Vq UL"
-PREF_OK_DIV = "c-T-S a-b a-b-B XE ty"
+PREF_INPUT = "gS a-la SL"
+PREF_INPUT_FIRST = "PL ML va"
+PREF_TR = "RL Pr cS"
+PREF_TD = "Gu dS"
+PREF_OK_DIV = "c-T-S a-b a-b-A WK ED"
 
 # strip html
 
@@ -42,10 +42,6 @@ def strip_tags(html):
     s = MLStripper()
     s.feed(html)
     return s.get_data()
-
-def setLogFile(FILE):
-	global LOG_FILE
-	LOG_FILE = FILE
 
 def log(msg, id, LOG_FILE):													# Maintains a log of visitations
 	fo = open(LOG_FILE, "a")
@@ -113,7 +109,7 @@ def set_age(age, driver, id, treatmentid, LOG_FILE):										# Set age on Googl
 	driver.get("https://www.google.com/settings/ads")
 	gdiv = driver.find_element_by_xpath(".//div[@class='"+AGE_DIV+"']")
 # 	print gdiv.get_attribute("innerHTML")
-	driver.find_elements_by_xpath(".//div[@class='"+EDIT_DIV+"']")[1].click()
+	gdiv.find_element_by_xpath(".//div[@class='"+EDIT_DIV+"']").click()
 	time.sleep(3)
 	if(age>=18 and age<=24):
 		box = gdiv.find_element_by_xpath(".//div[@class='"+RADIO_DIV+"'][@data-value='1']/span")
@@ -188,22 +184,23 @@ def set_ad_pref(pref, driver, id, treatmentid, LOG_FILE):									# Set an ad pr
 	except:
 		print "Error setting interests containing '%s'. Skipping." %(pref)
 	
-def get_ad_pref(driver, LOG_FILE):									# Returns list of Ad preferences
+def get_ad_pref(driver, id, treatmentid, LOG_FILE):									# Returns list of Ad preferences
 	pref = []
-# 	try:
-	driver.get("https://www.google.com/settings/ads")
-# 	if (choice == 1):
-# 		driver.find_element_by_css_selector("div.Vu div.bd div.Qc div div div.cc").click()	#For search related preferences
-# 	elif (choice == 2):
-	driver.find_elements_by_xpath(".//div[@class='"+EDIT_DIV+"']")[3].click()
+	try:
+		driver.get("https://www.google.com/settings/ads")
+	# 	if (choice == 1):
+	# 		driver.find_element_by_css_selector("div.Vu div.bd div.Qc div div div.cc").click()	#For search related preferences
+	# 	elif (choice == 2):
+		driver.find_elements_by_xpath(".//div[@class='"+EDIT_DIV+"']")[3].click()
 	
-	ints = driver.find_elements_by_xpath(".//tr[@class='"+PREF_TR+"']/td[@class='"+PREF_TD+"']")
-	for interest in ints:
-		pref.append(str(interest.get_attribute('innerHTML')))
-		#raw_input("Waiting...")
-# 	except:
-# 		pass
-	return pref	
+		ints = driver.find_elements_by_xpath(".//tr[@class='"+PREF_TR+"']/td[@class='"+PREF_TD+"']")
+		for interest in ints:
+			pref.append(str(interest.get_attribute('innerHTML')))
+			#raw_input("Waiting...")
+	except:
+		print "Error collecting ad preferences. Skipping." %(pref)
+		pass
+	log("pref"+"||"+str(treatmentid)+"||"+"@".join(pref), id, LOG_FILE)
 
 def collect_ads(reloads, delay, LOG_FILE, driver, id, treatmentid, site):
 	rel = 0

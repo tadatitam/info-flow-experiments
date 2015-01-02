@@ -7,6 +7,7 @@ from selenium.webdriver.common.action_chains import ActionChains	# to move mouse
 
 			
 import google_helper as google										# functions from GoogleHelper
+import google_news as gnews										# functions from GoogleNews
 import bing_helper as bing											# functions from BingHelper
 
 # Google ad settings page class declarations
@@ -74,12 +75,13 @@ def collectMeasurement(driver, measurement, id, treatmentid):
 			language = google.get_language(driver)
 			log("language"+"||"+str(treatmentid)+"||"+language, id)
 		if(chunks[0] == 'interests'):
-			pref = google.get_ad_pref(driver)
-			log("pref"+"||"+str(treatmentid)+"||"+"@".join(pref), id)
+			google.get_ad_pref(driver, id, treatmentid, LOG_FILE)
 		if(chunks[0] == 'ads'):
 			google.collect_ads(int(chunks[2]), int(chunks[3]), LOG_FILE, driver, id, treatmentid, chunks[1])
 		if(chunks[0] == 'bads'):
 			bing.collect_ads(int(chunks[2]), int(chunks[3]), LOG_FILE, driver, id, treatmentid, chunks[1])
+		if(chunks[0] == 'news'):
+			gnews.get_topstories(driver, id, treatmentid, LOG_FILE)
 	log('measurement-end', id)
 
 

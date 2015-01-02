@@ -134,6 +134,13 @@ class Measurement:
 			self.str += "bads||"+term+"||"+str(reloads)+"||"+str(delay)
 		else:
 			self.str += "+bads||"+term+"||"+str(reloads)+"||"+str(delay)
+		self.count += 1	
+					
+	def get_news(self, type, reloads=10, delay=5):
+		if(self.count==0):
+			self.str += "news||"+type+"||"+str(reloads)+"||"+str(delay)
+		else:
+			self.str += "+news||"+type+"||"+str(reloads)+"||"+str(delay)
 		self.count += 1
 
 def collect_sites_from_display_planner(words="Depression", 
@@ -171,7 +178,7 @@ def collect_sites_from_alexa(alexa_link="http://www.alexa.com/topsites",
 	print "Collection Complete. Results stored in ", output_file
 
 def run_experiment(treatments, measurement, log_file="log.txt", blocks=20, agents=2, 
-		runs=1, browser="firefox", timeout=9000000):	
+		runs=1, browser="firefox", timeout=700):	
 	if(browser != "firefox" and browser != "chrome"):
 		print "Illegal browser choice", browser
 		return
