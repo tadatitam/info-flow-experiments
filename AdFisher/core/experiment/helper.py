@@ -81,7 +81,7 @@ def collectMeasurement(driver, measurement, id, treatmentid):
 		if(chunks[0] == 'bads'):
 			bing.collect_ads(int(chunks[2]), int(chunks[3]), LOG_FILE, driver, id, treatmentid, chunks[1])
 		if(chunks[0] == 'news'):
-			gnews.get_topstories(driver, id, treatmentid, LOG_FILE)
+			gnews.get_news(int(chunks[2]), int(chunks[3]), driver, id, treatmentid, LOG_FILE, chunks[1])
 	log('measurement-end', id)
 
 

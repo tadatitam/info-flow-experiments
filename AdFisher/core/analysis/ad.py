@@ -23,7 +23,7 @@ class Ad:
 		self.body = common.strip_tags(ad['Body'])
 		self.cat = ad['cat']
 		self.time = ad['Time']
-		self.label = ad['label']
+		self.label = ad['Label']
 	
 	def ad_init(self, t, u, b, c, time, lbl):
 		self.title = strip_tags(t)

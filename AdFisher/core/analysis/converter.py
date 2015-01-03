@@ -1,7 +1,7 @@
 import re, sys										
 import numpy as np
 from datetime import datetime, timedelta			# to read timestamps reloadtimes
-import adVector, ad, common, interest				# common, ad ad_vector, interest classes
+import adVector, ad, common, interest, news			# common, ad ad_vector, interest, news classes
 from nltk.corpus import stopwords 					# for removing stop-words
 
 
@@ -45,6 +45,17 @@ def temp_ad_vectors(list):
 		labels.append(ads.label)
 	return tav_list, labels, ad_union
 
+def temp_news_vectors(list):
+	news_union = news.NewsVector()
+	for newsv in list:
+		news_union = news_union.union(newsv)
+	tav_list = []
+	labels = []
+	for newsv in list:
+		tav_list.append(news_union.gen_temp_news_vec(newsv))
+		labels.append(newsv.label)
+	return tav_list, labels, news_union
+	
 def interest_vectors(list):							# returns a frequency vector of interests, when input a list of interessts
 	int_union = interest.Interests()
 	for ints in list:
@@ -139,14 +150,15 @@ def get_keyword_vectors(advdicts, keywords):
 #------------- to read from log file into Ad Vectors ---------------#
 
 
-def apply_labels_to_AdVecs(adv, ints, ass, samples, treatments):			# check
+def apply_labels_to_vecs(adv, ints, newsv, ass, samples, treatments):			# check
 	size = samples/treatments
 	for i in range(0, treatments):
 		for j in range(0, size):
 			adv[int(ass[i*size+j])].setLabel(i)
 			ints[int(ass[i*size+j])].setLabel(i)
+			newsv[int(ass[i*size+j])].setLabel(i)
 
-def get_ads_from_log(log_file):							# check
+def read_log(log_file):							# check
 	treatnames = []
 	fo = open(log_file, "r")
 	line = fo.readline()
@@ -172,9 +184,11 @@ def get_ads_from_log(log_file):							# check
 		print "Treatment ", i, " = ", treatnames[i]
 	adv = []
  	ints = []
+ 	newsv = []
 	for i in range(0, samples):
  		adv.append(adVector.AdVector())
  		ints.append(interest.Interests())
+ 		newsv.append(news.NewsVector())
  	loadtimes = [timedelta(minutes=0)]*samples
  	reloads = [0]*samples
  	errors = [0]*samples
@@ -195,19 +209,21 @@ def get_ads_from_log(log_file):							# check
 			if(old):	
 				ass = chunks[1:]
 			assert len(ass) == samples
-			apply_labels_to_AdVecs(adv, ints, ass, samples, treatments)
+			apply_labels_to_vecs(adv, ints, newsv, ass, samples, treatments)
  			#print ass
  		elif(chunks[0] == gmarker and r >0 ):
  			r += 1
- 			par_adv.append({'adv':adv, 'ass':ass, 'xf':xvfbfails, 'interests':ints, 
+ 			par_adv.append({'adv':adv, 'newsv':newsv, 'ass':ass, 'xf':xvfbfails, 'interests':ints, 
  						'break':breakout, 'loadtimes':loadtimes, 'reloads':reloads, 'errors':errors})
  			sys.stdout.write(".")
 			sys.stdout.flush()
 			adv = []
- 			ints = []
+			ints = []
+			newsv = []
 			for i in range(0, samples):
- 				adv.append(adVector.AdVector())
- 				ints.append(interest.Interests())
+				adv.append(adVector.AdVector())
+				ints.append(interest.Interests())
+				newsv.append(news.NewsVector())
  			loadtimes = [timedelta(minutes=0)]*samples
 			reloads = [0]*samples
 			errors = [0]*samples
@@ -217,7 +233,7 @@ def get_ads_from_log(log_file):							# check
 			if(old):	
 				ass = chunks[1:]
 			assert len(ass) == samples
-			apply_labels_to_AdVecs(adv, ints, ass, samples, treatments)
+			apply_labels_to_vecs(adv, ints, newsv, ass, samples, treatments)
  		elif(chunks[0] == 'Xvfbfailure'):
  			xtreat, xid = chunks[1], chunks[2]
  			xvfbfails.append(xtreat)
@@ -241,9 +257,13 @@ def get_ads_from_log(log_file):							# check
  			id = int(chunks[4])
  			int_str = chunks[3]
  			ints[id].set_from_string(int_str)
+		elif(chunks[0] == 'news'):
+			ind_news = news.News({'Time':datetime.strptime(chunks[3], "%Y-%m-%d %H:%M:%S.%f"), 'Title':chunks[4], 
+					'Agency': chunks[5], 'Ago': chunks[6], 'Body': chunks[7].rstrip(), 'Label':chunks[2]})
+			newsv[int(chunks[1])].add(ind_news)
 		elif(chunks[0] == 'ad'):
 			ind_ad = ad.Ad({'Time':datetime.strptime(chunks[3], "%Y-%m-%d %H:%M:%S.%f"), 'Title':chunks[4], 
-					'URL': chunks[5], 'Body': chunks[6].rstrip(), 'cat': "", 'label':chunks[2]})
+					'URL': chunks[5], 'Body': chunks[6].rstrip(), 'cat': "", 'Label':chunks[2]})
 			adv[int(chunks[1])].add(ind_ad)
 		else:							# to analyze old log files
 			try:
@@ -256,7 +276,7 @@ def get_ads_from_log(log_file):							# check
 				pass
  	
  	r += 1
- 	par_adv.append({'adv':adv, 'ass':ass, 'xf':xvfbfails, 'interests':ints, 
+ 	par_adv.append({'adv':adv, 'newsv':newsv, 'ass':ass, 'xf':xvfbfails, 'interests':ints, 
  			'break':breakout, 'loadtimes':loadtimes, 'reloads':reloads, 'errors':errors})
  	sys.stdout.write(".Scanning complete\n")
  	sys.stdout.flush()

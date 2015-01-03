@@ -54,9 +54,10 @@ measurement.get_ads(site='bbc', reloads=10, delay=5)
 
 ## Run Experiment
 
-adfisher.run_experiment(treatments=[treatment1, treatment2, treatment3, treatment4, treatment5, treatment6], measurement=measurement, 
-	agents=6, blocks=100, log_file=log_file)
+# adfisher.run_experiment(treatments=[treatment1, treatment2, treatment3, treatment4, treatment5, treatment6], measurement=measurement, 
+# 	agents=6, blocks=100, log_file=log_file)
 
 ## Analyze Data
 
-# adfisher.run_ml_analysis(log_file, verbose=True)
+adfisher.run_ml_analysis(log_file)
+# adfisher.compute_influence(log_file)

@@ -49,4 +49,4 @@ def begin(treatments, measurement, agents=2, blocks=1, runs=1,
 		for i in range(0,agents):
 			procs.append(Process(target=collect.run_script, args=(i, agents, table[i], runs, browser, log_file, j+1, treatments, measurement, timeout, )))
 		map(lambda x: x.start(), procs)
-		map(lambda x: x.join(), procs)
+		map(lambda x: x.join(timeout+5), procs)

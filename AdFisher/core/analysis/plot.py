@@ -63,7 +63,7 @@ def histogramPlots(list):
 	plt.show()
 	
 def temporalPlots(list):
-	obs, labels, union = np.array(converter.temp_ad_vectors(list))
+	obs, labels, union = np.array(converter.temp_news_vectors(list))
 	#obs = np.array(ad_temp_category(list))
 # 	print obs[0]
 	dates = []
