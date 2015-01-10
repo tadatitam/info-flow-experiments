@@ -72,9 +72,9 @@ class Webdriver(unittest.TestCase):
 		helper.log("browserStarted||"+str(TREATMENTID), ID)
 		run = 0
 		while (run < RUNS):
-			helper.applyTreatment(driver, TREATMENTS[TREATMENTID], ID, TREATMENTID)
-			helper.wait_for_others(AGENTS, ID, ROUND)
-			time.sleep(20)
+# 			helper.applyTreatment(driver, TREATMENTS[TREATMENTID], ID, TREATMENTID)
+# 			helper.wait_for_others(AGENTS, ID, ROUND)
+# 			time.sleep(20)
 			helper.collectMeasurement(driver, MEASUREMENT, ID, TREATMENTID)
 			run = run+1
 

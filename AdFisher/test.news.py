@@ -19,12 +19,12 @@ treatment2 = adfisher.Treatment("null")
 ## Set up measurement
 
 measurement = adfisher.Measurement()
-measurement.get_news(type='top', reloads=1, delay=3)
+measurement.get_news(type='all', reloads=10, delay=30)
 
 ## Run Experiment
 
 adfisher.run_experiment(treatments=[treatment1, treatment2], measurement=measurement, 
-	agents=2, blocks=1, runs=2, log_file=log_file, timeout=20000000)
+	agents=2, blocks=1, runs=20, log_file=log_file, timeout=20000000)
 
 # adfisher.run_experiment(treatments=[treatment1], measurement=measurement, 
 # 	agents=1, blocks=1, log_file=log_file, timeout=20000000)
