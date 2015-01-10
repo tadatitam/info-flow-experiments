@@ -1,6 +1,6 @@
 import core.adfisher as adfisher
 
-log_file = 'log.influence.txt'
+log_file = 'log.cars.influence.txt'
 site_file = "site_files/cars.txt"
 
 ## Collect sites from alexa
@@ -54,10 +54,11 @@ measurement.get_ads(site='bbc', reloads=10, delay=5)
 
 ## Run Experiment
 
-# adfisher.run_experiment(treatments=[treatment1, treatment2, treatment3, treatment4, treatment5, treatment6], measurement=measurement, 
+# change input file adfisher.run_experiment(treatments=[treatment1, treatment2, treatment3, treatment4, treatment5, treatment6], measurement=measurement, 
 # 	agents=6, blocks=100, log_file=log_file)
 
 ## Analyze Data
 
-adfisher.run_ml_analysis(log_file)
-# adfisher.compute_influence(log_file)
+print log_file
+# adfisher.run_ml_analysis(log_file)
+adfisher.compute_influence(log_file)

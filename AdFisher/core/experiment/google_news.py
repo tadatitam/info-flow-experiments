@@ -2,6 +2,7 @@ import time, re														# time.sleep, re.split
 import sys															# some prints
 from selenium import webdriver										# for running the driver on websites
 from datetime import datetime										# for tagging log with datetime
+from selenium.webdriver.common.keys import Keys						# for sending keys
 
 # strip html
 
@@ -51,6 +52,36 @@ def get_topstories(driver, id, treatmentid, LOG_FILE):						# get top news artic
 		fo.close()
 	
 	
+def read_articles(keyword, count, driver, id, treatmentid, LOG_FILE):			# click on articles having a keyword
+	driver.set_page_load_timeout(60)
+	driver.get("http://news.google.com")
+	tim = str(datetime.now())
+	i = 0
+	for i in range(0, count):
+		links = driver.find_elements_by_link_text(keyword)
+		print len(links)
+		if(i>=len(links)):
+			break
+# 		links[i].send_keys(Keys.CONTROL + Keys.RETURN)
+		links[i].click()
+		for handle in driver.window_handles:
+			print "Handle = ",handle
+			driver.switch_to_window(handle);
+			print driver.title
+			if not(driver.title.strip() == "Google News"):
+				time.sleep(20)
+				site = driver.current_url
+				log(site+"||"+str(treatmentid), id, LOG_FILE)
+				print "closing", handle
+				driver.close()
+				driver.switch_to_window(driver.window_handles[0])
+				
+# 		driver.get("http://news.google.com")
+# 		site = links[i].get_attribute('url')
+# 		driver.switch_to_window("main_window")
+		time.sleep(3)
+	
+	
 
 def get_news(reloads, delay, driver, id, treatmentid, LOG_FILE, type):						# get news articles from Google
 	rel = 0
@@ -61,6 +92,8 @@ def get_news(reloads, delay, driver, id, treatmentid, LOG_FILE, type):						# ge
 				s = datetime.now()
 				if(type == 'top'):
 					get_topstories(driver, id, treatmentid, LOG_FILE)
+				elif(type == '-top'):
+					get_-topstories(driver, id, treatmentid, LOG_FILE)
 				else:
 					raw_input("No such site found: %s!" % site)
 				e = datetime.now()

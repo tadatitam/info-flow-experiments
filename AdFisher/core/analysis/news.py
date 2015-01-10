@@ -1,4 +1,4 @@
-import re										# regular expressions
+import re, sys										# regular expressions
 from stemming.porter2 import stem				# for Porter Stemming 
 import common
 	

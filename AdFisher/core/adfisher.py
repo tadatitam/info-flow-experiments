@@ -11,6 +11,8 @@ import analysis.stat as stat
 import analysis.ml as ml
 import analysis.plot as plot
 
+import numpy as np										# eventually move it
+
 class Treatment:
 
 	def __init__(self, name):
@@ -20,30 +22,30 @@ class Treatment:
 
 	def visit_sites_on_msn(self, link):
 		if(self.count==0):
-			self.str += "msn|:|"+link
+			self.str += "msn||"+link
 		else:
-			self.str += "|+|msn|:|"+link
+			self.str += "|+|msn||"+link
 		self.count += 1
 		
 	def visit_sites(self, file):
 		if(self.count==0):
-			self.str += "site|:|"+file
+			self.str += "site||"+file
 		else:
-			self.str += "|+|site|:|"+file
+			self.str += "|+|site||"+file
 		self.count += 1
 	
 	def opt_out(self):
 		if(self.count==0):
-			self.str += "optout|:|"
+			self.str += "optout||"
 		else:
-			self.str += "|+|optout|:|"
+			self.str += "|+|optout||"
 		self.count += 1	
 		
 	def opt_in(self):
 		if(self.count==0):
-			self.str += "optin|:|"
+			self.str += "optin||"
 		else:
-			self.str += "|+|optin|:|"
+			self.str += "|+|optin||"
 		self.count += 1
 		
 	def set_gender(self, gender='m'):
@@ -55,9 +57,9 @@ class Treatment:
 			print "Gender option not available. Exiting."
 			sys.exit(0)
 		if(self.count==0):
-			self.str += "gender|:|"+gender
+			self.str += "gender||"+gender
 		else:
-			self.str += "|+|gender|:|"+gender
+			self.str += "|+|gender||"+gender
 		self.count += 1
 	
 	def set_age(self, age):
@@ -65,24 +67,32 @@ class Treatment:
 			print "Age under 18 cannot be set. Exiting."
 			sys.exit(0)
 		if(self.count==0):
-			self.str += "age|:|"+str(age)
+			self.str += "age||"+str(age)
 		else:
-			self.str += "|+|age|:|"+str(age)
+			self.str += "|+|age||"+str(age)
 		self.count += 1
 	
 	def add_interest(self, interest='Auto'):
 		if(self.count==0):
-			self.str += "interest|:|"+interest
+			self.str += "interest||"+interest
 		else:
-			self.str += "|+|interest|:|"+interest
+			self.str += "|+|interest||"+interest
 		self.count += 1
 
 	def remove_interest(self, interest='Auto'):
 		if(self.count==0):
-			self.str += "rinterest|:|"+interest
+			self.str += "rinterest||"+interest
 		else:
-			self.str += "|+|rinterest|:|"+interest
+			self.str += "|+|rinterest||"+interest
 		self.count += 1
+		
+	def read_articles(self, keyword="Fox News", count=5):
+		if(self.count==0):
+			self.str += "readnews||"+keyword+"||"+str(count)
+		else:
+			self.str += "|+|readnews||"+keyword+"||"+str(count)
+		self.count += 1
+	
 
 class Measurement:
 
@@ -207,9 +217,56 @@ def shortlist_sites(site_file, target_file, browser='firefox', timeout=100):
 		site = line.strip()
 		short.shortlist_sites(site, target_file, timeout=timeout)
 
-def compute_influence(log_file="log.txt"):
+def compute_influence(log_file="log.txt"):							## eventually move it to analysis
 	collection, names = converter.read_log(log_file)
+	print names
+# 	collection = collection[:1]
 	X,y,feat = converter.get_feature_vectors(collection, feat_choice='ads')
+	print X.shape, y.shape
+	out = np.array([[0]*X.shape[2]]*len(names))
+	print out.shape
+	for i in range(0, X.shape[0]):
+		for j in range(0, X.shape[1]):
+			out[j] = out[j] + X[i][np.where(y[i]==j)]
+# 	print out
+	print "Computing gender influence"
+	diff = abs(out[0] - out[3]) + abs(out[1] - out[4]) + abs(out[2] - out[5])
+	print diff
+	
+	male = out[0]+out[1]+out[2]
+	female = out[3]+out[4]+out[5]
+	print "-------"
+	print out
+	print "-------"
+	print male
+	print female
+	print "-------"
+	print "total ads:", out.sum()
+# 	print "Computing age influence"
+# 	diff = abs(out[0] - out[3]) + abs(out[1] - out[4]) + abs(out[2] - out[5])
+# 	print diff
+# 	feat.display("url+title")
+	sortdiff = np.sort(diff)
+	sortdiff = sortdiff[::-1]
+	print sortdiff
+	count = 0
+	for i in sortdiff:
+		print "out:-----", i
+# 		print np.where(diff==i)
+		for j in np.where(diff==i)[0]:
+			count += 1
+			print "index:", j, "infl:", i, "---", 
+			print "m:", male[j], "f:", female[j]
+			print out[0][j], out[1][j], out[2][j], out[3][j], out[4][j], out[5][j]
+			feat.choose_by_index(j).display()
+		if count > 20:
+			break;
+# 	print y
+# 	print names
+# 	y2 = y/3
+# 	names2 = ['male', 'female']
+# 	ml.run_ml_analysis(X, y2, feat, names2, feat_choice="ads", nfeat=5, splitfrac=0.1, 
+# 		nfolds=10, verbose=False)
 	
 
 def analyze_news(log_file="log.txt"):

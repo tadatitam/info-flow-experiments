@@ -37,7 +37,7 @@ def applyTreatment(driver, treatmentprof, id, treatmentid):
 	log('training-start', id)
 	parts = re.split("\|\+\|", treatment)
 	for part in parts:
-		chunks = re.split("\|\:\|", part)
+		chunks = re.split("\|\\|", part)
 		if(chunks[0] == 'msn'):
 			bing.visit_sites(chunks[1].strip(), driver, id, treatmentid, LOG_FILE)
 		if(chunks[0] == 'optout'):
@@ -56,6 +56,8 @@ def applyTreatment(driver, treatmentprof, id, treatmentid):
 			google.remove_ad_pref(chunks[1], driver, id, treatmentid, LOG_FILE)
 		if(chunks[0] == 'site'):
 			train_with_sites(chunks[1], driver, id, treatmentid)
+		if(chunks[0] == 'readnews'):
+			gnews.read_articles(chunks[1], int(chunks[2]), driver, id, treatmentid, LOG_FILE)
 		time.sleep(2)
 	log('training-end', id)
 
