@@ -220,7 +220,7 @@ def shortlist_sites(site_file, target_file, browser='firefox', timeout=100):
 def compute_influence(log_file="log.txt"):							## eventually move it to analysis
 	collection, names = converter.read_log(log_file)
 	print names
-# 	collection = collection[:1]
+# 	collection = collection[:5]
 	X,y,feat = converter.get_feature_vectors(collection, feat_choice='ads')
 	print X.shape, y.shape
 	out = np.array([[0]*X.shape[2]]*len(names))
@@ -233,10 +233,12 @@ def compute_influence(log_file="log.txt"):							## eventually move it to analys
 	diff = abs(out[0] - out[3]) + abs(out[1] - out[4]) + abs(out[2] - out[5])
 	print diff
 	
+	print "Computing age influence"
+	diff2 = abs(out[0] - out[1]) + abs(out[1] - out[2]) + abs(out[2] - out[0]) + abs(out[3] - out[4]) + abs(out[4] - out[5]) + abs(out[5] - out[3])
+	print diff2
+	
 	male = out[0]+out[1]+out[2]
 	female = out[3]+out[4]+out[5]
-	print "-------"
-	print out
 	print "-------"
 	print male
 	print female
@@ -261,12 +263,24 @@ def compute_influence(log_file="log.txt"):							## eventually move it to analys
 			feat.choose_by_index(j).display()
 		if count > 20:
 			break;
-# 	print y
-# 	print names
-# 	y2 = y/3
-# 	names2 = ['male', 'female']
-# 	ml.run_ml_analysis(X, y2, feat, names2, feat_choice="ads", nfeat=5, splitfrac=0.1, 
-# 		nfolds=10, verbose=False)
+			
+	X2 = np.array([[[0.]*X.shape[2]]*2]*X.shape[0])
+	y2 = np.array([[0]*2]*y.shape[0])
+	print X.shape, 
+	print X2.shape
+	names2 = ['m18', 'f35']
+	
+	for i in range(0, X.shape[0]):
+		k = np.where(y[i]%4==0)
+		X2[i] = X[i][k]
+		y2[i] = y[i][k]/4
+		
+# 	print X2
+# 	print y2
+# 	print X2.shape, y2.shape
+# 	raw_input("wait")
+	ml.run_ml_analysis(X2, y2, feat, names2, feat_choice="ads", nfeat=5, splitfrac=0.1, 
+		nfolds=10, verbose=False)
 	
 
 def analyze_news(log_file="log.txt"):
