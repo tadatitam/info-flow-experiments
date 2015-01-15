@@ -223,18 +223,25 @@ def compute_influence(log_file="log.txt"):							## eventually move it to analys
 # 	collection = collection[:5]
 	X,y,feat = converter.get_feature_vectors(collection, feat_choice='ads')
 	print X.shape, y.shape
-	out = np.array([[0]*X.shape[2]]*len(names))
+	out = np.array([[0.]*X.shape[2]]*len(names))
 	print out.shape
+	
 	for i in range(0, X.shape[0]):
 		for j in range(0, X.shape[1]):
 			out[j] = out[j] + X[i][np.where(y[i]==j)]
 # 	print out
+
+	total = out[0]+out[1]+out[2]+out[3]+out[4]+out[5]
+	print total
+	raw_input("wait")
 	print "Computing gender influence"
-	diff = abs(out[0] - out[3]) + abs(out[1] - out[4]) + abs(out[2] - out[5])
+	diff = (abs(out[0] - out[3]) + abs(out[1] - out[4]) + abs(out[2] - out[5]))/total
+# 	for i in range(0,len(total)):
+# 		diff[i] = diff[i]*1.0/total[i]
 	print diff
 	
 	print "Computing age influence"
-	diff2 = abs(out[0] - out[1]) + abs(out[1] - out[2]) + abs(out[2] - out[0]) + abs(out[3] - out[4]) + abs(out[4] - out[5]) + abs(out[5] - out[3])
+	diff2 = (abs(out[0] - out[1]) + abs(out[1] - out[2]) + abs(out[2] - out[0]) + abs(out[3] - out[4]) + abs(out[4] - out[5]) + abs(out[5] - out[3]))/total
 	print diff2
 	
 	male = out[0]+out[1]+out[2]

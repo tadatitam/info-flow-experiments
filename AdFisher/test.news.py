@@ -1,6 +1,6 @@
 import core.adfisher as adfisher
 
-log_file = 'log.news.txt'
+log_file = 'log.news.usatoday.txt'
 
 ## Collect sites from alexa
 
@@ -23,14 +23,14 @@ measurement.get_news(type='all', reloads=10, delay=30)
 
 ## Run Experiment
 
-adfisher.run_experiment(treatments=[treatment1, treatment2], measurement=measurement, 
-	agents=2, blocks=1, runs=20, log_file=log_file, timeout=20000000)
+# change adfisher.run_experiment(treatments=[treatment1, treatment2], measurement=measurement, 
+# 	agents=2, blocks=1, runs=20, log_file=log_file, timeout=20000000)
 
-# adfisher.run_experiment(treatments=[treatment1], measurement=measurement, 
+# change adfisher.run_experiment(treatments=[treatment1], measurement=measurement, 
 # 	agents=1, blocks=1, log_file=log_file, timeout=20000000)
 
 ## Analyze Data
 
 # adfisher.run_ml_analysis(log_file, verbose=True)
 
-# adfisher.analyze_news(log_file)
+adfisher.analyze_news(log_file)
