@@ -11,9 +11,10 @@ GENDER_DIV = "sB lR"
 AGE_DIV = "sB ZQ"
 LANGUAGES_DIV = "sB rR"
 INTERESTS_DIV = "sB eS"
+ATTR_SPAN = "wk"
 
 OPTIN_DIV = "vl Gh hR"
-OPTOUT_DIV = "RR Gh HD"
+OPTOUT_DIV = "vl HD Gh"
 EDIT_DIV = "vl Gh c-Ga-bd c-Ga-rd"
 READ_SPAN = "uh"
 RADIO_DIV = "a-u tB ZR"
@@ -73,22 +74,34 @@ def login2Google(username, password, driver):
 	driver.find_element_by_id("gb_71").click()
 
 def get_gender(driver):												# Read gender from Google Ad Settings
-	driver.get("https://www.google.com/settings/ads")
-	div = driver.find_elements_by_xpath(".//span[@class='"+READ_SPAN+"']")[0]
-	inn = str(div.get_attribute('innerHTML'))
-	return inn
+	try:
+		driver.get("https://www.google.com/settings/ads")
+		gdiv = driver.find_element_by_xpath(".//div[@class='"+GENDER_DIV+"']")
+		inn = gdiv.find_element_by_xpath(".//span[@class='"+ATTR_SPAN+"']").get_attribute('innerHTML')
+		return inn
+	except:
+		print "Error collecting gender. Skipping."
+		return "Error reading"
 	
 def get_age(driver):												# Read age from Google Ad Settings
-	driver.get("https://www.google.com/settings/ads")
-	div = driver.find_elements_by_xpath(".//span[@class='"+READ_SPAN+"']")[1]
-	inn = str(div.get_attribute('innerHTML'))
-	return inn
+	try:
+		driver.get("https://www.google.com/settings/ads")
+		gdiv = driver.find_element_by_xpath(".//div[@class='"+AGE_DIV+"']")
+		inn = gdiv.find_element_by_xpath(".//span[@class='"+ATTR_SPAN+"']").get_attribute('innerHTML')
+		return inn
+	except:
+		print "Error collecting age. Skipping."
+		return "Error reading"
 		
 def get_language(driver):												# Read language from Google Ad Settings
-	driver.get("https://www.google.com/settings/ads")
-	div = driver.find_elements_by_xpath(".//span[@class='"+READ_SPAN+"']")[2]
-	inn = str(div.get_attribute('innerHTML'))
-	return inn
+	try:
+		driver.get("https://www.google.com/settings/ads")
+		gdiv = driver.find_element_by_xpath(".//div[@class='"+LANGUAGES_DIV+"']")
+		inn = gdiv.find_element_by_xpath(".//span[@class='"+ATTR_SPAN+"']").get_attribute('innerHTML')
+		return inn
+	except:
+		print "Error collecting languages. Skipping."
+		return "Error reading"
 		
 def get_ad_pref(driver, id, treatmentid, LOG_FILE):									# Returns list of Ad preferences
 	pref = []
@@ -148,6 +161,7 @@ def set_age(age, driver, id, treatmentid, LOG_FILE):										# Set age on Googl
 
 def remove_ad_pref(pref, driver, id, treatmentid, LOG_FILE):
 	try:
+		driver.get("https://www.google.com/settings/ads")
 		prefs = get_ad_pref(driver)
 		log("prepref"+"||"+str(treatmentid)+"||"+"@".join(prefs), id)
 		driver.set_page_load_timeout(40)
