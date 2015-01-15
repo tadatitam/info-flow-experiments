@@ -34,6 +34,17 @@ def ad_vectors(list):									# returns a frequency vector of ads, when input a 
 		labels.append(ads.label)
 	return av_list, labels, ad_union					## Returns entire ad as feature
 
+def freq_news_vectors(list):									# returns a frequency vector of news, when input a list of newsVecs
+	news_union = news.NewsVector()
+	for newsv in list:
+		news_union = news_union.union(newsv)
+	av_list = []
+	labels = []
+	for newsv in list:
+		av_list.append(news_union.gen_news_vec(newsv))
+		labels.append(newsv.label)
+	return av_list, labels, news_union					## Returns entire ad as feature
+	
 def temp_ad_vectors(list):
 	ad_union = adVector.AdVector()
 	for ads in list:

@@ -82,12 +82,15 @@ def read_articles(keyword, count, driver, id, treatmentid, LOG_FILE):			# click 
 	tim = str(datetime.now())
 	i = 0
 	for i in range(0, count):
-		links = driver.find_elements_by_link_text(keyword)
+# 		links = driver.find_elements_by_link_text(keyword)
+		links = driver.find_elements_by_xpath(".//div[@class='esc-lead-article-source-wrapper'][contains(.,'"+keyword+"')]")
 		print len(links)
 		if(i>=len(links)):
 			break
+		print links[i].get_attribute("innerHTML")
+		links[i].find_element_by_xpath("../div[@class='esc-lead-article-title-wrapper']/h2/a/span").click()
 # 		links[i].send_keys(Keys.CONTROL + Keys.RETURN)
-		links[i].click()
+# 		links[i].click()
 		for handle in driver.window_handles:
 			print "Handle = ",handle
 			driver.switch_to.window(handle);

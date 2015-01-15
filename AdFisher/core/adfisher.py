@@ -295,7 +295,8 @@ def analyze_news(log_file="log.txt"):
 	print len(collection)
 # 	print collection[0]['news']
 	print names
-	plot.temporalPlots(collection[0]['newsv'])
+# 	plot.temporalPlots(collection[0]['newsv'], names)
+	plot.histogramPlots(collection[0]['newsv'], names)
 
 def run_ml_analysis(log_file="log.txt", splitfrac=0.1, nfolds=10, 
 		feat_choice="ads", nfeat=5, verbose=False):

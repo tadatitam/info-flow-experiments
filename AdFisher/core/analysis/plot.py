@@ -41,8 +41,14 @@ def treatment_feature_histogram(X,y,feat, names):
 	fig.savefig("./plots/"+"+".join(names)+".eps")
 # 	plt.show()
 
-def histogramPlots(list):
-	a, b = converter.ad_vectors(list)
+def histogramPlots(list, names):
+	list2 = [list[1], list[0]]
+	names2 = [names[1], names[0]]
+	list = list2
+	names = names2
+# 	a, b, c = converter.ad_vectors(list)
+	a, b, c = converter.freq_news_vectors(list)
+	c.display("url+title+agency")
 	obs = np.array(a)
 	l = []
 	colors = ['b', 'r', 'g', 'm', 'k']							# Can plot upto 5 different colors
@@ -55,16 +61,16 @@ def histogramPlots(list):
 	ax.xaxis.grid(True, zorder=0)
 	ax.yaxis.grid(True, zorder=0)
 	for i in range(0, len(list)):
-		lbl = "ads"+str(i)
+		lbl = names[i]
 		plt.bar(pos, l[i], width, color=colors[i], alpha=0.5, label = lbl)
 	#plt.xticks(pos+width/2., obs[0], rotation='vertical')		# useful only for categories
 	#plt.axis([-1, len(obs[2]), 0, len(ran1)/2+10])
 	plt.legend()
 	plt.show()
 	
-def temporalPlots(list):
+def temporalPlots(list, names):
 	obs, labels, union = np.array(converter.temp_news_vectors(list))
-	union.display("url+title")
+	union.display("url+title+agency")
 	#obs = np.array(ad_temp_category(list))
 # 	print obs[0]
 	dates = []
@@ -82,7 +88,7 @@ def temporalPlots(list):
 # 		print i
 # 		print obs[i]
 # 		print dates[i]
-		lbl = "ads"+str(i)
+		lbl = names[i]
 		obs[i] = [j+1 for j in obs[i]]
 		ax.plot(dates[i], obs[i], colors[i], alpha=0.5, label = lbl)
 # 		plt.xticks(pos+width/2., obs[2], rotation='vertical')		# useful only for categories
