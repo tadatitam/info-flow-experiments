@@ -3,6 +3,7 @@ import adVector, ad, common
 
 import numpy as np										
 from scipy import stats									# for chi2 test
+from scipy import spatial								# for cosine distance
 from datetime import datetime							# counting times for running tests
 
 from itertools import combinations as comb				# permutations for old permutation test
@@ -33,7 +34,12 @@ def stat_kw(adv, ass, keywords):							# keyword_diff based statistic
 def stat_sim(adv, ass, keywords):							# cosine similarity based statistic
 	advm, advf = vec_for_stats(adv, ass)
 	return -ad_sim(advm, advf)
- 
+  
+def stat_cosine(X_test, y_test):							# classifier based statistic
+	g1 = np.array([X_test[i] for i in range(0,len(X_test)) if y_test[i]==1])
+	g2 = np.array([X_test[i] for i in range(0,len(X_test)) if y_test[i]==0])		# CAn REduce RUN TIME by 50%!!!
+	return spatial.distance.cosine(g1, g2)
+	
 def stat_ML(X_test, y_test, clf):							# classifier based statistic
 	g1 = [X_test[i] for i in range(0,len(X_test)) if y_test[i]==1]
 	g2 = [X_test[i] for i in range(0,len(X_test)) if y_test[i]==0]		# CAn REduce RUN TIME by 50%!!!
@@ -53,6 +59,29 @@ def stat_CC(ypred, ylabel):									# number of correctly classified instances i
 				CC += 1
 	return CC
 
+def stat_cosine_blocked(X_test, y_test):
+	blocks = y_test.shape[0]
+	blockSize = y_test.shape[1]
+	out0 = np.array([0]*X_test.shape[2])
+	out1 = np.array([0]*X_test.shape[2])
+	for i in range(0,blocks):
+		for j in range(0, blockSize):
+# 			print y_test[i][j]
+# 			print X_test[i][j]
+			if(y_test[i][j]==1):
+				out1 += X_test[i][j]
+			elif(y_test[i][j]==0):
+				out0 += X_test[i][j]
+			else:
+				raw_input("More classes than expected")
+				print "Exiting..."
+				sys.exit(0)
+# 			print out0
+# 			print out1
+# 			raw_input("wait")
+# 	print kw1, kw0
+	return spatial.distance.cosine(out0, out1)
+	
 def stat_kw2(X_test, y_test):
 	blocks = y_test.shape[0]
 	blockSize = y_test.shape[1]
@@ -69,6 +98,7 @@ def stat_kw2(X_test, y_test):
 				print "Exiting..."
 				sys.exit(0)
 # 	print kw1, kw0
+# 	raw_input("wait")
 	return (kw1 - kw0)
 	
 #------------- Permutation Tests ---------------#
@@ -97,7 +127,7 @@ def old_p_test(adv, ass, keywords, stat):					# oakland permutation test
 	return (1.0*under) / (1.0*count)
 
 
-def new_p_test(X_test, y_test, clf):							# permutation test
+def new_p_test(X_test, y_test, clf):							# not blocked need to generalize : permutation test
 	Tobs = stat_ML(X_test, y_test, clf)
 	under = 0
 	a = list(common.perm_unique(y_test))
@@ -106,7 +136,24 @@ def new_p_test(X_test, y_test, clf):							# permutation test
 		if round(Tobs, 10) <= round(Tpi, 10):
 			under += 1
 	return (1.0*under) / (1.0*len(a))
+
+def block_p_test_cosine(Xtest, ytest, alpha=0.01, iterations=1000000):				# must generalize permutation tests
+	Tobs = stat_cosine_blocked(Xtest, ytest)
+# 	print ytest
+	print 'Tobs: ', Tobs
+	under = 0
+	for i in range(0,iterations):
+		yperm = get_perm(ytest)
+		Tpi = stat_cosine_blocked(Xtest, yperm)
+		if round(Tobs, 10) <= round(Tpi, 10):
+			under += 1
+# 		print yperm
+# 		print Tpi
+# 		raw_input("wait")
+	print proportion_confint(under, iterations, alpha, 'beta')
+	return (1.0*under) / (1.0*iterations)
 	
+		
 def block_p_test_mode2(Xtest, ytest, flipped=False, alpha=0.01, iterations=1000):	# block p-test with kw
 	factor = 1
 	if(flipped):

@@ -290,13 +290,38 @@ def compute_influence(log_file="log.txt"):							## eventually move it to analys
 		nfolds=10, verbose=False)
 	
 
-def analyze_news(log_file="log.txt"):
+def analyze_news(log_file="log.txt", splitfrac=0.1, nfolds=10, 
+		feat_choice="ads", nfeat=5, verbose=True):
 	collection, names = converter.read_log(log_file)	
-	print len(collection)
-# 	print collection[0]['news']
+	print len(collection)	
+	collection = collection[:100]
+# 	print collection[0]['ass']
 	print names
+	X,y,feat = converter.get_news_vectors(collection)
+	feat.display("agency")
+	index = feat.get_indices("USA TODAY")
+	raw_input("wait")
+# 	print X
+# 	print X.shape
+	newX = X[:,:,index]
+# 	print newX
+# 	print newX.shape
+# 	print y
+	print stat.block_p_test_mode2(newX, y, flipped=True, iterations=10000)
+# 	print stat.block_p_test_cosine(X, y, iterations=10000)
+# 	print "done"
 # 	plot.temporalPlots(collection[0]['newsv'], names)
-	plot.histogramPlots(collection[0]['newsv'], names)
+# # 	plot.histogramPlots(collection[0]['newsv'], names)
+# 	s = datetime.now()
+# 	X,y,feat = converter.get_news_vectors(collection)
+# 	print X.shape
+# 	print y.shape
+# 	e = datetime.now()
+# 	if(verbose):
+# 		print "Time for constructing feature vectors: ", str(e-s)
+# 		stat.print_counts(X,y)
+# 	ml.run_ml_analysis(X, y, feat, names, feat_choice, nfeat, splitfrac=splitfrac, 
+# 		nfolds=nfolds, verbose=verbose)
 
 def run_ml_analysis(log_file="log.txt", splitfrac=0.1, nfolds=10, 
 		feat_choice="ads", nfeat=5, verbose=False):

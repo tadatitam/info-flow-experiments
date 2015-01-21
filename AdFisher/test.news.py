@@ -23,8 +23,8 @@ measurement.get_news(type='all', reloads=10, delay=30)
 
 ## Run Experiment
 
-adfisher.run_experiment(treatments=[treatment1, treatment1], measurement=measurement, 
-	agents=2, blocks=1, runs=1, log_file=log_file, timeout=1000)
+# change adfisher.run_experiment(treatments=[treatment1, treatment1], measurement=measurement, 
+# 	agents=2, blocks=1, runs=1, log_file=log_file, timeout=1000)
 
 # change adfisher.run_experiment(treatments=[treatment1], measurement=measurement, 
 # 	agents=1, blocks=1, log_file=log_file, timeout=20000000)
@@ -33,4 +33,4 @@ adfisher.run_experiment(treatments=[treatment1, treatment1], measurement=measure
 
 # adfisher.run_ml_analysis(log_file, verbose=True)
 
-# adfisher.analyze_news(log_file)
+adfisher.analyze_news(log_file)

@@ -42,16 +42,16 @@ def treatment_feature_histogram(X,y,feat, names):
 # 	plt.show()
 
 def histogramPlots(list, names):
-	list2 = [list[1], list[0]]
-	names2 = [names[1], names[0]]
-	list = list2
-	names = names2
+# 	list2 = [list[1], list[0]]
+# 	names2 = [names[1], names[0]]
+# 	list = list2
+# 	names = names2
 # 	a, b, c = converter.ad_vectors(list)
 	a, b, c = converter.freq_news_vectors(list)
 	c.display("url+title+agency")
 	obs = np.array(a)
 	l = []
-	colors = ['b', 'r', 'g', 'm', 'k']							# Can plot upto 5 different colors
+	colors = ['b', 'r', 'g', 'm', 'k', 'b', 'r', 'g', 'm', 'k']							# Can plot upto 5 different colors
 	for i in range(0, len(list)):
 		l.append([int(i) for i in obs[i]])
 	pos = np.arange(1, len(obs[0])+1)
@@ -74,7 +74,7 @@ def temporalPlots(list, names):
 	#obs = np.array(ad_temp_category(list))
 # 	print obs[0]
 	dates = []
-	colors = ['b.', 'r.', 'g.', 'm.', 'k.']
+	colors = ['b.', 'r.', 'g.', 'm.', 'k.', 'b.', 'r.', 'g.', 'm.', 'k.']
 	for j in range(0, len(list)):
 # 		dates.append(matplotlib.dates.date2num([list[j].data[i].time for i in range(0, len(list[j].data))]))
 		dates.append([list[j].data[i].time for i in range(0, len(list[j].data))])
@@ -88,7 +88,7 @@ def temporalPlots(list, names):
 # 		print i
 # 		print obs[i]
 # 		print dates[i]
-		lbl = names[i]
+		lbl = i
 		obs[i] = [j+1 for j in obs[i]]
 		ax.plot(dates[i], obs[i], colors[i], alpha=0.5, label = lbl)
 # 		plt.xticks(pos+width/2., obs[2], rotation='vertical')		# useful only for categories

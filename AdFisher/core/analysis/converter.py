@@ -115,6 +115,31 @@ def get_interest_vectors(advdicts):
 	print "Complete"
 	return np.array(X), np.array(y), feat
 
+def get_news_vectors(advdicts):			# returns observation vector from a list of rounds
+	n = len(advdicts[0]['ass'])
+	list = []
+	y = []
+	sys.stdout.write("Creating news vectors")
+ 	sys.stdout.write("-->>")
+ 	sys.stdout.flush()
+	for advdict in advdicts:
+		list.extend(advdict['newsv'])
+	X, labels, feat = freq_news_vectors(list)
+	if(labels[0] == ''):
+		for advdict in advdicts:
+			ass = advdict['ass']
+			y1 = [0]*len(ass)
+			for i in ass[0:len(ass)/2]:
+				y1[int(i)] = 1
+			y.extend(y1)
+	else:
+		y = [int(i) for i in labels]
+	X = [X[i:i+n] for i in range(0,len(X),n)]
+	y = [y[i:i+n] for i in range(0,len(y),n)]
+# 	print feat[0].title, feat[0].url
+	print "Complete"
+	return np.array(X), np.array(y), feat
+	
 def get_feature_vectors(advdicts, feat_choice):			# returns observation vector from a list of rounds
 	n = len(advdicts[0]['ass'])
 	list = []

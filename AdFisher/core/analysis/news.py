@@ -8,7 +8,7 @@ import common
 AGENCY = 1
 TITLE_AGENCY = 2
 TITLE_BODY = 3
-CHOICE = TITLE_AGENCY
+CHOICE = AGENCY
 
 # Choices for measure of similarity
 JACCARD = 1
@@ -25,6 +25,26 @@ W_CHOICE = NUM
 
 class News:
 
+	def printStuff(self, coeff, C, c):
+# 		print "\multicolumn{1}{l}{", self.title, "; \url{", self.url, "}} & \multirow{2}{*}{", round(coeff, 3), 
+# 		print "} & \multirow{2}{*}{", a, "(", round(100.*a/(a+b), 1), "\%)} & \multirow{2}{*}{", b, "(", round(100.*b/(a+b), 1), "\%)}\\\\"
+# 		print "\multicolumn{1}{l}{", self.body, "}\\\\"
+# 		print "\hline"
+		
+# 		print "\TitleParbox{", self.title, "; \url{", self.url, "}; ", self.body, "} & ",
+# 		print round(coeff, 3), " & ", a, "(", round(100.*a/(a+b), 1), "\%) & ", b, "(", round(100.*b/(a+b), 1), "\%) \\\\"
+# 		print "\hline \\\\"
+		
+# 		print "\multirow{3}{*}{\TitleParbox{", self.title, "; \url{", self.url, "}; ", self.body, "}} & ",
+# 		print "\multirow{3}{*}{", round(coeff, 3), "} &\n", int(c[0]), " & ", int(c[1]), " & ", int(C[0]), "& ", int(C[1]), " \\\\"
+# 		print " & ", " & $", int(c[2]), "$ & $", int(c[3]), "$ & $", int(C[2]), "$ & $", int(C[3]), "$ \\\\"
+# 		print "\cline{3-6}"
+# 		print " & ", " & $", int(c[4]), "$ & $", int(c[5]), "$ & $", int(C[4]), "$ & $", int(C[5]), "$ \\\\"
+# 		print "\hline \\\\"
+		
+		print self.title, " & ", self.agency, " & $", round(coeff, 3), "$ & $", 
+		print int(c[4]), "$ & $", int(c[5]), "$ & & $", int(C[4]), "$ & $", int(C[5]), "$ \\\\"
+		
 	def __init__(self, news):
 		self.title = common.strip_tags(news['Title'])
 		self.agency = common.strip_tags(news['Agency'])
@@ -110,6 +130,13 @@ class NewsVector:
 	def remove(self, news):
 		self.data.remove(news)
 		
+	def get_indices(self, keyword):		# special purpose use
+		indices = []
+		for news in self.data:
+			if(news.agency == keyword):
+				indices.append(self.index(news))
+		return indices
+	
 	def display(self, choice):
 		#print ("Total number of newss: "+str(len(self.data)))
 		i = 0
