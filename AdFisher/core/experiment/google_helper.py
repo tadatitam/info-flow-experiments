@@ -20,6 +20,9 @@ READ_SPAN = "uh"
 RADIO_DIV = "a-u tB ZR"
 SUBMIT_DIV = "c-T-S a-b a-b-A Gs"
 
+LANG_DROPDOWN = "c-T-S c-g-f-b a-qa Tr"
+LANG_DIV = "c-l-H"
+
 PREF_INPUT = "gS a-la SL"
 PREF_INPUT_FIRST = "PL ML va"
 PREF_TR = "RL Pr cS"
@@ -157,6 +160,18 @@ def set_age(age, driver, id, treatmentid, LOG_FILE):										# Set age on Googl
 	box.click()
 	gdiv.find_element_by_xpath(".//div[@class='"+SUBMIT_DIV+"']").click()
 	log("setAge="+str(age)+"||"+str(treatmentid), id, LOG_FILE)
+	
+def set_language(language, driver, id, treatmentid, LOG_FILE):										# Set age on Google Ad Settings page
+	driver.set_page_load_timeout(40)
+	driver.get("https://www.google.com/settings/ads")
+	gdiv = driver.find_element_by_xpath(".//div[@class='"+LANGUAGES_DIV+"']")
+# 	print gdiv.get_attribute("innerHTML")
+	gdiv.find_element_by_xpath(".//div[@class='"+EDIT_DIV+"']").click()
+	gdiv.find_element_by_xpath(".//div[@class='"+LANG_DROPDOWN+"']").click()
+	time.sleep(3)
+	gdiv.find_element_by_xpath(".//div[@class='"+LANG_DIV+"'][contains(.,'"+language+"')]").click()
+	gdiv.find_element_by_xpath(".//div[@class='"+SUBMIT_DIV+"']").click()
+	log("setLanguage="+str(language)+"||"+str(treatmentid), id, LOG_FILE)
 
 
 def remove_ad_pref(pref, driver, id, treatmentid, LOG_FILE):

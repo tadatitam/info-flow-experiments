@@ -70,6 +70,16 @@ class Treatment:
 			self.str += "age||"+str(age)
 		else:
 			self.str += "|+|age||"+str(age)
+		self.count += 1	
+		
+	def set_language(self, language):
+# 		if(age<18):
+# 			print "Age under 18 cannot be set. Exiting."
+# 			sys.exit(0)
+		if(self.count==0):
+			self.str += "language||"+str(language)
+		else:
+			self.str += "|+|language||"+str(language)
 		self.count += 1
 	
 	def add_interest(self, interest='Auto'):
@@ -231,17 +241,17 @@ def compute_influence(log_file="log.txt"):							## eventually move it to analys
 			out[j] = out[j] + X[i][np.where(y[i]==j)]
 # 	print out
 
-	total = out[0]+out[1]+out[2]+out[3]+out[4]+out[5]
-	print total
-	raw_input("wait")
+# 	total = out[0]+out[1]+out[2]+out[3]+out[4]+out[5]
+# 	print total
+# 	raw_input("wait")
 	print "Computing gender influence"
-	diff = (abs(out[0] - out[3]) + abs(out[1] - out[4]) + abs(out[2] - out[5]))/total
+	diff = (abs(out[0] - out[3]) + abs(out[1] - out[4]) + abs(out[2] - out[5]))/3# /total
 # 	for i in range(0,len(total)):
 # 		diff[i] = diff[i]*1.0/total[i]
 	print diff
 	
 	print "Computing age influence"
-	diff2 = (abs(out[0] - out[1]) + abs(out[1] - out[2]) + abs(out[2] - out[0]) + abs(out[3] - out[4]) + abs(out[4] - out[5]) + abs(out[5] - out[3]))/total
+	diff2 = (abs(out[0] - out[1]) + abs(out[1] - out[2]) + abs(out[2] - out[0]) + abs(out[3] - out[4]) + abs(out[4] - out[5]) + abs(out[5] - out[3]))/6 #/total
 	print diff2
 	
 	male = out[0]+out[1]+out[2]
@@ -264,30 +274,30 @@ def compute_influence(log_file="log.txt"):							## eventually move it to analys
 # 		print np.where(diff==i)
 		for j in np.where(diff==i)[0]:
 			count += 1
-			print "index:", j, "infl:", i, "---", 
+			print "index:", j, "ginfl:", i, "ainfl:", diff2[j], "---", 
 			print "m:", male[j], "f:", female[j]
 			print out[0][j], out[1][j], out[2][j], out[3][j], out[4][j], out[5][j]
 			feat.choose_by_index(j).display()
 		if count > 20:
 			break;
 			
-	X2 = np.array([[[0.]*X.shape[2]]*2]*X.shape[0])
-	y2 = np.array([[0]*2]*y.shape[0])
-	print X.shape, 
-	print X2.shape
-	names2 = ['m18', 'f35']
-	
-	for i in range(0, X.shape[0]):
-		k = np.where(y[i]%4==0)
-		X2[i] = X[i][k]
-		y2[i] = y[i][k]/4
-		
-# 	print X2
-# 	print y2
-# 	print X2.shape, y2.shape
-# 	raw_input("wait")
-	ml.run_ml_analysis(X2, y2, feat, names2, feat_choice="ads", nfeat=5, splitfrac=0.1, 
-		nfolds=10, verbose=False)
+# 	X2 = np.array([[[0.]*X.shape[2]]*2]*X.shape[0])
+# 	y2 = np.array([[0]*2]*y.shape[0])
+# 	print X.shape, 
+# 	print X2.shape
+# 	names2 = ['m18', 'f35']
+# 	
+# 	for i in range(0, X.shape[0]):
+# 		k = np.where(y[i]%4==0)
+# 		X2[i] = X[i][k]
+# 		y2[i] = y[i][k]/4
+# 		
+# # 	print X2
+# # 	print y2
+# # 	print X2.shape, y2.shape
+# # 	raw_input("wait")
+# 	ml.run_ml_analysis(X2, y2, feat, names2, feat_choice="ads", nfeat=5, splitfrac=0.1, 
+# 		nfolds=10, verbose=False)
 	
 
 def analyze_news(log_file="log.txt", splitfrac=0.1, nfolds=10, 

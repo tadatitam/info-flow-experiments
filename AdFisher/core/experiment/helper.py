@@ -48,6 +48,8 @@ def applyTreatment(driver, treatmentprof, id, treatmentid):
 			google.set_gender(chunks[1], driver, id, treatmentid, LOG_FILE)
 		if(chunks[0] == 'age'):
 			google.set_age(int(chunks[1]), driver, id, treatmentid, LOG_FILE)
+		if(chunks[0] == 'language'):
+			google.set_language(chunks[1], driver, id, treatmentid, LOG_FILE)
 		if(chunks[0] == 'interest'):
 			print "Adding Interests"
 			google.set_ad_pref(chunks[1], driver, id, treatmentid, LOG_FILE)
