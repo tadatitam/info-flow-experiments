@@ -77,6 +77,7 @@ def login(username, password, driver, id, treatmentid, LOG_FILE):
 	driver.find_element_by_id("Email").send_keys(username)
 	driver.find_element_by_id("Passwd").send_keys(password)
 	driver.find_element_by_id("signIn").click()
+	log("loggedIn="+"@".join(username)+"||"+str(treatmentid), id, LOG_FILE)
 
 def get_gender(driver):												# Read gender from Google Ad Settings
 	try:
