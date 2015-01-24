@@ -33,7 +33,14 @@ class Treatment:
 		else:
 			self.str += "|+|site||"+file
 		self.count += 1
-	
+		
+	def login_to_google(self, username, password):
+		if(self.count==0):
+			self.str += "login||"+username+"||"+password
+		else:
+			self.str += "|+|login||"+username+"||"+password
+		self.count += 1
+			
 	def opt_out(self):
 		if(self.count==0):
 			self.str += "optout||"
@@ -235,6 +242,14 @@ def compute_influence(log_file="log.txt"):							## eventually move it to analys
 	print X.shape, y.shape
 	out = np.array([[0.]*X.shape[2]]*len(names))
 	print out.shape
+	
+	samples=1
+	attributes = {'gender':["male","female"], 'age':[18,35,55], 'language':["English", "Spanish"]}
+	for key, value in attributes.items():
+		samples = samples*len(value)
+	
+	if not(samples == len(names)):
+		raw_input("samples != len(names)")
 	
 	for i in range(0, X.shape[0]):
 		for j in range(0, X.shape[1]):

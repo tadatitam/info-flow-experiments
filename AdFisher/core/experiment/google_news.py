@@ -71,7 +71,21 @@ def get_allstories(driver, id, treatmentid, LOG_FILE):						# get top news artic
 		body = td.find_element_by_xpath(".//div[@class='esc-lead-snippet-wrapper']").get_attribute('innerHTML')
 # 		print body	
 # 		print ""
+		heading = ""
+		try:
+			heading = td.find_element_by_xpath("../../../../../../../../../div[@class='section-header']/div/div/h2/a/span").get_attribute('innerHTML')
+		except:
+			pass
+		
+# 		heading = td.find_element_by_xpath("../../../../../../../../../div[@class='section-header']/div/div/h2/a/span").get_attribute('innerHTML')
+		print heading
+		time.sleep(10)
+		if ("Suggested" in heading):
+			print "Skipping Suggested news"
+			continue
+		print "entering"
 		f = strip_tags("news||"+str(id)+"||"+str(treatmentid)+"||"+tim+"||"+title+"||"+agency+"||"+ago+"||"+body).encode("utf8")
+		print f
 		fo = open(LOG_FILE, "a")
 		fo.write(f + '\n')
 		fo.close()
@@ -114,6 +128,7 @@ def get_news(reloads, delay, driver, id, treatmentid, LOG_FILE, type):						# ge
 	rel = 0
 	while (rel < reloads):	# number of reloads on sites to capture all ads
 		time.sleep(delay)
+# 		print "reload", rel
 # 		try:
 		for i in range(0,1):
 			s = datetime.now()
@@ -121,7 +136,6 @@ def get_news(reloads, delay, driver, id, treatmentid, LOG_FILE, type):						# ge
 				get_topstories(driver, id, treatmentid, LOG_FILE)
 			elif(type == 'all'):
 				get_allstories(driver, id, treatmentid, LOG_FILE)
-				time.sleep(1000)
 			else:
 				raw_input("No such site found: %s!" % site)
 			e = datetime.now()

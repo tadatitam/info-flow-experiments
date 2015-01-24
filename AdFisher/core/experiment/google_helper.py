@@ -29,6 +29,8 @@ PREF_TR = "RL Pr cS"
 PREF_TD = "Gu dS"
 PREF_OK_DIV = "c-T-S a-b a-b-A WK ED"
 
+SIGNIN_A = "gb_70"
+
 # strip html
 
 from HTMLParser import HTMLParser
@@ -68,13 +70,13 @@ def optOut(driver, id, treatmentid, LOG_FILE):													# Opt out of behavior
 	if(id != -1):
 		log("optedOut||"+str(treatmentid), id, LOG_FILE)
 
-def login2Google(username, password, driver):
-	driver.find_element_by_xpath(".//a[span[span[@class='gbit']]]").click()
+def login(username, password, driver, id, treatmentid, LOG_FILE):
+	driver.set_page_load_timeout(60)
+	driver.get("https://www.google.com")
+	driver.find_element_by_xpath(".//a[@id='"+SIGNIN_A+"']").click()
 	driver.find_element_by_id("Email").send_keys(username)
 	driver.find_element_by_id("Passwd").send_keys(password)
 	driver.find_element_by_id("signIn").click()
-	driver.find_element_by_id("gbi4i").click()
-	driver.find_element_by_id("gb_71").click()
 
 def get_gender(driver):												# Read gender from Google Ad Settings
 	try:

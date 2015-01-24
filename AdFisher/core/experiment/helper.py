@@ -40,6 +40,8 @@ def applyTreatment(driver, treatmentprof, id, treatmentid):
 		chunks = re.split("\|\\|", part)
 		if(chunks[0] == 'msn'):
 			bing.visit_sites(chunks[1].strip(), driver, id, treatmentid, LOG_FILE)
+		if(chunks[0] == 'login'):
+			google.login(chunks[1], chunks[2], driver, id, treatmentid, LOG_FILE)
 		if(chunks[0] == 'optout'):
 			google.optOut(driver, id, treatmentid, LOG_FILE)
 		if(chunks[0] == 'optin'):
