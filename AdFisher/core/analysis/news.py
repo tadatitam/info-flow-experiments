@@ -8,7 +8,7 @@ import common
 AGENCY = 1
 TITLE_AGENCY = 2
 TITLE_BODY = 3
-CHOICE = AGENCY
+CHOICE = TITLE_AGENCY
 
 # Choices for measure of similarity
 JACCARD = 1

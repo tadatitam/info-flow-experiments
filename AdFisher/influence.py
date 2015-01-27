@@ -27,8 +27,8 @@ for comb in list(itertools.product(*attributes.values())):
 	treatment.set_language(comb[attributes.keys().index('language')])
 	treatments.append(treatment)
 
-print len(treatments)
-raw_input("wait")
+# print len(treatments)
+# raw_input("wait")
 
 ## Set up measurement
 
@@ -39,7 +39,7 @@ measurement.get_ads(site='bbc', reloads=10, delay=5)
 ## Run Experiment
 
 adfisher.run_experiment(treatments=treatments, measurement=measurement, 
-	agents=12, blocks=1, log_file=log_file)
+	agents=12, blocks=100, log_file=log_file)
 
 ## Analyze Data
 

@@ -11,7 +11,11 @@ import analysis.stat as stat
 import analysis.ml as ml
 import analysis.plot as plot
 
+# eventually move these:
 import numpy as np										# eventually move it
+from scipy import spatial								# for computing cosine_distance
+import itertools 										# for combinations of attributes
+
 
 class Treatment:
 
@@ -255,7 +259,53 @@ def compute_influence(log_file="log.txt"):							## eventually move it to analys
 		for j in range(0, X.shape[1]):
 			out[j] = out[j] + X[i][np.where(y[i]==j)]
 # 	print out
-
+	
+	def removekey(d, key):
+		r = dict(d)
+		del r[key]
+		return r
+	
+	def compute_influence(attributes, vector):
+		print len(vector)
+		for key, value in attributes.items():			# for i
+			print key, value
+			print "Computing ", key, " influence"
+			sum = 0
+			num = 0
+			copy = removekey(attributes, key)
+# 			print attributes
+# 			print copy
+			for attrcomp in list(itertools.combinations(attributes[key], 2)):		# for b
+# 				print attrcomp
+				for comb in list(itertools.product(*copy.values())):
+					name0=''
+					name1=''
+					for idx, val in enumerate(comb):
+						if(idx == attributes.keys().index(key)):
+							name0 = name0+str(attrcomp[0])
+							name1 = name1+str(attrcomp[1])
+						name0 = name0+str(val)
+						name1 = name1+str(val)
+					if(attributes.keys().index(key) == len(copy)):
+						name0 = name0+str(attrcomp[0])
+						name1 = name1+str(attrcomp[1])
+					print name0, "vs", name1
+					print names.index(name0), "vs", names.index(name1)
+					num += 1
+					distance = spatial.distance.cosine(out[names.index(name0)],out[names.index(name1)])		# can use any distance function
+					sum += distance
+					print distance
+# 					print out[names.index(name0)]
+# 					print out[names.index(name1)]
+			print sum
+			print num
+			print sum/num
+			raw_input("wait")
+			
+		raw_input("wait")
+		
+	
+	compute_influence(attributes, out)
 # 	total = out[0]+out[1]+out[2]+out[3]+out[4]+out[5]
 # 	print total
 # 	raw_input("wait")
@@ -320,33 +370,69 @@ def analyze_news(log_file="log.txt", splitfrac=0.1, nfolds=10,
 	collection, names = converter.read_log(log_file)	
 	print len(collection)	
 	collection = collection[:100]
+	
+# 	X,y,feat = converter.get_news_vectors(collection)
+# 	print X.shape
+# 	print y.shape
+# 	out = np.array([[0.]*X.shape[2]]*len(names))
+# 	print out.shape
+# 	for i in range(0, X.shape[0]):
+# # 		print "i:", i
+# # 		print X[i]
+# # 		print y[i]
+# 		for j in range(0, len(names)):
+# # 			print "j:", j
+# 			out[j] = out[j] + X[i][np.where(y[i]==j)].sum(axis=0)
+# # 			print out[j]
+# # 			raw_input("wait")
+# 			
+# 	
+# 	
+# 	import matplotlib.pyplot as plt
+# 	import matplotlib.dates as mdates
+# 	import matplotlib
+# 	colors = ['b', 'r', 'g', 'm', 'k', 'b', 'r', 'g', 'm', 'k']							# Can plot upto 5 different colors
+# 	pos = np.arange(1, len(out[0])+1)
+# 	width = 0.5     # gives histogram aspect to the bar diagram
+# 	gridLineWidth=0.1
+# 	fig, ax = plt.subplots()
+# 	ax.xaxis.grid(True, zorder=0)
+# 	ax.yaxis.grid(True, zorder=0)
+# 	for i in range(0, len(out)):
+# 		lbl = names[i]
+# 		plt.bar(pos, out[i], width, color=colors[i], alpha=0.5, label = lbl)
+# 	#plt.xticks(pos+width/2., obs[0], rotation='vertical')		# useful only for categories
+# 	#plt.axis([-1, len(obs[2]), 0, len(ran1)/2+10])
+# 	plt.legend()
+# 	plt.show()
+	
+		
 # 	print collection[0]['ass']
 	print names
+	s = datetime.now()
 	X,y,feat = converter.get_news_vectors(collection)
-	feat.display("agency")
-	index = feat.get_indices("USA TODAY")
-	raw_input("wait")
+	print X.shape
+	print y.shape
+	e = datetime.now()
+	if(verbose):
+		print "Time for constructing feature vectors: ", str(e-s)
+		stat.print_counts(X,y)
+	ml.run_ml_analysis(X, y, feat, names, feat_choice, nfeat, splitfrac=splitfrac, 
+		nfolds=nfolds, verbose=verbose)
+		
+# 	index = feat.get_indices("USA TODAY")
+# 	raw_input("wait")
 # 	print X
 # 	print X.shape
-	newX = X[:,:,index]
+# 	newX = X[:,:,index]
 # 	print newX
 # 	print newX.shape
 # 	print y
-	print stat.block_p_test_mode2(newX, y, flipped=True, iterations=10000)
+# 	print stat.block_p_test_mode2(newX, y, flipped=True, iterations=10000)
 # 	print stat.block_p_test_cosine(X, y, iterations=10000)
 # 	print "done"
 # 	plot.temporalPlots(collection[0]['newsv'], names)
 # # 	plot.histogramPlots(collection[0]['newsv'], names)
-# 	s = datetime.now()
-# 	X,y,feat = converter.get_news_vectors(collection)
-# 	print X.shape
-# 	print y.shape
-# 	e = datetime.now()
-# 	if(verbose):
-# 		print "Time for constructing feature vectors: ", str(e-s)
-# 		stat.print_counts(X,y)
-# 	ml.run_ml_analysis(X, y, feat, names, feat_choice, nfeat, splitfrac=splitfrac, 
-# 		nfolds=nfolds, verbose=verbose)
 
 def run_ml_analysis(log_file="log.txt", splitfrac=0.1, nfolds=10, 
 		feat_choice="ads", nfeat=5, verbose=False):

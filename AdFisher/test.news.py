@@ -27,7 +27,7 @@ measurement.get_news(type='all', reloads=5, delay=5)
 ## Run Experiment
 
 adfisher.run_experiment(treatments=[treatment1, treatment2], measurement=measurement, 
-	agents=10, blocks=100, runs=1, log_file=log_file, timeout=2000)
+	agents=2, blocks=100, runs=1, log_file=log_file, timeout=2000)
 
 # adfisher.run_experiment(treatments=[treatment1], measurement=measurement, 
 # 	agents=1, blocks=1, log_file=log_file, timeout=20000000)
