@@ -56,9 +56,9 @@ class Ad:
 
 	
 	def display(self):
-		print ("Title: "+self.title), 
-		print ("URL: "+self.url), 
-		print ("Body: "+self.body+"\n")
+		print ("Title: "+self.title)
+		print ("URL: "+self.url)
+		print ("Body: "+self.body)
 		
 	def identical_ad(self, ad, choice):
 		if(choice == URL):

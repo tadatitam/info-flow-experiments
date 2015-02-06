@@ -47,7 +47,11 @@ class AdVector:
 		
 	def remove(self, ad):
 		self.data.remove(ad)
-		
+	
+	def delete(self, indices):
+		print indices
+		self.data[:] = [item for i,item in enumerate(self.data) if i not in indices]
+	
 	def display(self, choice):
 		#print ("Total number of ads: "+str(len(self.data)))
 		i = 0

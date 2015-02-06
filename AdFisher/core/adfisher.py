@@ -241,8 +241,12 @@ def shortlist_sites(site_file, target_file, browser='firefox', timeout=100):
 def compute_influence(log_file="log.txt"):							## eventually move it to analysis
 	collection, names = converter.read_log(log_file)
 	print names
-# 	collection = collection[:5]
+# 	collection = collection[:1]
 	X,y,feat = converter.get_feature_vectors(collection, feat_choice='ads')
+	
+# 	feat.display("title+url")
+# 	raw_input("wait")
+	
 	print X.shape, y.shape
 	out = np.array([[0.]*X.shape[2]]*len(names))
 	print out.shape
@@ -258,19 +262,77 @@ def compute_influence(log_file="log.txt"):							## eventually move it to analys
 	for i in range(0, X.shape[0]):
 		for j in range(0, X.shape[1]):
 			out[j] = out[j] + X[i][np.where(y[i]==j)]
+	print out
+	
+	print "Total ads: ", np.sum(out)
+	
+	total = np.sum(out, axis=0)
+	
+# 	sortt = np.sort(total)
+# 	import matplotlib.pyplot as plt
+# 	import matplotlib.dates as mdates
+# 	import matplotlib
+# 	for t in out:
+# 		sortt = np.sort(t)
+# 		colors = ['b', 'r', 'g', 'm', 'k', 'b', 'r', 'g', 'm', 'k']							# Can plot upto 5 different colors
+# 		pos = np.arange(1, len(out[0])+1)
+# 		width = 0.5     # gives histogram aspect to the bar diagram
+# 		gridLineWidth=0.1
+# 		fig, ax = plt.subplots()
+# 		ax.xaxis.grid(True, zorder=0)
+# 		ax.yaxis.grid(True, zorder=0)
+# 		plt.bar(pos, sortt, width, color=colors[0], alpha=0.5)
+# 		plt.legend()
+# 		plt.show()
+	
+	print total
+# 	feat.display("url+title")
+# 	raw_input("wait")
+	removal = np.where(total < 100)[0]				# parameter
+	out = np.delete(out,removal,axis=1)
+	feat.delete(removal)
+	feat.display("url+title")
+	raw_input("wait")
+# 			out[:,i] = 0
 # 	print out
+	
 	
 	def removekey(d, key):
 		r = dict(d)
 		del r[key]
 		return r
 	
+	def normalize(vector):
+		diff = max(vector) - min(vector)
+		print diff
+		return (vector - min(vector))/diff
+	
+	def normalize_max(out):
+		print out
+		max = np.amax(out, axis=0)
+		z = out/max
+		print z
+		raw_input("norm")
+		return z
+		
+	def normalize_uni(out):
+		print out
+		max = np.amax(out, axis=0)
+		min = np.amin(out, axis=0)
+		print max
+		print min
+		z = (out-min)/(max-min)
+		print z
+		raw_input("norm")
+		return z
+		
 	def compute_influence(attributes, vector):
-		print len(vector)
+		print vector
+		influences = []
 		for key, value in attributes.items():			# for i
 			print key, value
 			print "Computing ", key, " influence"
-			sum = 0
+			sum = np.array([0.]*vector.shape[1])
 			num = 0
 			copy = removekey(attributes, key)
 # 			print attributes
@@ -289,62 +351,91 @@ def compute_influence(log_file="log.txt"):							## eventually move it to analys
 					if(attributes.keys().index(key) == len(copy)):
 						name0 = name0+str(attrcomp[0])
 						name1 = name1+str(attrcomp[1])
-					print name0, "vs", name1
-					print names.index(name0), "vs", names.index(name1)
+# 					print name0, "vs", name1
+# 					print names.index(name0), "vs", names.index(name1)
 					num += 1
-					distance = spatial.distance.cosine(out[names.index(name0)],out[names.index(name1)])		# can use any distance function
+# 					distance = spatial.distance.cosine(out[names.index(name0)],out[names.index(name1)])		# can use any distance function
+					distance = abs(vector[names.index(name0)] - vector[names.index(name1)])
 					sum += distance
-					print distance
+# 					print distance
+# 					raw_input("distance")
 # 					print out[names.index(name0)]
 # 					print out[names.index(name1)]
-			print sum
-			print num
-			print sum/num
+# 			print sum
+# 			print num
+			influence = sum/num
+			print influence
+# 			normed = normalize(influence)
+# 			print normed
+# 			influences.append(normed)
+			influences.append(influence)
 			raw_input("wait")
-			
-		raw_input("wait")
+		return np.array(influences)
 		
+	def get_max_diffs(influences):
+		diffs = []
+		for i in range(0, len(influences)):
+			rem = np.delete(influences, i, axis=0)
+			max = np.amax(rem, axis=0)
+			diffs.append(influences[i] - max)
+		return diffs
 	
-	compute_influence(attributes, out)
-# 	total = out[0]+out[1]+out[2]+out[3]+out[4]+out[5]
-# 	print total
+	
+	norm_out = normalize_max(out)
+	influences = compute_influence(attributes, norm_out)
+	
+	diffs = get_max_diffs(influences)
+	
+	
+	# remove
+	diffs = influences
+	
 # 	raw_input("wait")
-	print "Computing gender influence"
-	diff = (abs(out[0] - out[3]) + abs(out[1] - out[4]) + abs(out[2] - out[5]))/3# /total
-# 	for i in range(0,len(total)):
-# 		diff[i] = diff[i]*1.0/total[i]
-	print diff
-	
-	print "Computing age influence"
-	diff2 = (abs(out[0] - out[1]) + abs(out[1] - out[2]) + abs(out[2] - out[0]) + abs(out[3] - out[4]) + abs(out[4] - out[5]) + abs(out[5] - out[3]))/6 #/total
-	print diff2
-	
-	male = out[0]+out[1]+out[2]
-	female = out[3]+out[4]+out[5]
-	print "-------"
-	print male
-	print female
-	print "-------"
-	print "total ads:", out.sum()
+# # 	total = out[0]+out[1]+out[2]+out[3]+out[4]+out[5]
+# # 	print total
+# # 	raw_input("wait")
+# 	print "Computing gender influence"
+# 	diff = (abs(out[0] - out[3]) + abs(out[1] - out[4]) + abs(out[2] - out[5]))/3# /total
+# # 	for i in range(0,len(total)):
+# # 		diff[i] = diff[i]*1.0/total[i]
+# 	print diff
+# 	
+# 	print "Computing age influence"
+# 	diff2 = (abs(out[0] - out[1]) + abs(out[1] - out[2]) + abs(out[2] - out[0]) + abs(out[3] - out[4]) + abs(out[4] - out[5]) + abs(out[5] - out[3]))/6 #/total
+# 	print diff2
+# 	
+# 	male = out[0]+out[1]+out[2]
+# 	female = out[3]+out[4]+out[5]
+# 	print "-------"
+# 	print male
+# 	print female
+# 	print "-------"
+# 	print "total ads:", out.sum()
 # 	print "Computing age influence"
 # 	diff = abs(out[0] - out[3]) + abs(out[1] - out[4]) + abs(out[2] - out[5])
 # 	print diff
 # 	feat.display("url+title")
-	sortdiff = np.sort(diff)
-	sortdiff = sortdiff[::-1]
-	print sortdiff
-	count = 0
-	for i in sortdiff:
-		print "out:-----", i
-# 		print np.where(diff==i)
-		for j in np.where(diff==i)[0]:
-			count += 1
-			print "index:", j, "ginfl:", i, "ainfl:", diff2[j], "---", 
-			print "m:", male[j], "f:", female[j]
-			print out[0][j], out[1][j], out[2][j], out[3][j], out[4][j], out[5][j]
-			feat.choose_by_index(j).display()
-		if count > 20:
-			break;
+	for diff in diffs:
+		print "-----------------------------"
+		sortdiff = np.sort(diff)
+		sortdiff = sortdiff[::-1]
+# 		print sortdiff
+		count = 0
+		for i in sortdiff:
+			if(i<=0):
+				break
+# 			print "out:-----", i
+	# 		print np.where(diff==i)
+			for j in np.where(diff==i)[0]:
+				count += 1
+# 				print "index:", j, "diff:", i, "---", 
+				print "infl:", i
+# 				print "m:", male[j], "f:", female[j]
+				feat.choose_by_index(j).display()
+				print out[:,j]
+# 				print norm_out[:,j]
+			if count > 10:
+				break;
 			
 # 	X2 = np.array([[[0.]*X.shape[2]]*2]*X.shape[0])
 # 	y2 = np.array([[0]*2]*y.shape[0])
@@ -369,43 +460,63 @@ def analyze_news(log_file="log.txt", splitfrac=0.1, nfolds=10,
 		feat_choice="ads", nfeat=5, verbose=True):
 	collection, names = converter.read_log(log_file)	
 	print len(collection)	
-	collection = collection[:100]
+	collection = collection[:50]
 	
-# 	X,y,feat = converter.get_news_vectors(collection)
-# 	print X.shape
-# 	print y.shape
-# 	out = np.array([[0.]*X.shape[2]]*len(names))
-# 	print out.shape
-# 	for i in range(0, X.shape[0]):
-# # 		print "i:", i
-# # 		print X[i]
-# # 		print y[i]
-# 		for j in range(0, len(names)):
-# # 			print "j:", j
-# 			out[j] = out[j] + X[i][np.where(y[i]==j)].sum(axis=0)
-# # 			print out[j]
-# # 			raw_input("wait")
-# 			
-# 	
-# 	
-# 	import matplotlib.pyplot as plt
-# 	import matplotlib.dates as mdates
-# 	import matplotlib
-# 	colors = ['b', 'r', 'g', 'm', 'k', 'b', 'r', 'g', 'm', 'k']							# Can plot upto 5 different colors
-# 	pos = np.arange(1, len(out[0])+1)
-# 	width = 0.5     # gives histogram aspect to the bar diagram
-# 	gridLineWidth=0.1
-# 	fig, ax = plt.subplots()
-# 	ax.xaxis.grid(True, zorder=0)
-# 	ax.yaxis.grid(True, zorder=0)
-# 	for i in range(0, len(out)):
-# 		lbl = names[i]
-# 		plt.bar(pos, out[i], width, color=colors[i], alpha=0.5, label = lbl)
-# 	#plt.xticks(pos+width/2., obs[0], rotation='vertical')		# useful only for categories
-# 	#plt.axis([-1, len(obs[2]), 0, len(ran1)/2+10])
+	X,y,feat = converter.get_news_vectors(collection)
+	print X.shape
+	print y.shape
+	out = np.array([[0.]*X.shape[2]]*len(names))
+	print out.shape
+	for i in range(0, X.shape[0]):
+# 		print "i:", i
+# 		print X[i]
+# 		print y[i]
+		for j in range(0, len(names)):
+# 			print "j:", j
+			out[j] = out[j] + X[i][np.where(y[i]==j)].sum(axis=0)
+# 			print out[j]
+# 			raw_input("wait")
+			
+	
+	print sum(out[0])
+	print sum(out[1])
+	raw_input("Sums")
+	import matplotlib.pyplot as plt
+	import matplotlib.dates as mdates
+	import matplotlib
+	sortt1 = np.sort(out[0])
+	inds = out[0].argsort()
+	sortt2 = out[1][inds]
+	colors = ['b.', 'r.', 'g.', 'm.', 'k.', 'b.', 'r.', 'g.', 'm.', 'k.']							# Can plot upto 5 different colors
+	pos = np.arange(1, len(out[0])+1)
+	width = 0.5     # gives histogram aspect to the bar diagram
+	gridLineWidth=0.1
+	fig, ax = plt.subplots()
+	ax.xaxis.grid(True, zorder=0)
+	ax.yaxis.grid(True, zorder=0)
+	plt.plot(pos, sortt1, colors[0], width, alpha=0.5, label = names[0])
+	plt.plot(pos, sortt2, colors[1], width, alpha=0.5, label = names[1])
+	#plt.xticks(pos+width/2., obs[0], rotation='vertical')		# useful only for categories
+	#plt.axis([-1, len(obs[2]), 0, len(ran1)/2+10])
 # 	plt.legend()
-# 	plt.show()
-	
+	plt.show()
+
+	sortt1 = np.sort(out[1])
+	inds = out[1].argsort()
+	sortt2 = out[0][inds]
+	colors = ['b.', 'r.', 'g.', 'm.', 'k.', 'b.', 'r.', 'g.', 'm.', 'k.']							# Can plot upto 5 different colors
+	pos = np.arange(1, len(out[0])+1)
+	width = 0.5     # gives histogram aspect to the bar diagram
+	gridLineWidth=0.1
+	fig, ax = plt.subplots()
+	ax.xaxis.grid(True, zorder=0)
+	ax.yaxis.grid(True, zorder=0)
+	plt.plot(pos, sortt1, colors[1], width, alpha=0.5, label = names[0])
+	plt.plot(pos, sortt2, colors[0], width, alpha=0.5, label = names[1])
+	#plt.xticks(pos+width/2., obs[0], rotation='vertical')		# useful only for categories
+	#plt.axis([-1, len(obs[2]), 0, len(ran1)/2+10])
+# 	plt.legend()
+	plt.show()	
 		
 # 	print collection[0]['ass']
 	print names

@@ -29,5 +29,5 @@ log_file = t
 # ## Analyze Data
 
 # adfisher.run_ml_analysis(log_file, splitfrac=0.1, verbose=True)
-# adfisher.compute_influence(log_file)
-adfisher.analyze_news(log_file)
+adfisher.compute_influence(log_file)
+# adfisher.analyze_news(log_file)

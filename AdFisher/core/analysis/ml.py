@@ -223,7 +223,7 @@ def run_ml_analysis(X, y, feat, treatnames, feat_choice='ads', nfeat=5, splittyp
 		nfolds=10, blocked=1, ptest=1, verbose=False):				# main function, calls cross_validation, then runs chi2
 
 	algos = {	
-				'logit':{'C':np.logspace(-5.0, 5.0, num=21, base=2), 'penalty':['l1']},
+				'logit':{'C':np.logspace(-5.0, 5.0, num=21, base=2), 'penalty':['l2']},
 # 				'randlog':{'C':np.logspace(-5.0, 15.0, num=21, base=2)},
 # 				'tree':{'ne':np.arange(5,10,2)},
 # 				'svc':{'C':np.logspace(-5.0, 15.0, num=21, base=2)}	

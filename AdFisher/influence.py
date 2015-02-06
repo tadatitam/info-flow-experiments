@@ -38,8 +38,8 @@ measurement.get_ads(site='bbc', reloads=10, delay=5)
 
 ## Run Experiment
 
-adfisher.run_experiment(treatments=treatments, measurement=measurement, 
-	agents=12, blocks=100, log_file=log_file)
+adfisher.run_experiment(treatments=treatments[0:2], measurement=measurement, 
+	agents=2, blocks=100, log_file=log_file)
 
 ## Analyze Data
 
