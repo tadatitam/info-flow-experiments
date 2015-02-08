@@ -241,7 +241,7 @@ def shortlist_sites(site_file, target_file, browser='firefox', timeout=100):
 def compute_influence(log_file="log.txt"):							## eventually move it to analysis
 	collection, names = converter.read_log(log_file)
 	print names
-# 	collection = collection[:1]
+# 	collection = collection[:10]
 	X,y,feat = converter.get_feature_vectors(collection, feat_choice='ads')
 	
 # 	feat.display("title+url")
@@ -310,6 +310,8 @@ def compute_influence(log_file="log.txt"):							## eventually move it to analys
 	def normalize_max(out):
 		print out
 		max = np.amax(out, axis=0)
+		max = np.sum(out, axis=0)			# SUMM
+		print max
 		z = out/max
 		print z
 		raw_input("norm")
