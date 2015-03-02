@@ -1,7 +1,9 @@
 import unittest
 
+import alexa.alexa as alexa
 import experiment_driver
 import permutation_test
+import sys,os
 
 def do_experiment(make_unit, treatments, measurement, end_unit,
 		  load_results, test_stat,
@@ -35,17 +37,15 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
 	After doing this for every block, 
         it uses test_stat to run a permutation test on the results using that as the test statistic.
 	"""
-	def exper_body(unit_id, treatment_id, block_id):
+	def exper_body(unit_id, treatment_id):
 		class Test(unittest.TestCase):
 			def setUp(self):
-				self.unit = make_unit(unit_id, treatment_id)
+				self.unit = make_unit(unit_id)
 			def runTest(self):
-				self.unit.log("training-start")
-				treatments[treatment_id](self.unit)
-				self.unit.log("training-end")
-				self.unit.wait_for_others(num_units, block_id)
+				treatments[treatment_id](self.unit, unit_id)
+				# wait_for_others
+				measurement(self.unit, unit_id, treatment_id)
 			def tearDown(self):
-				print "measurment: ", measurement(self.unit)
 				end_unit(self.unit, unit_id, treatment_id)
 		test = Test()
 		suite = unittest.TestSuite()
@@ -56,13 +56,31 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
 	if len(treatment_names) != ntreat:
 		treatment_names = map(lambda i: str(i), range(0,ntreat))
 
-# 	experiment_driver.run_experiment(exper_body,
-# 					 num_blocks, num_units, timeout,
-# 					 log_file, treatment_names)
-					 
-	observed_values, observed_assignment = load_results(log_file)
+	experiment_driver.run_experiment(exper_body,
+					 num_blocks, num_units, timeout,
+					 log_file, treatment_names)
+	observed_values, observed_assignment = load_results()
 	p_value = permutation_test.full_test(observed_values, observed_assignment, test_stat)
 	print "p-value: ", p_value
+
+
+# this should go into browser_unit
+
+def collect_sites_from_alexa(output_file="out.txt", nsites=5, browser="firefox",alexa_link="http://www.alexa.com/topsites"):
+	if(browser != "firefox" and browser != "chrome"):
+		print "Illegal browser choice", browser
+		return
+	PATH="./"+output_file
+	if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
+		response = raw_input("This will overwrite file %s... Continue? (Y/n)" % output_file)
+		if response == 'n':
+			sys.exit(0)
+	fo = open(output_file, "w")
+	fo.close()
+	print "Beginning Collection"
+# 	os.system("python experimenter/alexa.py %s %s %s" % (output_file, alexa_link, n))
+	alexa.run_script(alexa_link, output_file, nsites, browser)
+	print "Collection Complete. Results stored in ", output_file
 
 	#do_experiment(exper_body,
 	#	      num_blocks, num_agents, timeout,
