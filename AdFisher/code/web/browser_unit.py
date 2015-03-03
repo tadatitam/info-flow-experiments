@@ -1,108 +1,91 @@
-import time, re # time.sleep, re.split
-import sys # some prints
-import os, platform # for running  os, platform specific function calls
-from selenium import webdriver # for running the driver on websites
-from datetime import datetime # for tagging log with datetime
-from selenium.webdriver.common.keys import Keys # to press keys on a webpage
-from selenium.webdriver.common.action_chains import ActionChains # to move mouse over
+import time, re 							# time.sleep, re.split
+import sys 									# some prints
+import os, platform 						# for running  os, platform specific function calls
+from selenium import webdriver 				# for running the driver on websites
+from datetime import datetime 				# for tagging log with datetime
+from selenium.webdriver.common.proxy import *		# for proxy settings
 
 class BrowserUnit:
 
-    def __init__(self, browser, log_file, unit_id, treatment_id, proxy=None):
-#     	if(proxy != None):
-#     		# set proxy
-        if(browser=='firefox'):
-            if (platform.system()=='Darwin'):
-                self.driver = webdriver.Firefox()
-            elif (platform.system()=='Linux'):
-                self.driver = webdriver.Firefox()
-            else:
-                print "Unidentified Platform"
-                sys.exit(0)
-        elif(browser=='chrome'):
-            print "WARNING: Expecting chromedriver at specified location !!"
-            if (platform.system()=='Darwin'):
-                chromedriver = "./chromedriver/chromedriver_mac"
-                os.environ["webdriver.chrome.driver"] = chromedriver
-                self.driver = webdriver.Chrome(executable_path=chromedriver)
-            elif (platform.system() == 'Linux'):
-                chromedriver = "./chromedriver/chromedriver_linux"
-                os.environ["webdriver.chrome.driver"] = chromedriver
-                chrome_option = webdriver.ChromeOptions()
-                chrome_option.add_argument("--proxy-server=yogi.pdl.cmu.edu:3128" )
-                self.driver = webdriver.Chrome(executable_path=chromedriver, chrome_options=chrome_option)
-            else:
-                print "Unidentified Platform"
-                sys.exit(0)
-        else:
-            print "Unsupported Browser"
-            sys.exit(0)
-        self.driver.implicitly_wait(10)
-        self.base_url = "https://www.google.com/"
-        self.verificationErrors = []
-        self.driver.set_page_load_timeout(40)
-        self.accept_next_alert = True
-        self.log_file = log_file
-        self.unit_id = unit_id
-        self.treatment_id = treatment_id
+	def __init__(self, browser, log_file, unit_id, treatment_id, proxy=None):
+		if(proxy != None):
+			sproxy = Proxy({
+    			'proxyType': ProxyType.MANUAL,
+    			'httpProxy': proxy,
+    			'ftpProxy': proxy,
+    			'sslProxy': proxy,
+    			'noProxy': '' # set this value as desired
+   			 	})
+		else:
+			sproxy = Proxy({
+    			'proxyType': ProxyType.MANUAL
+   			 	})
+			
+		if(browser=='firefox'):
+			if (platform.system()=='Darwin'):
+				self.driver = webdriver.Firefox(proxy=sproxy)
+			else:
+				print "Unidentified Platform"
+				sys.exit(0)
+		elif(browser=='chrome'):
+			print "WARNING: Expecting chromedriver at specified location !!"
+			if (platform.system()=='Darwin'):
+				chromedriver = "./chromedriver/chromedriver_mac"
+			elif (platform.system() == 'Linux'):
+				chromedriver = "./chromedriver/chromedriver_linux"
+			else:
+				print "Unidentified Platform"
+				sys.exit(0)
+			os.environ["webdriver.chrome.driver"] = chromedriver
+			chrome_option = webdriver.ChromeOptions()
+			chrome_option.add_argument("--proxy-server="+proxy)
+			self.driver = webdriver.Chrome(executable_path=chromedriver, chrome_options=chrome_option)
+		else:
+			print "Unsupported Browser"
+			sys.exit(0)
+		self.driver.implicitly_wait(10)
+		self.base_url = "https://www.google.com/"
+		self.verificationErrors = []
+		self.driver.set_page_load_timeout(40)
+		self.accept_next_alert = True
+		self.log_file = log_file
+		self.unit_id = unit_id
+		self.treatment_id = treatment_id
 
 
-    def log(self, msg):	
-        """Maintains a log of visitations"""
-        fo = open(self.log_file, "a")
-        fo.write(str(datetime.now())+"||"+msg+"||"+str(self.unit_id) + '\n')
-        fo.close()   	
+	def log(self, msg):
+		"""Maintains a log of visitations"""
+		fo = open(self.log_file, "a")
+		fo.write(str(datetime.now())+"||"+msg+"||"+str(self.unit_id) + '\n')
+		fo.close()   	
 
 
-    def train_with_sites(self, file_name, treatment_id): 
-        """Visits all pages in file_name"""
-	fo = open(file_name, "r")
-	for line in fo:
+	def train_with_sites(self, file_name, treatment_id): 
+		"""Visits all pages in file_name"""
+		fo = open(file_name, "r")
+		for line in fo:
+			chunks = re.split("\|\|", line)
+			site = "http://"+chunks[0].strip()
+			try:
+				self.driver.set_page_load_timeout(40)
+				self.driver.get(site)
+				time.sleep(5)
+				self.log(site+"||"+str(treatment_id))
+							# pref = get_ad_pref(self.driver)
+							# self.log("pref"+"||"+str(treatment_id)+"||"+"@".join(pref), self.unit_id)
+			except:
+				self.log("timedout-"+line.rstrip())
+
+
+	def wait_for_others(self):
+		"""Makes instance with SELF.UNIT_ID wait while others train"""
+		fo = open(self.log_file, "r")
+		line = fo.readline()
 		chunks = re.split("\|\|", line)
-		site = "http://"+chunks[0].strip()
-		try:
-			self.driver.set_page_load_timeout(40)
-			self.driver.get(site)
-			time.sleep(5)
-			self.log(site+"||"+str(treatment_id))
-                        # pref = get_ad_pref(self.driver)
-                        # self.log("pref"+"||"+str(treatment_id)+"||"+"@".join(pref), self.unit_id)
-		except:
-			self.log("timedout-"+line.rstrip())
-
-
-    def wait_for_others(self):
-        """Makes instance with SELF.UNIT_ID wait while others train"""
-        
-	fo = open(self.log_file, "r")
-	line = fo.readline()
-	chunks = re.split("\|\|", line)
-	gmarker = 'assign'
-	instances = int(chunks[1])
+		gmarker = 'assign'
+		instances = int(chunks[1])
 	
-	round=0
-	fo = open(self.log_file, "r")
-	for line in fo:
-		chunks = re.split("\|\|", line)
-		tim = chunks[0]
-		if(tim == 'treatnames'):
-			continue
-		msg = chunks[1]
-		id1 = chunks[2].rstrip()
-		if(tim == 'assign'):
-			round += 1
-# 	print "round: ", round
-		
-	clear = False
-	count = 0
-	round = int(round)
-	while(not clear):
-		count += 1
-		if(count > 500):
-			self.log('breakingout')
-			break
-		c = [0]*instances
-		curr_round = 0
+		round=0
 		fo = open(self.log_file, "r")
 		for line in fo:
 			chunks = re.split("\|\|", line)
@@ -112,20 +95,42 @@ class BrowserUnit:
 			msg = chunks[1]
 			id1 = chunks[2].rstrip()
 			if(tim == 'assign'):
-				curr_round += 1
-			if(round == curr_round):
-				if(msg=='training-start'):
-					c[int(id1)-1] += 1
-				if(msg=='training-end'):
-					c[int(id1)-1] -= 1
-		fo.close()
-		time.sleep(5)
-		clear = True
-		for i in range(0, instances):
-			if(c[i] == 0):
-				clear = clear and True
-			else:
-				clear = False
+				round += 1
+# 	print "round: ", round
+		
+		clear = False
+		count = 0
+		round = int(round)
+		while(not clear):
+			count += 1
+			if(count > 500):
+				self.log('breakingout')
+				break
+			c = [0]*instances
+			curr_round = 0
+			fo = open(self.log_file, "r")
+			for line in fo:
+				chunks = re.split("\|\|", line)
+				tim = chunks[0]
+				if(tim == 'treatnames'):
+					continue
+				msg = chunks[1]
+				id1 = chunks[2].rstrip()
+				if(tim == 'assign'):
+					curr_round += 1
+				if(round == curr_round):
+					if(msg=='training-start'):
+						c[int(id1)-1] += 1
+					if(msg=='training-end'):
+						c[int(id1)-1] -= 1
+			fo.close()
+			time.sleep(5)
+			clear = True
+			for i in range(0, instances):
+				if(c[i] == 0):
+					clear = clear and True
+				else:
+					clear = False
 	
 # 
 #     def collect_ads(self, reloads, delay, treatment_id, site, file_name=None):
