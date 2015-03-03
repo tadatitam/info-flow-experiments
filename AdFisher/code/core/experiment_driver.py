@@ -67,11 +67,11 @@ def run_experiment(exper_body,
 		for agent_id in range(0,num_agents):
 			procs.append(Process(target=drive_unit, 
 					     args = (exper_body,
-						     block_id+1, agent_id, table[agent_id], 2000,
+						     block_id+1, agent_id, table[agent_id], timeout,
 						     log_file, treatment_names,)))
 					     #  args=(i, num_agents, table[i], num_runs, log_file, j+1, treatment_names, measurement_name, timeout)))
 		map(lambda x: x.start(), procs)
-		map(lambda x: x.join(), procs)
+		map(lambda x: x.join(timeout+5), procs)
 	print "Experiment Complete"
 
 class TimeoutException(Exception): 
