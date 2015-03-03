@@ -1,5 +1,6 @@
 import numpy as np
 import random											# for random shuffles
+from datetime import datetime							# for getting times for computation
 from scipy import stats									# for confidence_interval computation
 
 class UniqueElement:
@@ -51,7 +52,7 @@ def get_perm(ylabel):								# generates a permutation for block_p_test
 		random.shuffle(yret[i])
 	return yret
 	
-def blocked_sampled_test(observed_values, unit_assignments, test_stat, alpha=0.01, iterations=10000):				# block permutation test
+def blocked_sampled_test(observed_values, unit_assignments, test_stat, alpha=0.01, iterations=1000000):				# block permutation test
 	s = datetime.now()
 	Tobs = test_stat(observed_values, unit_assignments)
 	print 'Tobs: ', Tobs
