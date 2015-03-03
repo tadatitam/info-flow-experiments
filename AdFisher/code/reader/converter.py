@@ -146,7 +146,7 @@ def apply_labels_to_AdVecs(adv, ints, ass, samples, treatments):			# check
 			adv[int(ass[i*size+j])].setLabel(i)
 			ints[int(ass[i*size+j])].setLabel(i)
 
-def get_ads_from_log(log_file):							# check
+def read_log(log_file):							# check
 	treatnames = []
 	fo = open(log_file, "r")
 	line = fo.readline()

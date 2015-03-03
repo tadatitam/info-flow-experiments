@@ -1,5 +1,4 @@
 import numpy as np
-import stat
 
 from datetime import datetime							# for getting times for computation
 
@@ -32,10 +31,10 @@ def split_data(X, y, splittype='timed', splitfrac=0.1, verbose=False):
 		raw_input("Split type ERROR")	
 	return X_train, y_train, X_test, y_test
 
-def select_and_fit_classifier(nfolds, algos, X_train, y_train, splittype, splitfrac, blocked, verbose):	
+def select_and_fit_classifier(nfolds, algos, X_train, y_train, splittype, splitfrac, verbose):	
 	max_score = 0
 	for algo in algos.keys():
-		score, mPar, clf = crossVal_algo(nfolds, algo, algos[algo], X_train, y_train, splittype, splitfrac, blocked)
+		score, mPar, clf = crossVal_algo(nfolds, algo, algos[algo], X_train, y_train, splittype, splitfrac)
 # 		if(verbose):
 # 			print score, mPar
 		if(score > max_score):
@@ -45,39 +44,16 @@ def select_and_fit_classifier(nfolds, algos, X_train, y_train, splittype, splitf
 		print "Max score: ", max_score
 		print "Selected Classifier: "
 		print max_clf
-	if(blocked==1):
-		X_train = np.array([item for sublist in X_train for item in sublist])
-		y_train = np.array([item for sublist in y_train for item in sublist])
+	X_train = np.array([item for sublist in X_train for item in sublist])
+	y_train = np.array([item for sublist in y_train for item in sublist])
 	max_clf.fit(X_train, y_train)
 	return max_clf, max_score
 
-def test_accuracy(clf, X_test, y_test, blocked):
-	if(blocked==1):
-		X_test = np.array([item for sublist in X_test for item in sublist])
-		y_test = np.array([item for sublist in y_test for item in sublist])
-		
+def test_accuracy(clf, X_test, y_test):
+	X_test = np.array([item for sublist in X_test for item in sublist])
+	y_test = np.array([item for sublist in y_test for item in sublist])
 	return clf.score(X_test, y_test)
 
-def train_and_test(algos, X, y, splittype='timed', splitfrac=0.1, nfolds=10, blocked=1, 
-		ptest=1, verbose=False):
-	X_train, y_train, X_test, y_test = split_data(X, y, splittype, splitfrac, verbose)
-	if(verbose):
-		print "Training Set size: ", len(y_train), "blocks"
-		print "Testing Set size: ", len(y_test), "blocks"
-	s = datetime.now()
-	clf, CVscore = select_and_fit_classifier(nfolds, algos, X_train, y_train, splittype, splitfrac, blocked, verbose)
-	e = datetime.now()
-	if(verbose):
-		print "---Time for selecting classifier: ", str(e-s)
-	print "CVscore: ", CVscore
-	print "Test accuracy: ", test_accuracy(clf, X_test, y_test, blocked)
-	s = datetime.now()
-	pvalue = stat.block_p_test(X_test, y_test, clf)
-	e = datetime.now()
-	print "p-value: ", pvalue
-	if(verbose):
-		print "---Time for running permutation test: ", str(e-s)
-	return clf
 
 def print_top_features(X, y, feat, treatnames, clf, feat_choice, nfeat=5, blocked=1):		# prints top nfeat features from clf+some numbers
 	X_train, y_train, X_test, y_test = split_data(X, y, verbose=True)
@@ -151,7 +127,7 @@ def print_top_features(X, y, feat, treatnames, clf, feat_choice, nfeat=5, blocke
 			print "coefs: ", clf.coef_[i][topk]
 	
 
-def crossVal_algo(k, algo, params, X, y, splittype, splitfrac, blocked, verbose=False):				# performs cross_validation
+def crossVal_algo(k, algo, params, X, y, splittype, splitfrac, verbose=False):				# performs cross_validation
 	if(splittype=='rand'):
 		rs2 = cross_validation.ShuffleSplit(len(X), n_iter=k, test_size=splitfrac)
 	elif(splittype=='timed'):
@@ -166,11 +142,10 @@ def crossVal_algo(k, algo, params, X, y, splittype, splitfrac, blocked, verbose=
 		score = 0.0
 		for train, test in rs2:
 			X_train, y_train, X_test, y_test = X[train], y[train], X[test], y[test]
-			if(blocked==1):
-				X_train = np.array([item for sublist in X_train for item in sublist])
-				y_train = np.array([item for sublist in y_train for item in sublist])
-				X_test = np.array([item for sublist in X_test for item in sublist])
-				y_test = np.array([item for sublist in y_test for item in sublist])
+			X_train = np.array([item for sublist in X_train for item in sublist])
+			y_train = np.array([item for sublist in y_train for item in sublist])
+			X_test = np.array([item for sublist in X_test for item in sublist])
+			y_test = np.array([item for sublist in y_test for item in sublist])
 			#print X_train.shape, y_train.shape, X_test.shape, y_test.shape
 			if(algo == 'svc'):
 				clf = LinearSVC(C=p[params.keys().index('C')],
@@ -200,8 +175,39 @@ def crossVal_algo(k, algo, params, X, y, splittype, splitfrac, blocked, verbose=
 			classifier = clf
 	return max, max_params, classifier
 
+def train_and_test(X, y, splittype='timed', splitfrac=0.1, nfolds=10, 
+		verbose=False):
+	
+	algos = {	
+				'logit':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'penalty':['l2']},
+# 				'svc':{'C':np.logspace(-5.0, 15.0, num=21, base=2)}	
+# 				'kNN':{'k':np.arange(1,20,2), 'p':[1,2,3]}, 
+# 				'polySVM':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'degree':[1,2,3,4]},
+# 				'rbfSVM':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'gamma':np.logspace(-15.0, 3.0, num=19, base=2)}
+
+				
+			}	
+	X_train, y_train, X_test, y_test = split_data(X, y, splittype, splitfrac, verbose)
+	if(verbose):
+		print "Training Set size: ", len(y_train), "blocks"
+		print "Testing Set size: ", len(y_test), "blocks"
+	s = datetime.now()
+	clf, CVscore = select_and_fit_classifier(nfolds, algos, X_train, y_train, splittype, splitfrac, verbose)
+	e = datetime.now()
+	if(verbose):
+		print "---Time for selecting classifier: ", str(e-s)
+	print "CVscore: ", CVscore
+	print "Test accuracy: ", test_accuracy(clf, X_test, y_test)
+	
+	blockSize = X_test.shape[1]
+	blocks = X_test.shape[0]
+	ypred = np.array([[-1]*blockSize]*blocks)
+	for i in range(0,blocks):
+		ypred[i] = clf.predict(X_test[i])
+	return clf, ypred, y_test
+	
 def run_ml_analysis(X, y, feat, treatnames, feat_choice='ads', nfeat=5, splittype='timed', splitfrac=0.1, 
-		nfolds=10, blocked=1, ptest=1, verbose=False):				# main function, calls cross_validation, then runs chi2
+		nfolds=10, verbose=False):				# main function, calls cross_validation, then runs chi2
 
 	algos = {	
 				'logit':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'penalty':['l2']},
@@ -212,5 +218,5 @@ def run_ml_analysis(X, y, feat, treatnames, feat_choice='ads', nfeat=5, splittyp
 
 				
 			}
-	clf = train_and_test(algos, X, y, splittype, splitfrac, nfolds, blocked, ptest, verbose)
-	print_top_features(X, y, feat, treatnames, clf, feat_choice, nfeat, blocked)
+	clf = train_and_test(algos, X, y, splittype, splitfrac, nfolds, verbose)
+	print_top_features(X, y, feat, treatnames, clf, feat_choice, nfeat)
