@@ -40,7 +40,7 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
 	def exper_body(unit_id, treatment_id):
 		class Test(unittest.TestCase):
 			def setUp(self):
-				self.unit = make_unit(unit_id)
+				self.unit = make_unit(unit_id, treatment_id)
 			def runTest(self):			
 				treatments[treatment_id](self.unit, unit_id)				
 				self.unit.wait_for_others()				
@@ -56,9 +56,9 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
 	if len(treatment_names) != ntreat:
 		treatment_names = map(lambda i: str(i), range(0,ntreat))
 
-# 	experiment_driver.run_experiment(exper_body,
-# 					 num_blocks, num_units, timeout,
-# 					 log_file, treatment_names)
+	experiment_driver.run_experiment(exper_body,
+					 num_blocks, num_units, timeout,
+					 log_file, treatment_names)
 
 	observed_values, observed_assignment = load_results()
 	p_value = permutation_test.blocked_sampled_test(observed_values, observed_assignment, test_stat)

@@ -1,31 +1,31 @@
 import sys
 sys.path.append("../code")
 import core.adfisher as adfisher
-import web.browser_unit as browser_unit
+import web as browser_unit
 import reader.converter as converter
 import analysis.ml as ml
 import analysis.statistics as statistics
 
-log_file = 'log.substance.may.txt'
+log_file = 'log.new.gender.jobs.txt'
 site_file = 'employment.txt'
 
-def make_browser(unit_id):
-    b = browser_unit.BrowserUnit('firefox', log_file, unit_id)
+def make_browser(unit_id, treatment_id):
+    b = browser_unit.BrowserUnit('firefox', log_file, unit_id, treatment_id)
     b.opt_in()
     return b
 
 # Control Group treatment
 def control_grp(unit, unit_id):
 	unit.log("training-start")				# important for wait_for_others to work
-	unit.set_gender('f', 'control (female)')
-#    unit.train_with_sites(site_file,'control (female)')
+	unit.set_gender('f')
+#    unit.train_with_sites(site_file)
 	unit.log("training-end")				# important for wait_for_others to work
 
 # Experimental Group treatment
 def exp_grp(unit, unit_id):
 	unit.log("training-start")				# important for wait_for_others to work
-	unit.set_gender('m', 'experimental (male)')
-	unit.train_with_sites(site_file,'experimental (male)')
+	unit.set_gender('m')
+# 	unit.train_with_sites(site_file)
 	unit.log("training-end")				# important for wait_for_others to work
 
 
@@ -33,7 +33,7 @@ def exp_grp(unit, unit_id):
 # Measurement - Collects ads
 def measure_ads(unit, unit_id, treatment_id):
 	unit.log("measurement-start")
-	unit.collect_ads(reloads=5, delay=5, treatment_id=treatment_id, site='bbc')
+	unit.collect_ads(reloads=5, delay=5, site='bbc')
 	unit.log("measurement-end")
 
 
