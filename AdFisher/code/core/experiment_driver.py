@@ -74,8 +74,6 @@ def run_experiment(exper_body,
 		map(lambda x: x.join(), procs)
 	print "Experiment Complete"
 
-
-
 class TimeoutException(Exception): 
     pass 
 

@@ -41,10 +41,10 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
 		class Test(unittest.TestCase):
 			def setUp(self):
 				self.unit = make_unit(unit_id)
-			def runTest(self):
-				treatments[treatment_id](self.unit, unit_id)
-				# wait_for_others
-				measurement(self.unit, unit_id, treatment_id)
+			def runTest(self):			
+				treatments[treatment_id](self.unit, unit_id)				
+				self.unit.wait_for_others()				
+				measurement(self.unit, unit_id, treatment_id)				
 			def tearDown(self):
 				end_unit(self.unit, unit_id, treatment_id)
 		test = Test()

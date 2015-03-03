@@ -47,7 +47,9 @@ class BrowserUnit:
     # Google ad settings page class declarations
 
 
-    def __init__(self, browser, log_file, unit_id):
+    def __init__(self, browser, log_file, unit_id, proxy=None):
+#     	if(proxy != None):
+#     		# set proxy
         if(browser=='firefox'):
             if (platform.system()=='Darwin'):
                 self.driver = webdriver.Firefox()
@@ -321,8 +323,28 @@ class BrowserUnit:
 			self.log("timedout-"+line.rstrip())
 
 
-    def wait_for_others(self, instances, round):
-        """Makes instance with SELF.UNIT_ID 'self.unit_id' wait while others train"""
+    def wait_for_others(self):
+        """Makes instance with SELF.UNIT_ID wait while others train"""
+        
+	fo = open(self.log_file, "r")
+	line = fo.readline()
+	chunks = re.split("\|\|", line)
+	gmarker = 'assign'
+	instances = int(chunks[1])
+	
+	round=0
+	fo = open(self.log_file, "r")
+	for line in fo:
+		chunks = re.split("\|\|", line)
+		tim = chunks[0]
+		if(tim == 'treatnames'):
+			continue
+		msg = chunks[1]
+		id1 = chunks[2].rstrip()
+		if(tim == 'assign'):
+			round += 1
+# 	print "round: ", round
+		
 	clear = False
 	count = 0
 	round = int(round)
