@@ -62,7 +62,7 @@ class BrowserUnit:
 		fo.close()   	
 
 
-	def train_with_sites(self, file_name, treatment_id): 
+	def train_with_sites(self, file_name): 
 		"""Visits all pages in file_name"""
 		fo = open(file_name, "r")
 		for line in fo:
@@ -72,7 +72,7 @@ class BrowserUnit:
 				self.driver.set_page_load_timeout(40)
 				self.driver.get(site)
 				time.sleep(5)
-				self.log(site+"||"+str(treatment_id))
+				self.log(site+"||"+str(self.treatment_id))
 							# pref = get_ad_pref(self.driver)
 							# self.log("pref"+"||"+str(treatment_id)+"||"+"@".join(pref), self.unit_id)
 			except:

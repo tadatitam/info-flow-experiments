@@ -16,25 +16,19 @@ def make_browser(unit_id, treatment_id):
 
 # Control Group treatment
 def control_grp(unit, unit_id):
-	unit.log("training-start")				# important for wait_for_others to work
 	unit.set_gender('f')
-#    unit.train_with_sites(site_file)
-	unit.log("training-end")				# important for wait_for_others to work
+	unit.train_with_sites(site_file)
 
 # Experimental Group treatment
 def exp_grp(unit, unit_id):
-	unit.log("training-start")				# important for wait_for_others to work
 	unit.set_gender('m')
 # 	unit.train_with_sites(site_file)
-	unit.log("training-end")				# important for wait_for_others to work
 
 
 
 # Measurement - Collects ads
 def measure_ads(unit, unit_id, treatment_id):
-	unit.log("measurement-start")
 	unit.collect_ads(reloads=5, delay=5, site='bbc')
-	unit.log("measurement-end")
 
 
 # Shuts down the browser once we are done with it.
