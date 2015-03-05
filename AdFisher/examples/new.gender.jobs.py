@@ -1,7 +1,7 @@
 import sys
 sys.path.append("../code")
 import core.adfisher as adfisher
-import web as browser_unit
+import web.google_ads
 import reader.converter as converter
 import analysis.ml as ml
 import analysis.statistics as statistics
@@ -10,7 +10,7 @@ log_file = 'log.new.gender.jobs.txt'
 site_file = 'employment.txt'
 
 def make_browser(unit_id, treatment_id):
-    b = browser_unit.BrowserUnit('firefox', log_file, unit_id, treatment_id)
+    b = web.google_ads.GoogleAdsUnit('firefox', log_file, unit_id, treatment_id)
     b.opt_in()
     return b
 

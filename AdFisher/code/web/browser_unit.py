@@ -24,6 +24,8 @@ class BrowserUnit:
 		if(browser=='firefox'):
 			if (platform.system()=='Darwin'):
 				self.driver = webdriver.Firefox(proxy=sproxy)
+			elif (platform.system()=='Linux'):
+				self.driver = webdriver.Firefox(proxy=sproxy)
 			else:
 				print "Unidentified Platform"
 				sys.exit(0)
