@@ -1,10 +1,10 @@
 import sys, os
 from multiprocessing import Process
-from datetime import datetime  # for getting times for computation
+from datetime import datetime  				# for getting times for logging
 import numpy as np
 import random
 import unittest
-import signal  # for timing out external calls
+import signal  								# for timing out external calls
 
 
 def treatments_to_string(treatment_names):
@@ -49,17 +49,18 @@ def run_experiment(exper_body,
 	treatment_names_string = treatments_to_string(treatment_names)
 	
 	fo = open(log_file, "a")
-	fo.write("config||"+str(num_agents)+"||"+str(ntreat)+"\n")
-	fo.write("treatnames||"+treatment_names_string+"\n")
+	fo.write(str(datetime.now())+"||meta||agents||"+str(num_agents)+"\n")
+	fo.write(str(datetime.now())+"||meta||treatnames||"+"@|".join(treatment_names)+"\n")
 	for block_id in range(0, num_blocks):
 		print "Block ", block_id+1
 		table, l = getRandomTable(num_agents, ntreat)		
 # 		print table
 		fo = open(log_file, "a")
-		fo.write("assign||")
-		fo.write(str(block_id)+"||")
+		fo.write(str(datetime.now())+"||meta||block_id||")
+		fo.write(str(block_id)+"\n")
+		fo.write(str(datetime.now())+"||meta||assignment||")
 		for i in range(0, num_agents-1):
-			fo.write(str(l[i]) + "||")
+			fo.write(str(l[i]) + "@|")
 		fo.write(str(l[num_agents-1]) + "\n")
 		fo.close()
 		
@@ -69,7 +70,6 @@ def run_experiment(exper_body,
 					     args = (exper_body,
 						     block_id+1, agent_id, table[agent_id], timeout,
 						     log_file, treatment_names,)))
-					     #  args=(i, num_agents, table[i], num_runs, log_file, j+1, treatment_names, measurement_name, timeout)))
 		map(lambda x: x.start(), procs)
 		map(lambda x: x.join(timeout+5), procs)
 	print "Experiment Complete"
@@ -84,7 +84,7 @@ def drive_unit(exper_body,
 	def signal_handler(signum, frame):
 		print "Timeout!"
 		fo = open(log_file, "a")
-		fo.write(str(datetime.now())+"||TimedOut||"+str(treatment_id)+"||"+str(agent_id)+"\n")
+		fo.write(str(datetime.now())+"||event||block timeout||Error||"+str(treatment_id)+"||"+str(agent_id)+"\n")
 		fo.close()
 		raise TimeoutException("Timed out!")
 	

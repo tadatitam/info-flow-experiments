@@ -1,12 +1,13 @@
 import unittest
-
 import alexa.alexa as alexa
 import experiment_driver
-import permutation_test
+import analysis.permutation_test
+import analysis.statistics
+import analysis.ml
 import sys,os
 
 def do_experiment(make_unit, treatments, measurement, end_unit,
-		  load_results, test_stat,
+		  load_results, test_stat, ml_analysis, 
 		  num_blocks=1, num_units=2, timeout=2000,
 		  log_file="log.txt", treatment_names=[]): 
 	"""
@@ -42,15 +43,15 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
 			def setUp(self):
 				self.unit = make_unit(unit_id, treatment_id)
 			def runTest(self):	
-				self.unit.log("training-start")			
+				self.unit.log('event', 'progress-marker', "training-start")			
 				treatments[treatment_id](self.unit, unit_id)
-				self.unit.log("training-end")	
+				self.unit.log('event', 'progress-marker', "training-end")	
 							
 				self.unit.wait_for_others()	
 					
-				self.unit.log("measurement-start")		
+				self.unit.log('event', 'progress-marker', "measurement-start")		
 				measurement(self.unit, unit_id, treatment_id)
-				self.unit.log("measurement-end")				
+				self.unit.log('event', 'progress-marker', "measurement-end")				
 			def tearDown(self):
 				end_unit(self.unit, unit_id, treatment_id)
 		test = Test()
@@ -66,8 +67,24 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
 					 num_blocks, num_units, timeout,
 					 log_file, treatment_names)
 
-	observed_values, observed_assignment = load_results()
-	p_value = permutation_test.blocked_sampled_test(observed_values, observed_assignment, test_stat)
+	result = load_results()
+	if(len(result)==3):
+		X, y, features = result[0], result[1], result[2]
+	elif(len(result)==2):
+		X, y = result[0], result[1]
+	else:
+		raw_input("Could not resolve return result from load_results. Press Enter to exit")
+		sys.exit(0)
+	
+	if(ml_analysis):
+		classifier, observed_values, unit_assignments = analysis.ml.train_and_test(X, y, splittype='timed', 
+			splitfrac=0.1, nfolds=10, verbose=True)
+		# use classifier and features here to get top ads
+		p_value = analysis.permutation_test.blocked_sampled_test(observed_values, unit_assignments, analysis.statistics.correctly_classified)
+	else:
+		observed_values, unit_assignments = X, y
+		# use test_stat to get the keyword analysis
+		p_value = analysis.permutation_test.blocked_sampled_test(observed_values, unit_assignments, test_stat)
 	print "p-value: ", p_value
 
 

@@ -60,7 +60,7 @@ def keyword_vectors(list, keywords):
 	kw_list = []
 	labels = []
 	for ads in list:
-		kw_list.append(ads.freq_contains(keywords))
+		kw_list.append([ads.freq_contains(keywords)])
 		labels.append(ads.label)
 # 		ads.display("title+url+body")
 # 		print kw_list
@@ -91,7 +91,7 @@ def get_interest_vectors(advdicts):
 	except:
 		pass
 	print "Complete"
-	return np.array(X), np.array(y), feat
+	return [np.array(X), np.array(y), feat]
 
 def get_feature_vectors(advdicts, feat_choice):			# returns observation vector from a list of rounds
 	n = len(advdicts[0]['ass'])
@@ -119,22 +119,22 @@ def get_feature_vectors(advdicts, feat_choice):			# returns observation vector f
 	y = [y[i:i+n] for i in range(0,len(y),n)]
 # 	print feat[0].title, feat[0].url
 	print "Complete"
-	return np.array(X), np.array(y), feat
+	return [np.array(X), np.array(y), feat]
 
 def get_keyword_vectors(advdicts, keywords):
 	n = len(advdicts[0]['ass'])
 	list = []
 	y = []
 	sys.stdout.write("Creating keyword vectors")
- 	sys.stdout.write("-->>")
- 	sys.stdout.flush()
- 	for advdict in advdicts:
+	sys.stdout.write("-->>")
+	sys.stdout.flush()
+	for advdict in advdicts:
 		list.extend(advdict['adv'])
 	X, y = keyword_vectors(list, keywords)
 	X = [X[i:i+n] for i in range(0,len(X),n)]
 	y = [y[i:i+n] for i in range(0,len(y),n)]
 	print "Complete"
-	return np.array(X),np.array(y)
+	return [np.array(X),np.array(y)]
 	
 #------------- to read from log file into Ad Vectors ---------------#
 

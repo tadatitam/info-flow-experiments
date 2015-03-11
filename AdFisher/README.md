@@ -17,8 +17,8 @@ In order to run experiments for data collection, you will need the following pac
 Selenium is a web-browser automation framework. Xvfb allows for headless testing. 
 xvfbwrapper is a python wrapper for the same. 
 The Xvfb package is not present on OS X, but you still have to install xvfbwrapper.
-To carry out the data analysis requires the following packages:
-  - numpy, scipy, matplotlib ```pip install numpy scipy matplotlib```
+To carry out the data analysis, you require the following packages:
+  - numpy, scipy, matplotlib ```sudo pip install numpy scipy matplotlib```*
   - scikit learn ```sudo pip install scikit-learn```
   - stemming ```sudo pip install stemming```
   - nltk ```sudo pip install -U pyyaml nltk```
@@ -27,7 +27,8 @@ To carry out the data analysis requires the following packages:
 import nltk
 nltk.download()
 ``` 
-
+pip* sometimes cannot install numpy, scipy, matplotlib on Ubuntu. In that case, run 
+```sudo apt-get install python-numpy python-scipy python-matplotlib```.
 NumPy and SciPy are Python packages for scientific computing. matplotlib enables plotting functions. 
 scikit learn has a vast collection of python implemenations of Machine Learning algorithms, 
 built on the NumPy, SciPy, and matplotlib packages. 
@@ -50,10 +51,12 @@ adfisher.collect_sites_from_alexa(nsites=5, output_file=site_file,
 # Set up treatments
 
 treatment1 = adfisher.Treatment("female")
+treatment1.opt_in()
 treatment1.set_gender("female")
 treatment1.visit_sites(site_file)
 
 treatment2 = adfisher.Treatment("male")
+treatment2.opt_in()
 treatment2.set_gender("male")
 treatment2.visit_sites(site_file)
 

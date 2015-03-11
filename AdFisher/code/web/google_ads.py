@@ -56,86 +56,40 @@ class GoogleAdsUnit(browser_unit.BrowserUnit):
 		
 	def opt_in(self):
 		"""Opt in to behavioral advertising on Google"""
-		self.driver.set_page_load_timeout(60)
-		self.driver.get("https://www.google.com/settings/ads")
-		self.driver.find_element_by_xpath(".//div[@class ='"+OPTIN_DIV+"']").click()
-# 		if(self.unit_id != -1):
-		self.log("optedIn||"+str(self.treatment_id))
+		try:
+			self.driver.set_page_load_timeout(60)
+			self.driver.get("https://www.google.com/settings/ads")
+			self.driver.find_element_by_xpath(".//div[@class ='"+OPTIN_DIV+"']").click()
+	# 		if(self.unit_id != -1):
+			self.log('treatment', 'optin', 'True')
+		except:
+			self.log('error', 'opting in', 'True')
 		
 	def opt_out(self):
 		"""Opt out of behavioral advertising on Google"""
-		self.driver.set_page_load_timeout(60)
-		self.driver.get("https://www.google.com/settings/ads")
-		self.driver.find_element_by_xpath(".//div[@class ='"+OPTOUT_DIV+"']").click()
-		time.sleep(2)
-		self.driver.execute_script("document.getElementsByName('ok')[1].click();")	
-# 		if(self.unit_id != -1):
-		self.log("optedOut||"+str(self.treatment_id))
+		try:
+			self.driver.set_page_load_timeout(60)
+			self.driver.get("https://www.google.com/settings/ads")
+			self.driver.find_element_by_xpath(".//div[@class ='"+OPTOUT_DIV+"']").click()
+			time.sleep(2)
+			self.driver.execute_script("document.getElementsByName('ok')[1].click();")	
+	# 		if(self.unit_id != -1):
+			self.log('treatment', 'optout', 'True')
+		except:
+			self.log('error', 'opting out', 'True')
 	
 	def login(self, username, password):
 		"""Login to Google with username and password"""
-		self.driver.set_page_load_timeout(60)
-		self.driver.get("https://www.google.com")
-		self.driver.find_element_by_xpath(".//a[@id='"+SIGNIN_A+"']").click()
-		self.driver.find_element_by_id("Email").send_keys(username)
-		self.driver.find_element_by_id("Passwd").send_keys(password)
-		self.driver.find_element_by_id("signIn").click()
-		self.log("loggedIn||"+username+"||"+str(self.treatment_id))
-
-	def get_gender(self):
-		"""Read gender from Google Ad Settings"""
-		inn = "Error reading"
 		try:
-			self.driver.set_page_load_timeout(40)
-			self.driver.get("https://www.google.com/settings/ads")
-			gdiv = self.driver.find_element_by_xpath(".//div[@class='"+GENDER_DIV+"']")
-			inn = gdiv.find_element_by_xpath(".//span[@class='"+ATTR_SPAN+"']").get_attribute('innerHTML')
+			self.driver.set_page_load_timeout(60)
+			self.driver.get("https://www.google.com")
+			self.driver.find_element_by_xpath(".//a[@id='"+SIGNIN_A+"']").click()
+			self.driver.find_element_by_id("Email").send_keys(username)
+			self.driver.find_element_by_id("Passwd").send_keys(password)
+			self.driver.find_element_by_id("signIn").click()
+			self.log('treatment', 'login', username)
 		except:
-			print "Could not get gender"
-		self.log("gender"+"||"+str(self.treatment_id)+"||"+inn)
-		return inn
-	
-	def get_age(self):
-		"""Read age from Google Ad Settings"""
-		inn = "Error reading"
-		try:
-			self.driver.set_page_load_timeout(40)
-			self.driver.get("https://www.google.com/settings/ads")
-			gdiv = self.driver.find_element_by_xpath(".//div[@class='"+AGE_DIV+"']")
-			inn = gdiv.find_element_by_xpath(".//span[@class='"+ATTR_SPAN+"']").get_attribute('innerHTML')
-		except:
-			print "Could not get age"
-		self.log("age"+"||"+str(self.treatment_id)+"||"+inn)
-		return inn
-	
-	def get_language(self):	
-		"""Read language from Google Ad Settings"""
-		inn = "Error reading"
-		try:
-			self.driver.set_page_load_timeout(40)
-			self.driver.get("https://www.google.com/settings/ads")
-			gdiv = self.driver.find_element_by_xpath(".//div[@class='"+LANGUAGES_DIV+"']")
-			inn = gdiv.find_element_by_xpath(".//span[@class='"+ATTR_SPAN+"']").get_attribute('innerHTML')
-		except:
-			print "Could not get language"
-		self.log("language"+"||"+str(self.treatment_id)+"||"+inn)
-		return inn
-		
-	def get_ad_pref(self):									
-		"""Returns list of Ad preferences"""
-		pref = []
-		try:
-			self.driver.set_page_load_timeout(40)
-			self.driver.get("https://www.google.com/settings/ads")
-			self.driver.find_elements_by_xpath(".//div[@class='"+EDIT_DIV+"']")[3].click()
-			ints = self.driver.find_elements_by_xpath(".//tr[@class='"+PREF_TR+"']/td[@class='"+PREF_TD+"']")
-			for interest in ints:
-				pref.append(str(interest.get_attribute('innerHTML')))
-		except:
-			print "Error collecting ad preferences. Skipping." %(pref)
-			pass
-		self.log("pref"+"||"+str(self.treatment_id)+"||"+"@".join(pref))
-		return pref	
+			self.log('error', 'logging in', username)
 	
 	def set_gender(self, gender):
 		"""Set gender on Google Ad Settings page"""
@@ -150,9 +104,11 @@ class GoogleAdsUnit(browser_unit.BrowserUnit):
 				box = gdiv.find_element_by_xpath(".//div[@class='"+RADIO_DIV+"'][@data-value='2']/span")			# FEMALE
 			box.click()
 			gdiv.find_element_by_xpath(".//div[@class='"+SUBMIT_DIV+"']").click()
-			self.log("setGender="+gender+"||"+str(self.treatment_id))
+# 			self.log("setGender="+gender+"||"+str(self.treatment_id))
+			self.log('treatment', 'gender', gender)
 		except:
-			print "Could not set gender"
+			print "Could not set gender. Did you opt in?"
+			self.log('error', 'setting gender', gender)
 		
 	def set_age(self, age):
 		"""Set age on Google Ad Settings page"""
@@ -176,9 +132,11 @@ class GoogleAdsUnit(browser_unit.BrowserUnit):
 				box = gdiv.find_element_by_xpath(".//div[@class='"+RADIO_DIV+"'][@data-value='6']/span")
 			box.click()
 			gdiv.find_element_by_xpath(".//div[@class='"+SUBMIT_DIV+"']").click()
-			self.log("setAge="+str(age)+"||"+str(treatment_id))
+			self.log('treatment', 'age', age)
+# 			self.log("setAge="+str(age)+"||"+str(treatment_id))
 		except:
-			print "Could not set age"
+			print "Could not set age. Did you opt in?"
+			self.log('error', 'setting age', age)
 
 	def set_language(self, language):	
 		"""Set language on Google Ad Settings page"""
@@ -191,15 +149,15 @@ class GoogleAdsUnit(browser_unit.BrowserUnit):
 			time.sleep(3)
 			gdiv.find_element_by_xpath(".//div[@class='"+LANG_DIV+"'][contains(.,'"+language+"')]").click()
 			gdiv.find_element_by_xpath(".//div[@class='"+SUBMIT_DIV+"']").click()
-			log("setLanguage="+str(language)+"||"+str(self.treatment_id), id, LOG_FILE)
+# 			log("setLanguage="+str(language)+"||"+str(self.treatment_id), id, LOG_FILE)
+			self.log('treatment', 'language', language)
 		except:
 			print "Could not set language"
+			self.log('error', 'setting language', language)
 
-
-	def remove_ad_pref(self, pref):
+	def remove_interest(self, pref):
 		try:
-			prefs = self.get_ad_pref(self.driver)
-			self.log("prepref"+"||"+str(treatment_id)+"||"+"@".join(prefs))
+			prefs = self.get_interests(self.driver, text='interests prior to removal')
 			self.driver.set_page_load_timeout(40)
 			self.driver.get("https://www.google.com/settings/ads")
 			self.driver.find_elements_by_xpath(".//div[@class='"+EDIT_DIV+"']")[3].click()
@@ -224,11 +182,12 @@ class GoogleAdsUnit(browser_unit.BrowserUnit):
 				if(flag == 0):
 					break
 			self.driver.find_element_by_xpath(".//div[@class='"+PREF_OK_DIV+"']").click()
-			self.log("remInterest="+"@".join(rem)+"||"+str(treatment_id))
+			self.log('treatment', 'remove interest ('+pref+')', "@|".join(rem))
 		except:
 			print "No interests matched '%s'. Skipping." %(pref)
+			self.log('error', 'removing interest', pref)
 
-	def add_ad_pref(self, pref):									# Set an ad pref
+	def add_interest(self, pref):									# check the logging
 		"""Set an ad pref"""
 		try:
 			self.driver.set_page_load_timeout(40)
@@ -241,11 +200,73 @@ class GoogleAdsUnit(browser_unit.BrowserUnit):
 			trs = self.driver.find_elements_by_xpath(".//tr[@class='"+PREF_TR+"']")
 			for tr in trs:
 				td = tr.find_element_by_xpath(".//td[@class='"+PREF_TD+"']").get_attribute('innerHTML')
-				print td
-				log("setInterests="+td+"||"+str(self.treatment_id))
+# 				print td
+				self.log('treatment', 'add interest ('+pref+')', td)
 			driver.find_element_by_xpath(".//div[@class='"+PREF_OK_DIV+"']").click()
 		except:
-			print "Error setting interests containing '%s'. Skipping." %(pref)
+			print "Error setting interests containing '%s'. Maybe no interests match this keyword." %(pref)
+			self.log('error', 'adding interest', pref)
+
+
+	def get_gender(self):
+		"""Read gender from Google Ad Settings"""
+		inn = "Error reading"
+		try:
+			self.driver.set_page_load_timeout(40)
+			self.driver.get("https://www.google.com/settings/ads")
+			gdiv = self.driver.find_element_by_xpath(".//div[@class='"+GENDER_DIV+"']")
+			inn = gdiv.find_element_by_xpath(".//span[@class='"+ATTR_SPAN+"']").get_attribute('innerHTML')
+			self.log('measurement', 'gender', inn)
+		except:
+			print "Could not get gender. Did you opt in?"
+			self.log('error', 'getting gender', inn)
+		return inn
+	
+	def get_age(self):
+		"""Read age from Google Ad Settings"""
+		inn = "Error reading"
+		try:
+			self.driver.set_page_load_timeout(40)
+			self.driver.get("https://www.google.com/settings/ads")
+			gdiv = self.driver.find_element_by_xpath(".//div[@class='"+AGE_DIV+"']")
+			inn = gdiv.find_element_by_xpath(".//span[@class='"+ATTR_SPAN+"']").get_attribute('innerHTML')
+			self.log('measurement', 'age', inn)
+		except:
+			print "Could not get age. Did you opt in?"
+			self.log('error', 'getting age', inn)
+		return inn
+	
+	def get_language(self):	
+		"""Read language from Google Ad Settings"""
+		inn = "Error reading"
+		try:
+			self.driver.set_page_load_timeout(40)
+			self.driver.get("https://www.google.com/settings/ads")
+			gdiv = self.driver.find_element_by_xpath(".//div[@class='"+LANGUAGES_DIV+"']")
+			inn = gdiv.find_element_by_xpath(".//span[@class='"+ATTR_SPAN+"']").get_attribute('innerHTML')
+			self.log('measurement', 'language', inn)
+		except:
+			print "Could not get language. Did you opt in?"
+			self.log('error', 'getting language', inn)
+# 		self.log("language"+"||"+str(self.treatment_id)+"||"+inn)
+		return inn
+		
+	def get_interests(self, text='interests'):									
+		"""Returns list of Ad preferences"""
+		pref = []
+		try:
+			self.driver.set_page_load_timeout(40)
+			self.driver.get("https://www.google.com/settings/ads")
+			self.driver.find_elements_by_xpath(".//div[@class='"+EDIT_DIV+"']")[3].click()
+			ints = self.driver.find_elements_by_xpath(".//tr[@class='"+PREF_TR+"']/td[@class='"+PREF_TD+"']")
+			for interest in ints:
+				pref.append(str(interest.get_attribute('innerHTML')))
+			self.log('measurement', text, "@|".join(pref))
+		except:
+			print "Error collecting ad preferences. Skipping." %(pref)
+			self.log('error', 'getting '+text, "@|".join(pref))
+# 		self.log("pref"+"||"+str(self.treatment_id)+"||"+"@|".join(pref))
+		return pref	
 
 	def collect_ads(self, reloads, delay, site, file_name=None):
 		if file_name == None:
@@ -253,7 +274,7 @@ class GoogleAdsUnit(browser_unit.BrowserUnit):
 		rel = 0
 		while (rel < reloads):	# number of reloads on sites to capture all ads
 			time.sleep(delay)
-			#try:
+# 			try:
 			for i in range(0,1):
 				s = datetime.now()
 				if(site == 'toi'):
@@ -269,11 +290,9 @@ class GoogleAdsUnit(browser_unit.BrowserUnit):
 				else:
 					raw_input("No such site found: %s!" % site)
 				e = datetime.now()
-				self.log('loadtime||'+str(e-s))
-				self.log('reload')
-			#except:
-			#	self.log('errorcollecting')
-			#	pass
+				self.log('measurement', 'loadtime', str(e-s))
+# 			except:
+# 				self.log('error', 'collecting ads', 'Error')
 			rel = rel + 1
 
 	def save_ads_fox(self, file):
@@ -295,11 +314,8 @@ class GoogleAdsUnit(browser_unit.BrowserUnit):
 			l = li.find_element_by_css_selector("td.rh010c div div a span").get_attribute('innerHTML')
 			b = li.find_element_by_css_selector("td.rh0111c div span").get_attribute('innerHTML')
 	# 		f = (str(id)+"||"+time+"||"+t+"||"+l+"||"+b).encode("utf8")
-			f = strip_tags("ad||"+str(id)+"||"+str(self.treatment_id)+"||"+tim+"||"+t+"||"+l+"||"+b).encode("utf8")
-			print f
-			fo = open(file, "a")
-			fo.write(f + '\n')
-			fo.close()
+			ad = strip_tags(tim+"@|"+t+"@|"+l+"@|"+b).encode("utf8")
+			self.log('measurement', 'ad', ad)
 		driver.switch_to_default_content()
 		driver.switch_to_default_content()
 		
@@ -323,10 +339,8 @@ class GoogleAdsUnit(browser_unit.BrowserUnit):
 			t = li.find_element_by_css_selector("td.rh-titlec div a span").get_attribute('innerHTML')
 			l = li.find_element_by_css_selector("td.rh-urlc div div a span").get_attribute('innerHTML')
 			b = li.find_element_by_css_selector("td.rh-bodyc div span").get_attribute('innerHTML')
-			f = strip_tags("ad||"+str(id)+"||"+str(self.treatment_id)+"||"+tim+"||"+t+"||"+l+"||"+b).encode("utf8")
-			fo = open(file, "a")
-			fo.write(f + '\n')
-			fo.close()
+			ad = strip_tags(tim+"@|"+t+"@|"+l+"@|"+b).encode("utf8")
+			self.log('measurement', 'ad', ad)
 		driver.switch_to.default_content()
 		driver.switch_to.default_content()
 		driver.switch_to.default_content()
@@ -351,10 +365,8 @@ class GoogleAdsUnit(browser_unit.BrowserUnit):
 			t = li.find_element_by_css_selector("td.rh-titlec div a span").get_attribute('innerHTML')
 			l = li.find_element_by_css_selector("td.rh-urlc div div a span").get_attribute('innerHTML')
 			b = li.find_element_by_css_selector("td.rh-bodyc div span").get_attribute('innerHTML')
-			f = strip_tags("ad||"+str(id)+"||"+str(self.treatment_id)+"||"+tim+"||"+t+"||"+l+"||"+b).encode("utf8")
-			fo = open(file, "a")
-			fo.write(f + '\n')
-			fo.close()
+			ad = strip_tags(tim+"@|"+t+"@|"+l+"@|"+b).encode("utf8")
+			self.log('measurement', 'ad', ad)
 		driver.switch_to.default_content()
 		driver.switch_to.default_content()
 		driver.switch_to.default_content()
@@ -373,10 +385,8 @@ class GoogleAdsUnit(browser_unit.BrowserUnit):
 			ps = el.find_elements_by_css_selector("p")
 			b = ps[1].get_attribute('innerHTML')
 			l = ps[2].find_element_by_css_selector("a").get_attribute('innerHTML')
-			t = strip_tags("ad||"+str(id)+"||"+str(self.treatment_id)+"||"+time+"||"+t+"||"+l+"||"+b).encode("utf8")
-			fo = open(file, "a")
-			fo.write(t + '\n')
-			fo.close()
+			ad = strip_tags(tim+"@|"+t+"@|"+l+"@|"+b).encode("utf8")
+			self.log('measurement', 'ad', ad)
 
 	def save_ads_toi(self, file):
 		driver = self.driver
@@ -386,7 +396,7 @@ class GoogleAdsUnit(browser_unit.BrowserUnit):
 		driver.set_page_load_timeout(60)
 		driver.get("http://timesofindia.indiatimes.com/international-home")
 		time.sleep(10)
-		tm = str(datetime.now())
+		tim = str(datetime.now())
 		frame = driver.find_element_by_xpath(".//iframe[@id='ad-left-timeswidget']")
 	
 		def scroll_element_into_view(driver, element):
@@ -395,24 +405,17 @@ class GoogleAdsUnit(browser_unit.BrowserUnit):
 			driver.execute_script('window.scrollTo(0, {0})'.format(y))
 	
 		scroll_element_into_view(driver, frame)
-	# 	time.sleep(5)
-	# 	frame.click()
-	# 	ActionChains(driver).move_to_element(frame).perform()
-	# 	time.sleep(200)
 		print frame
 		driver.switch_to.frame(frame)
 		ads = driver.find_elements_by_css_selector("html body table tbody tr td table")
-	# 	print len(ads)
-	# 	print ads[0].get_attribute("innerHTML")
-	# 	time.sleep(2000)
 		for ad in ads:
 			aa = ad.find_elements_by_xpath(".//tbody/tr/td/a")
 			bb = ad.find_elements_by_xpath(".//tbody/tr/td/span")
-			t = strip_tags("ad||"+str(id)+"||"+str(self.treatment_id)+"||"+tm+"||"+aa[0].get_attribute('innerHTML')+ "||" + aa[1].get_attribute('innerHTML')+ "||" + bb[0].get_attribute('innerHTML')).encode("utf8")
-	# 		print t
-			fo = open(file, "a")
-			fo.write(t + '\n')
-			fo.close()
+			t = aa[0].get_attribute('innerHTML')
+			l = aa[1].get_attribute('innerHTML')
+			b = bb[0].get_attribute('innerHTML')
+			ad = strip_tags(tim+"@|"+t+"@|"+l+"@|"+b).encode("utf8")
+			self.log('measurement', 'ad', ad)
 		driver.switch_to.default_content()	
 
 	def save_ads_bbc(self, file):
@@ -420,17 +423,14 @@ class GoogleAdsUnit(browser_unit.BrowserUnit):
 		id = self.unit_id
 		sys.stdout.write(".")
 		sys.stdout.flush()
-	# 		global ad_int
 		driver.set_page_load_timeout(60)
 		driver.get("http://www.bbc.com/news/")
-		time = str(datetime.now())
+		tim = str(datetime.now())
 		els = driver.find_elements_by_css_selector("div#bbccom_adsense_mpu div ul li")
 		for el in els:
 			t = el.find_element_by_css_selector("h4 a").get_attribute('innerHTML')
 			ps = el.find_elements_by_css_selector("p")
 			b = ps[0].get_attribute('innerHTML')
 			l = ps[1].find_element_by_css_selector("a").get_attribute('innerHTML')
-			t = strip_tags("ad||"+str(id)+"||"+str(self.treatment_id)+"||"+time+"||"+t+"||"+l+"||"+b).encode("utf8")
-			fo = open(file, "a")
-			fo.write(t + '\n')
-			fo.close()
+			ad = strip_tags(tim+"@|"+t+"@|"+l+"@|"+b).encode("utf8")
+			self.log('measurement', 'ad', ad)

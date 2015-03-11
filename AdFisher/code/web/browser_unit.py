@@ -54,14 +54,32 @@ class BrowserUnit:
 		self.unit_id = unit_id
 		self.treatment_id = treatment_id
 
-
-	def log(self, msg):
+	def quit(self):
+		self.driver.quit()
+	
+	def log(self, linetype, linename, msg):		# linetype = ['treatment', 'measurement', 'event', 'error', 'meta']
 		"""Maintains a log of visitations"""
 		fo = open(self.log_file, "a")
-		fo.write(str(datetime.now())+"||"+msg+"||"+str(self.unit_id) + '\n')
+		fo.write(str(datetime.now())+"||"+linetype+"||"+linename+"||"+msg+"||"+str(self.unit_id)+"||"+str(self.treatment_id) + '\n')
 		fo.close()   	
-
-
+	
+	def interpret_log_line(self, line):
+		"""Interprets a line of the log, and returns six components
+			For lines containing meta-data, the unit_id and treatment_id is -1
+		"""
+		chunks = re.split("\|\|", line)
+		tim = chunks[0]
+		linetype = chunks[1]
+		linename = chunks[2]
+		value = chunks[3].strip()
+		if(len(chunks)>5):
+			unit_id = chunks[4]
+			treatment_id = chunks[5].strip()
+		else:
+			unit_id = -1
+			treatment_id = -1
+		return tim, linetype, linename, value, unit_id, treatment_id
+		
 	def train_with_sites(self, file_name): 
 		"""Visits all pages in file_name"""
 		fo = open(file_name, "r")
@@ -72,33 +90,26 @@ class BrowserUnit:
 				self.driver.set_page_load_timeout(40)
 				self.driver.get(site)
 				time.sleep(5)
-				self.log(site+"||"+str(self.treatment_id))
+				self.log('treatment', 'visit website', site)
 							# pref = get_ad_pref(self.driver)
 							# self.log("pref"+"||"+str(treatment_id)+"||"+"@".join(pref), self.unit_id)
 			except:
-				self.log("timedout-"+line.rstrip())
+				self.log('error', 'website timeout', site)
 
 
 	def wait_for_others(self):
 		"""Makes instance with SELF.UNIT_ID wait while others train"""
 		fo = open(self.log_file, "r")
 		line = fo.readline()
-		chunks = re.split("\|\|", line)
-		gmarker = 'assign'
-		instances = int(chunks[1])
+		tim, linetype, linename, value, unit_id, treatment_id = self.interpret_log_line(line)
+		instances = int(value)
 	
-		round=0
 		fo = open(self.log_file, "r")
 		for line in fo:
-			chunks = re.split("\|\|", line)
-			tim = chunks[0]
-			if(tim == 'treatnames'):
-				continue
-			msg = chunks[1]
-			id1 = chunks[2].rstrip()
-			if(tim == 'assign'):
-				round += 1
-# 	print "round: ", round
+			tim, linetype, linename, value, unit_id, treatment_id = self.interpret_log_line(line)
+			if(linename == 'block_id'):
+				round = int(value)
+# 		print "round, instances: ", round, instances
 		
 		clear = False
 		count = 0
@@ -106,25 +117,20 @@ class BrowserUnit:
 		while(not clear):
 			count += 1
 			if(count > 500):
-				self.log('breakingout')
+				self.log('event', 'wait_for_others timeout', 'breaking out')
 				break
 			c = [0]*instances
 			curr_round = 0
 			fo = open(self.log_file, "r")
 			for line in fo:
-				chunks = re.split("\|\|", line)
-				tim = chunks[0]
-				if(tim == 'treatnames'):
-					continue
-				msg = chunks[1]
-				id1 = chunks[2].rstrip()
-				if(tim == 'assign'):
-					curr_round += 1
+				tim, linetype, linename, value, unit_id, treatment_id = self.interpret_log_line(line)
+				if(linename == 'block_id'):
+					curr_round = int(value)
 				if(round == curr_round):
-					if(msg=='training-start'):
-						c[int(id1)-1] += 1
-					if(msg=='training-end'):
-						c[int(id1)-1] -= 1
+					if(value=='training-start'):
+						c[int(unit_id)-1] += 1
+					if(value=='training-end'):
+						c[int(unit_id)-1] -= 1
 			fo.close()
 			time.sleep(5)
 			clear = True
