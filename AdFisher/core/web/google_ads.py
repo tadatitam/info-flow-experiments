@@ -51,8 +51,8 @@ def strip_tags(html):
 
 class GoogleAdsUnit(browser_unit.BrowserUnit):
 
-	def __init__(self, browser, log_file, unit_id, treatment_id, proxy=None):
-		browser_unit.BrowserUnit.__init__(self, browser, log_file, unit_id, treatment_id, proxy=proxy)
+	def __init__(self, browser, log_file, unit_id, treatment_id, headless=False, proxy=None):
+		browser_unit.BrowserUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
 		
 	def opt_in(self):
 		"""Opt in to behavioral advertising on Google"""

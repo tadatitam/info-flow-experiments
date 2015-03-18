@@ -9,13 +9,16 @@ from selenium.webdriver.common.proxy import *		# for proxy settings
 
 class BrowserUnit:
 
-	def __init__(self, browser, log_file, unit_id, treatment_id, proxy=None):
-	
-		self.vdisplay = Xvfb(width=1280, height=720)
-		self.vdisplay.start()
-		if(not self.vdisplay.start()):
-			self.log("error", 'Xvfb failure', 'failed to start')
-			sys.exit(0)
+	def __init__(self, browser, log_file, unit_id, treatment_id, headless=False, proxy=None):
+		self.headless = headless
+		if(headless):
+			self.vdisplay = Xvfb(width=1280, height=720)
+			self.vdisplay.start()
+			if(not self.vdisplay.start()):
+				fo = open(log_file, "a")
+				fo.write(str(datetime.now())+"||"+'error'+"||"+'Xvfb failure'+"||"+'failed to start'+"||"+str(unit_id)+"||"+str(treatment_id) + '\n')
+				fo.close()
+				sys.exit(0)
 		if(proxy != None):
 			sproxy = Proxy({
     			'proxyType': ProxyType.MANUAL,
@@ -63,7 +66,8 @@ class BrowserUnit:
 		self.treatment_id = treatment_id
 
 	def quit(self):
-		self.vdisplay.stop()
+		if(self.headless):
+			self.vdisplay.stop()
 		self.driver.quit()
 	
 	def log(self, linetype, linename, msg):		# linetype = ['treatment', 'measurement', 'event', 'error', 'meta']

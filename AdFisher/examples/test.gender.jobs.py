@@ -10,7 +10,7 @@ log_file = 'log.gender.jobs.txt'
 site_file = 'jobs.txt'
 
 def make_browser(unit_id, treatment_id):
-	b = web.google_ads.GoogleAdsUnit('firefox', log_file, unit_id, treatment_id, proxy = "proxy.pdl.cmu.edu:8080")
+	b = web.google_ads.GoogleAdsUnit('firefox', log_file, unit_id, treatment_id, headless=True, proxy = "proxy.pdl.cmu.edu:8080")
 	return b
 
 # Control Group treatment
