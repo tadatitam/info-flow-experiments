@@ -3,11 +3,19 @@ import sys 									# some prints
 import os, platform 						# for running  os, platform specific function calls
 from selenium import webdriver 				# for running the driver on websites
 from datetime import datetime 				# for tagging log with datetime
+
+from xvfbwrapper import Xvfb				# for creating artificial display to run experiments				
 from selenium.webdriver.common.proxy import *		# for proxy settings
 
 class BrowserUnit:
 
 	def __init__(self, browser, log_file, unit_id, treatment_id, proxy=None):
+	
+		self.vdisplay = Xvfb(width=1280, height=720)
+		self.vdisplay.start()
+		if(not self.vdisplay.start()):
+			self.log("error", 'Xvfb failure', 'failed to start')
+			sys.exit(0)
 		if(proxy != None):
 			sproxy = Proxy({
     			'proxyType': ProxyType.MANUAL,
@@ -55,6 +63,7 @@ class BrowserUnit:
 		self.treatment_id = treatment_id
 
 	def quit(self):
+		self.vdisplay.stop()
 		self.driver.quit()
 	
 	def log(self, linetype, linename, msg):		# linetype = ['treatment', 'measurement', 'event', 'error', 'meta']

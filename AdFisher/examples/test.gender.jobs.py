@@ -54,8 +54,8 @@ def test_stat(observed_values, unit_assignments):
 	return statistics.keyword_difference(observed_values, unit_assignments)
 # 	return statistics.correctly_classified(observed_values, unit_assignments)
 
-adfisher.collect_sites_from_alexa(nsites=50, output_file=site_file, browser="firefox", 
-	alexa_link="http://www.alexa.com/topsites/category/Top/Business/Employment")
+# adfisher.collect_sites_from_alexa(nsites=50, output_file=site_file, browser="firefox", 
+# 	alexa_link="http://www.alexa.com/topsites/category/Top/Business/Employment")
 
 adfisher.do_experiment(make_browser, [control_treatment, exp_treatment], 
 						measurement, cleanup_browser,
