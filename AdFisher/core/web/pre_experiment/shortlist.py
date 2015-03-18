@@ -14,7 +14,7 @@ import signal										# for timing out external calls
 
 
 LOG_FILE = "log"
-myProxy = "yogi.pdl.cmu.edu:3128"
+myProxy = "proxy.pdl.cmu.edu:8080"
 
 proxy = Proxy({
     'proxyType': ProxyType.MANUAL,
