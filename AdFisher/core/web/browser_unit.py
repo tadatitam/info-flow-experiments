@@ -14,11 +14,11 @@ class BrowserUnit:
 		if(headless):
 			self.vdisplay = Xvfb(width=1280, height=720)
 			self.vdisplay.start()
-			if(not self.vdisplay.start()):
-				fo = open(log_file, "a")
-				fo.write(str(datetime.now())+"||"+'error'+"||"+'Xvfb failure'+"||"+'failed to start'+"||"+str(unit_id)+"||"+str(treatment_id) + '\n')
-				fo.close()
-				sys.exit(0)
+# 			if(not self.vdisplay.start()):
+# 				fo = open(log_file, "a")
+# 				fo.write(str(datetime.now())+"||"+'error'+"||"+'Xvfb failure'+"||"+'failed to start'+"||"+str(unit_id)+"||"+str(treatment_id) + '\n')
+# 				fo.close()
+# 				sys.exit(0)
 		if(proxy != None):
 			sproxy = Proxy({
     			'proxyType': ProxyType.MANUAL,
