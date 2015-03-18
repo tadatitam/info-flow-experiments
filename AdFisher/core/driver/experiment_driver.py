@@ -65,7 +65,6 @@ def run_experiment(exper_body,
 		fo.close()
 		
 		procs = []
-		print "getpid", os.getpid()
 		for agent_id in range(0,num_agents):
 			procs.append(Process(target=drive_unit, 
 					     args = (exper_body,
@@ -74,8 +73,8 @@ def run_experiment(exper_body,
 		map(lambda x: x.start(), procs)
 		map(lambda x: x.join(timeout+5), procs)
 		for proc in procs:
-			print "proc pid ", proc.pid
-			kill_proc_tree(proc.pid)
+			if proc.is_alive():
+				kill_proc_tree(proc.pid)
 	print "Experiment Complete"
 # 	os.system('kill %d' % os.getpid())
 			
@@ -101,7 +100,7 @@ def drive_unit(exper_body,
 		fo = open(log_file, "a")
 		fo.write(str(datetime.now())+"||error||block timeout||Error||"+str(treatment_id)+"||"+str(agent_id)+"\n")
 		fo.close()
-		print "kill", os.getpid()
+		print "Killing process", os.getpid()
 		raise TimeoutException("Timed out!")
 	
 	old_handler = signal.signal(signal.SIGALRM, signal_handler)
