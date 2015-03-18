@@ -13,10 +13,13 @@ In order to run experiments for data collection, you will need the following pac
   - selenium```sudo pip install selenium```
   - xvfb ```sudo apt-get install xvfb```
   - xvfbwrapper ```sudo pip install xvfbwrapper```
+  - psutil ```sudo pip install psutil```
 
 Selenium is a web-browser automation framework. Xvfb allows for headless testing. 
 xvfbwrapper is a python wrapper for the same. 
-The Xvfb package is not present on OS X, but you still have to install xvfbwrapper.
+The Xvfb package is not present on OS X, but AdFisher still requires xvfbwrapper.
+psutil is required to kill experiments which take too long to complete. Killing them
+ensures unnecessary resources are not wasted.
 To carry out the data analysis, you require the following packages:
   - numpy, scipy, matplotlib ```sudo pip install numpy scipy matplotlib```*
   - scikit learn ```sudo pip install scikit-learn```
@@ -27,12 +30,14 @@ To carry out the data analysis, you require the following packages:
 import nltk
 nltk.download()
 ``` 
-pip* sometimes cannot install numpy, scipy, matplotlib on Ubuntu. In that case, run 
+*pip sometimes cannot install numpy, scipy, matplotlib on Ubuntu. In that case, run 
 ```sudo apt-get install python-numpy python-scipy python-matplotlib```.
 NumPy and SciPy are Python packages for scientific computing. matplotlib enables plotting functions. 
 scikit learn has a vast collection of python implemenations of Machine Learning algorithms, 
 built on the NumPy, SciPy, and matplotlib packages. 
 We use the stemming package to stem words, and the nltk stopwords corpus for identifying stopwords.
+
+
 
 Example
 -----------
