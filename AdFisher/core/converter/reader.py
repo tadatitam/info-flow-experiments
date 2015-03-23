@@ -149,6 +149,7 @@ def get_feature_vectors(advdicts, feat_choice):			# returns observation vector f
 	sys.stdout.flush()
 	for advdict in advdicts:
 		list.extend(advdict['advector'])
+		print len(list)
 	if(feat_choice == 'words'):
 		X, labels, feat = word_vectors(list)
 	elif(feat_choice == 'ads'):
@@ -214,6 +215,7 @@ def interpret_log_line(line):
 
 def read_log(log_file):
 	par_adv = []
+	measured = False
 	fo = open(log_file, "r")
 	for line in fo:
 # 		print line
@@ -224,23 +226,22 @@ def read_log(log_file):
 			elif(linename == 'treatnames'):
 				treatnames = re.split("\@\|", value)
 				print "Treatments: ", treatnames
-			elif(linename == 'block_id'):
+			elif(linename == 'block_id start'):
 				block_id = int(value)
+				adv = []
+				ints = []
+				newsv = []
+				for i in range(0, num_agents):
+					adv.append(adVector.AdVector())
+					ints.append(interest.Interests())
+					newsv.append(news.NewsVector())
+				print block_id
 			elif(linename == 'assignment'):
 				assignment = [int(x) for x in re.split("\@\|", value)]
-		elif(linetype == 'event'):
-			if(linename == 'progress-marker'):
-				if(value == 'measurement-start'):
-					adv = []
-					ints = []
-					newsv = []
-					for i in range(0, num_agents):
-						adv.append(adVector.AdVector())
-						ints.append(interest.Interests())
-						newsv.append(news.NewsVector())
-				if(value == 'measurement-end'):
-					apply_labels_to_vecs(adv, ints, newsv, assignment, num_agents, len(treatnames))
-					par_adv.append({'advector':adv, 'newsvector':newsv, 'assignment':assignment, 'intvector':ints})
+			elif(linename == 'block_id end'):
+				apply_labels_to_vecs(adv, ints, newsv, assignment, num_agents, len(treatnames))
+				par_adv.append({'advector':adv, 'newsvector':newsv, 'assignment':assignment, 'intvector':ints})
+				print len(adv)
 		elif(linetype == 'treatment'):
 			pass
 		elif(linetype == 'measurement'):
@@ -253,7 +254,8 @@ def read_log(log_file):
 				ind_news = news.News(value, treatment_id)
 				newsv[int(unit_id)].add(ind_news)
 		elif(linetype == 'error'):
-			print "Error in block", block_id, ": ", line.strip()
+# 			print "Error in block", block_id, ": ", line.strip()
+			pass
 			
 	return par_adv, treatnames
 

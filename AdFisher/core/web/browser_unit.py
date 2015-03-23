@@ -120,7 +120,7 @@ class BrowserUnit:
 		fo = open(self.log_file, "r")
 		for line in fo:
 			tim, linetype, linename, value, unit_id, treatment_id = self.interpret_log_line(line)
-			if(linename == 'block_id'):
+			if(linename == 'block_id start'):
 				round = int(value)
 # 		print "round, instances: ", round, instances
 		
@@ -137,7 +137,7 @@ class BrowserUnit:
 			fo = open(self.log_file, "r")
 			for line in fo:
 				tim, linetype, linename, value, unit_id, treatment_id = self.interpret_log_line(line)
-				if(linename == 'block_id'):
+				if(linename == 'block_id start'):
 					curr_round = int(value)
 				if(round == curr_round):
 					if(value=='training-start'):

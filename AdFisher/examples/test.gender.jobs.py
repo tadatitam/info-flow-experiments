@@ -6,7 +6,7 @@ import converter.reader as reader
 import analysis.ml as ml
 import analysis.statistics as statistics
 
-log_file = 'log.gender.jobs.txt'
+log_file = 'log.gender.jobs.new2.txt'
 site_file = 'jobs.txt'
 
 def make_browser(unit_id, treatment_id):
@@ -43,8 +43,10 @@ def cleanup_browser(unit, unit_id, treatment_id):
 # Load results reads the log_file, and creates feature vectors
 def load_results():
 	collection, names = reader.read_log(log_file)
-	collection = collection[:20]
-	return reader.get_feature_vectors(collection, feat_choice='ads')
+# 	collection = collection[:20]
+	X,y,feat = reader.get_feature_vectors(collection, feat_choice='ads')
+	print X.shape, y.shape
+	return X,y,feat
 # 	return reader.get_keyword_vectors(collection, keywords=['rehab'])
 
 # If you choose to perform ML, then test_stat is redundant. By default, correctly_classified is used,
@@ -54,8 +56,8 @@ def test_stat(observed_values, unit_assignments):
 	return statistics.keyword_difference(observed_values, unit_assignments)
 # 	return statistics.correctly_classified(observed_values, unit_assignments)
 
-# adfisher.collect_sites_from_alexa(nsites=50, output_file=site_file, browser="firefox", 
-# 	alexa_link="http://www.alexa.com/topsites/category/Top/Business/Employment")
+adfisher.collect_sites_from_alexa(nsites=50, output_file=site_file, browser="firefox", 
+	alexa_link="http://www.alexa.com/topsites/category/Top/Business/Employment")
 
 adfisher.do_experiment(make_browser, [control_treatment, exp_treatment], 
 						measurement, cleanup_browser,

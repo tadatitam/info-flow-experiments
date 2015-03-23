@@ -56,7 +56,7 @@ def run_experiment(exper_body,
 		table, l = getRandomTable(num_agents, ntreat)		
 # 		print table
 		fo = open(log_file, "a")
-		fo.write(str(datetime.now())+"||meta||block_id||")
+		fo.write(str(datetime.now())+"||meta||block_id start||")
 		fo.write(str(block_id)+"\n")
 		fo.write(str(datetime.now())+"||meta||assignment||")
 		for i in range(0, num_agents-1):
@@ -75,6 +75,9 @@ def run_experiment(exper_body,
 		for proc in procs:
 			if proc.is_alive():
 				kill_proc_tree(proc.pid)
+		fo = open(log_file, "a")
+		fo.write(str(datetime.now())+"||meta||block_id end||"+str(num_agents)+"\n")
+		fo.close()
 	print "Experiment Complete"
 # 	os.system('kill %d' % os.getpid())
 			
