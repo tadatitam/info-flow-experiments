@@ -1,10 +1,9 @@
 import sys
-sys.path.append("../core")
-import driver.adfisher as adfisher
-import web.google_ads
-import converter.reader as reader
-import analysis.ml as ml
-import analysis.statistics as statistics
+sys.path.append("../core")			# files from the core 
+import adfisher						# adfisher wrapper function
+import web.google_ads				# interacting with Google ads and Ad Settings
+import converter.reader				# read log and create feature vectors
+import analysis.statistics			# statistics for significance testing
 
 log_file = 'log.gender.jobs.new2.txt'
 site_file = 'jobs.txt'
@@ -29,7 +28,7 @@ def exp_treatment(unit, unit_id):
 
 # Measurement - Collects ads
 def measurement(unit, unit_id, treatment_id):
-	unit.collect_ads(reloads=5, delay=5, site='bbc')
+	unit.collect_ads(reloads=10, delay=5, site='bbc')
 	unit.get_interests()
 
 
@@ -42,9 +41,9 @@ def cleanup_browser(unit, unit_id, treatment_id):
 
 # Load results reads the log_file, and creates feature vectors
 def load_results():
-	collection, names = reader.read_log(log_file)
+	collection, names = converter.reader.read_log(log_file)
 # 	collection = collection[:20]
-	X,y,feat = reader.get_feature_vectors(collection, feat_choice='ads')
+	X,y,feat = converter.reader.get_feature_vectors(collection, feat_choice='ads')
 	print X.shape, y.shape
 	return X,y,feat
 # 	return reader.get_keyword_vectors(collection, keywords=['rehab'])
@@ -53,7 +52,7 @@ def load_results():
 # If not, then you can choose something, and that will be used to perform the analysis. 
 
 def test_stat(observed_values, unit_assignments):
-	return statistics.keyword_difference(observed_values, unit_assignments)
+	return analysis.statistics.keyword_difference(observed_values, unit_assignments)
 # 	return statistics.correctly_classified(observed_values, unit_assignments)
 
 adfisher.collect_sites_from_alexa(nsites=50, output_file=site_file, browser="firefox", 

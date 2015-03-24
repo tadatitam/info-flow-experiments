@@ -426,7 +426,7 @@ class GoogleAdsUnit(browser_unit.BrowserUnit):
 		driver.set_page_load_timeout(60)
 		driver.get("http://www.bbc.com/news/")
 		tim = str(datetime.now())
-		els = driver.find_elements_by_css_selector("div#bbccom_adsense_mpu div ul li")
+		els = driver.find_elements_by_css_selector("div.bbccom_adsense_container ul li")
 		for el in els:
 			t = el.find_element_by_css_selector("h4 a").get_attribute('innerHTML')
 			ps = el.find_elements_by_css_selector("p")
