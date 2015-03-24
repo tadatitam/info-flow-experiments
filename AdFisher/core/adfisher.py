@@ -44,16 +44,16 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
 				self.unit = make_unit(unit_id, treatment_id)
 			def runTest(self):	
 				self.unit.log('event', 'progress-marker', "training-start")			
-				treatments[treatment_id](self.unit, unit_id)
+				treatments[treatment_id](self.unit)
 				self.unit.log('event', 'progress-marker', "training-end")	
 							
 				self.unit.wait_for_others()	
 					
 				self.unit.log('event', 'progress-marker', "measurement-start")		
-				measurement(self.unit, unit_id, treatment_id)
+				measurement(self.unit)
 				self.unit.log('event', 'progress-marker', "measurement-end")				
 			def tearDown(self):
-				end_unit(self.unit, unit_id, treatment_id)
+				end_unit(self.unit)
 		test = Test()
 		suite = unittest.TestSuite()
 		suite.addTest(test)

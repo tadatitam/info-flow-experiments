@@ -93,7 +93,7 @@ class BrowserUnit:
 			treatment_id = -1
 		return tim, linetype, linename, value, unit_id, treatment_id
 		
-	def train_with_sites(self, file_name): 
+	def visit_sites(self, file_name): 
 		"""Visits all pages in file_name"""
 		fo = open(file_name, "r")
 		for line in fo:

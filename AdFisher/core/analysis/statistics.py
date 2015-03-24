@@ -26,7 +26,7 @@ def correctly_classified(ypred, ylabel):									# number of correctly classifie
 	return CC
 	
 
-def keyword_difference(X_test, y_test):
+def difference(X_test, y_test):
 	blocks = y_test.shape[0]
 	blockSize = y_test.shape[1]
 	kw0 = 0
