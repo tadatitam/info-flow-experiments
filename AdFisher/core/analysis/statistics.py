@@ -1,17 +1,17 @@
 import sys
 
 import numpy as np										
-from scipy import stats									# for chi2 test
-from scipy import spatial								# for cosine distances
-from datetime import datetime							# counting times for running tests
+from scipy import stats                     # for chi2 test
+from scipy import spatial                   # for cosine distances
+from datetime import datetime               # counting times for running tests
 
-from itertools import combinations as comb				# permutations for old permutation test
-import random											# for random shuffles
+from itertools import combinations as comb  # permutations for old permutation test
+import random                               # for random shuffles
 
 
 #------------- functions computing Statistics ---------------#
 
-def correctly_classified(ypred, ylabel):									# number of correctly classified instances in blocks
+def correctly_classified(ypred, ylabel):   # number of correctly classified instances in blocks
 	if(ypred.shape != ylabel.shape):
 		raw_input("ypred, ylabel not of same shape!")
 		print "Exiting..."
