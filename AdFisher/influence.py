@@ -1,7 +1,7 @@
 import core.adfisher as adfisher
 import itertools 						# for combinations of attributes
 
-log_file = 'log.influence.test.txt'
+log_file = 'log.influence.12x2.txt'
 site_file = "site_files/cars.txt"
 
 ## Collect sites from alexa
@@ -38,11 +38,11 @@ measurement.get_ads(site='bbc', reloads=10, delay=5)
 
 ## Run Experiment
 
-adfisher.run_experiment(treatments=treatments[0:2], measurement=measurement, 
-	agents=2, blocks=100, log_file=log_file)
+# adfisher.run_experiment(treatments=treatments[0:2], measurement=measurement, 
+# 	agents=2, blocks=100, log_file=log_file)
 
 ## Analyze Data
 
 print log_file
 # adfisher.run_ml_analysis(log_file)
-# adfisher.compute_influence(log_file)
+adfisher.compute_influence(log_file)

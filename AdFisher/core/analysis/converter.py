@@ -149,6 +149,7 @@ def get_feature_vectors(advdicts, feat_choice):			# returns observation vector f
  	sys.stdout.flush()
 	for advdict in advdicts:
 		list.extend(advdict['adv'])
+		print len(list)
 	if(feat_choice == 'words'):
 		X, labels, feat = word_vectors(list)
 	elif(feat_choice == 'ads'):
@@ -251,6 +252,7 @@ def read_log(log_file):							# check
  			r += 1
  			par_adv.append({'adv':adv, 'newsv':newsv, 'ass':ass, 'xf':xvfbfails, 'interests':ints, 
  						'break':breakout, 'loadtimes':loadtimes, 'reloads':reloads, 'errors':errors})
+ 			print len(adv)
  			sys.stdout.write(".")
 			sys.stdout.flush()
 			adv = []

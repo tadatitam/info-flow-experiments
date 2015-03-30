@@ -359,10 +359,10 @@ def compute_influence(log_file="log.txt"):							## eventually move it to analys
 # 					distance = spatial.distance.cosine(out[names.index(name0)],out[names.index(name1)])		# can use any distance function
 					distance = abs(vector[names.index(name0)] - vector[names.index(name1)])
 					sum += distance
-# 					print distance
-# 					raw_input("distance")
-# 					print out[names.index(name0)]
-# 					print out[names.index(name1)]
+					print name0, vector[names.index(name0)]
+					print name1, vector[names.index(name1)]
+					print distance, sum
+					raw_input("distance")
 # 			print sum
 # 			print num
 			influence = sum/num
