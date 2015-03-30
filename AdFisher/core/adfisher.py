@@ -11,6 +11,8 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
 		  num_blocks=1, num_units=2, timeout=2000,
 		  log_file="log.txt", no_exp=False, treatment_names=[]): 
 	"""
+	Run an experiment.
+
 	make_unit   -- Function that return a unit given a unit_id number (int).  
 	               To keep the units exechangable, the unit_id should only be used as a label in logging.
 	treatments  -- List of functions each of which that takes a unit and does some treatment to it.
@@ -22,6 +24,7 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
 		        (2) one for the treatment assigned to each unit
 		       with the units in the same order.
 	test_stat   -- Takes a pair of vectors as above and computes a number.
+	ml_analysis -- Should machine learning be used for the analysis?
 	num_blocks  -- Number of blocks (rounds) used in the experiment.
 	num_units   -- Number of units in each block.  
                        num_blocks * num_units is the sample size.
@@ -51,7 +54,7 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
 					
 				self.unit.log('event', 'progress-marker', "measurement-start")		
 				measurement(self.unit)
-				self.unit.log('event', 'progress-marker', "measurement-end")				
+				self.unit.log('event', 'progress-marker', "measurement-end") 
 			def tearDown(self):
 				end_unit(self.unit)
 		test = Test()
@@ -78,12 +81,16 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
 		sys.exit(0)
 	
 	if(ml_analysis):
-		classifier, observed_values, unit_assignments = analysis.ml.train_and_test(X, y, splittype='timed', 
-			splitfrac=0.1, nfolds=10, verbose=True)
+		classifier, observed_values, unit_assignments = analysis.ml.train_and_test(X, y, 
+											   splittype='timed', 
+											   splitfrac=0.1, 
+											   nfolds=10,
+											   verbose=True)
 		# use classifier and features here to get top ads
 		analysis.ml.print_only_top_features(classifier, features, treatment_names, feat_choice="ads")
 		p_value = analysis.permutation_test.blocked_sampled_test(observed_values, unit_assignments, 
 															analysis.statistics.correctly_classified)
+
 	else:
 		observed_values, unit_assignments = X, y
 		# use test_stat to get the keyword analysis
@@ -93,7 +100,8 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
 ## Pre-experiment functions
 # this should go into browser_unit
 
-def collect_sites_from_alexa(output_file="out.txt", nsites=5, browser="firefox",alexa_link="http://www.alexa.com/topsites"):
+def collect_sites_from_alexa(output_file="out.txt", nsites=5, browser="firefox", 
+			     alexa_link="http://www.alexa.com/topsites"):
 	if(browser != "firefox" and browser != "chrome"):
 		print "Illegal browser choice", browser
 		return

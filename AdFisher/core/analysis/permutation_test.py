@@ -45,27 +45,33 @@ def full_test(X_test, y_test, test_stat):
     
     
 	
-def get_perm(ylabel):								# generates a permutation for block_p_test
-	blocks = ylabel.shape[0]
-	yret = np.copy(ylabel)
-	for i in range(0,blocks):
-		random.shuffle(yret[i])
-	return yret
+def get_perm(ylabel):								
+    """
+    Generate a permutation for block_p_test.
+    """
+    blocks = ylabel.shape[0]
+    yret = np.copy(ylabel)
+    for i in range(0,blocks):
+        random.shuffle(yret[i])
+    return yret
 	
-def blocked_sampled_test(observed_values, unit_assignments, test_stat, alpha=0.01, iterations=1000000):				# block permutation test
-	s = datetime.now()
-	Tobs = test_stat(observed_values, unit_assignments)
-	print 'Tobs: ', Tobs
-	under = 0
-	for i in range(0,iterations):
-		permuted_assignments = get_perm(unit_assignments)
-		Tpi = test_stat(observed_values, permuted_assignments)
-		if round(Tobs, 10) <= round(Tpi, 10):
-			under += 1
-	e = datetime.now()
-	print "---Time for running permutation test: ", str(e-s)
-	print "\nConfidence Interval of p-value:", proportion_confint(under, iterations, alpha, 'beta')
-	return (1.0*under) / (1.0*iterations)
+def blocked_sampled_test(observed_values, unit_assignments, test_stat, alpha=0.01, iterations=1000000):
+    """
+    Run a block permutation test.
+    """
+    s = datetime.now()
+    Tobs = test_stat(observed_values, unit_assignments)
+    print 'Tobs: ', Tobs
+    under = 0
+    for i in range(0,iterations):
+        permuted_assignments = get_perm(unit_assignments)
+        Tpi = test_stat(observed_values, permuted_assignments)
+        if round(Tobs, 10) <= round(Tpi, 10):
+            under += 1
+    e = datetime.now()
+    print "---Time for running permutation test: ", str(e-s)
+    print "\nConfidence Interval of p-value:", proportion_confint(under, iterations, alpha, 'beta')
+    return (1.0*under) / (1.0*iterations)
 
 
 def proportion_confint(count, nobs, alpha=0.05, method='normal'):

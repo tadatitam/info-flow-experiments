@@ -1,10 +1,10 @@
 import sys, os, psutil
 from multiprocessing import Process
-from datetime import datetime  				# for getting times for logging
+from datetime import datetime  	        # for getting times for logging
 import numpy as np
 import random
 import unittest
-import signal  								# for timing out external calls
+import signal  			        # for timing out external calls
 
 
 def treatments_to_string(treatment_names):
