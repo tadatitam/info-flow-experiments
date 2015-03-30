@@ -9,7 +9,7 @@ import sys,os
 def do_experiment(make_unit, treatments, measurement, end_unit,
 		  load_results, test_stat, ml_analysis, 
 		  num_blocks=1, num_units=2, timeout=2000,
-		  log_file="log.txt", no_exp=False, treatment_names=[]): 
+		  log_file="log.txt", exp_flag=True, analysis_flag=True, treatment_names=[]): 
 	"""
 	Run an experiment.
 
@@ -66,36 +66,37 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
 	if len(treatment_names) != ntreat:
 		treatment_names = map(lambda i: str(i), range(0,ntreat))
 	
-	if(not no_exp):
+	if(exp_flag):
 		driver.run_experiment(exper_body,
 						 num_blocks, num_units, timeout,
 						 log_file, treatment_names)
-
-	result = load_results()
-	if(len(result)==3):
-		X, y, features = result[0], result[1], result[2]
-	elif(len(result)==2):
-		X, y = result[0], result[1]
-	else:
-		raw_input("Could not resolve return result from load_results(). Press Enter to exit")
-		sys.exit(0)
 	
-	if(ml_analysis):
-		classifier, observed_values, unit_assignments = analysis.ml.train_and_test(X, y, 
-											   splittype='timed', 
-											   splitfrac=0.1, 
-											   nfolds=10,
-											   verbose=True)
-		# use classifier and features here to get top ads
-		analysis.ml.print_only_top_features(classifier, features, treatment_names, feat_choice="ads")
-		p_value = analysis.permutation_test.blocked_sampled_test(observed_values, unit_assignments, 
-															analysis.statistics.correctly_classified)
+	if(analysis_flag):
+		result = load_results()
+		if(len(result)==3):
+			X, y, features = result[0], result[1], result[2]
+		elif(len(result)==2):
+			X, y = result[0], result[1]
+		else:
+			raw_input("Could not resolve return result from load_results(). Press Enter to exit")
+			sys.exit(0)
+	
+		if(ml_analysis):
+			classifier, observed_values, unit_assignments = analysis.ml.train_and_test(X, y, 
+												   splittype='timed', 
+												   splitfrac=0.1, 
+												   nfolds=10,
+												   verbose=True)
+			# use classifier and features here to get top ads
+			analysis.ml.print_only_top_features(classifier, features, treatment_names, feat_choice="ads")
+			p_value = analysis.permutation_test.blocked_sampled_test(observed_values, unit_assignments, 
+																analysis.statistics.correctly_classified)
 
-	else:
-		observed_values, unit_assignments = X, y
-		# use test_stat to get the keyword analysis
-		p_value = analysis.permutation_test.blocked_sampled_test(observed_values, unit_assignments, test_stat)
-	print "p-value: ", p_value
+		else:
+			observed_values, unit_assignments = X, y
+			# use test_stat to get the keyword analysis
+			p_value = analysis.permutation_test.blocked_sampled_test(observed_values, unit_assignments, test_stat)
+		print "p-value: ", p_value
 
 ## Pre-experiment functions
 # this should go into browser_unit

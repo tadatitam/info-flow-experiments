@@ -1,7 +1,10 @@
 Examples
 =========
 
-We have provided scripts to run some of the experiments we have carried out. This document is mostly based on the script `test.gender.jobs.py`, which performs an experiment to check how two groups of browser instances visiting the same websites about jobs, but differing on the gender specified, receive different ads served by Google on bbc.com. 
+We have provided scripts to run some of the experiments we have carried out. 
+Run the `demo_exp.py` and `demo_analysis.py` scripts to check everything is working. 
+
+This document is mostly based on the script `test.gender.jobs.py`, which performs an experiment to check how two groups of browser instances visiting the same websites about jobs, but differing on the gender specified, receive different ads served by Google on bbc.com. 
 
 ### Importing files
 
@@ -92,7 +95,7 @@ adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, ex
 						measurement=measurement, end_unit=cleanup_browser,
 						load_results=load_results, test_stat=test_stat, ml_analysis=True, 
 						num_blocks=100, num_units=10, timeout=2000,
-						log_file=log_file, no_exp=True, 
+						log_file=log_file, 
 						treatment_names=["control (female)", "experimental (male)"])
 ```
 Once all the specifications have been made, we make call the adfisher.do_experiment() function to perform all aspects of the experiment. It takes as inputs the following:
@@ -104,5 +107,5 @@ Once all the specifications have been made, we make call the adfisher.do_experim
 - *num_units* indicating the number of units in each block.
 - *timeout* specifying the maximum time allotted for each block, at the end of which all units are killed and the next block started.
 - *log_file*.
-- the boolean *no_exp* which specifies whether or not to perform the experiment. If set to True, only the analysis is performed on the *log_file*.
+- the booleans *exp_flag* and *analysis_flag* indicate whether to perform the experiment or analysis. If *exp_flag* is True, then the experiment is performed. If *analysis_flag* is True, the analysis is performed. Both are set to True by default. 
 - the *treatment_names* as a list, in the same order as spcified in *treatments*. 

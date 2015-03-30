@@ -76,7 +76,7 @@ class BrowserUnit:
 	def log(self, linetype, linename, msg):		# linetype = ['treatment', 'measurement', 'event', 'error', 'meta']
 		"""Maintains a log of visitations"""
 		fo = open(self.log_file, "a")
-		fo.write(str(datetime.now())+"||"+linetype+"||"+linename+"||"+msg+"||"+str(self.unit_id)+"||"+str(self.treatment_id) + '\n')
+		fo.write(str(datetime.now())+"||"+linetype+"||"+linename+"||"+str(msg)+"||"+str(self.unit_id)+"||"+str(self.treatment_id) + '\n')
 		fo.close()   	
 	
 	def interpret_log_line(self, line):

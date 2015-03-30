@@ -195,16 +195,18 @@ class GoogleAdsUnit(browser_unit.BrowserUnit):
 			self.driver.set_page_load_timeout(40)
 			self.driver.get("https://www.google.com/settings/ads")
 			self.driver.find_elements_by_xpath(".//div[@class='"+EDIT_DIV+"']")[3].click()
-		
+	
 			self.driver.find_element_by_xpath(".//input[@class='"+PREF_INPUT+"']").send_keys(pref)
 			self.driver.find_element_by_xpath(".//div[@class='"+PREF_INPUT_FIRST+"']").click()
 			time.sleep(1)
 			trs = self.driver.find_elements_by_xpath(".//tr[@class='"+PREF_TR+"']")
 			for tr in trs:
 				td = tr.find_element_by_xpath(".//td[@class='"+PREF_TD+"']").get_attribute('innerHTML')
-# 				print td
+	# 				print td
 				self.log('treatment', 'add interest ('+pref+')', td)
-			driver.find_element_by_xpath(".//div[@class='"+PREF_OK_DIV+"']").click()
+			time.sleep(2)
+			self.driver.find_element_by_xpath(".//div[@class='"+PREF_OK_DIV+"']").click()
+			time.sleep(5)
 		except:
 			print "Error setting interests containing '%s'. Maybe no interests match this keyword." %(pref)
 			self.log('error', 'adding interest', pref)

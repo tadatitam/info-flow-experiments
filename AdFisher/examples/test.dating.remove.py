@@ -59,6 +59,6 @@ adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, ex
 						measurement=measurement, end_unit=cleanup_browser,
 						load_results=load_results, test_stat=test_stat, ml_analysis=True, 
 						num_blocks=100, num_units=10, timeout=2000,
-						log_file=log_file, no_exp=False, 
+						log_file=log_file,
 						treatment_names=["control (female)", "experimental (male)"])
 
