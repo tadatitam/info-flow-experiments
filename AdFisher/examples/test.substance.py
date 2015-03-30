@@ -5,8 +5,8 @@ import web.google_ads				# interacting with Google ads and Ad Settings
 import converter.reader				# read log and create feature vectors
 import analysis.statistics			# statistics for significance testing
 
-log_file = 'log.gender.jobs.txt'
-site_file = 'jobs.txt'
+log_file = 'log.substance.txt'
+site_file = 'substance.txt'
 
 def make_browser(unit_id, treatment_id):
 	b = web.google_ads.GoogleAdsUnit(browser='firefox', log_file=log_file, unit_id=unit_id, 
@@ -16,15 +16,11 @@ def make_browser(unit_id, treatment_id):
 # Control Group treatment
 def control_treatment(unit):
 	unit.opt_in()
-	unit.set_gender('f')
-	unit.visit_sites(site_file)
 
 # Experimental Group treatment
 def exp_treatment(unit):
 	unit.opt_in()
-	unit.set_gender('m')
 	unit.visit_sites(site_file)
-
 
 
 # Measurement - Collects ads
@@ -53,7 +49,7 @@ def test_stat(observed_values, unit_assignments):
 # 	return statistics.correctly_classified(observed_values, unit_assignments)
 
 adfisher.collect_sites_from_alexa(nsites=50, output_file=site_file, browser="firefox", 
-	alexa_link="http://www.alexa.com/topsites/category/Top/Business/Employment")
+	alexa_link="http://www.alexa.com/topsites/category/Top/Health/Addictions/Substance_Abuse")
 
 adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, exp_treatment], 
 						measurement=measurement, end_unit=cleanup_browser,

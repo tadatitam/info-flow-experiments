@@ -88,11 +88,21 @@ However, if you choose to perform our Classifier based analysis, by default the 
 
 ### Do experiment
 ```python
-adfisher.do_experiment(make_browser, [control_treatment, exp_treatment], 
-						measurement, cleanup_browser,
-						load_results, test_stat, ml_analysis=True, 
+adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, exp_treatment], 
+						measurement=measurement, end_unit=cleanup_browser,
+						load_results=load_results, test_stat=test_stat, ml_analysis=True, 
 						num_blocks=100, num_units=10, timeout=2000,
-						log_file=log_file, 
+						log_file=log_file, no_exp=True, 
 						treatment_names=["control (female)", "experimental (male)"])
 ```
-Once all the specifications have been made, we make call the adfisher.do_experiment() function to perform all aspects of the experiment. 
+Once all the specifications have been made, we make call the adfisher.do_experiment() function to perform all aspects of the experiment. It takes as inputs the following:
+- *make_unit* which specifies how experimental units (in this case browser instances) are created.
+- the *treatments* as a list.
+- the *measurement*, *end_unit*, *load_results*, and *test_stat* specifications.
+- the boolean *ml_analysis*, which specifies whether to perform our Classifier based analysis.
+- *num_blocks* indicating the number of blocks in the experiment.
+- *num_units* indicating the number of units in each block.
+- *timeout* specifying the maximum time allotted for each block, at the end of which all units are killed and the next block started.
+- *log_file*.
+- the boolean *no_exp* which specifies whether or not to perform the experiment. If set to True, only the analysis is performed on the *log_file*.
+- the *treatment_names* as a list, in the same order as spcified in *treatments*. 

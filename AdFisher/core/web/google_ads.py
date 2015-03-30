@@ -27,6 +27,7 @@ PREF_INPUT = "tQ a-la CK"
 PREF_INPUT_FIRST = "zK wK va"
 PREF_TR = "BK yr pQ"
 PREF_TD = "Yt qQ"
+CROSS_TD = "Zt"
 PREF_OK_DIV = "c-T-S a-b a-b-A GJ IC"
 
 SIGNIN_A = "gb_70"
@@ -156,8 +157,9 @@ class GoogleAdsUnit(browser_unit.BrowserUnit):
 			self.log('error', 'setting language', language)
 
 	def remove_interest(self, pref):
+		"""Remove interests containing pref on the Google Ad Settings page"""
 		try:
-			prefs = self.get_interests(self.driver, text='interests prior to removal')
+			prefs = self.get_interests(text="interests prior to removal")
 			self.driver.set_page_load_timeout(40)
 			self.driver.get("https://www.google.com/settings/ads")
 			self.driver.find_elements_by_xpath(".//div[@class='"+EDIT_DIV+"']")[3].click()
@@ -167,7 +169,7 @@ class GoogleAdsUnit(browser_unit.BrowserUnit):
 				flag=0
 				for tr in trs:
 					td = tr.find_element_by_xpath(".//td[@class='"+PREF_TD+"']")
-					div = tr.find_element_by_xpath(".//td[@class='Wq']/div")
+					div = tr.find_element_by_xpath(".//td[@class='"+CROSS_TD+"']/div")
 					int = td.get_attribute('innerHTML')
 					if pref.lower() in div.get_attribute('aria-label').lower():
 						flag=1
@@ -251,7 +253,7 @@ class GoogleAdsUnit(browser_unit.BrowserUnit):
 # 		self.log("language"+"||"+str(self.treatment_id)+"||"+inn)
 		return inn
 		
-	def get_interests(self, text='interests'):									
+	def get_interests(self, text="interests"):									
 		"""Returns list of Ad preferences"""
 		pref = []
 		try:

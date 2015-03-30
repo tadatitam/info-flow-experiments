@@ -149,7 +149,6 @@ def get_feature_vectors(advdicts, feat_choice):			# returns observation vector f
 	sys.stdout.flush()
 	for advdict in advdicts:
 		list.extend(advdict['advector'])
-		print len(list)
 	if(feat_choice == 'words'):
 		X, labels, feat = word_vectors(list)
 	elif(feat_choice == 'ads'):
@@ -235,13 +234,12 @@ def read_log(log_file):
 					adv.append(adVector.AdVector())
 					ints.append(interest.Interests())
 					newsv.append(news.NewsVector())
-				print block_id
+# 				print block_id
 			elif(linename == 'assignment'):
 				assignment = [int(x) for x in re.split("\@\|", value)]
 			elif(linename == 'block_id end'):
 				apply_labels_to_vecs(adv, ints, newsv, assignment, num_agents, len(treatnames))
 				par_adv.append({'advector':adv, 'newsvector':newsv, 'assignment':assignment, 'intvector':ints})
-				print len(adv)
 		elif(linetype == 'treatment'):
 			pass
 		elif(linetype == 'measurement'):

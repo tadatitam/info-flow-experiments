@@ -55,8 +55,42 @@ def test_accuracy(clf, X_test, y_test):
 	return clf.score(X_test, y_test)
 
 
+def print_only_top_features(clf, feat, treatnames, feat_choice, nfeat=5):
+	n_classes = 1 #clf.feature_importances_.shape[0]			#`~~~~~~~~~~
+# 	print n_classes
+	feature_scores = clf.coef_[0]
+	print feature_scores.shape			#`~~~~~~~~~~
+	print np.count_nonzero(feature_scores)
+	if(n_classes == 1):			#`~~~~~~~~~~
+		topk1 = np.argsort(feature_scores)[::-1][:nfeat]			#`~~~~~~~~~~
+		print "\nFeatures for treatment %s:" %(str(treatnames[1]))
+		for i in topk1:
+			if(feat_choice == 'ads'):
+				feat.choose_by_index(i).display()
+			elif(feat_choice == 'words'):
+				print feat[i]
+		topk0 = np.argsort(feature_scores)[:nfeat]			#`~~~~~~~~~~
+		print "\n\nFeatures for treatment %s:" %(str(treatnames[0]))
+		for i in topk0:
+			if(feat_choice == 'ads'):
+				feat.choose_by_index(i).display()
+			elif(feat_choice == 'words'):
+				print feat[i]
+	else:
+		for i in range(0,n_classes):
+			topk = np.argsort(feature_scores[i])[::-1][:nfeat]			#`~~~~~~~~~~
+			print "Features for treatment %s:" %(str(treatnames[i]))
+			for j in topk:
+				if(feat_choice == 'ads'):
+					feat.choose_by_index(j).display()
+				elif(feat_choice == 'words'):
+					print feat[j]
+			print "coefs: ", feature_scores[i][topk]			#`~~~~~~~~~~ replace feature_importances_ with coef_[0]
+	return topk0, topk1
+	
+
 def print_top_features(X, y, feat, treatnames, clf, feat_choice, nfeat=5, blocked=1):		# prints top nfeat features from clf+some numbers
-	X_train, y_train, X_test, y_test = split_data(X, y, verbose=True)
+	# X_train, y_train, X_test, y_test = split_data(X, y, verbose=True) # is this wrong when rand?
 	if(blocked==1):
 		X = np.array([item for sublist in X for item in sublist])
 		y = np.array([item for sublist in y for item in sublist])

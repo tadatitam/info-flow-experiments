@@ -70,6 +70,9 @@ class BrowserUnit:
 			self.vdisplay.stop()
 		self.driver.quit()
 	
+	def wait(self, seconds):
+		time.sleep(seconds)
+	
 	def log(self, linetype, linename, msg):		# linetype = ['treatment', 'measurement', 'event', 'error', 'meta']
 		"""Maintains a log of visitations"""
 		fo = open(self.log_file, "a")

@@ -9,7 +9,7 @@ import sys,os
 def do_experiment(make_unit, treatments, measurement, end_unit,
 		  load_results, test_stat, ml_analysis, 
 		  num_blocks=1, num_units=2, timeout=2000,
-		  log_file="log.txt", treatment_names=[]): 
+		  log_file="log.txt", no_exp=False, treatment_names=[]): 
 	"""
 	make_unit   -- Function that return a unit given a unit_id number (int).  
 	               To keep the units exechangable, the unit_id should only be used as a label in logging.
@@ -62,10 +62,11 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
 	ntreat = len(treatments)
 	if len(treatment_names) != ntreat:
 		treatment_names = map(lambda i: str(i), range(0,ntreat))
-
-	driver.run_experiment(exper_body,
-					 num_blocks, num_units, timeout,
-					 log_file, treatment_names)
+	
+	if(not no_exp):
+		driver.run_experiment(exper_body,
+						 num_blocks, num_units, timeout,
+						 log_file, treatment_names)
 
 	result = load_results()
 	if(len(result)==3):
@@ -80,7 +81,9 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
 		classifier, observed_values, unit_assignments = analysis.ml.train_and_test(X, y, splittype='timed', 
 			splitfrac=0.1, nfolds=10, verbose=True)
 		# use classifier and features here to get top ads
-		p_value = analysis.permutation_test.blocked_sampled_test(observed_values, unit_assignments, analysis.statistics.correctly_classified)
+		analysis.ml.print_only_top_features(classifier, features, treatment_names, feat_choice="ads")
+		p_value = analysis.permutation_test.blocked_sampled_test(observed_values, unit_assignments, 
+															analysis.statistics.correctly_classified)
 	else:
 		observed_values, unit_assignments = X, y
 		# use test_stat to get the keyword analysis
