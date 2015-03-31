@@ -88,6 +88,7 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
 												   nfolds=10,
 												   verbose=True)
 			# use classifier and features here to get top ads
+			print "Extracting top features\n"
 			analysis.ml.print_only_top_features(classifier, features, treatment_names, feat_choice="ads")
 			p_value = analysis.permutation_test.blocked_sampled_test(observed_values, unit_assignments, 
 																analysis.statistics.correctly_classified)
@@ -95,6 +96,7 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
 		else:
 			observed_values, unit_assignments = X, y
 			# use test_stat to get the keyword analysis
+			print "Running permutation test\n"
 			p_value = analysis.permutation_test.blocked_sampled_test(observed_values, unit_assignments, test_stat)
 		print "p-value: ", p_value
 
