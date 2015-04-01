@@ -35,11 +35,13 @@ class GoogleSearchUnit(browser_unit.BrowserUnit):
 		browser_unit.BrowserUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
 		
 	def infinitely_search_for_terms(self, query_file, delay):
-		while(True):
+		s = 0
+		r = 0
+		while(s<50 and r<50):
 			fo = open(query_file, "r")
 			for line in fo:		# For all queries in the list, obtain search results on Google
 				q = line.strip()
-				print q
+				print q, self.unit_id
 				try:
 					self.driver.get("http://www.google.com/")
 					self.driver.find_element_by_id(INPUT_ID).clear()
@@ -48,14 +50,17 @@ class GoogleSearchUnit(browser_unit.BrowserUnit):
 					self.log('treatment', 'google search', q)
 				except:
 					self.log('error', 'google search', q)
-# 				try:
+					self.driver.save_screenshot(str(self.unit_id)+'_search'+str(s)+'.jpg')
+					s+=1
+				try:
 # 				time.sleep(200)
-				lis = self.driver.find_elements_by_css_selector("li."+LI_CLASS+"")
-				print len(lis)
-				for li in lis:
-					self.log('measurement', 'google search', strip_tags(li.get_attribute('innerHTML')).encode("utf8"))
-# 				except:
-# 					self.log('error', 'collecting', 'google searchresults')
+					lis = self.driver.find_elements_by_css_selector("li."+LI_CLASS+"")
+					for li in lis:
+						self.log('measurement', 'google search', strip_tags(li.get_attribute('innerHTML')).encode("utf8"))
+				except:
+					self.log('error', 'collecting', 'google searchresults')
+					self.driver.save_screenshot(str(self.unit_id)+'_result'+str(r)+'.jpg')
+					r+=1
 				time.sleep(delay)
 
 			fo.close()
