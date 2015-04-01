@@ -9,6 +9,7 @@ import browser_unit
 
 GENDER_DIV = "EA yP"
 INPUT_ID = "lst-ib"
+LI_CLASS = "g"
 
 # strip html
 
@@ -39,14 +40,22 @@ class GoogleSearchUnit(browser_unit.BrowserUnit):
 			for line in fo:		# For all queries in the list, obtain search results on Google
 				q = line.strip()
 				print q
+				try:
+					self.driver.get("http://www.google.com/")
+					self.driver.find_element_by_id(INPUT_ID).clear()
+					self.driver.find_element_by_id(INPUT_ID).send_keys(q)
+					self.driver.find_element_by_id(INPUT_ID).send_keys(Keys.RETURN)
+					self.log('treatment', 'google search', q)
+				except:
+					self.log('error', 'google search', q)
 # 				try:
-				self.driver.get("http://www.google.com/")
-				self.driver.find_element_by_id(INPUT_ID).clear()
-				self.driver.find_element_by_id(INPUT_ID).send_keys(q)
-				self.driver.find_element_by_id(INPUT_ID).send_keys(Keys.RETURN)
-				self.log('treatment', 'google search', q)
+# 				time.sleep(200)
+				lis = self.driver.find_elements_by_css_selector("li."+LI_CLASS+"")
+				print len(lis)
+				for li in lis:
+					self.log('measurement', 'google search', strip_tags(li.get_attribute('innerHTML')).encode("utf8"))
 # 				except:
-# 					self.log('error', 'google search', q)
+# 					self.log('error', 'collecting', 'google searchresults')
 				time.sleep(delay)
 
 			fo.close()
