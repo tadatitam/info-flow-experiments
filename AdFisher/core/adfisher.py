@@ -80,10 +80,10 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
 		else:
 			raw_input("Could not resolve return result from load_results(). Press Enter to exit")
 			sys.exit(0)
-	
+		analysis.statistics.print_counts(X,y)
 		if(ml_analysis):
 			classifier, observed_values, unit_assignments = analysis.ml.train_and_test(X, y, 
-												   splittype='timed', 
+												   splittype='rand', 
 												   splitfrac=0.1, 
 												   nfolds=10,
 												   verbose=True)

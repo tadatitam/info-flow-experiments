@@ -32,11 +32,11 @@ def test_stat(observed_values, unit_assignments):
 	return analysis.statistics.difference(observed_values, unit_assignments)
 # 	return statistics.correctly_classified(observed_values, unit_assignments)
 
-# adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, exp_treatment], 
-# 						measurement=measurement, end_unit=cleanup_browser,
-# 						load_results=load_results1, test_stat=test_stat, ml_analysis=True, 
-# 						log_file=log_file, exp_flag=False, analysis_flag=True, 
-# 						treatment_names=["control (female)", "experimental (male)"])
+adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, exp_treatment], 
+						measurement=measurement, end_unit=cleanup_browser,
+						load_results=load_results1, test_stat=test_stat, ml_analysis=True, 
+						log_file=log_file, exp_flag=False, analysis_flag=True, 
+						treatment_names=["control (female)", "experimental (male)"])
 
 def load_results2():
 	collection, names = converter.reader.read_log(log_file)

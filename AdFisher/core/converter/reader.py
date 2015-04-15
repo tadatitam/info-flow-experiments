@@ -114,31 +114,6 @@ def get_interest_vectors(advdicts):
 		pass
 	print "Complete"
 	return np.array(X), np.array(y), feat
-
-def get_news_vectors(advdicts):			# returns observation vector from a list of rounds
-	n = len(advdicts[0]['assignment'])
-	list = []
-	y = []
-	sys.stdout.write("Creating news vectors")
- 	sys.stdout.write("-->>")
- 	sys.stdout.flush()
-	for advdict in advdicts:
-		list.extend(advdict['newsv'])
-	X, labels, feat = freq_news_vectors(list)
-	if(labels[0] == ''):
-		for advdict in advdicts:
-			ass = advdict['assignment']
-			y1 = [0]*len(ass)
-			for i in ass[0:len(ass)/2]:
-				y1[int(i)] = 1
-			y.extend(y1)
-	else:
-		y = [int(i) for i in labels]
-	X = [X[i:i+n] for i in range(0,len(X),n)]
-	y = [y[i:i+n] for i in range(0,len(y),n)]
-# 	print feat[0].title, feat[0].url
-	print "Complete"
-	return np.array(X), np.array(y), feat
 	
 def get_feature_vectors(advdicts, feat_choice):			# returns observation vector from a list of rounds
 	n = len(advdicts[0]['assignment'])
@@ -147,12 +122,20 @@ def get_feature_vectors(advdicts, feat_choice):			# returns observation vector f
 	sys.stdout.write("Creating feature vectors")
 	sys.stdout.write("-->>")
 	sys.stdout.flush()
-	for advdict in advdicts:
-		list.extend(advdict['advector'])
+	s = datetime.now()
 	if(feat_choice == 'words'):
+		for advdict in advdicts:
+			list.extend(advdict['advector'])
 		X, labels, feat = word_vectors(list)
 	elif(feat_choice == 'ads'):
+		for advdict in advdicts:
+			list.extend(advdict['advector'])
 		X, labels, feat = ad_vectors(list)
+	elif(feat_choice == 'news'):
+		for advdict in advdicts:
+			list.extend(advdict['newsvector'])
+		X, labels, feat = freq_news_vectors(list)
+		
 	if(labels[0] == ''):
 		for advdict in advdicts:
 			ass = advdict['assignment']
@@ -166,6 +149,8 @@ def get_feature_vectors(advdicts, feat_choice):			# returns observation vector f
 	y = [y[i:i+n] for i in range(0,len(y),n)]
 # 	print feat[0].title, feat[0].url
 	print "Complete"
+	e = datetime.now()
+	print "---Time for getting feature vectors: ", str(e-s)
 	return np.array(X), np.array(y), feat
 
 def get_keyword_vectors(advdicts, keywords):
@@ -215,6 +200,7 @@ def interpret_log_line(line):
 def read_log(log_file):
 	par_adv = []
 	measured = False
+	sys.stdout.write("Reading log")
 	fo = open(log_file, "r")
 	for line in fo:
 # 		print line
@@ -224,8 +210,10 @@ def read_log(log_file):
 				num_agents = int(value)
 			elif(linename == 'treatnames'):
 				treatnames = re.split("\@\|", value)
-				print "Treatments: ", treatnames
+# 				print "Treatments: ", treatnames
 			elif(linename == 'block_id start'):
+				sys.stdout.write(".")
+				sys.stdout.flush()
 				block_id = int(value)
 				adv = []
 				ints = []
@@ -254,7 +242,8 @@ def read_log(log_file):
 		elif(linetype == 'error'):
 # 			print "Error in block", block_id, ": ", line.strip()
 			pass
-			
+	sys.stdout.write(".Reading complete\n")
+	print "Treatments: ", treatnames
 	return par_adv, treatnames
 
 def read_old_log(log_file):							
@@ -312,7 +301,7 @@ def read_old_log(log_file):
  			#print ass
  		elif(chunks[0] == gmarker and r >0 ):
  			r += 1
- 			par_adv.append({'adv':adv, 'newsv':newsv, 'ass':ass, 'xf':xvfbfails, 'interests':ints, 
+ 			par_adv.append({'advector':adv, 'newsvector':newsv, 'assignment':ass, 'xf':xvfbfails, 'intvector':ints, 
  						'break':breakout, 'loadtimes':loadtimes, 'reloads':reloads, 'errors':errors})
  			sys.stdout.write(".")
 			sys.stdout.flush()
@@ -375,7 +364,7 @@ def read_old_log(log_file):
 				pass
  	
  	r += 1
- 	par_adv.append({'adv':adv, 'newsv':newsv, 'ass':ass, 'xf':xvfbfails, 'interests':ints, 
+ 	par_adv.append({'advector':adv, 'newsvector':newsv, 'assignment':ass, 'xf':xvfbfails, 'intvector':ints, 
  			'break':breakout, 'loadtimes':loadtimes, 'reloads':reloads, 'errors':errors})
  	sys.stdout.write(".Scanning complete\n")
  	sys.stdout.flush()

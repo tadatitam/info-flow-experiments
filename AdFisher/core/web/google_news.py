@@ -30,7 +30,6 @@ class GoogleNewsUnit(google_ads.GoogleAdsUnit):
 		google_ads.GoogleAdsUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
 # 		browser_unit.BrowserUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
 		
-
 	def get_topstories(self):						# get top news articles from Google
 		sys.stdout.write(".")
 		sys.stdout.flush()
@@ -90,37 +89,6 @@ class GoogleNewsUnit(google_ads.GoogleAdsUnit):
 			news = strip_tags(tim+"@|"+heading+"@|"+title+"@|"+agency+"@|"+ago+"@|"+body).encode("utf8")
 			self.log('measurement', 'news', news)
 	
-	def read_articles(self, keyword, count):			# click on articles having a keyword
-		self.driver.set_page_load_timeout(60)
-		self.driver.get("http://news.google.com")
-		tim = str(datetime.now())
-		i = 0
-		for i in range(0, count):
-	# 		links = self.driver.find_elements_by_link_text(keyword)
-			links = self.driver.find_elements_by_xpath(".//div[@class='esc-lead-article-source-wrapper'][contains(.,'"+keyword+"')]")
-			print len(links)
-			if(i>=len(links)):
-				break
-			print links[i].get_attribute("innerHTML")
-			links[i].find_element_by_xpath("../div[@class='esc-lead-article-title-wrapper']/h2/a/span").click()
-	# 		links[i].send_keys(Keys.CONTROL + Keys.RETURN)
-	# 		links[i].click()
-			for handle in self.driver.window_handles:
-				print "Handle = ",handle
-				self.driver.switch_to.window(handle);
-				print self.driver.title
-				if not(self.driver.title.strip() == "Google News"):
-					time.sleep(20)
-					site = self.driver.current_url
-					self.log('treatment', 'read news', site)
-# 					log(site+"||"+str(treatmentid), id, LOG_FILE)
-					print "closing", handle
-					self.driver.close()
-					self.driver.switch_to.window(self.driver.window_handles[0])
-				
-	
-	
-
 	def get_news(self,type, reloads, delay):						# get news articles from Google
 		rel = 0
 		while (rel < reloads):	# number of reloads on sites to capture all ads
@@ -140,4 +108,42 @@ class GoogleNewsUnit(google_ads.GoogleAdsUnit):
 	# 			log('errorcollecting', id, LOG_FILE)
 	# 			pass
 			rel = rel + 1
-
+	
+	def read_articles(self, count=5, agency=None, keyword=None, category=None, time_on_site=20):
+		"""Click on articles from an agency, or having a certain keyword, or under a category"""
+		self.driver.set_page_load_timeout(60)
+		self.driver.get("http://news.google.com")
+		tim = str(datetime.now())
+		i = 0
+		for i in range(0, count):
+			links = []
+	# 		links = self.driver.find_elements_by_link_text(agency)
+			if(agency != None):
+				links.extend(self.driver.find_elements_by_xpath(".//div[@class='esc-lead-article-source-wrapper'][contains(.,'"+agency+"')]/.."))
+			print "links in unit", self.unit_id, "found:", len(links)
+			if(keyword != None):
+				links.extend(self.driver.find_elements_by_xpath(".//td[@class='esc-layout-article-cell'][contains(.,'"+keyword+"')]"))
+			print "links in unit", self.unit_id, "found:", len(links)
+			if(category != None):
+				header = self.driver.find_element_by_xpath(".//div[@class='section-header'][contains(.,'"+category+"')]")
+				links.extend(header.find_elements_by_xpath("../div/div/div/div/div/table/tbody/tr/td[@class='esc-layout-article-cell']"))
+			print "links in unit", self.unit_id, "found:", len(links)
+# 			time.sleep(20)
+			if(i>=len(links)):
+				break
+			print strip_tags(links[i].get_attribute("innerHTML"))
+			links[i].find_element_by_xpath("div[@class='esc-lead-article-title-wrapper']/h2/a/span").click()
+	# 		links[i].send_keys(Keys.CONTROL + Keys.RETURN)
+	# 		links[i].click()
+			for handle in self.driver.window_handles:
+				print "Handle = ",handle
+				self.driver.switch_to.window(handle);
+				print self.driver.title
+				if not(self.driver.title.strip() == "Google News"):
+					time.sleep(time_on_site)
+					site = self.driver.current_url
+					self.log('treatment', 'read news', site)
+# 					log(site+"||"+str(treatmentid), id, LOG_FILE)
+					print "closing", handle
+					self.driver.close()
+					self.driver.switch_to.window(self.driver.window_handles[0])

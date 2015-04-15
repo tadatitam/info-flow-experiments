@@ -1,6 +1,7 @@
 import re, sys										# regular expressions
 from stemming.porter2 import stem				# for Porter Stemming 
 import common
+from datetime import datetime, timedelta			# to read timestamps reloadtimes
 	
 ########### CHOICES FOR THE NEWS-COMPARISON, NEWS-IDENTIFICATION #############
 
@@ -24,7 +25,26 @@ W_CHOICE = NUM
 ########### NEWS CLASS #############
 
 class News:
-
+	
+	def __init__(self, value, treatment_id, separator = '@|'):
+		chunks = re.split(separator, value)
+		self.time = datetime.strptime(chunks[0], "%Y-%m-%d %H:%M:%S.%f")
+		self.heading = chunks[1]
+		self.title = chunks[2]
+		self.agency = chunks[3]
+		self.ago = chunks[4]
+		self.body = chunks[5]
+		self.label = treatment_id
+	
+# 	def __init__(self, news):
+# 		self.title = common.strip_tags(news['Title'])
+# 		self.agency = common.strip_tags(news['Agency'])
+# 		self.ago = common.strip_tags(news['Ago'])
+# 		self.body = common.strip_tags(news['Body'])
+# 		self.time = news['Time']
+# 		self.label = news['Label']
+	
+	
 	def printStuff(self, coeff, C, c):
 # 		print "\multicolumn{1}{l}{", self.title, "; \url{", self.url, "}} & \multirow{2}{*}{", round(coeff, 3), 
 # 		print "} & \multirow{2}{*}{", a, "(", round(100.*a/(a+b), 1), "\%)} & \multirow{2}{*}{", b, "(", round(100.*b/(a+b), 1), "\%)}\\\\"
@@ -44,15 +64,6 @@ class News:
 		
 		print self.title, " & ", self.agency, " & $", round(coeff, 3), "$ & $", 
 		print int(c[4]), "$ & $", int(c[5]), "$ & & $", int(C[4]), "$ & $", int(C[5]), "$ \\\\"
-		
-	def __init__(self, news):
-		self.title = common.strip_tags(news['Title'])
-		self.agency = common.strip_tags(news['Agency'])
-		self.ago = common.strip_tags(news['Ago'])
-		self.body = common.strip_tags(news['Body'])
-		self.time = news['Time']
-		self.label = news['Label']
-	
 	def display(self):
 		print ("Title: "+self.title)
 		print ("Agency: "+self.agency)

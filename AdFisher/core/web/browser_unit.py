@@ -119,18 +119,19 @@ class BrowserUnit:
 		line = fo.readline()
 		tim, linetype, linename, value, unit_id, treatment_id = self.interpret_log_line(line)
 		instances = int(value)
+		fo.close()
 	
 		fo = open(self.log_file, "r")
 		for line in fo:
 			tim, linetype, linename, value, unit_id, treatment_id = self.interpret_log_line(line)
 			if(linename == 'block_id start'):
 				round = int(value)
-# 		print "round, instances: ", round, instances
-		
+		print "round, instances: ", round, instances
+		fo.close()
 		clear = False
 		count = 0
-		round = int(round)
 		while(not clear):
+			time.sleep(5)
 			count += 1
 			if(count > 500):
 				self.log('event', 'wait_for_others timeout', 'breaking out')
@@ -148,8 +149,8 @@ class BrowserUnit:
 					if(value=='training-end'):
 						c[int(unit_id)-1] -= 1
 			fo.close()
-			time.sleep(5)
 			clear = True
+			print c
 			for i in range(0, instances):
 				if(c[i] == 0):
 					clear = clear and True
