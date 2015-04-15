@@ -120,10 +120,10 @@ class GoogleNewsUnit(google_ads.GoogleAdsUnit):
 	# 		links = self.driver.find_elements_by_link_text(agency)
 			if(agency != None):
 				links.extend(self.driver.find_elements_by_xpath(".//div[@class='esc-lead-article-source-wrapper'][contains(.,'"+agency+"')]/.."))
-			print "links in unit", self.unit_id, "found:", len(links)
+# 			print "links in unit", self.unit_id, "found:", len(links)
 			if(keyword != None):
 				links.extend(self.driver.find_elements_by_xpath(".//td[@class='esc-layout-article-cell'][contains(.,'"+keyword+"')]"))
-			print "links in unit", self.unit_id, "found:", len(links)
+# 			print "links in unit", self.unit_id, "found:", len(links)
 			if(category != None):
 				header = self.driver.find_element_by_xpath(".//div[@class='section-header'][contains(.,'"+category+"')]")
 				links.extend(header.find_elements_by_xpath("../div/div/div/div/div/table/tbody/tr/td[@class='esc-layout-article-cell']"))
@@ -136,7 +136,7 @@ class GoogleNewsUnit(google_ads.GoogleAdsUnit):
 	# 		links[i].send_keys(Keys.CONTROL + Keys.RETURN)
 	# 		links[i].click()
 			for handle in self.driver.window_handles:
-				print "Handle = ",handle
+# 				print "Handle = ",handle
 				self.driver.switch_to.window(handle);
 				print self.driver.title
 				if not(self.driver.title.strip() == "Google News"):
@@ -144,6 +144,6 @@ class GoogleNewsUnit(google_ads.GoogleAdsUnit):
 					site = self.driver.current_url
 					self.log('treatment', 'read news', site)
 # 					log(site+"||"+str(treatmentid), id, LOG_FILE)
-					print "closing", handle
+# 					print "closing", handle
 					self.driver.close()
 					self.driver.switch_to.window(self.driver.window_handles[0])

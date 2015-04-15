@@ -126,7 +126,7 @@ class BrowserUnit:
 			tim, linetype, linename, value, unit_id, treatment_id = self.interpret_log_line(line)
 			if(linename == 'block_id start'):
 				round = int(value)
-		print "round, instances: ", round, instances
+# 		print "round, instances: ", round, instances
 		fo.close()
 		clear = False
 		count = 0
@@ -150,7 +150,7 @@ class BrowserUnit:
 						c[int(unit_id)-1] -= 1
 			fo.close()
 			clear = True
-			print c
+# 			print c
 			for i in range(0, instances):
 				if(c[i] == 0):
 					clear = clear and True
