@@ -131,7 +131,7 @@ class GoogleNewsUnit(google_ads.GoogleAdsUnit):
 # 			time.sleep(20)
 			if(i>=len(links)):
 				break
-			print strip_tags(links[i].get_attribute("innerHTML"))
+# 			print strip_tags(links[i].get_attribute("innerHTML"))
 			links[i].find_element_by_xpath("div[@class='esc-lead-article-title-wrapper']/h2/a/span").click()
 	# 		links[i].send_keys(Keys.CONTROL + Keys.RETURN)
 	# 		links[i].click()
