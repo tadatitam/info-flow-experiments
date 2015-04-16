@@ -19,10 +19,10 @@ passw1="anzor1234"
 # passw2="lucinde1234"	oct 2 1989
 
 def make_browser(unit_id, treatment_id):
-	b = web.google_news.GoogleNewsUnit(browser='firefox', log_file=log_file, unit_id=unit_id, 
-		treatment_id=treatment_id, headless=False, proxy = None)
 # 	b = web.google_news.GoogleNewsUnit(browser='firefox', log_file=log_file, unit_id=unit_id, 
-# 		treatment_id=treatment_id, headless=True, proxy = "proxy.pdl.cmu.edu:8080")
+# 		treatment_id=treatment_id, headless=False, proxy = None)
+	b = web.google_news.GoogleNewsUnit(browser='firefox', log_file=log_file, unit_id=unit_id, 
+		treatment_id=treatment_id, headless=True, proxy = "proxy.pdl.cmu.edu:8080")
 	return b
 
 # Control Group treatment
@@ -59,6 +59,6 @@ def test_stat(observed_values, unit_assignments):
 adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, control_treatment], 
 						measurement=measurement, end_unit=cleanup_browser,
 						load_results=load_results, test_stat=test_stat, ml_analysis=True, 
-						num_blocks=1, num_units=2, timeout=2000,
+						num_blocks=1000, num_units=2, timeout=2000,
 						log_file=log_file, exp_flag=True, analysis_flag=False, 
 						treatment_names=["anzor-suggested"])
