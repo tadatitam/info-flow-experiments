@@ -4,7 +4,8 @@ from selenium import webdriver										# for running the driver on websites
 from datetime import datetime										# for tagging log with datetime
 from selenium.webdriver.common.keys import Keys						# to press keys on a webpage
 # import browser_unit
-import google_ads
+# import google_ads
+import google_search
 
 # strip html
 
@@ -24,13 +25,33 @@ def strip_tags(html):
     s.feed(html)
     return s.get_data()  
 
-class GoogleNewsUnit(google_ads.GoogleAdsUnit):
+class GoogleNewsUnit(google_search.GoogleSearchUnit):
 
 	def __init__(self, browser, log_file, unit_id, treatment_id, headless=False, proxy=None):
-		google_ads.GoogleAdsUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
+		google_search.GoogleSearchUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
+# 		google_ads.GoogleAdsUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
 # 		browser_unit.BrowserUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
 		
-	def get_topstories(self):						# get top news articles from Google
+	def get_suggestedstories(self):
+		"""Get suggested stories from Google News"""
+		sys.stdout.write(".")
+		sys.stdout.flush()
+		self.driver.set_page_load_timeout(60)
+		self.driver.get("http://news.google.com/news/section?topic=sfy")
+		tim = str(datetime.now())
+		tds = self.driver.find_elements_by_xpath(".//td[@class='esc-layout-article-cell']")
+		for td in tds:
+			title = td.find_element_by_xpath(".//div[@class='esc-lead-article-title-wrapper']/h2/a/span").get_attribute('innerHTML')
+			stds = td.find_elements_by_xpath(".//div[@class='esc-lead-article-source-wrapper']/table/tbody/tr/td")
+			agency = stds[0].find_element_by_xpath(".//span").get_attribute("innerHTML")
+			ago = stds[1].find_element_by_xpath(".//span[@class='al-attribution-timestamp']").get_attribute("innerHTML")
+			body = td.find_element_by_xpath(".//div[@class='esc-lead-snippet-wrapper']").get_attribute('innerHTML')
+			heading = "Suggested For You"
+			news = strip_tags(tim+"@|"+heading+"@|"+title+"@|"+agency+"@|"+ago+"@|"+body).encode("utf8")
+			self.log('measurement', 'news', news)
+	
+	def get_topstories(self):
+		"""Get top news articles from Google News"""
 		sys.stdout.write(".")
 		sys.stdout.flush()
 		self.driver.set_page_load_timeout(60)
@@ -41,19 +62,25 @@ class GoogleNewsUnit(google_ads.GoogleAdsUnit):
 		print len(topdivs)
 		for div in topdivs:
 			title = div.find_element_by_xpath(".//div[@class='esc-lead-article-title-wrapper']/h2/a/span").get_attribute('innerHTML')
-	# 		print title
 			tds = div.find_elements_by_xpath(".//div[@class='esc-lead-article-source-wrapper']/table/tbody/tr/td")
 			agency = tds[0].find_element_by_xpath(".//span").get_attribute("innerHTML")
 			ago = tds[1].find_element_by_xpath(".//span[@class='al-attribution-timestamp']").get_attribute("innerHTML")
-	# 		print agency, ago
 			body = div.find_element_by_xpath(".//div[@class='esc-lead-snippet-wrapper']").get_attribute('innerHTML')
-	# 		print body	
-	# 		print ""
-# 			f = strip_tags("news||"+str(id)+"||"+str(treatmentid)+"||"+tim+"||"+title+"||"+agency+"||"+ago+"||"+body).encode("utf8")
-			news = strip_tags(tim+"@|"+title+"@|"+agency+"@|"+ago+"@|"+body).encode("utf8")
+			heading = "Top News"
+			news = strip_tags(tim+"@|"+heading+"@|"+title+"@|"+agency+"@|"+ago+"@|"+body).encode("utf8")
 			self.log('measurement', 'news', news)
+
+# 	def get_otherstories(self):
+# 		"""Get all news articles other than top stories from Google News"""
+# 		sys.stdout.write(".")
+# 		sys.stdout.flush()
+# 		self.driver.set_page_load_timeout(60)
+# 		self.driver.get("http://news.google.com")
+# 		tim = str(datetime.now())
+# 		div = self.driver.find_element_by_xpath(".//td[@class='lt-col']/div/div/div[@class='section-list']")
 	
-	def get_allstories(self):						# get all news articles from Google
+	def get_allbutsuggested(self):	# Slow execution
+		"""Get all news articles (except suggested stories) from Google News"""
 		sys.stdout.write(".")
 		sys.stdout.flush()
 		self.driver.set_page_load_timeout(60)
@@ -89,7 +116,8 @@ class GoogleNewsUnit(google_ads.GoogleAdsUnit):
 			news = strip_tags(tim+"@|"+heading+"@|"+title+"@|"+agency+"@|"+ago+"@|"+body).encode("utf8")
 			self.log('measurement', 'news', news)
 	
-	def get_news(self,type, reloads, delay):						# get news articles from Google
+	def get_news(self,type, reloads, delay):
+		"""Get news articles from Google"""
 		rel = 0
 		while (rel < reloads):	# number of reloads on sites to capture all ads
 			time.sleep(delay)
@@ -99,7 +127,9 @@ class GoogleNewsUnit(google_ads.GoogleAdsUnit):
 				if(type == 'top'):
 					self.get_topstories()
 				elif(type == 'all'):
-					self.get_allstories()
+					self.get_allbutsuggested()
+				elif(type == 'suggested'):
+					self.get_suggestedstories()
 				else:
 					raw_input("No such site found: %s!" % site)
 				e = datetime.now()

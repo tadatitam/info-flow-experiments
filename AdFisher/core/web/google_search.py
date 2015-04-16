@@ -11,6 +11,8 @@ GENDER_DIV = "EA yP"
 INPUT_ID = "lst-ib"
 LI_CLASS = "g"
 
+SIGNIN_A = "gb_70"
+
 # strip html
 
 from HTMLParser import HTMLParser
@@ -34,6 +36,53 @@ class GoogleSearchUnit(browser_unit.BrowserUnit):
 	def __init__(self, browser, log_file, unit_id, treatment_id, headless=False, proxy=None):
 		browser_unit.BrowserUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
 		
+	def login(self, username, password):
+		"""Login to Google with username and password"""
+		try:
+			self.driver.set_page_load_timeout(60)
+			self.driver.get("https://www.google.com")
+			self.driver.find_element_by_xpath(".//a[@id='"+SIGNIN_A+"']").click()
+			self.driver.find_element_by_id("Email").send_keys(username)
+			self.driver.find_element_by_id("Passwd").send_keys(password)
+			self.driver.find_element_by_id("signIn").click()
+			self.log('treatment', 'login', username)
+		except:
+			self.log('error', 'logging in', username)
+			
+	def search_and_click(self, query_file, clickdelay=20, clickcount=5):
+		s = 0
+		r = 0
+		fo = open(query_file, "r")
+		for line in fo:		# For all queries in the list, obtain search results on Google
+			q = line.strip()
+			print q, self.unit_id
+			try:
+				self.driver.get("http://www.google.com/")
+				time.sleep(1)
+				self.driver.find_element_by_id(INPUT_ID).clear()
+				self.driver.find_element_by_id(INPUT_ID).send_keys(q)
+				self.driver.find_element_by_id(INPUT_ID).send_keys(Keys.RETURN)
+				self.log('treatment', 'google search', q)
+			except:
+				self.log('error', 'google search', q)
+				self.driver.save_screenshot(str(self.unit_id)+'_search'+str(s)+'.jpg')
+				s+=1
+			for y in range(1, clickcount+1): # How many search results to visit
+				print y
+				try:
+					self.driver.find_element_by_css_selector("ol#rso li:nth-of-type("+str(y)+") div h3 a").click()
+					time.sleep(3)
+					print self.driver.current_url
+					link = self.driver.current_url
+					self.driver.back()
+					self.log('treatment', 'visit page', link)
+				except:
+					self.log('error', 'collecting', 'google searchresults')
+					self.driver.save_screenshot(str(self.unit_id)+'_visit'+str(r)+'.jpg')
+					r+=1
+				time.sleep(clickdelay)
+		fo.close()
+				
 	def infinitely_search_for_terms(self, query_file, delay):
 		s = 0
 		r = 0
@@ -62,7 +111,6 @@ class GoogleSearchUnit(browser_unit.BrowserUnit):
 					self.driver.save_screenshot(str(self.unit_id)+'_result'+str(r)+'.jpg')
 					r+=1
 				time.sleep(delay)
-
 			fo.close()
 	
 	def collect_results():
