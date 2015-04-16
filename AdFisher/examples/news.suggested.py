@@ -29,7 +29,7 @@ def make_browser(unit_id, treatment_id):
 def control_treatment(unit):
 	unit.login(username=usern1, password=passw1)
 	unit.read_articles(count=5, category="Sports", time_on_site=5)
-# 	unit.search_and_click(query_file, clickcount=3)
+	unit.search_and_click(query_file, clickcount=3)
 
 # Experimental Group treatment
 def exp_treatment(unit):
