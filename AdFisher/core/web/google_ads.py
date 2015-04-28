@@ -4,7 +4,8 @@ from selenium import webdriver                                      # for runnin
 from datetime import datetime                                       # for tagging log with datetime
 from selenium.webdriver.common.keys import Keys                     # to press keys on a webpage
 from selenium.webdriver.common.action_chains import ActionChains    # to move mouse over
-import browser_unit
+# import browser_unit
+import google_search
 
 # Google ad settings page class declarations
 
@@ -50,10 +51,11 @@ def strip_tags(html):
     s.feed(html)
     return s.get_data()  
 
-class GoogleAdsUnit(browser_unit.BrowserUnit):
+class GoogleAdsUnit(google_search.GoogleSearchUnit):
 
     def __init__(self, browser, log_file, unit_id, treatment_id, headless=False, proxy=None):
-        browser_unit.BrowserUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
+        google_search.GoogleSearchUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
+#         browser_unit.BrowserUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
         
     def opt_in(self):
         """Opt in to behavioral advertising on Google"""
