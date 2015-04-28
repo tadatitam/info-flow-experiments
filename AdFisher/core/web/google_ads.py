@@ -280,8 +280,7 @@ class GoogleAdsUnit(google_search.GoogleSearchUnit):
         rel = 0
         while (rel < reloads):  # number of reloads on sites to capture all ads
             time.sleep(delay)
-#           try:
-            for i in range(0,1):
+            try:
                 s = datetime.now()
                 if(site == 'toi'):
                     save_ads_toi(file_name)
@@ -297,8 +296,8 @@ class GoogleAdsUnit(google_search.GoogleSearchUnit):
                     raw_input("No such site found: %s!" % site)
                 e = datetime.now()
                 self.log('measurement', 'loadtime', str(e-s))
-#           except:
-#               self.log('error', 'collecting ads', 'Error')
+            except:
+                self.log('error', 'collecting ads', 'Error')
             rel = rel + 1
 
     def save_ads_fox(self, file):
