@@ -4,7 +4,7 @@ from selenium import webdriver                                      # for runnin
 from datetime import datetime                                       # for tagging log with datetime
 from selenium.webdriver.common.keys import Keys                     # to press keys on a webpage
 # import browser_unit
-# import google_ads
+import google_ads
 import google_search
 
 # strip html
@@ -25,11 +25,11 @@ def strip_tags(html):
     s.feed(html)
     return s.get_data()  
 
-class GoogleNewsUnit(google_search.GoogleSearchUnit):
+class GoogleNewsUnit(google_ads.GoogleAdsUnit):
 
     def __init__(self, browser, log_file, unit_id, treatment_id, headless=False, proxy=None):
-        google_search.GoogleSearchUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
-#       google_ads.GoogleAdsUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
+#         google_search.GoogleSearchUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
+        google_ads.GoogleAdsUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
 #       browser_unit.BrowserUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
         
     def get_suggestedstories(self):

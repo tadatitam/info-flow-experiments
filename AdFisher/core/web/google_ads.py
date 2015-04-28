@@ -4,7 +4,8 @@ from selenium import webdriver                                      # for runnin
 from datetime import datetime                                       # for tagging log with datetime
 from selenium.webdriver.common.keys import Keys                     # to press keys on a webpage
 from selenium.webdriver.common.action_chains import ActionChains    # to move mouse over
-import browser_unit
+# import browser_unit
+import google_search
 
 # Google ad settings page class declarations
 
@@ -50,10 +51,11 @@ def strip_tags(html):
     s.feed(html)
     return s.get_data()  
 
-class GoogleAdsUnit(browser_unit.BrowserUnit):
+class GoogleAdsUnit(google_search.GoogleSearchUnit):
 
     def __init__(self, browser, log_file, unit_id, treatment_id, headless=False, proxy=None):
-        browser_unit.BrowserUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
+        google_search.GoogleSearchUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
+#         browser_unit.BrowserUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
         
     def opt_in(self):
         """Opt in to behavioral advertising on Google"""
@@ -189,27 +191,27 @@ class GoogleAdsUnit(browser_unit.BrowserUnit):
             print "No interests matched '%s'. Skipping." %(pref)
             self.log('error', 'removing interest', pref)
 
-    def add_interest(self, pref):                                   # check the logging
+    def add_interest(self, pref, count=1):                                   # check the logging
         """Set an ad pref"""
-        try:
-            self.driver.set_page_load_timeout(40)
-            self.driver.get("https://www.google.com/settings/ads")
-            self.driver.find_elements_by_xpath(".//div[@class='"+EDIT_DIV+"']")[3].click()
-    
+#         try:
+        self.driver.set_page_load_timeout(40)
+        self.driver.get("https://www.google.com/settings/ads")
+        self.driver.find_elements_by_xpath(".//div[@class='"+EDIT_DIV+"']")[3].click()
+        for i in range(0,count):
             self.driver.find_element_by_xpath(".//input[@class='"+PREF_INPUT+"']").send_keys(pref)
-            self.driver.find_element_by_xpath(".//div[@class='"+PREF_INPUT_FIRST+"']").click()
+            self.driver.find_element_by_xpath(".//input[@class='"+PREF_INPUT+"']").send_keys(Keys.RETURN)
+#             self.driver.find_element_by_xpath(".//div[@class='"+PREF_INPUT_FIRST+"']").click()
             time.sleep(1)
-            trs = self.driver.find_elements_by_xpath(".//tr[@class='"+PREF_TR+"']")
-            for tr in trs:
-                td = tr.find_element_by_xpath(".//td[@class='"+PREF_TD+"']").get_attribute('innerHTML')
-    #               print td
-                self.log('treatment', 'add interest ('+pref+')', td)
-            time.sleep(2)
-            self.driver.find_element_by_xpath(".//div[@class='"+PREF_OK_DIV+"']").click()
-            time.sleep(5)
-        except:
-            print "Error setting interests containing '%s'. Maybe no interests match this keyword." %(pref)
-            self.log('error', 'adding interest', pref)
+        trs = self.driver.find_elements_by_xpath(".//tr[@class='"+PREF_TR+"']")
+        print len(trs), "interest(s) added"
+        for tr in trs:
+            td = tr.find_element_by_xpath(".//td[@class='"+PREF_TD+"']").get_attribute('innerHTML')
+            self.log('treatment', 'add interest ('+pref+')', td)
+        time.sleep(2)
+        self.driver.find_element_by_xpath(".//div[@class='"+PREF_OK_DIV+"']").click()
+#         except:
+#             print "Error setting interests containing '%s'. Maybe no interests match this keyword." %(pref)
+#             self.log('error', 'adding interest', pref)
 
 
     def get_gender(self):
@@ -278,8 +280,7 @@ class GoogleAdsUnit(browser_unit.BrowserUnit):
         rel = 0
         while (rel < reloads):  # number of reloads on sites to capture all ads
             time.sleep(delay)
-#           try:
-            for i in range(0,1):
+            try:
                 s = datetime.now()
                 if(site == 'toi'):
                     save_ads_toi(file_name)
@@ -295,8 +296,8 @@ class GoogleAdsUnit(browser_unit.BrowserUnit):
                     raw_input("No such site found: %s!" % site)
                 e = datetime.now()
                 self.log('measurement', 'loadtime', str(e-s))
-#           except:
-#               self.log('error', 'collecting ads', 'Error')
+            except:
+                self.log('error', 'collecting ads', 'Error')
             rel = rel + 1
 
     def save_ads_fox(self, file):
