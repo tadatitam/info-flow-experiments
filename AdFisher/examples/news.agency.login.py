@@ -5,12 +5,17 @@ import web.google_news          # interacting with Google Search
 import converter.reader             # read log and create feature vectors
 import analysis.statistics          # statistics for significance testing
 
-log_file = 'log.sportsint.login.txt'
+log_file = 'log.agency.login.txt'
 
-usern1="louisekatranjiev"
-passw1="louise1234"
-usern2="tziviakloeter"
-passw2="tzivia1234"
+# usern1="lucianakarpaty"
+# passw1="lucianakar1234"
+# usern2="corneliasitz8"
+# passw2="cornelia1234"
+
+usern1="samanthakearney8"
+passw1="samanthakea1234"
+usern2="lucindecarl"
+passw2="lucinde1234"
 
 def make_browser(unit_id, treatment_id):
     b = web.google_news.GoogleNewsUnit(browser='firefox', log_file=log_file, unit_id=unit_id, 
@@ -23,14 +28,14 @@ def make_browser(unit_id, treatment_id):
 
 # Control Group treatment
 def control_treatment(unit):
-    unit.opt_in()
     unit.login(username=usern1, password=passw1)
 
 # Experimental Group treatment
 def exp_treatment(unit):
-    unit.opt_in()
     unit.login(username=usern2, password=passw2)
-    unit.add_interest("sport", count=25, signedin=1)
+    unit.read_articles(count=5, agency="Wall Street")
+    unit.read_articles(count=5, agency="Economist")
+    unit.read_articles(count=5, agency="Reuters")
 
 
 # Measurement - Collects ads

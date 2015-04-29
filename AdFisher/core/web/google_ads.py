@@ -21,6 +21,9 @@ RADIO_DIV = "a-u FA mQ"
 SUBMIT_DIV = "c-T-S a-b a-b-A js"
 ATTR_SPAN = "mk"
 
+
+EDIT_DIV_SIGNIN = "Dh kn c-Ha-qd c-Ha-Md"
+
 LANG_DROPDOWN = "c-T-S c-g-f-b a-oa Cr"
 LANG_DIV = "c-l"
 
@@ -191,8 +194,31 @@ class GoogleAdsUnit(google_search.GoogleSearchUnit):
             print "No interests matched '%s'. Skipping." %(pref)
             self.log('error', 'removing interest', pref)
 
-    def add_interest(self, pref, count=1, signedin=1):                                   # check the logging
-        """Set an ad pref"""
+
+    def add_interest_ongoogle(self, pref, count=1, signedin=0):
+        """Set interests on Ad Settings"""
+#         try:
+        self.driver.set_page_load_timeout(40)
+        self.driver.get("https://www.google.com/settings/ads")
+        self.driver.find_elements_by_xpath(".//div[@class='"+EDIT_DIV_SIGNIN+"']")[0].click()
+        for i in range(0,count):
+            self.driver.find_element_by_xpath(".//input[@class='"+PREF_INPUT+"']").send_keys(pref)
+            self.driver.find_element_by_xpath(".//input[@class='"+PREF_INPUT+"']").send_keys(Keys.RETURN)
+#             self.driver.find_element_by_xpath(".//div[@class='"+PREF_INPUT_FIRST+"']").click()
+            time.sleep(1)
+        trs = self.driver.find_elements_by_xpath(".//tr[@class='"+PREF_TR+"']")
+        print len(trs), "interest(s) added"
+        for tr in trs:
+            td = tr.find_element_by_xpath(".//td[@class='"+PREF_TD+"']").get_attribute('innerHTML')
+            self.log('treatment', 'add interest ('+pref+')', td)
+        time.sleep(2)
+        self.driver.find_element_by_xpath(".//div[@class='"+PREF_OK_DIV+"']").click()
+#         except:
+#             print "Error setting interests containing '%s'. Maybe no interests match this keyword." %(pref)
+#             self.log('error', 'adding interest', pref)
+
+    def add_interest(self, pref, count=1, signedin=0):
+        """Set interests on Ad Settings"""
 #         try:
         self.driver.set_page_load_timeout(40)
         self.driver.get("https://www.google.com/settings/ads")
