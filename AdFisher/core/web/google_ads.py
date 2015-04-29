@@ -191,12 +191,12 @@ class GoogleAdsUnit(google_search.GoogleSearchUnit):
             print "No interests matched '%s'. Skipping." %(pref)
             self.log('error', 'removing interest', pref)
 
-    def add_interest(self, pref, count=1):                                   # check the logging
+    def add_interest(self, pref, count=1, signedin=1):                                   # check the logging
         """Set an ad pref"""
 #         try:
         self.driver.set_page_load_timeout(40)
         self.driver.get("https://www.google.com/settings/ads")
-        self.driver.find_elements_by_xpath(".//div[@class='"+EDIT_DIV+"']")[3].click()
+        self.driver.find_elements_by_xpath(".//div[@class='"+EDIT_DIV+"']")[3-signedin].click()
         for i in range(0,count):
             self.driver.find_element_by_xpath(".//input[@class='"+PREF_INPUT+"']").send_keys(pref)
             self.driver.find_element_by_xpath(".//input[@class='"+PREF_INPUT+"']").send_keys(Keys.RETURN)
