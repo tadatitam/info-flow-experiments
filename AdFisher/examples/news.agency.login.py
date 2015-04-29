@@ -18,12 +18,12 @@ usern2="lucindecarl"
 passw2="lucinde1234"
 
 def make_browser(unit_id, treatment_id):
-    b = web.google_news.GoogleNewsUnit(browser='firefox', log_file=log_file, unit_id=unit_id, 
-                                       treatment_id=treatment_id, headless=False, 
-                                       proxy = None)
 #     b = web.google_news.GoogleNewsUnit(browser='firefox', log_file=log_file, unit_id=unit_id, 
-#                                         treatment_id=treatment_id, headless=True, 
-#                                         proxy = "proxy.pdl.cmu.edu:8080")
+#                                        treatment_id=treatment_id, headless=False, 
+#                                        proxy = None)
+    b = web.google_news.GoogleNewsUnit(browser='firefox', log_file=log_file, unit_id=unit_id, 
+                                        treatment_id=treatment_id, headless=True, 
+                                        proxy = "proxy.pdl.cmu.edu:8080")
     return b
 
 # Control Group treatment
