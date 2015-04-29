@@ -7,15 +7,10 @@ import analysis.statistics          # statistics for significance testing
 
 log_file = 'log.agency.login.txt'
 
-# usern1="lucianakarpaty"
-# passw1="lucianakar1234"
-# usern2="corneliasitz8"
-# passw2="cornelia1234"
-
-usern1="samanthakearney8"
-passw1="samanthakea1234"
-usern2="lucindecarl"
-passw2="lucinde1234"
+usern1="lucianakarpaty"
+passw1="lucianakar1234"
+usern2="corneliasitz8"
+passw2="cornelia1234"
 
 def make_browser(unit_id, treatment_id):
 #     b = web.google_news.GoogleNewsUnit(browser='firefox', log_file=log_file, unit_id=unit_id, 
