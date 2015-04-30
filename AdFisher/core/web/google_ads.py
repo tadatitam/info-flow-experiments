@@ -9,30 +9,28 @@ import google_search
 
 # Google ad settings page class declarations
 
-GENDER_DIV = "EA yP"
-AGE_DIV = "EA mP"
-LANGUAGES_DIV = "EA EP"
-INTERESTS_DIV = "EA rQ"
+GENDER_DIV = "qJ oZ"
+AGE_DIV = "qJ cZ"
+LANGUAGES_DIV = "qJ uZ"
+INTERESTS_DIV = "qJ h0"
 
-OPTIN_DIV = "hl Dh uP"
-OPTOUT_DIV = "hl LC Dh"
-EDIT_DIV = "hl Dh c-Ha-qd c-Ha-Md"
-RADIO_DIV = "a-u FA mQ"
-SUBMIT_DIV = "c-T-S a-b a-b-A js"
-ATTR_SPAN = "mk"
+OPTIN_DIV = "to Uj kZ"
+OPTOUT_DIV = "UZ Uj BL"
+EDIT_DIV = "to Uj c-eb-qf c-eb-Jh"
+RADIO_DIV = "a-z rJ c0"
+SUBMIT_DIV = "c-ba-aa a-b a-b-E ey"
+ATTR_SPAN = "Fn"
 
+EDIT_DIV_SIGNIN = "Uj Ks c-eb-qf c-eb-Jh"
 
-EDIT_DIV_SIGNIN = "Dh kn c-Ha-qd c-Ha-Md"
-
-LANG_DROPDOWN = "c-T-S c-g-f-b a-oa Cr"
+LANG_DROPDOWN = "c-ba-aa c-g-f-b a-ra xx"
 LANG_DIV = "c-l"
 
-PREF_INPUT = "tQ a-la CK"
-PREF_INPUT_FIRST = "zK wK va"
-PREF_TR = "BK yr pQ"
-PREF_TD = "Yt qQ"
-CROSS_TD = "Zt"
-PREF_OK_DIV = "c-T-S a-b a-b-A GJ IC"
+PREF_INPUT = "j0 a-na nU"
+PREF_TR = "mU tx f0"
+PREF_TD = "qA g0"
+CROSS_TD = "rA"
+PREF_OK_DIV = "c-ba-aa a-b a-b-E rT yL"
 
 SIGNIN_A = "gb_70"
 
