@@ -82,7 +82,7 @@ class GoogleAdsUnit(google_search.GoogleSearchUnit):
         except:
             self.log('error', 'opting out', 'True')
     
-    def login(self, username, password):
+    def login_google(self, username, password):
         """Login to Google with username and password"""
         try:
             self.driver.set_page_load_timeout(60)
