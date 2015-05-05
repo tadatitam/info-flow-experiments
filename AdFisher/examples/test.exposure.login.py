@@ -13,7 +13,7 @@ query_file = 'exposure-queries.txt'
 def make_browser(unit_id, treatment_id):
 #     b = web.exposure_sites.ExposureSitesUnit(browser='firefox', log_file=log_file, unit_id=unit_id, 
 #                                         treatment_id=treatment_id, headless=False, proxy = None)
-    b = web.google_ads.GoogleAdsUnit(browser='firefox', log_file=log_file, unit_id=unit_id, 
+    b = web.exposure_sites.ExposureSitesUnit(browser='firefox', log_file=log_file, unit_id=unit_id, 
         treatment_id=treatment_id, headless=True, proxy = "proxy.pdl.cmu.edu:8080")
     return b
 
