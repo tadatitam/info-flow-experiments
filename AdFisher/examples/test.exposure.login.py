@@ -11,10 +11,10 @@ site_file = 'exposure-sites.txt'
 query_file = 'exposure-queries.txt'
 
 def make_browser(unit_id, treatment_id):
-    b = web.exposure_sites.ExposureSitesUnit(browser='firefox', log_file=log_file, unit_id=unit_id, 
-                                        treatment_id=treatment_id, headless=False, proxy = None)
-#     b = web.google_ads.GoogleAdsUnit(browser='firefox', log_file=log_file, unit_id=unit_id, 
-#         treatment_id=treatment_id, headless=True, proxy = "proxy.pdl.cmu.edu:8080")
+#     b = web.exposure_sites.ExposureSitesUnit(browser='firefox', log_file=log_file, unit_id=unit_id, 
+#                                         treatment_id=treatment_id, headless=False, proxy = None)
+    b = web.google_ads.GoogleAdsUnit(browser='firefox', log_file=log_file, unit_id=unit_id, 
+        treatment_id=treatment_id, headless=True, proxy = "proxy.pdl.cmu.edu:8080")
     return b
 
 # Control Group treatment
@@ -60,7 +60,7 @@ def test_stat(observed_values, unit_assignments):
 adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, exp_treatment], 
                         measurement=measurement, end_unit=cleanup_browser,
                         load_results=load_results, test_stat=test_stat, ml_analysis=True, 
-                        num_blocks=1, num_units=2, timeout=2000,
+                        num_blocks=100, num_units=10, timeout=2000,
                         log_file=log_file, 
                         treatment_names=["optin", "optin-sites-search"])
 
