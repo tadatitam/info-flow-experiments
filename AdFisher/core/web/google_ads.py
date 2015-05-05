@@ -9,27 +9,28 @@ import google_search
 
 # Google ad settings page class declarations
 
-GENDER_DIV = "EA yP"
-AGE_DIV = "EA mP"
-LANGUAGES_DIV = "EA EP"
-INTERESTS_DIV = "EA rQ"
+GENDER_DIV = "qJ oZ"
+AGE_DIV = "qJ cZ"
+LANGUAGES_DIV = "qJ uZ"
+INTERESTS_DIV = "qJ h0"
 
-OPTIN_DIV = "hl Dh uP"
-OPTOUT_DIV = "hl LC Dh"
-EDIT_DIV = "hl Dh c-Ha-qd c-Ha-Md"
-RADIO_DIV = "a-u FA mQ"
-SUBMIT_DIV = "c-T-S a-b a-b-A js"
-ATTR_SPAN = "mk"
+OPTIN_DIV = "to Uj kZ"
+OPTOUT_DIV = "UZ Uj BL"
+EDIT_DIV = "to Uj c-eb-qf c-eb-Jh"
+RADIO_DIV = "a-z rJ c0"
+SUBMIT_DIV = "c-ba-aa a-b a-b-E ey"
+ATTR_SPAN = "Fn"
 
-LANG_DROPDOWN = "c-T-S c-g-f-b a-oa Cr"
+EDIT_DIV_SIGNIN = "Uj Ks c-eb-qf c-eb-Jh"
+
+LANG_DROPDOWN = "c-ba-aa c-g-f-b a-ra xx"
 LANG_DIV = "c-l"
 
-PREF_INPUT = "tQ a-la CK"
-PREF_INPUT_FIRST = "zK wK va"
-PREF_TR = "BK yr pQ"
-PREF_TD = "Yt qQ"
-CROSS_TD = "Zt"
-PREF_OK_DIV = "c-T-S a-b a-b-A GJ IC"
+PREF_INPUT = "j0 a-na nU"
+PREF_TR = "mU tx f0"
+PREF_TD = "qA g0"
+CROSS_TD = "rA"
+PREF_OK_DIV = "c-ba-aa a-b a-b-E rT yL"
 
 SIGNIN_A = "gb_70"
 
@@ -191,27 +192,50 @@ class GoogleAdsUnit(google_search.GoogleSearchUnit):
             print "No interests matched '%s'. Skipping." %(pref)
             self.log('error', 'removing interest', pref)
 
-    def add_interest(self, pref):                                   # check the logging
-        """Set an ad pref"""
-        try:
-            self.driver.set_page_load_timeout(40)
-            self.driver.get("https://www.google.com/settings/ads")
-            self.driver.find_elements_by_xpath(".//div[@class='"+EDIT_DIV+"']")[3].click()
-    
+
+    def add_interest_ongoogle(self, pref, count=1, signedin=0):
+        """Set interests on Ad Settings"""
+#         try:
+        self.driver.set_page_load_timeout(40)
+        self.driver.get("https://www.google.com/settings/ads")
+        self.driver.find_elements_by_xpath(".//div[@class='"+EDIT_DIV_SIGNIN+"']")[0].click()
+        for i in range(0,count):
             self.driver.find_element_by_xpath(".//input[@class='"+PREF_INPUT+"']").send_keys(pref)
-            self.driver.find_element_by_xpath(".//div[@class='"+PREF_INPUT_FIRST+"']").click()
+            self.driver.find_element_by_xpath(".//input[@class='"+PREF_INPUT+"']").send_keys(Keys.RETURN)
+#             self.driver.find_element_by_xpath(".//div[@class='"+PREF_INPUT_FIRST+"']").click()
             time.sleep(1)
-            trs = self.driver.find_elements_by_xpath(".//tr[@class='"+PREF_TR+"']")
-            for tr in trs:
-                td = tr.find_element_by_xpath(".//td[@class='"+PREF_TD+"']").get_attribute('innerHTML')
-    #               print td
-                self.log('treatment', 'add interest ('+pref+')', td)
-            time.sleep(2)
-            self.driver.find_element_by_xpath(".//div[@class='"+PREF_OK_DIV+"']").click()
-            time.sleep(5)
-        except:
-            print "Error setting interests containing '%s'. Maybe no interests match this keyword." %(pref)
-            self.log('error', 'adding interest', pref)
+        trs = self.driver.find_elements_by_xpath(".//tr[@class='"+PREF_TR+"']")
+        print len(trs), "interest(s) added"
+        for tr in trs:
+            td = tr.find_element_by_xpath(".//td[@class='"+PREF_TD+"']").get_attribute('innerHTML')
+            self.log('treatment', 'add interest ('+pref+')', td)
+        time.sleep(2)
+        self.driver.find_element_by_xpath(".//div[@class='"+PREF_OK_DIV+"']").click()
+#         except:
+#             print "Error setting interests containing '%s'. Maybe no interests match this keyword." %(pref)
+#             self.log('error', 'adding interest', pref)
+
+    def add_interest(self, pref, count=1, signedin=0):
+        """Set interests on Ad Settings"""
+#         try:
+        self.driver.set_page_load_timeout(40)
+        self.driver.get("https://www.google.com/settings/ads")
+        self.driver.find_elements_by_xpath(".//div[@class='"+EDIT_DIV+"']")[3-signedin].click()
+        for i in range(0,count):
+            self.driver.find_element_by_xpath(".//input[@class='"+PREF_INPUT+"']").send_keys(pref)
+            self.driver.find_element_by_xpath(".//input[@class='"+PREF_INPUT+"']").send_keys(Keys.RETURN)
+#             self.driver.find_element_by_xpath(".//div[@class='"+PREF_INPUT_FIRST+"']").click()
+            time.sleep(1)
+        trs = self.driver.find_elements_by_xpath(".//tr[@class='"+PREF_TR+"']")
+        print len(trs), "interest(s) added"
+        for tr in trs:
+            td = tr.find_element_by_xpath(".//td[@class='"+PREF_TD+"']").get_attribute('innerHTML')
+            self.log('treatment', 'add interest ('+pref+')', td)
+        time.sleep(2)
+        self.driver.find_element_by_xpath(".//div[@class='"+PREF_OK_DIV+"']").click()
+#         except:
+#             print "Error setting interests containing '%s'. Maybe no interests match this keyword." %(pref)
+#             self.log('error', 'adding interest', pref)
 
 
     def get_gender(self):
