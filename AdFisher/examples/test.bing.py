@@ -22,7 +22,7 @@ def exp_treatment(unit):
 
 # Measurement - Collects ads
 def measurement(unit):
-	unit.click_ad_msn_auto(log_file)
+	unit.collect_msn_ads(1,.5)
 
 
 # Shuts down the browser once we are done with it.
@@ -49,7 +49,7 @@ def test_stat(observed_values, unit_assignments):
 
 adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, exp_treatment], 
 						measurement=measurement, end_unit=cleanup_browser,
-						load_results=load_results, test_stat=test_stat, ml_analysis=True, 
+						load_results=load_results, test_stat=test_stat, ml_analysis=False, 
 						num_blocks=1, num_units=2, timeout=2000,
 						log_file=log_file,
 						treatment_names=["control (auto)", "experimental (auto)"])

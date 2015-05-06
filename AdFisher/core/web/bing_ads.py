@@ -32,23 +32,32 @@ class BingAdsUnit(browser_unit.BrowserUnit):
 	def __init__(self, browser, log_file, unit_id, treatment_id, headless=False, proxy=None):
 		browser_unit.BrowserUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
 		
-#	def collect_ads(self, reloads, delay, file_name=None):
-#		if file_name == None:
-#			file_name = self.log_file
-#		rel = 0
-#		while (rel < reloads):	# number of reloads on sites to capture all ads
-#			time.sleep(delay)
-#			try:
-#				for i in range(0,1):
-#					s = datetime.now()
-#					sys.stdout.write("x")
-#					sys.stdout.flush()
-#					click_ad_msn_auto(file_name)
-#					e = datetime.now()
-#					self.log('measurement', 'loadtime', str(e-s))
-#			except:
-#				self.log('error', 'collecting ads', 'Error')
-#			rel = rel + 1
+	def collect_msn_ads(self, reloads, delay, site='autos', file_name=None):
+		if file_name == None:
+			file_name = self.log_file
+		rel = 0
+		while (rel < reloads):	# number of reloads on sites to capture all ads
+			time.sleep(delay)
+			for i in range(0,1):
+				s = datetime.now()
+				sys.stdout.write("x")
+				sys.stdout.flush()
+				if(site == 'autos'):
+					self.click_ad_msn_auto(file_name)
+				e = datetime.now()
+				self.log('measurement', 'loadtime', str(e-s))
+			self.log('error', 'collecting ads', 'Error')
+			rel = rel + 1
+
+	def get_other_page_title(self, mainHandle):
+		driver = self.driver
+		for handle in driver.window_handles:
+			if handle != mainHandle:
+				driver.switch_to_window(handle)
+				title = driver.title.encode('utf8')
+				self.log('measurement', 'ad', title)
+				driver.close()
+		driver.switch_to_window(mainHandle)
 
 	def click_ad_msn_auto(self, file):
 		#try:
@@ -60,20 +69,30 @@ class BingAdsUnit(browser_unit.BrowserUnit):
 			driver.get("http://www.msn.com/en-us/autos")
 			mainHandle = driver.current_window_handle
 			tim = str(datetime.now())
+			#Slowly scroll though page so that advertisements load
+			time.sleep(.2)
+			driver.execute_script("window.scrollTo(0, document.body.scrollHeight/5);")
+			time.sleep(.2)
+			driver.execute_script("window.scrollTo(0, 2*document.body.scrollHeight/5);")
+			time.sleep(.2)
+			driver.execute_script("window.scrollTo(0, 3*document.body.scrollHeight/5);")
+			time.sleep(.2)
+			driver.execute_script("window.scrollTo(0, 4*document.body.scrollHeight/5);")
+			time.sleep(.2)
+			driver.execute_script("window.scrollTo(0, 5*document.body.scrollHeight/5);")
+			time.sleep(1)
+
+			#Find all of the advertisements and click on them
 			adframes = driver.find_elements(By.XPATH, "//div[@class='adcontainer']//iframe")
-			adf = adframes[0]
-			driver.switch_to_frame(adf)
-			adobj = self.driver.find_element_by_xpath("//a" )
-			adobj.click()
-			for handle in driver.window_handles:
-				if handle != mainHandle:
-					driver.switch_to_window(handle)
-					title = driver.title.encode('utf8')
-					self.log('measurement', 'ad', title)
-					driver.close()
-			driver.switch_to_window(mainHandle)
-			driver.switch_to_default_content()
-			driver.close()		
-		#except:
-		#	print "Unexpected error:", sys.exc_info()[0]
- 		#	self.log('error', 'collecting ads', 'Error')
+ 			for advert in adframes:
+				if(advert.is_displayed):
+					try:
+						advert.click()
+						time.sleep(.5)
+						self.get_other_page_title(mainHandle)
+						time.sleep(1)
+					except:
+						pass
+	#	except:
+	#		print "Unexpected error:", sys.exc_info()[0]
+ 	#		self.log('error', 'collecting ads', 'Error')
