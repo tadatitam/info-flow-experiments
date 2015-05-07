@@ -32,7 +32,7 @@ class BingAdsUnit(browser_unit.BrowserUnit):
 	def __init__(self, browser, log_file, unit_id, treatment_id, headless=False, proxy=None):
 		browser_unit.BrowserUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
 		
-	def collect_msn_ads(self, reloads, delay, site='autos', file_name=None):
+	def collect_msn_ads(self, reloads, delay, site, file_name=None):
 		if file_name == None:
 			file_name = self.log_file
 		rel = 0
@@ -40,15 +40,13 @@ class BingAdsUnit(browser_unit.BrowserUnit):
 			time.sleep(delay)
 			for i in range(0,1):
 				s = datetime.now()
-				sys.stdout.write("x")
-				sys.stdout.flush()
-				if(site == 'autos'):
-					self.click_ad_msn_auto(file_name)
+				self.click_ad_msn(file_name, site)
 				e = datetime.now()
 				self.log('measurement', 'loadtime', str(e-s))
-			self.log('error', 'collecting ads', 'Error')
+			#self.log('error', 'collecting ads', 'Error')
 			rel = rel + 1
 
+	#Get the name of all other tabs open	
 	def get_other_page_title(self, mainHandle):
 		driver = self.driver
 		for handle in driver.window_handles:
@@ -59,14 +57,18 @@ class BingAdsUnit(browser_unit.BrowserUnit):
 				driver.close()
 		driver.switch_to_window(mainHandle)
 
-	def click_ad_msn_auto(self, file):
+	def click_ad_msn(self, file, site):
 		#try:
 			driver = self.driver
 			id = self.unit_id
 			sys.stdout.write(".")
 			sys.stdout.flush()
 			driver.set_page_load_timeout(60)
-			driver.get("http://www.msn.com/en-us/autos")
+			if(site == "home"):
+				driver.get("http://www.msn.com/en-us")
+			if(site in ["news", "weather", "entertainment", "sports", "money",
+					"lifestyle", "health", "foodanddrink","travel", "autos"]):
+				driver.get("http://www.msn.com/en-us/" + site)
 			mainHandle = driver.current_window_handle
 			tim = str(datetime.now())
 			#Slowly scroll though page so that advertisements load
@@ -82,7 +84,7 @@ class BingAdsUnit(browser_unit.BrowserUnit):
 			driver.execute_script("window.scrollTo(0, 5*document.body.scrollHeight/5);")
 			time.sleep(1)
 
-			#Find all of the advertisements and click on them
+			#Find all of the advertisements and click on them, then get the name of the popup
 			adframes = driver.find_elements(By.XPATH, "//div[@class='adcontainer']//iframe")
  			for advert in adframes:
 				if(advert.is_displayed):

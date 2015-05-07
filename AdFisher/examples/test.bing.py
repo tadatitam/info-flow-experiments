@@ -14,20 +14,20 @@ def make_browser(unit_id, treatment_id):
 
 # Control Group treatment
 def control_treatment(unit):
-	pass
+	unit.collect_msn_ads(10,5, 'travel')
 
 # Experimental Group treatment
 def exp_treatment(unit):
-	pass
+	unit.collect_msn_ads(10,5, 'autos')
 
 # Measurement - Collects ads
 def measurement(unit):
-	unit.collect_msn_ads(1,.5)
+	pass
 
 
 # Shuts down the browser once we are done with it.
 def cleanup_browser(unit):
-	pass
+	unit.quit()
 
 #------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
