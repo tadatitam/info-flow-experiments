@@ -84,12 +84,13 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
         if(ml_analysis):
             classifier, observed_values, unit_assignments = analysis.ml.train_and_test(X, y, 
                                                    splittype='rand', 
-                                                   splitfrac=0.1, 
+                                                   splitfrac=0.2, 
                                                    nfolds=10,
                                                    verbose=True)
             # use classifier and features here to get top ads
             print "Extracting top features\n"
-            analysis.ml.print_only_top_features(classifier, features, treatment_names, feat_choice="ads")
+            topk0, topk1 = analysis.ml.print_only_top_features(classifier, features, treatment_names, feat_choice="ads")
+#             analysis.statistics.print_frequencies(X, y, features, topk0, topk1)
             p_value = analysis.permutation_test.blocked_sampled_test(observed_values, unit_assignments, 
                                                                 analysis.statistics.correctly_classified)
 
@@ -100,22 +101,4 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
             p_value = analysis.permutation_test.blocked_sampled_test(observed_values, unit_assignments, test_stat)
         print "p-value: ", p_value
 
-## Pre-experiment functions
-# this should go into browser_unit
-
-def collect_sites_from_alexa(output_file="out.txt", nsites=5, browser="firefox", 
-                 alexa_link="http://www.alexa.com/topsites"):
-    if(browser != "firefox" and browser != "chrome"):
-        print "Illegal browser choice", browser
-        return
-    PATH="./"+output_file
-    if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
-        response = raw_input("This will overwrite file %s... Continue? (Y/n)" % output_file)
-        if response == 'n':
-            sys.exit(0)
-    fo = open(output_file, "w")
-    fo.close()
-    print "Beginning Collection"
-    alexa.run_script(alexa_link, output_file, nsites, browser)
-    print "Collection Complete. Results stored in ", output_file
 

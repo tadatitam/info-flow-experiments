@@ -59,11 +59,11 @@ def test_accuracy(clf, X_test, y_test):
 def print_only_top_features(clf, feat, treatnames, feat_choice, nfeat=5):
     n_classes = 1 #clf.feature_importances_.shape[0]            #`~~~~~~~~~~
 #   print n_classes
-    feature_scores = clf.coef_[0]
+    feature_scores = clf.coef_[0]       #`~~~~~~~~~~ replace feature_importances_ with coef_[0]
 #   print feature_scores.shape          #`~~~~~~~~~~
 #   print np.count_nonzero(feature_scores)
-    if(n_classes == 1):         #`~~~~~~~~~~
-        topk1 = np.argsort(feature_scores)[::-1][:nfeat]            #`~~~~~~~~~~
+    if(n_classes == 1):
+        topk1 = np.argsort(feature_scores)[::-1][:nfeat]
         print "\nTop features for treatment %s:" %(str(treatnames[1]))
         for i in topk1:
             print feature_scores[i]
@@ -71,7 +71,7 @@ def print_only_top_features(clf, feat, treatnames, feat_choice, nfeat=5):
                 feat.choose_by_index(i).display()
             elif(feat_choice == 'words'):
                 print feat[i]
-        topk0 = np.argsort(feature_scores)[:nfeat]          #`~~~~~~~~~~
+        topk0 = np.argsort(feature_scores)[:nfeat]
         print "\n\nTop features for treatment %s:" %(str(treatnames[0]))
         for i in topk0:
             print feature_scores[i]
@@ -81,14 +81,14 @@ def print_only_top_features(clf, feat, treatnames, feat_choice, nfeat=5):
                 print feat[i]
     else:
         for i in range(0,n_classes):
-            topk = np.argsort(feature_scores[i])[::-1][:nfeat]          #`~~~~~~~~~~
+            topk = np.argsort(feature_scores[i])[::-1][:nfeat]
             print "Top features for treatment %s:" %(str(treatnames[i]))
             for j in topk:
                 if(feat_choice == 'ads'):
                     feat.choose_by_index(j).display()
                 elif(feat_choice == 'words'):
                     print feat[j]
-            print "coefs: ", feature_scores[i][topk]            #`~~~~~~~~~~ replace feature_importances_ with coef_[0]
+            print "coefs: ", feature_scores[i][topk]
     return topk0, topk1
     
 

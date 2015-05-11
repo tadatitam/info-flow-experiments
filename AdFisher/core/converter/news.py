@@ -9,6 +9,7 @@ from datetime import datetime, timedelta            # to read timestamps reloadt
 AGENCY = 1
 TITLE_AGENCY = 2
 TITLE_BODY = 3
+TITLE_HEADING = 4
 CHOICE = TITLE_AGENCY
 
 # Choices for measure of similarity
@@ -36,13 +37,13 @@ class News:
         self.body = chunks[5]
         self.label = treatment_id
     
-#   def __init__(self, news):
-#       self.title = common.strip_tags(news['Title'])
-#       self.agency = common.strip_tags(news['Agency'])
-#       self.ago = common.strip_tags(news['Ago'])
-#       self.body = common.strip_tags(news['Body'])
-#       self.time = news['Time']
-#       self.label = news['Label']
+#     def __init__(self, news):
+#         self.title = common.strip_tags(news['Title'])
+#         self.agency = common.strip_tags(news['Agency'])
+#         self.ago = common.strip_tags(news['Ago'])
+#         self.body = common.strip_tags(news['Body'])
+#         self.time = news['Time']
+#         self.label = news['Label']
     
     
     def printStuff(self, coeff, C, c):
@@ -78,6 +79,9 @@ class News:
                 return(True)
         elif(choice == TITLE_BODY):
             if(self.body == news.body and self.title == news.title):
+                return(True)
+        elif(choice == TITLE_HEADING):
+            if(self.heading == news.heading and self.title == news.title):
                 return(True)
         else:
             return(False)   

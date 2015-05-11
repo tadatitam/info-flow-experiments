@@ -41,17 +41,18 @@ class BrowserUnit:
                 print "Unidentified Platform"
                 sys.exit(0)
         elif(browser=='chrome'):
-            print "WARNING: Expecting chromedriver at specified location !!"
+            print "Expecting chromedriver at path specified in core/web/browser_unit"
             if (platform.system()=='Darwin'):
-                chromedriver = "./chromedriver/chromedriver_mac"
+                chromedriver = "../core/web/chromedriver/chromedriver_mac"
             elif (platform.system() == 'Linux'):
-                chromedriver = "./chromedriver/chromedriver_linux"
+                chromedriver = "../core/web/chromedriver/chromedriver_linux"
             else:
                 print "Unidentified Platform"
                 sys.exit(0)
             os.environ["webdriver.chrome.driver"] = chromedriver
             chrome_option = webdriver.ChromeOptions()
-            chrome_option.add_argument("--proxy-server="+proxy)
+            if(proxy != None):
+                chrome_option.add_argument("--proxy-server="+proxy)
             self.driver = webdriver.Chrome(executable_path=chromedriver, chrome_options=chrome_option)
         else:
             print "Unsupported Browser"
@@ -95,23 +96,6 @@ class BrowserUnit:
             unit_id = -1
             treatment_id = -1
         return tim, linetype, linename, value, unit_id, treatment_id
-        
-    def visit_sites(self, file_name): 
-        """Visits all pages in file_name"""
-        fo = open(file_name, "r")
-        for line in fo:
-            chunks = re.split("\|\|", line)
-            site = "http://"+chunks[0].strip()
-            try:
-                self.driver.set_page_load_timeout(40)
-                self.driver.get(site)
-                time.sleep(5)
-                self.log('treatment', 'visit website', site)
-                            # pref = get_ad_pref(self.driver)
-                            # self.log("pref"+"||"+str(treatment_id)+"||"+"@".join(pref), self.unit_id)
-            except:
-                self.log('error', 'website timeout', site)
-
 
     def wait_for_others(self):
         """Makes instance with SELF.UNIT_ID wait while others train"""
@@ -156,3 +140,36 @@ class BrowserUnit:
                     clear = clear and True
                 else:
                     clear = False
+                            
+    def visit_sites(self, file_name): 
+        """Visits all pages in file_name"""
+        fo = open(file_name, "r")
+        for line in fo:
+            chunks = re.split("\|\|", line)
+            site = "http://"+chunks[0].strip()
+            try:
+                self.driver.set_page_load_timeout(40)
+                self.driver.get(site)
+                time.sleep(5)
+                self.log('treatment', 'visit website', site)
+                            # pref = get_ad_pref(self.driver)
+                            # self.log("pref"+"||"+str(treatment_id)+"||"+"@".join(pref), self.unit_id)
+            except:
+                self.log('error', 'website timeout', site)
+                
+    def collect_sites_from_alexa(self, alexa_link, output_file="sites.txt", num_sites=5):
+        """Collects sites from Alexa and stores them in file_name"""
+        fo = open(output_file, "w")
+        fo.close()
+        self.driver.get(alexa_link)
+        count = 0
+        while(count < num_sites):
+            els = self.driver.find_elements_by_css_selector("li.site-listing div.desc-container p.desc-paragraph a")
+            for el in els:
+                if(count < num_sites):
+                    t = el.get_attribute('innerHTML').lower()
+                    fo = open(output_file, "a")
+                    fo.write(t + '\n')
+                    fo.close()
+                    count += 1
+            self.driver.find_element_by_css_selector("a.next").click()

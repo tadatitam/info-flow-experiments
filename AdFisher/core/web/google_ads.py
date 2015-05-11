@@ -91,9 +91,9 @@ class GoogleAdsUnit(google_search.GoogleSearchUnit):
             self.driver.find_element_by_id("Email").send_keys(username)
             self.driver.find_element_by_id("Passwd").send_keys(password)
             self.driver.find_element_by_id("signIn").click()
-            self.log('treatment', 'login', username)
+            self.log('treatment', 'login to google', username)
         except:
-            self.log('error', 'logging in', username)
+            self.log('error', 'logging in to google', username)
     
     def set_gender(self, gender):
         """Set gender on Google Ad Settings page"""

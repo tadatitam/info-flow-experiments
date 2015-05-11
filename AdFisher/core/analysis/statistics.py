@@ -65,6 +65,15 @@ def cosine_distance(X_test, y_test):
         
 #------------- helper functions for printing statistics of the data ---------------#
 
+def print_frequencies(X, y, features, topk0, topk1):
+		
+	for i in range(0, X.shape[0]):
+		for j in range(0, X.shape[1]):
+			out[j] = out[j] + X[i][np.where(y[i]==j)]
+	print out
+	print "Total ads: ", np.sum(out)
+	total = np.sum(out, axis=0)
+	print total
 
 def find_word_in_collection(collection, words):
     counts = [0,0]

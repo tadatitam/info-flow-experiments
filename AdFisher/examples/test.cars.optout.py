@@ -1,6 +1,7 @@
 import sys
 sys.path.append("../core")          # files from the core 
 import adfisher                     # adfisher wrapper function
+import web.pre_experiment.alexa     # collecting top sites from alexa
 import web.google_ads               # interacting with Google ads and Ad Settings
 import converter.reader             # read log and create feature vectors
 import analysis.statistics          # statistics for significance testing
@@ -49,8 +50,8 @@ def load_results():
 def test_stat(observed_values, unit_assignments):
     return analysis.statistics.difference(observed_values, unit_assignments)
 #   return statistics.correctly_classified(observed_values, unit_assignments)
-
-adfisher.collect_sites_from_alexa(nsites=50, output_file=site_file, browser="firefox", 
+    
+web.pre_experiment.alexa.collect_sites(make_browser, num_sites=50, output_file=site_file,
     alexa_link="http://www.alexa.com/topsites/category/Top/Shopping/Vehicles/Autos")
 
 adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, exp_treatment], 
