@@ -29,56 +29,6 @@ def strip_tags(html):
 
 class BingAdsUnit(browser_unit.BrowserUnit):
 
-<<<<<<< HEAD
-    def __init__(self, browser, log_file, unit_id, treatment_id, headless=False, proxy=None):
-        browser_unit.BrowserUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
-        
-#   def collect_ads(self, reloads, delay, file_name=None):
-#       if file_name == None:
-#           file_name = self.log_file
-#       rel = 0
-#       while (rel < reloads):  # number of reloads on sites to capture all ads
-#           time.sleep(delay)
-#           try:
-#               for i in range(0,1):
-#                   s = datetime.now()
-#                   sys.stdout.write("x")
-#                   sys.stdout.flush()
-#                   click_ad_msn_auto(file_name)
-#                   e = datetime.now()
-#                   self.log('measurement', 'loadtime', str(e-s))
-#           except:
-#               self.log('error', 'collecting ads', 'Error')
-#           rel = rel + 1
-
-    def click_ad_msn_auto(self, file):
-        #try:
-            driver = self.driver
-            id = self.unit_id
-            sys.stdout.write(".")
-            sys.stdout.flush()
-            driver.set_page_load_timeout(60)
-            driver.get("http://www.msn.com/en-us/autos")
-            mainHandle = driver.current_window_handle
-            tim = str(datetime.now())
-            adframes = driver.find_elements(By.XPATH, "//div[@class='adcontainer']//iframe")
-            adf = adframes[0]
-            driver.switch_to_frame(adf)
-            adobj = self.driver.find_element_by_xpath("//a" )
-            adobj.click()
-            for handle in driver.window_handles:
-                if handle != mainHandle:
-                    driver.switch_to_window(handle)
-                    title = driver.title.encode('utf8')
-                    self.log('measurement', 'ad', title)
-                    driver.close()
-            driver.switch_to_window(mainHandle)
-            driver.switch_to_default_content()
-            driver.close()      
-        #except:
-        #   print "Unexpected error:", sys.exc_info()[0]
-        #   self.log('error', 'collecting ads', 'Error')
-=======
 	def __init__(self, browser, log_file, unit_id, treatment_id, headless=False, proxy=None):
 		browser_unit.BrowserUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
 		
@@ -122,15 +72,15 @@ class BingAdsUnit(browser_unit.BrowserUnit):
 			mainHandle = driver.current_window_handle
 			tim = str(datetime.now())
 			#Slowly scroll though page so that advertisements load
-			time.sleep(.2)
+			time.sleep(.5)
 			driver.execute_script("window.scrollTo(0, document.body.scrollHeight/5);")
-			time.sleep(.2)
+			time.sleep(.5)
 			driver.execute_script("window.scrollTo(0, 2*document.body.scrollHeight/5);")
-			time.sleep(.2)
+			time.sleep(.5)
 			driver.execute_script("window.scrollTo(0, 3*document.body.scrollHeight/5);")
-			time.sleep(.2)
+			time.sleep(.5)
 			driver.execute_script("window.scrollTo(0, 4*document.body.scrollHeight/5);")
-			time.sleep(.2)
+			time.sleep(.5)
 			driver.execute_script("window.scrollTo(0, 5*document.body.scrollHeight/5);")
 			time.sleep(1)
 
@@ -148,4 +98,3 @@ class BingAdsUnit(browser_unit.BrowserUnit):
 	#	except:
 	#		print "Unexpected error:", sys.exc_info()[0]
  	#		self.log('error', 'collecting ads', 'Error')
->>>>>>> origin/refactored

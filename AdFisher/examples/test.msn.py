@@ -9,16 +9,16 @@ log_file = 'log.bing.txt'
 
 def make_browser(unit_id, treatment_id):
 	b = web.bing_ads.BingAdsUnit(browser='firefox', log_file=log_file, unit_id=unit_id, 
-		treatment_id=treatment_id, headless=False, proxy = '127.0.0.1:8080')
+		treatment_id=treatment_id, headless=True, proxy = '127.0.0.1:8080')
 	return b
 
 # Control Group treatment
 def control_treatment(unit):
-	unit.collect_msn_ads(10,5, 'travel')
+	unit.collect_msn_ads(1,.5, 'travel')
 
 # Experimental Group treatment
 def exp_treatment(unit):
-	unit.collect_msn_ads(10,5, 'autos')
+	unit.collect_msn_ads(1,.5, 'autos')
 
 # Measurement - Collects ads
 def measurement(unit):
