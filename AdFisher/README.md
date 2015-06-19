@@ -10,8 +10,8 @@ The commands provided for installation work on Ubuntu and OS X. You may find it 
 You can install `pip` by following the instructions provided [here](http://pip.readthedocs.org/en/latest/installing.html).
 In order to run experiments for data collection, you will need the following packages:
 
-  - selenium```sudo pip install selenium```
-  - xvfb ```sudo apt-get install xvfb```
+  - selenium ```sudo pip install selenium```
+  - xvfb ```sudo apt-get install xvfb``` (Not needed for MacOS) 
   - xvfbwrapper ```sudo pip install xvfbwrapper```
   - psutil ```sudo pip install psutil```
 
@@ -30,6 +30,7 @@ To carry out the data analysis, you require the following packages:
 import nltk
 nltk.download()
 ``` 
+(When the window opens up, click "Corpra" and scroll down to "stopwards". Click on "stopwards" to make sure it is highlighted. Once "stopwards" is highlighted, click "Download".)
 *pip sometimes cannot install numpy, scipy, matplotlib on Ubuntu. In that case, run 
 ```sudo apt-get install python-numpy python-scipy python-matplotlib```.
 NumPy and SciPy are Python packages for scientific computing. matplotlib enables plotting functions. 
