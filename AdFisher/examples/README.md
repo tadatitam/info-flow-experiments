@@ -3,6 +3,7 @@ Examples
 
 We have provided scripts to run some of the experiments we have carried out. 
 Run the `demo_exp.py` and `demo_analysis.py` scripts to check everything is working. 
+(For MacOS, to run 'demo_exp.py' or 'demo_analysis.py', write 'python' before it)
 
 This document is mostly based on the script `test.gender.jobs.py`, which performs an experiment to check how two groups of browser instances visiting the same websites about jobs, but differing on the gender specified, receive different ads served by Google on bbc.com. 
 
