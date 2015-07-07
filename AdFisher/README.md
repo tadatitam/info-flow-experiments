@@ -15,7 +15,8 @@ In order to run experiments for data collection, you will need the following pac
   - xvfbwrapper ```sudo pip install xvfbwrapper```
   - psutil ```sudo pip install psutil```
 
-Selenium is a web-browser automation framework. Xvfb allows for headless testing. 
+Selenium is a web-browser automation framework. 
+Xvfb allows for headless testing. 
 xvfbwrapper is a python wrapper for the same. 
 The Xvfb package is not present on OS X, but AdFisher still requires xvfbwrapper.
 psutil is required to kill experiments which take too long to complete. Killing them
@@ -37,6 +38,11 @@ scikit learn has a vast collection of python implemenations of Machine Learning 
 built on the NumPy, SciPy, and matplotlib packages. 
 We use the stemming package to stem words, and the nltk stopwords corpus for identifying stopwords.
 
+**If the scripts stop working after a period of time (~few months), try updating Selenium to the latest version using**
+```
+sudo pip install -U selenium
+```
+This generally happens when the browsers get automatically updated and older versions of Selenium can no longer automate them.
 
 Architecture
 -----------
