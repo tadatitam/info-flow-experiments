@@ -7,7 +7,7 @@ from selenium.webdriver.common.action_chains import ActionChains    # to move mo
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import browser_unit
+import bing_search
 
 # strip html
 
@@ -27,10 +27,10 @@ def strip_tags(html):
     s.feed(html)
     return s.get_data()  
 
-class BingAdsUnit(browser_unit.BrowserUnit):
+class BingAdsUnit(bing_search.BingSearchUnit):
 
 	def __init__(self, browser, log_file, unit_id, treatment_id, headless=False, proxy=None):
-		browser_unit.BrowserUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
+		bing_search.BingSearchUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
 		
 	def collect_msn_ads(self, reloads, delay, site, file_name=None):
 		if file_name == None:
@@ -57,6 +57,7 @@ class BingAdsUnit(browser_unit.BrowserUnit):
 				driver.close()
 		driver.switch_to_window(mainHandle)
 
+	# Clicks all ads on an msn page
 	def click_ad_msn(self, file, site):
 		#try:
 			driver = self.driver
