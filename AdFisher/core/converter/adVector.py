@@ -78,7 +78,17 @@ class AdVector:
             if(ad.label == lbl):
                 c1 += 1
         return c1
-        
+    
+    def filter_by_keywords(self, keywords):
+        if(keywords == None):
+            return self
+        filtered = AdVector()
+        filtered.setLabel(self.label)
+        for ad in self.data:
+            if(ad.contains(keywords)):
+                filtered.add(ad)
+        return filtered
+    
     def freq_contains(self, nonces):
         count = 0
         for ad in self.data:

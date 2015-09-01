@@ -31,6 +31,33 @@ class GoogleNewsUnit(google_ads.GoogleAdsUnit):
 #         google_search.GoogleSearchUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
         google_ads.GoogleAdsUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
 #       browser_unit.BrowserUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
+
+    def click_and_collect(self, site, time_on_site=1):
+        """Get articles from a given cluster of Google News"""
+        self.driver.set_page_load_timeout(60)
+        self.driver.get(site)
+        tim = str(datetime.now())
+        time.sleep(20)
+        for i in range(0,3):
+            links = self.driver.find_elements_by_xpath(".//h2[@class='title']/a")
+            print len(links)
+            for link in links:
+                link.click()
+                for handle in self.driver.window_handles:
+                    print "Handle = ",handle
+                    self.driver.switch_to.window(handle);
+                    print self.driver.title
+                    if not(handle == self.driver.window_handles[0]):
+                        time.sleep(time_on_site)
+                        site = self.driver.current_url
+                        title = self.driver.title.strip()
+                        thing = strip_tags(site+"@|"+title).encode("utf8")
+                        self.log('treatment', 'collection', thing)
+    #                   log(site+"||"+str(treatmentid), id, LOG_FILE)
+    #                   print "closing", handle
+                        self.driver.close()
+                        self.driver.switch_to.window(self.driver.window_handles[0])
+            self.driver.find_element_by_xpath(".//div[@id='end-next']").click()
         
     def get_suggestedstories(self):
         """Get suggested stories from Google News"""

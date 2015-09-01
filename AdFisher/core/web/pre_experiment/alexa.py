@@ -1,5 +1,5 @@
 import unittest, time                               # unittest starts of the testing environment for browsers, time.sleep
-import os, platform                                 # for running  os, platform specific function calls
+import os, platform, sys                                 # for running  os, platform specific function calls
 
 def collect_sites(make_browser, output_file="out.txt", num_sites=5, 
                  alexa_link="http://www.alexa.com/topsites"):

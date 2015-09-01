@@ -18,20 +18,20 @@ LOG_NUM = 2
 
 class Ad:
 
-    def __init__(self, value, treatment_id, separator = '@|'):
-        chunks = re.split(separator, value)
-        self.time = datetime.strptime(chunks[0], "%Y-%m-%d %H:%M:%S.%f")
-        self.title = chunks[1]
-        self.url = chunks[2]
-        self.body = chunks[3]
-        self.label = treatment_id
+#     def __init__(self, value, treatment_id, separator = '@|'):
+#         chunks = re.split(separator, value)
+#         self.time = datetime.strptime(chunks[0], "%Y-%m-%d %H:%M:%S.%f")
+#         self.title = chunks[1]
+#         self.url = chunks[2]
+#         self.body = chunks[3]
+#         self.label = treatment_id
         
-#   def __init__(self, ad):
-#       self.title = common.strip_tags(ad['Title'])
-#       self.url = common.strip_tags(ad['URL'])
-#       self.body = common.strip_tags(ad['Body'])
-#       self.cat = ad['cat']
-#       self.time = ad['Time']
+    def __init__(self, ad):
+        self.title = common.strip_tags(ad['Title'])
+        self.url = common.strip_tags(ad['URL'])
+        self.body = common.strip_tags(ad['Body'])
+        self.cat = ad['cat']
+        self.time = ad['Time']
     
     def ad_init(self, t, u, b, c, time, lbl):
         self.title = strip_tags(t)
@@ -84,9 +84,10 @@ class Ad:
             
     def contains(self, nonces):
         for nonce in nonces:
-            if (nonce in self.title.lower()):# or nonce in self.url.lower() or nonce in self.body.lower()):
-#               print self.label,
-#               self.display()
+            if (nonce in self.title.lower() or nonce in self.url.lower() or nonce in self.body.lower()):
+#                 print self.label,
+#                 self.display()
+#                 raw_input("h")
                 return True
         return False
                     

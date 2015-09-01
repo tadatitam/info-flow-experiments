@@ -23,15 +23,22 @@ def word_vectors(list):                                 # returns a frequency ve
         labels.append(ads.label)
     return wv_list, labels, word_v                      ## Returns word_v as feature
 
-def ad_vectors(list):                                   # returns a frequency vector of ads, when input a list of adVecs
+def ad_vectors(list, filtered_by = None):                                   # returns a frequency vector of ads, when input a list of adVecs
     ad_union = adVector.AdVector()
-    for ads in list:
+    if(filtered_by == None):
+        new_list = list
+    else:
+        new_list = []
+        for ads in list:
+            new_ads = ads.filter_by_keywords(filtered_by)
+            new_list.append(new_ads)
+    for ads in new_list:    
         ad_union = ad_union.union(ads)
     av_list = []
     labels = []
-    for ads in list:
+    for ads in new_list:
         av_list.append(ad_union.gen_ad_vec(ads))
-        labels.append(ads.label)
+        labels.append(ads.label) 
     return av_list, labels, ad_union                    ## Returns entire ad as feature
 
 def freq_news_vectors(list):                                    # returns a frequency vector of news, when input a list of newsVecs
@@ -115,7 +122,7 @@ def get_interest_vectors(advdicts):
     print "Complete"
     return np.array(X), np.array(y), feat
     
-def get_feature_vectors(advdicts, feat_choice):         # returns observation vector from a list of rounds
+def get_feature_vectors(advdicts, feat_choice, filtered_by=None):         # returns observation vector from a list of rounds
     n = len(advdicts[0]['assignment'])
     list = []
     y = []
@@ -130,7 +137,7 @@ def get_feature_vectors(advdicts, feat_choice):         # returns observation ve
     elif(feat_choice == 'ads'):
         for advdict in advdicts:
             list.extend(advdict['advector'])
-        X, labels, feat = ad_vectors(list)
+        X, labels, feat = ad_vectors(list, filtered_by)
     elif(feat_choice == 'news'):
         for advdict in advdicts:
             list.extend(advdict['newsvector'])
