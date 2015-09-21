@@ -90,7 +90,9 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
             # use classifier and features here to get top ads
             print "Extracting top features\n"
             topk0, topk1 = analysis.ml.print_only_top_features(classifier, features, treatment_names, feat_choice="ads")
-#             analysis.statistics.print_frequencies(X, y, features, topk0, topk1)
+            analysis.statistics.print_frequencies(X, y, features, topk0, topk1)
+            
+            print "Running permutation test\n"
             p_value = analysis.permutation_test.blocked_sampled_test(observed_values, unit_assignments, 
                                                                 analysis.statistics.correctly_classified)
 
