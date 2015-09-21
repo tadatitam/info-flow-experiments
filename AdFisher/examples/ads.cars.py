@@ -47,8 +47,8 @@ def test_stat(observed_values, unit_assignments):
     return analysis.statistics.difference(observed_values, unit_assignments)
 #   return statistics.correctly_classified(observed_values, unit_assignments)
 
-web.pre_experiment.alexa.collect_sites(make_browser, num_sites=50, output_file=site_file,
-    alexa_link="http://www.alexa.com/topsites/category/Top/Shopping/Vehicles")
+# web.pre_experiment.alexa.collect_sites(make_browser, num_sites=50, output_file=site_file,
+#     alexa_link="http://www.alexa.com/topsites/category/Top/Shopping/Vehicles")
 
 adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, exp_treatment], 
                         measurement=measurement, end_unit=cleanup_browser,

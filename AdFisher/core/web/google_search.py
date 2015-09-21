@@ -67,10 +67,12 @@ class GoogleSearchUnit(browser_unit.BrowserUnit):
                 self.log('error', 'google search', q)
                 self.driver.save_screenshot(str(self.unit_id)+'_search'+str(s)+'.jpg')
                 s+=1
-            for y in range(1, clickcount+1): # How many search results to visit
-                print y
+            for y in range(0, clickcount): # How many search results to visit
+#                 print y
                 try:
-                    self.driver.find_element_by_css_selector("ol#rso li:nth-of-type("+str(y)+") div h3 a").click()
+                    results = self.driver.find_elements_by_css_selector("div.g div.rc h3.r a")
+#                     print "results", len(results)
+                    results[y].click()
                     time.sleep(3)
                     print self.driver.current_url
                     link = self.driver.current_url
