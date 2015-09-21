@@ -304,24 +304,24 @@ class GoogleAdsUnit(google_search.GoogleSearchUnit):
         rel = 0
         while (rel < reloads):  # number of reloads on sites to capture all ads
             time.sleep(delay)
-            try:
-                s = datetime.now()
-                if(site == 'toi'):
-                    save_ads_toi(file_name)
-                elif(site == 'bbc'):
-                    self.save_ads_bbc(file_name)
-                elif(site == 'guardian'):
-                    save_ads_guardian(file_name)
-                elif(site == 'reuters'):
-                    save_ads_reuters(file_name)
-                elif(site == 'bloomberg'):
-                    save_ads_bloomberg(file_name)
-                else:
-                    raw_input("No such site found: %s!" % site)
-                e = datetime.now()
-                self.log('measurement', 'loadtime', str(e-s))
-            except:
-                self.log('error', 'collecting ads', 'Error')
+#             try:
+            s = datetime.now()
+            if(site == 'toi'):
+                self.save_ads_toi(file_name)
+            elif(site == 'bbc'):
+                self.save_ads_bbc(file_name)
+            elif(site == 'guardian'):
+                save_ads_guardian(file_name)
+            elif(site == 'reuters'):
+                save_ads_reuters(file_name)
+            elif(site == 'bloomberg'):
+                save_ads_bloomberg(file_name)
+            else:
+                raw_input("No such site found: %s!" % site)
+            e = datetime.now()
+            self.log('measurement', 'loadtime', str(e-s))
+#             except:
+#                 self.log('error', 'collecting ads', 'Error')
             rel = rel + 1
 
     def save_ads_fox(self, file):
@@ -425,6 +425,7 @@ class GoogleAdsUnit(google_search.GoogleSearchUnit):
         driver.set_page_load_timeout(60)
         driver.get("http://timesofindia.indiatimes.com/international-home")
         time.sleep(10)
+        driver.execute_script('window.stop()')
         tim = str(datetime.now())
         frame = driver.find_element_by_xpath(".//iframe[@id='ad-left-timeswidget']")
     

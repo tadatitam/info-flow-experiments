@@ -141,7 +141,7 @@ class BrowserUnit:
                 else:
                     clear = False
                             
-    def visit_sites(self, file_name): 
+    def visit_sites(self, file_name, delay=5): 
         """Visits all pages in file_name"""
         fo = open(file_name, "r")
         for line in fo:
@@ -150,7 +150,7 @@ class BrowserUnit:
             try:
                 self.driver.set_page_load_timeout(40)
                 self.driver.get(site)
-                time.sleep(5)
+                time.sleep(delay)
                 self.log('treatment', 'visit website', site)
                             # pref = get_ad_pref(self.driver)
                             # self.log("pref"+"||"+str(treatment_id)+"||"+"@".join(pref), self.unit_id)
