@@ -16,27 +16,27 @@ def make_browser(unit_id, treatment_id):
 
 # Control Group treatment
 def control_treatment(unit):
-    unit.opt_in()
-    unit.set_gender('f')
-    unit.set_age(22)
-    unit.set_language('English')
+#     unit.opt_in()
+#     unit.set_gender('f')
+#     unit.set_age(22)
+#     unit.set_language('English')
     unit.visit_sites(site_file)
 
 # Experimental Group treatment
 def exp_treatment(unit):
-    unit.opt_in()
-    unit.add_interest('basketball')
-    unit.add_interest('dating')
-    unit.remove_interest('basketball')
+#     unit.opt_in()
+#     unit.add_interest('basketball')
+#     unit.add_interest('dating')
+#     unit.remove_interest('basketball')
     unit.visit_sites(site_file)
 
 
 # Measurement - Collects ads
 def measurement(unit):
-    unit.get_gender()
-    unit.get_age()
-    unit.get_language()
-    unit.get_interests()
+#     unit.get_gender()
+#     unit.get_age()
+#     unit.get_language()
+#     unit.get_interests()
     unit.collect_ads(reloads=2, delay=5, site='bbc')
 
 
