@@ -12,4 +12,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Provision with AdFisher dependencies
   config.vm.provision :shell, path: "bootstrap.sh"
 
+  # Give more memory. Firefox needs it.
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 1024
+  end
+
 end
