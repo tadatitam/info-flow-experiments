@@ -2,7 +2,7 @@
 #
 #   pip install -r requirements.txt
 #
-selenium=
+selenium
 xvfbwrapper
 numpy
 scipy
