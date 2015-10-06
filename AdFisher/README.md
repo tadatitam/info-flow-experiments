@@ -56,4 +56,4 @@ This repository can be used with [Vagrant](https://www.vagrantup.com/) to quickl
 1. git clone https://github.com/tadatitam/info-flow-experiments
 2. vagrant up
 
-This defaults to an Ubuntu Server 14.04 LTS (Trusty Tahr) build and will have the AdFisher source directory synced to /vagrant on the virtual machine
+This defaults to an Ubuntu Server 14.04 LTS (Trusty Tahr) build and will have the AdFisher source directory synced to /vagrant on the virtual machine. You can SSH into this machine with `vagrant ssh`, and when you're done playing around, you can remove all traces of it with `vagrant destroy`.
