@@ -76,6 +76,6 @@ if(not flag):
     print "Demo experiment complete. No known errors."
 fo.close()
 
-print "Cleaning up files"
-os.remove(log_file)
-os.remove(site_file)
+# print "Cleaning up files"
+# os.remove(log_file)
+# os.remove(site_file)
