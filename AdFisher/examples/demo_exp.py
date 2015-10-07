@@ -14,20 +14,15 @@ def make_browser(unit_id, treatment_id):
         treatment_id=treatment_id, headless=True, proxy = None)
     return b
 
+web.pre_experiment.alexa.collect_sites(make_browser, num_sites=5, output_file=site_file,
+    alexa_link="http://www.alexa.com/topsites")
+
 # Control Group treatment
 def control_treatment(unit):
-#     unit.opt_in()
-#     unit.set_gender('f')
-#     unit.set_age(22)
-#     unit.set_language('English')
-    unit.visit_sites(site_file)
+    pass
 
 # Experimental Group treatment
 def exp_treatment(unit):
-#     unit.opt_in()
-#     unit.add_interest('basketball')
-#     unit.add_interest('dating')
-#     unit.remove_interest('basketball')
     unit.visit_sites(site_file)
 
 
@@ -54,8 +49,6 @@ def load_results():
 def test_stat(observed_values, unit_assignments):
     pass
 
-web.pre_experiment.alexa.collect_sites(make_browser, num_sites=5, output_file=site_file,
-    alexa_link="http://www.alexa.com/topsites")
 
 adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, exp_treatment], 
                         measurement=measurement, end_unit=cleanup_browser,
@@ -64,16 +57,16 @@ adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, ex
                         log_file=log_file, exp_flag=True, analysis_flag=False, 
                         treatment_names=["control (female)", "experimental (male)"])
 
-flag=False
-fo = open(log_file, "r")
-for line in fo:
-    tim, linetype, linename, value, unit_id, treatment_id = converter.reader.interpret_log_line(line)
-    if (linetype=='error'):
-        print "Error detected in", linename
-        flag=True
+# flag=False
+# fo = open(log_file, "r")
+# for line in fo:
+#     tim, linetype, linename, value, unit_id, treatment_id = converter.reader.interpret_log_line(line)
+#     if (linetype=='error'):
+#         print "Error detected in", linename
+#         flag=True
 
 if(not flag):
-    print "Demo experiment complete. No known errors."
+    print "Demo experiment complete."
 fo.close()
 
 # print "Cleaning up files"
