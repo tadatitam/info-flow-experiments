@@ -4,6 +4,9 @@
 ### Install os dependencies
 apt-get update
 
+# Install gui
+apt-get install -y ubuntu-desktop gnome-session-flashback
+
 # Required for browsing
 apt-get install -y firefox 
 

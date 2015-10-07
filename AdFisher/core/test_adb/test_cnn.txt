@@ -1,0 +1,4 @@
+visit cnn
+collect href
+collect script
+collect img
