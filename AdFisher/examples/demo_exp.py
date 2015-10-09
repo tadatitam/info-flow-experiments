@@ -14,6 +14,9 @@ def make_browser(unit_id, treatment_id):
         treatment_id=treatment_id, headless=True, proxy = None)
     return b
 
+web.pre_experiment.alexa.collect_sites(make_browser, num_sites=5, output_file=site_file,
+    alexa_link="http://www.alexa.com/topsites")
+    
 # Control Group treatment
 def control_treatment(unit):
 #     unit.opt_in()
@@ -54,8 +57,6 @@ def load_results():
 def test_stat(observed_values, unit_assignments):
     pass
 
-web.pre_experiment.alexa.collect_sites(make_browser, num_sites=5, output_file=site_file,
-    alexa_link="http://www.alexa.com/topsites")
 
 adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, exp_treatment], 
                         measurement=measurement, end_unit=cleanup_browser,
