@@ -55,7 +55,7 @@ def get_perm(ylabel):
         random.shuffle(yret[i])
     return yret
 	
-def blocked_sampled_test(observed_values, unit_assignments, test_stat, alpha=0.01, iterations=1000000):
+def blocked_sampled_test(observed_values, unit_assignments, test_stat, alpha=0.01, iterations=10000):
     """
     Run a block permutation test.
     """

@@ -11,11 +11,11 @@ site_file = 'demo.txt'
 
 def make_browser(unit_id, treatment_id):
     b = web.google_ads.GoogleAdsUnit(browser='firefox', log_file=log_file, unit_id=unit_id, 
-        treatment_id=treatment_id, headless=True, proxy = None)
+        treatment_id=treatment_id, headless=False, proxy = None)
     return b
 
-web.pre_experiment.alexa.collect_sites(make_browser, num_sites=5, output_file=site_file,
-    alexa_link="http://www.alexa.com/topsites")
+# web.pre_experiment.alexa.collect_sites(make_browser, num_sites=5, output_file=site_file,
+#     alexa_link="http://www.alexa.com/topsites")
 
 # Control Group treatment
 def control_treatment(unit):
@@ -23,16 +23,15 @@ def control_treatment(unit):
 
 # Experimental Group treatment
 def exp_treatment(unit):
-    unit.visit_sites(site_file)
+#     unit.visit_sites(site_file)
+    unit.search_and_click(site_file, clickdelay=2, clickcount=2)
+    pass
 
 
 # Measurement - Collects ads
 def measurement(unit):
-#     unit.get_gender()
-#     unit.get_age()
-#     unit.get_language()
-#     unit.get_interests()
     unit.collect_ads(reloads=2, delay=5, site='bbc')
+#     unit.collect_ads(reloads=2, delay=5, site='toi')
 
 
 # Shuts down the browser once we are done with it.
@@ -57,18 +56,3 @@ adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, ex
                         log_file=log_file, exp_flag=True, analysis_flag=False, 
                         treatment_names=["control (female)", "experimental (male)"])
 
-# flag=False
-# fo = open(log_file, "r")
-# for line in fo:
-#     tim, linetype, linename, value, unit_id, treatment_id = converter.reader.interpret_log_line(line)
-#     if (linetype=='error'):
-#         print "Error detected in", linename
-#         flag=True
-
-if(not flag):
-    print "Demo experiment complete."
-fo.close()
-
-# print "Cleaning up files"
-# os.remove(log_file)
-# os.remove(site_file)
