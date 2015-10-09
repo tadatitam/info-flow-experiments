@@ -62,19 +62,20 @@ adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, ex
                         load_results=load_results, test_stat=test_stat, ml_analysis=True, 
                         num_blocks=1, num_units=2, timeout=2000,
                         log_file=log_file, exp_flag=True, analysis_flag=False, 
-                        treatment_names=["control (female)", "experimental (male)"])
+                        treatment_names=["control", "experimental"])
 
-flag=False
-fo = open(log_file, "r")
-for line in fo:
-    tim, linetype, linename, value, unit_id, treatment_id = converter.reader.interpret_log_line(line)
-    if (linetype=='error'):
-        print "Error detected in", linename
-        flag=True
-
-if(not flag):
-    print "Demo experiment complete. No known errors."
-fo.close()
+# flag=False
+# fo = open(log_file, "r")
+# for line in fo:
+#     tim, linetype, linename, value, unit_id, treatment_id = converter.reader.interpret_log_line(line)
+#     if (linetype=='error'):
+#         print "Error detected in", linename
+#         flag=True
+# 
+# if(not flag):
+#     print "Demo experiment complete. No known errors."
+# fo.close()
+# 
 
 # print "Cleaning up files"
 # os.remove(log_file)
