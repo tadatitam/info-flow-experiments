@@ -83,18 +83,19 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
         analysis.statistics.print_counts(X,y)
         if(ml_analysis):
             classifier, observed_values, unit_assignments = analysis.ml.train_and_test(X, y, 
-                                                   splittype='rand', 
+                                                   splittype='timed', 
                                                    splitfrac=0.2, 
                                                    nfolds=10,
                                                    verbose=True)
             # use classifier and features here to get top ads
-            print "Extracting top features\n"
-            topk0, topk1 = analysis.ml.print_only_top_features(classifier, features, treatment_names, feat_choice="ads")
-            analysis.statistics.print_frequencies(X, y, features, topk0, topk1)
+#             print "Extracting top features\n"
+#             topk0, topk1 = analysis.ml.print_only_top_features(classifier, features, treatment_names, feat_choice="ads")
+#             analysis.statistics.print_frequencies(X, y, features, topk0, topk1)
             
             print "Running permutation test\n"
             p_value = analysis.permutation_test.blocked_sampled_test(observed_values, unit_assignments, 
-                                                                analysis.statistics.correctly_classified)
+                                                                analysis.statistics.correctly_classified, 
+                                                                iterations=10000)
 
         else:
             observed_values, unit_assignments = X, y
