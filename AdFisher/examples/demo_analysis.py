@@ -38,15 +38,15 @@ adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, ex
                         log_file=log_file, exp_flag=False, analysis_flag=True, 
                         treatment_names=["control (female)", "experimental (male)"])
 
-def load_results2():
-    collection, names = converter.reader.read_log(log_file)
-    collection = collection[:20]
-    return converter.reader.get_keyword_vectors(collection, keywords=['job', 'career'])
-
-adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, exp_treatment], 
-                        measurement=measurement, end_unit=cleanup_browser,
-                        load_results=load_results2, test_stat=test_stat, ml_analysis=False, 
-                        log_file=log_file, exp_flag=False, analysis_flag=True, 
-                        treatment_names=["control (female)", "experimental (male)"])
+# def load_results2():
+#     collection, names = converter.reader.read_log(log_file)
+#     collection = collection[:20]
+#     return converter.reader.get_keyword_vectors(collection, keywords=['job', 'career'])
+# 
+# adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, exp_treatment], 
+#                         measurement=measurement, end_unit=cleanup_browser,
+#                         load_results=load_results2, test_stat=test_stat, ml_analysis=False, 
+#                         log_file=log_file, exp_flag=False, analysis_flag=True, 
+#                         treatment_names=["control (female)", "experimental (male)"])
                         
 print "Demo analysis complete."
