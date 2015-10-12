@@ -4,7 +4,7 @@ import os, platform                         # for running  os, platform specific
 from selenium import webdriver              # for running the driver on websites
 from datetime import datetime               # for tagging log with datetime
 
-from xvfbwrapper import Xvfb                # for creating artificial display to run experiments                
+# from xvfbwrapper import Xvfb                # for creating artificial display to run experiments                
 from selenium.webdriver.common.proxy import *       # for proxy settings
 
 class BrowserUnit:
@@ -12,6 +12,7 @@ class BrowserUnit:
     def __init__(self, browser, log_file, unit_id, treatment_id, headless=False, proxy=None):
         self.headless = headless
         if(headless):
+            from xvfbwrapper import Xvfb
             self.vdisplay = Xvfb(width=1280, height=720)
             self.vdisplay.start()
 #           if(not self.vdisplay.start()):
