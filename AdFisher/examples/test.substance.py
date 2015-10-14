@@ -16,18 +16,16 @@ def make_browser(unit_id, treatment_id):
 
 # Control Group treatment
 def control_treatment(unit):
-    unit.opt_in()
+    pass
 
 # Experimental Group treatment
 def exp_treatment(unit):
-    unit.opt_in()
     unit.visit_sites(site_file)
 
 
 # Measurement - Collects ads
 def measurement(unit):
     unit.collect_ads(reloads=10, delay=5, site='bbc')
-    unit.get_interests()
 
 
 # Shuts down the browser once we are done with it.
@@ -49,13 +47,13 @@ def test_stat(observed_values, unit_assignments):
     return analysis.statistics.difference(observed_values, unit_assignments)
 #   return statistics.correctly_classified(observed_values, unit_assignments)
 
-web.pre_experiment.alexa.collect_sites(make_browser, num_sites=50, output_file=site_file,
+web.pre_experiment.alexa.collect_sites(make_browser, num_sites=5, output_file=site_file,
     alexa_link="http://www.alexa.com/topsites/category/Top/Health/Addictions/Substance_Abuse")
 
 adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, exp_treatment], 
                         measurement=measurement, end_unit=cleanup_browser,
                         load_results=load_results, test_stat=test_stat, ml_analysis=True, 
-                        num_blocks=100, num_units=10, timeout=2000,
+                        num_blocks=20, num_units=4, timeout=2000,
                         log_file=log_file, 
-                        treatment_names=["control (female)", "experimental (male)"])
+                        treatment_names=["control (null)", "experimental (substance abuse)"])
 

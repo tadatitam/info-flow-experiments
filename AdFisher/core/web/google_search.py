@@ -42,7 +42,7 @@ class GoogleSearchUnit(browser_unit.BrowserUnit):
             s = 0
             r = 0
             q = line.strip()
-            print q, self.unit_id
+            print "\nsearch query: ", q
             try:
                 self.driver.get("http://www.google.com/")
                 time.sleep(1)
@@ -52,17 +52,19 @@ class GoogleSearchUnit(browser_unit.BrowserUnit):
                 self.log('treatment', 'google search', q)
             except:
                 self.log('error', 'google search', q)
-            while r<clickcount and s<=5: # How many search results to visit
+            while r<clickcount and s<=r+5: # How many search results to visit
                 results = self.driver.find_elements_by_css_selector("div div h3 a")
-                print len(results)       
-                print r, s
+#                 print "# links: ", len(results)       
+#                 print r, s
                 try:
                     results[s].click()
                     time.sleep(3)
-                    print self.driver.current_url
+#                     print self.driver.current_url
                     link = self.driver.current_url
                     self.driver.back()
                     self.log('treatment', 'visit page', link)
+                    sys.stdout.write(".")
+                    sys.stdout.flush()
                     r+=1
                     s=r+0
                 except:

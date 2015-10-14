@@ -142,9 +142,9 @@ class BrowserUnit:
                 else:
                     clear = False
                             
-    def visit_sites(self, file_name, delay=5): 
-        """Visits all pages in file_name"""
-        fo = open(file_name, "r")
+    def visit_sites(self, site_file, delay=5): 
+        """Visits all pages in site_file"""
+        fo = open(site_file, "r")
         for line in fo:
             chunks = re.split("\|\|", line)
             site = "http://"+chunks[0].strip()

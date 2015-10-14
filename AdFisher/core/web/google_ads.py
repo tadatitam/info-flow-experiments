@@ -5,7 +5,7 @@ from datetime import datetime                                       # for taggin
 from selenium.webdriver.common.keys import Keys                     # to press keys on a webpage
 from selenium.webdriver.common.action_chains import ActionChains    # to move mouse over
 # import browser_unit
-import google_search
+import google_search                                                # interacting with Google Search
 
 # strip html
 
@@ -69,7 +69,6 @@ class GoogleAdsUnit(google_search.GoogleSearchUnit):
             driver.execute_script('window.scrollTo(0, {0})'.format(y))
     
         scroll_element_into_view(driver, frame)
-        print frame
         driver.switch_to.frame(frame)
         ads = driver.find_elements_by_css_selector("html body table tbody tr td table")
         for ad in ads:
