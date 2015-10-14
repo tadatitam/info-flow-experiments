@@ -26,6 +26,7 @@ def cleanup_browser(unit):
 
 def load_results():
     collection, names = converter.reader.read_log(log_file)
+    collection = collection[:12]
     return converter.reader.get_feature_vectors(collection, feat_choice='ads')
 
 def test_stat(observed_values, unit_assignments):

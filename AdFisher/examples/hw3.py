@@ -21,8 +21,6 @@ def make_browser(unit_id, treatment_id):
 
 ##======================== Make changes inside this block ========================##
 
-web.pre_experiment.alexa.collect_sites(make_browser, num_sites=5, output_file=site_file,
-    alexa_link="http://www.alexa.com/topsites")
 
 # Control Group treatment
 def control_treatment(unit):
