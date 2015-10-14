@@ -36,6 +36,6 @@ adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, ex
                         measurement=measurement, end_unit=cleanup_browser,
                         load_results=load_results, test_stat=test_stat, ml_analysis=True, 
                         log_file=log_file, exp_flag=False, analysis_flag=True, 
-                        treatment_names=["control (female)", "experimental (male)"])
+                        treatment_names=["control", "experimental"])
                         
 print "Demo analysis complete."
