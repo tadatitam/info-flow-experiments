@@ -14,6 +14,10 @@ def make_browser(unit_id, treatment_id):
         treatment_id=treatment_id, headless=False, proxy = None)
     return b
 
+web.pre_experiment.alexa.collect_sites(make_browser, num_sites=5, output_file=site_file,
+    alexa_link="http://www.alexa.com/topsites/category/Top/Health/Addictions/Substance_Abuse")
+    
+    
 # Control Group treatment
 def control_treatment(unit):
     pass
@@ -32,9 +36,6 @@ def measurement(unit):
 def cleanup_browser(unit):
     unit.quit()
 
-#------------------------------------------------------------------------------
-#------------------------------------------------------------------------------
-
 # Load results reads the log_file, and creates feature vectors
 def load_results():
     collection, names = converter.reader.read_log(log_file)
@@ -46,9 +47,6 @@ def load_results():
 def test_stat(observed_values, unit_assignments):
     return analysis.statistics.difference(observed_values, unit_assignments)
 #   return statistics.correctly_classified(observed_values, unit_assignments)
-
-web.pre_experiment.alexa.collect_sites(make_browser, num_sites=5, output_file=site_file,
-    alexa_link="http://www.alexa.com/topsites/category/Top/Health/Addictions/Substance_Abuse")
 
 adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, exp_treatment], 
                         measurement=measurement, end_unit=cleanup_browser,
