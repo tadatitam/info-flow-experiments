@@ -24,17 +24,12 @@ def control_treatment(unit):
 # Experimental Group treatment
 def exp_treatment(unit):
     unit.visit_sites(site_file)
-    unit.search_and_click(site_file, clickdelay=2, clickcount=1)
-    unit.read_articles(count=5, agency='CNN', keyword=None, category='Business', time_on_site=2)
     pass
 
 
 # Measurement - Collects ads
 def measurement(unit):
-    unit.get_news(type='top', reloads=1, delay=0)
-    unit.get_news(type='all', reloads=1, delay=0)
     unit.collect_ads(reloads=2, delay=5, site='bbc')
-    unit.collect_ads(reloads=2, delay=5, site='toi')
 
 
 # Shuts down the browser once we are done with it.
