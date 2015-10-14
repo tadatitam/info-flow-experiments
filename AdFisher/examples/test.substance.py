@@ -11,7 +11,7 @@ site_file = 'substance.txt'
 
 def make_browser(unit_id, treatment_id):
     b = web.google_ads.GoogleAdsUnit(browser='firefox', log_file=log_file, unit_id=unit_id, 
-        treatment_id=treatment_id, headless=True, proxy = None)
+        treatment_id=treatment_id, headless=False, proxy = None)
     return b
 
 # Control Group treatment
