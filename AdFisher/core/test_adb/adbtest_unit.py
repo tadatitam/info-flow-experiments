@@ -31,15 +31,19 @@ class AdbTestUnit:
             self.vdisplay = Xvfb(width=1280, height=720)
             self.vdisplay.start()
 
+        # setup selenium webdriver
         self.driver = webdriver.Firefox()
         self.session = self.driver.session_id
         print("Running session: {}".format(self.session))
 
+        # setup session specific logging directory
         self.log_dir = os.path.join(os.getcwd(),"log_"+self.session)
         if not os.path.exists(self.log_dir):
             os.makedirs(self.log_dir)
 
         logging.basicConfig(filename=os.path.join(self.log_dir,'log.adbtest_unit.txt'),level=logging.INFO)
+        
+        # load easy list
         if easyList:
             self.rules = AdblockRules(self._load_easy_list())
             self.all_options = {opt:True for opt in AdblockRule.BINARY_OPTIONS}
@@ -47,13 +51,20 @@ class AdbTestUnit:
             logging.info("skipping easy list")
 
     def visit_url(self,url):
+        '''
+        Visits a specificed url and stores screen shot in memory.
+        Result: following this self.driver can be used to query the page for ads
+        '''
         driver = self.driver
-        logging.info("Trying: {}".format(url))
         driver.get(url)
         logging.info("Visited: {}".format(url))
         self.screenshot = self.screenshot_page()
     
     def screenshot_page(self):
+        '''
+        Captures a screenshot of the fullpage in memory.
+        The screenshot includes everything even if it is not scrolled into view
+        '''
         # uses PIL library to open image in memory
         driver = self.driver
         b64_shot = driver.get_screenshot_as_base64()
@@ -63,6 +74,11 @@ class AdbTestUnit:
         return img
 
     def log_element(self,element,source):
+        '''
+        Input: An element that has been identified as an ad and how it was identified
+        Result: Inserts appropriate information into the log
+        If nessecary saves images and screenshots
+        '''
         url = element.get_attribute(source)
         html = element.get_attribute('outerHTML').encode('utf-8')
         tag = element.tag_name
@@ -82,21 +98,34 @@ class AdbTestUnit:
             logging.error("Collecting enhanced contents:{}:{}:{}".format(self.session,element.id,tag))
 
 
-    def check_elements(self, elements, source="href", options=None):
+    def check_elements(self, elements, source, options=None):
+        '''
+        Input: Given an element in the currently active page and an attribute to quer on
+        Result: Queries the given attribute (source) and checks the url against the 
+        filterlist. Logs any identified elements and returns the count.
+        '''
         count = 0
         for e in elements:
             try:
                 url = e.get_attribute(source)
                 logging.info("Checking:{}:{}".format(source, url))
+               
+                # actually check the url against the filter list
                 if self.rules.should_block(url, options):
                     self.log_element(e,source)
 
                     count+=1
+
+            # occurs with stale elements that no longer exist in the DOM
             except selenium.common.exceptions.StaleElementReferenceException as e:
                 logging.error(e)
         return count
 
     def find_href_ads(self):
+        '''
+        Identifies and captures ads based on HTML hyperlink tags.
+        These are considered "text" ads.
+        '''
         driver = self.driver
         elements = driver.find_elements_by_xpath("//*[@href]")
         count = self.check_elements(elements,"href", self.all_options)
@@ -104,13 +133,28 @@ class AdbTestUnit:
     
 
     def find_src_ads(self):
+        '''
+        Indetifies and captures ads based on tags with a 'src' attribute
+        These are considered "media" ads and are often img, iframe,script
+        tags
+        '''
         driver = self.driver
         elements = driver.find_elements_by_xpath("//*[@src]")
         count = self.check_elements(elements, "src", self.all_options)
         print "src search found: {}".format(count)
 
-    def screen_shot_element(self, element):
+    def find_ads(self):
+        '''
+        Convenience function to use all ad identification mechanisms
+        '''
+        find_href_ads()
+        find_src_ads()
 
+    def screen_shot_element(self, element):
+        '''
+        Input: a specific element on the page
+        Result: saves a clipped image from the full page screenshot
+        '''
         location = element.location
         size = element.size
         
@@ -120,6 +164,7 @@ class AdbTestUnit:
         bottom = location['y'] + size['height']
 
 
+        # must have a visible size. top level container iframes will often fail this.
         if left == 0 or top == 0 or right == 0 or bottom == 0  or size['width'] == 0 or size['height'] ==0:
             logging.error("screen_shot_element:{}:{}:({},{} by {},{})".format(self.session,element.id,left,top,right,bottom))
             return
