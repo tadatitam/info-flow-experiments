@@ -31,15 +31,15 @@ class AdbTestUnit:
             self.vdisplay = Xvfb(width=1280, height=720)
             self.vdisplay.start()
 
-        self.driver = webdriver.Firefox(
-                firefox_binary = webdriver.firefox.firefox_binary.FirefoxBinary(
-                log_file = open ('/tmp/selenium.log', 'w')))
+        self.driver = webdriver.Firefox()
+        self.session = self.driver.session_id
+        print("Running session: {}".format(self.session))
 
-        self.dir_name = "log_"+datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        if not os.path.exists(self.dir_name):
-            os.makedirs(self.dir_name)
+        self.log_dir = os.path.join(os.getcwd(),"log_"+self.session)
+        if not os.path.exists(self.log_dir):
+            os.makedirs(self.log_dir)
 
-        logging.basicConfig(filename='log.adbtest_unit.txt',level=logging.DEBUG)
+        logging.basicConfig(filename=os.path.join(self.log_dir,'log.adbtest_unit.txt'),level=logging.INFO)
         if easyList:
             self.rules = AdblockRules(self._load_easy_list())
             self.all_options = {opt:True for opt in AdblockRule.BINARY_OPTIONS}
@@ -64,24 +64,22 @@ class AdbTestUnit:
 
     def log_element(self,element,source):
         url = element.get_attribute(source)
-        logging.info("Ad:{}:{}".format(source, url))
-
-        print("Element: {}".format(element))
-        print("outer-html: {}".format(element.get_attribute('outerHTML').encode('utf-8')))
-        print("tag-name: {}".format(element.tag_name))
-        print "="*80
+        html = element.get_attribute('outerHTML').encode('utf-8')
+        tag = element.tag_name
+        logging.info("Ad:{}:{}:{}".format(self.session, element.id,url))
+        logging.info("Ad:Contents:{}:{}:{}".format(self.session, element.id, html))
 
         try:
-            if element.tag_name == "img":
-                urllib.urlretrieve(url, self.dir_name+"/image_"+str(element.id))
-            elif element.tag_name == "a":
+            if tag == "img":
+                urllib.urlretrieve(url, os.path.join(self.log_dir,"image_"+str(element.id)))
+            elif tag == "a":
                 a_img =  element.get_attribute("img")
                 if a_img != None:
-                    urllib.urlretrieve(url, self.dir_name+"/a_image_"+str(element.id))
-            elif element.tag_name == "iframe":
+                    urllib.urlretrieve(url, os.path.join(self.log_dir,"a_image_"+str(element.id)))
+            elif tag == "iframe":
                 self.screen_shot_element(element)
         except:
-            print "error saving element"
+            logging.error("Collecting enhanced contents:{}:{}:{}".format(self.session,element.id,tag))
 
 
     def check_elements(self, elements, source="href", options=None):
@@ -121,17 +119,16 @@ class AdbTestUnit:
         right = location['x'] + size['width']
         bottom = location['y'] + size['height']
 
-        print("{} {} : {} {}".format(left,top,right,bottom))
 
         if left == 0 or top == 0 or right == 0 or bottom == 0  or size['width'] == 0 or size['height'] ==0:
-            print "bad element size"
+            logging.error("screen_shot_element:{}:{}:({},{} by {},{})".format(self.session,element.id,left,top,right,bottom))
             return
         
         try:
             img = img.crop((left, top, right, bottom)) # defines crop points
-            img.save(self.dir_name+'/iframe_'+str(element.id)+'.png') # saves new cropped image
+            img.save(os.path.join(self.log_dir,'iframe_'+str(element.id)+'.png')) # saves new cropped image
         except:
-            print "exception while clipping"
+            logging.error("clipping screenshot:{}:{}".format(self.session,element.id))
 
 
 def treat_cmd(browser, cmd):
