@@ -17,6 +17,9 @@ from PIL import Image
 import StringIO
 import base64
 
+# imports to parse url
+from urlparse import urlparse, parse_qs
+
 class AdbTestUnit:
 
     def _load_easy_list(self):
@@ -50,6 +53,12 @@ class AdbTestUnit:
         else:
             logging.info("skipping easy list")
 
+        # data structure a dictionary with the following format
+        # key: url (as extracted from the page using  find_href_ads and find_src_ads"
+        # value: [(site,link_text,location,{url_paramters})]
+        self.data = {}
+
+
     def visit_url(self,url):
         '''
         Visits a specificed url and stores screen shot in memory.
@@ -82,9 +91,23 @@ class AdbTestUnit:
         url = element.get_attribute(source)
         html = element.get_attribute('outerHTML').encode('utf-8')
         tag = element.tag_name
+        link_text = element.text
+        link_location = element.location
+        url_query = urlparse(url).query
+        query_args = parse_qs(url_query)
         logging.info("Ad:{}:{}:{}".format(self.session, element.id,url))
         logging.info("Ad:Contents:{}:{}:{}".format(self.session, element.id, html))
+        
+        element_data = (tag,link_text,link_location,query_args)
+        if url in self.data:
+            row = self.data[url]
+            row.append(element_data)
+        else:
+            row = [element_data,]
 
+        self.data[url] = row
+        
+        '''
         try:
             if tag == "img":
                 urllib.urlretrieve(url, os.path.join(self.log_dir,"image_"+str(element.id)))
@@ -96,6 +119,7 @@ class AdbTestUnit:
                 self.screen_shot_element(element)
         except:
             logging.error("Collecting enhanced contents:{}:{}:{}".format(self.session,element.id,tag))
+        '''
 
 
     def check_elements(self, elements, source, options=None):
@@ -174,6 +198,22 @@ class AdbTestUnit:
             img.save(os.path.join(self.log_dir,'iframe_'+str(element.id)+'.png')) # saves new cropped image
         except:
             logging.error("clipping screenshot:{}:{}".format(self.session,element.id))
+
+    def print_title(self,search=None):
+        for k,v in self.data.iteritems():
+            title=v[0][1]
+            if search != None:
+                if title==search:
+                    print k[:80]
+                    print "#"*20
+                    for iid, instance in enumerate(v):
+                        print "-"*10
+                        print "iid: ",iid
+                        print "link text: ",instance[1]
+                        for vk,vv in instance[3].iteritems():
+                            print "\t",vk,vv
+            else:
+                print title
 
 
 def treat_cmd(browser, cmd):
