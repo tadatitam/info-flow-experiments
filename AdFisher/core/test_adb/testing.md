@@ -42,11 +42,16 @@ Visit a site like:
 
 `a.visit_url(site)`
 
-Test collecting  ads using these functions
+Test collecting  ads using these functions:
+
 `a.find_href_ads()`
 `a.find_src_ads()`
-`a.find_ads()`
 `a.check_iframes()`
+
+Or all inclusive with:
+
+`a.find_ads()`
+
 
 This can be combined into the utility function
 
@@ -55,13 +60,11 @@ def go():
     a.visit_url(site)
     print "start ad collection"
     a.find_ads()
-    print "iframe ad collection"
-    a.check_iframes()
 ```
 
 Called like this:
 
-go()
+`go()`
 
 
 ### Common sites to test

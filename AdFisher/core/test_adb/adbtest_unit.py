@@ -12,11 +12,6 @@ from xvfbwrapper import Xvfb    # artificial display for headless experiments
 from adblockparser import AdblockRules
 from adblockparser import AdblockRule
 
-# imports to save screen shots
-from PIL import Image
-import StringIO
-import base64
-
 # imports to parse url
 from urlparse import urlparse, parse_qs
 
@@ -61,32 +56,17 @@ class AdbTestUnit:
 
     def visit_url(self,url):
         '''
-        Visits a specificed url and stores screen shot in memory.
+        Visits a specificed url
         Result: following this self.driver can be used to query the page for ads
         '''
         driver = self.driver
         driver.get(url)
         logging.info("Visited: {}".format(url))
-        self.screenshot = self.screenshot_page()
     
-    def screenshot_page(self):
-        '''
-        Captures a screenshot of the fullpage in memory.
-        The screenshot includes everything even if it is not scrolled into view
-        '''
-        # uses PIL library to open image in memory
-        driver = self.driver
-        b64_shot = driver.get_screenshot_as_base64()
-        decode  = base64.decodestring(b64_shot)
-        s = StringIO.StringIO(decode)
-        img = Image.open(s)
-        return img
-
     def log_element(self,element,source):
         '''
         Input: An element that has been identified as an ad and how it was identified
         Result: Inserts appropriate information into the log
-        If nessecary saves images and screenshots
         '''
         url = element.get_attribute(source)
         html = element.get_attribute('outerHTML').encode('utf-8')
@@ -114,8 +94,6 @@ class AdbTestUnit:
                 a_img =  element.get_attribute("img")
                 if a_img != None:
                     urllib.urlretrieve(url, os.path.join(self.log_dir,"a_image_"+str(element.id)))
-            elif tag == "iframe":
-                self.screen_shot_element(element)
         except:
             logging.error("Collecting enhanced contents:{}:{}:{}".format(self.session,element.id,tag))
 
@@ -171,40 +149,14 @@ class AdbTestUnit:
         '''
         self.find_href_ads()
         self.find_src_ads()
-
-    def screen_shot_element(self, element):
-        '''
-        Input: a specific element on the page
-        Result: saves a clipped image from the full page screenshot
-        '''
-        location = element.location
-        size = element.size
-        
-        left = location['x']
-        top = location['y']
-        right = location['x'] + size['width']
-        bottom = location['y'] + size['height']
-
-
-        # must have a visible size. top level container iframes will often fail this.
-        if left == 0 or top == 0 or right == 0 or bottom == 0  or size['width'] == 0 or size['height'] ==0:
-            logging.error("screen_shot_element:{}:{}:({},{} by {},{})".format(self.session,element.id,left,top,right,bottom))
-            return
-        
-        try:
-            img = img.crop((left, top, right, bottom)) # defines crop points
-            img.save(os.path.join(self.log_dir,'iframe_'+str(element.id)+'.png')) # saves new cropped image
-        except:
-            logging.error("clipping screenshot:{}:{}".format(self.session,element.id))
-
+        self.check_iframes()
 
     def check_iframes(self,parents=()):
         '''
-        expect to enter at the level defined by parents
-        collect subframes and loop
-            enter subframe
-            return to level defined by parents
-        returns to top level
+        Functionality to check within nested iframes for ad related resources.
+        Invariants: expects webdriver to enter at the level defined by parents
+        resets webdriver to top level contents prior to leaving
+        Input: a tuple describing the iframe name atrribute of parent levels
         '''
 
         driver = self.driver
@@ -249,6 +201,7 @@ class AdbTestUnit:
                     driver.switch_to_default_content()
 
 
+        # always reset to top level content prior to exiting
         driver.switch_to_default_content()
 
 
