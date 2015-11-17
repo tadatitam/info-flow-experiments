@@ -95,19 +95,18 @@ class AdbTestUnit:
         link_location = element.location
         url_query = urlparse(url).query
         query_args = parse_qs(url_query)
-        logging.info("Ad:{}:{}:{}".format(self.session, element.id,url))
-        logging.info("Ad:Contents:{}:{}:{}".format(self.session, element.id, html))
+        #logging.info("Ad:Contents:{}:{}:{}".format(self.session, element.id, html))
         
-        element_data = (tag,link_text,link_location,query_args)
+        
+        element_data = (url,tag,link_text,link_location,query_args)
         if url in self.data:
             row = self.data[url]
             row.append(element_data)
         else:
             row = [element_data,]
 
-        self.data[url] = row
-        
-        '''
+        logging.info("Ad:Data:{}".format(element_data))
+
         try:
             if tag == "img":
                 urllib.urlretrieve(url, os.path.join(self.log_dir,"image_"+str(element.id)))
@@ -119,7 +118,6 @@ class AdbTestUnit:
                 self.screen_shot_element(element)
         except:
             logging.error("Collecting enhanced contents:{}:{}:{}".format(self.session,element.id,tag))
-        '''
 
 
     def check_elements(self, elements, source, options=None):
@@ -171,8 +169,8 @@ class AdbTestUnit:
         '''
         Convenience function to use all ad identification mechanisms
         '''
-        find_href_ads()
-        find_src_ads()
+        self.find_href_ads()
+        self.find_src_ads()
 
     def screen_shot_element(self, element):
         '''
@@ -199,95 +197,58 @@ class AdbTestUnit:
         except:
             logging.error("clipping screenshot:{}:{}".format(self.session,element.id))
 
-    def print_title(self,search=None):
-        for k,v in self.data.iteritems():
-            title=v[0][1]
-            if search != None:
-                if title==search:
-                    print k[:80]
-                    print "#"*20
-                    for iid, instance in enumerate(v):
-                        print "-"*10
-                        print "iid: ",iid
-                        print "link text: ",instance[1]
-                        for vk,vv in instance[3].iteritems():
-                            print "\t",vk,vv
-            else:
-                print title
+
+    def check_iframes(self,parents=()):
+        '''
+        expect to enter at the level defined by parents
+        collect subframes and loop
+            enter subframe
+            return to level defined by parents
+        returns to top level
+        '''
+
+        driver = self.driver
+        children = driver.find_elements_by_tag_name('iframe')
+
+        for child in children:
+            try:
+                child_name = child.get_attribute('name').encode('utf-8')
+            except selenium.common.exceptions.StaleElementReferenceException as e:
+                logging.error(e)
+                break
+
+            xpath = '//iframe[@name="{}"]'.format(child_name)
+            try:
+                c_elem = driver.find_element_by_xpath(xpath)
+                driver.switch_to.frame(c_elem)
+
+                # check in the iframe for ads
+                #self.find_href_ads()
+                self.find_ads()
+                
+                # set parent for children we check
+                nesting = parents + (child_name,)
+                self.check_iframes(parents=nesting)
+            except selenium.common.exceptions.NoSuchElementException as e:
+                # if selenium was unable to `find_element_by_xpath` than we just skip it
+                # we rely on `find_element_by_xpath` to naviagate between nested levels
+                continue
+
+            # return to correct level of nesting
+            driver.switch_to_default_content()
+            for p in parents:
+                parent_xpath = '//iframe[@name="{}"]'.format(p)
+                try:
+                    p_elem = driver.find_element_by_xpath(parent_xpath)
+                    driver.switch_to.frame(p_elem)
+                except selenium.common.exceptions.NoSuchElementException as e:
+                    # this should not occur becasue above we correctly bail on iframes
+                    # we can't navigate by "name", but just in case, preserve invaraint
+                    # of function leaving at top level
+                    logging.error("resetting level in iframe recursion")
+                    driver.switch_to_default_content()
 
 
-def treat_cmd(browser, cmd):
-    if cmd[0] == "visit":
-        if len(cmd) < 2:
-            print "Incomplete command"
-            return
-        if cmd[1] == "cnn":
-            url = "http://www.cnn.com/"
-        elif cmd[1] == "bbc":
-            url = "http://www.bbc.com/"
-        elif cmd[1] == "fox":
-            url = "http://www.foxnews.com/"
-        elif cmd[1] == "href":
-            if len(cmd) < 3:
-                print "Please specify an address"
-                return
-            url = cmd[2]
-        else:
-            print "Unknown address shortcut - Type visit href url to specify another address"
-            return
-        print "Visiting {}".format(url)
-        browser.visit_url(url)
-    elif cmd[0] == "collect":
-        if len(cmd) < 2:
-            print "Incomplete command"
-            return
-        if cmd[1] == "href":
-            print "Collecting href ads"
-            browser.find_href_ads()
-        elif cmd[1] == "src":
-            print "Collecting src ads"
-            browser.find_src_ads()
-        else:
-            print "Collecting {} ads".format(cmd[1])
-            browser.check_tag(cmd[1])
-    elif cmd[0] == "check":
-        if len(cmd) < 2:
-            print "Incomplete command"
-            return
-        source = "href"
-        options = {}
-        if len(cmd) > 2:
-            source = cmd[2]
-        if len(cmd) > 3:
-            for opt in cmd[3].split(","):
-                opt = opt.split(":")
-                options[opt[0]] = len(opt) == 1 or opt[1] == "True"
-        print "Checking {} from source {} with options {} for ads".format(cmd[1], source, str(options))
-        print "\t -> {}".format(browser.check_block(url=cmd[1], source=source, options=options))
-    elif cmd[0] == "read":
-        if len(cmd) < 2:
-            print "Incomplete command"
-            return
-        with open(cmd[1]) as f:
-            lines = f.read().splitlines()
-            for line in lines:
-                treat_cmd(browser, line.split())
-    else:
-        print "Unknown command"
-            
-
-if __name__ == "__main__":
-    browser = AdbTestUnit(headless=False)
-    print "Browser ready - Enter commands"
-    line = ""
-    try:
-        while line != "quit":
-            cmd = line.split()
-            if len(cmd) > 1:
-                treat_cmd(browser, cmd)
-            line = raw_input("adbtest: ")
-        print "Received quit command. Exiting..."
-    finally:
-        browser.driver.quit()
+        driver.switch_to_default_content()
 
 
