@@ -49,7 +49,7 @@ class AdbTestUnit:
             logging.info("skipping easy list")
 
         # data structure a dictionary with the following format
-        # key: url (as extracted from the page using  find_href_ads and find_src_ads"
+        # key: url (as extracted from the page using find_href_ads and find_src_ads
         # value: [(site,link_text,location,{url_paramters})]
         self.data = {}
 
@@ -63,6 +63,7 @@ class AdbTestUnit:
         driver.get(url)
         logging.info("Visited: {}".format(url))
     
+
     def log_element(self,element,source):
         '''
         Input: An element that has been identified as an ad and how it was identified
@@ -75,16 +76,19 @@ class AdbTestUnit:
         link_location = element.location
         url_query = urlparse(url).query
         query_args = parse_qs(url_query)
-        #logging.info("Ad:Contents:{}:{}:{}".format(self.session, element.id, html))
-        
-        
+         
+        # update internal datastore
         element_data = (url,tag,link_text,link_location,query_args)
         if url in self.data:
             row = self.data[url]
             row.append(element_data)
         else:
             row = [element_data,]
+        
+        # store to internal datastructure
+        self.data[url] = row
 
+        # store log line
         logging.info("Ad:Data:{}".format(element_data))
 
         try:
@@ -121,6 +125,7 @@ class AdbTestUnit:
                 logging.error(e)
         return count
 
+
     def find_href_ads(self):
         '''
         Identifies and captures ads based on HTML hyperlink tags.
@@ -143,13 +148,6 @@ class AdbTestUnit:
         count = self.check_elements(elements, "src", self.all_options)
         print "src search found: {}".format(count)
 
-    def find_ads(self):
-        '''
-        Convenience function to use all ad identification mechanisms
-        '''
-        self.find_href_ads()
-        self.find_src_ads()
-        self.check_iframes()
 
     def check_iframes(self,parents=()):
         '''
@@ -204,4 +202,11 @@ class AdbTestUnit:
         # always reset to top level content prior to exiting
         driver.switch_to_default_content()
 
+    def find_ads(self):
+        '''
+        Primary convenience function to use all ad identification mechanisms
+        '''
+        self.find_href_ads()
+        self.find_src_ads()
+        self.check_iframes()
 
