@@ -78,7 +78,8 @@ class AdbTestUnit:
         query_args = parse_qs(url_query)
          
         # update internal datastore
-        element_data = (url,tag,link_text,link_location,query_args)
+        #element_data = (url,tag,link_text,link_location,query_args)
+        element_data = (link_text,link_location,tag)
         if url in self.data:
             row = self.data[url]
             row.append(element_data)
@@ -91,9 +92,12 @@ class AdbTestUnit:
         # store log line
         logging.info("Ad:Data:{}".format(element_data))
 
+        # try enhanced collection beyond just url and link text
         try:
             if tag == "img":
-                urllib.urlretrieve(url, os.path.join(self.log_dir,"image_"+str(element.id)))
+                size = element.size
+                if size['width']>=100 and size['height']>100:
+                        urllib.urlretrieve(url, os.path.join(self.log_dir,"image_"+str(element.id)))
             elif tag == "a":
                 a_img =  element.get_attribute("img")
                 if a_img != None:
@@ -159,7 +163,6 @@ class AdbTestUnit:
 
         driver = self.driver
         children = driver.find_elements_by_tag_name('iframe')
-
         for child in children:
             try:
                 child_name = child.get_attribute('name').encode('utf-8')
@@ -167,30 +170,21 @@ class AdbTestUnit:
                 logging.error(e)
                 break
 
-            xpath = '//iframe[@name="{}"]'.format(child_name)
-            try:
-                c_elem = driver.find_element_by_xpath(xpath)
-                driver.switch_to.frame(c_elem)
+            driver.switch_to.frame(child)
 
-                # check in the iframe for ads
-                self.find_href_ads()
-                self.find_src_ads()
-                
-                # set parent for children we check
-                nesting = parents + (child_name,)
-                self.check_iframes(parents=nesting)
-            except selenium.common.exceptions.NoSuchElementException as e:
-                # if selenium was unable to `find_element_by_xpath` than we just skip it
-                # we rely on `find_element_by_xpath` to naviagate between nested levels
-                continue
+            # check in the iframe for ads
+            self.find_href_ads()
+            self.find_src_ads()
+
+            # set parent for children we check
+            nesting = parents + (child,)
+            self.check_iframes(parents=nesting)
 
             # return to correct level of nesting
             driver.switch_to_default_content()
             for p in parents:
-                parent_xpath = '//iframe[@name="{}"]'.format(p)
                 try:
-                    p_elem = driver.find_element_by_xpath(parent_xpath)
-                    driver.switch_to.frame(p_elem)
+                    driver.switch_to.frame(p)
                 except selenium.common.exceptions.NoSuchElementException as e:
                     # this should not occur becasue above we correctly bail on iframes
                     # we can't navigate by "name", but just in case, preserve invaraint
@@ -201,6 +195,7 @@ class AdbTestUnit:
 
         # always reset to top level content prior to exiting
         driver.switch_to_default_content()
+        #print "exiting"
 
     def find_ads(self):
         '''
@@ -210,3 +205,19 @@ class AdbTestUnit:
         self.find_src_ads()
         self.check_iframes()
 
+# element_data = (url,tag,link_text,link_location,query_args)
+    def query_data(self,search=None):
+        for k,v in self.data.iteritems():
+             title=v[0][2]
+             if search != None:
+                 if title==search:
+                     print k[:80]
+                     print "#"*20
+                     for iid, instance in enumerate(v):
+                         print "-"*10
+                         print "iid: ",iid
+                         print "link text: ",instance[1]
+                         for vk,vv in instance[2].iteritems():
+                             print "\t",vk,vv
+             else:
+                 print title
