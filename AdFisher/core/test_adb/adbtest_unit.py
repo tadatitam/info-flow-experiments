@@ -175,8 +175,8 @@ class AdbTestUnit:
                 driver.switch_to.frame(c_elem)
 
                 # check in the iframe for ads
-                #self.find_href_ads()
-                self.find_ads()
+                self.find_href_ads()
+                self.find_src_ads()
                 
                 # set parent for children we check
                 nesting = parents + (child_name,)
