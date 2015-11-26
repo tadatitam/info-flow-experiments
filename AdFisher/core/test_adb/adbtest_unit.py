@@ -2,6 +2,7 @@ import logging
 import datetime
 import os
 import urllib
+import shutil
 
 # imports to use selenium
 import selenium
@@ -17,10 +18,49 @@ from urlparse import urlparse, parse_qs
 
 class AdbTestUnit:
 
-    def _load_easy_list(self):
-        with open('easylist.txt') as f:
+    EASYLIST = 'easylist.txt'
+    EASYLIST_URL = "https://easylist-downloads.adblockplus.org/easylist.txt"
+
+    def _easylist_version(self,path=EASYLIST):
+        '''
+        Reads the version from the current easylist, or a file that is passed in
+        '''
+        if os.path.isfile(path):
+            with open(path) as f:
+                lines = f.read().splitlines()
+                return lines[2].split(':')[1].strip()
+        else:
+            return -1
+
+    
+    def _fetch_easylist(self):
+        '''
+        Downloads the latest version of easylist, and if newer replaces any
+        existing one.
+        '''
+        tmp_easylist = "tmp_"+self.EASYLIST
+        cur_version = self._easylist_version()
+
+        # download latest easylist from the internet
+        urllib.urlretrieve(self.EASYLIST_URL,tmp_easylist)
+        tmp_version = self._easylist_version(path=tmp_easylist)
+        
+        # if nessecary update
+        if tmp_version > cur_version and cur_version != -1:
+            os.remove(self.EASYLIST)
+            shutil.move(tmp_easylist,self.EASYLIST)
+            logging.info("Updated easylist from {} to {}".format(cur_version,tmp_version))
+        elif cur_version == -1:
+            shutil.move(tmp_easylist,self.EASYLIST)
+            logging.info("New easylist {}".format(tmp_version))
+        else:
+            os.remove(tmp_easylist)
+            logging.info("Easylist already up to date at: {}".format(tmp_version))
+
+    def _load_easylist(self):
+        with open(self.EASYLIST) as f:
             lines = f.read().splitlines()
-        logging.info("Loaded easy list: {} items".format(len(lines)))
+        logging.info("Loaded easylist version: {} with : {} items".format(self._easylist_version(),len(lines)))
         return lines
 
 
@@ -41,9 +81,10 @@ class AdbTestUnit:
 
         logging.basicConfig(filename=os.path.join(self.log_dir,'log.adbtest_unit.txt'),level=logging.INFO)
         
-        # load easy list
+        # load easylist
         if easyList:
-            self.rules = AdblockRules(self._load_easy_list())
+            self._fetch_easylist()
+            self.rules = AdblockRules(self._load_easylist())
             self.all_options = {opt:True for opt in AdblockRule.BINARY_OPTIONS}
         else:
             logging.info("skipping easy list")
@@ -96,8 +137,9 @@ class AdbTestUnit:
         try:
             if tag == "img":
                 size = element.size
-                if size['width']>=100 and size['height']>100:
-                        urllib.urlretrieve(url, os.path.join(self.log_dir,"image_"+str(element.id)))
+                # don't save images that are too small
+                if size['width']>=10 and size['height']>10:
+                    urllib.urlretrieve(url, os.path.join(self.log_dir,"image_"+str(element.id)))
             elif tag == "a":
                 a_img =  element.get_attribute("img")
                 if a_img != None:
