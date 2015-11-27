@@ -71,7 +71,7 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         return lines
 
 
-    def __init__(self, browser, log_file, unit_id, treatment_id, headless=False, proxy=None, easylist=None):
+    def __init__(self, browser="firefox", log_file="log.txt", unit_id=0, treatment_id=0, headless=False, proxy=None, easylist=None):
         
         # if easylist is not passed in, then consider this is a bare unit that 
         # that should only be used to fetch easylist and then parse into

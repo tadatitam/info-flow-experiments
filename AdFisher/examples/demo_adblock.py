@@ -9,13 +9,12 @@ site_file = 'demo.txt'
 
 # Use a bare AdBlockUnit to fetch the filterlist and load the rules. All instances
 # will then share these rules
-adblock_rules = web.adblock_ads.AdBlockUnit(browser='firefox', log_file=log_file, unit_id=-1,
-                treatment_id=-1, headless=True, proxy = None,easylist=None).rules
+adblock_rules = web.adblock_ads.AdBlockUnit().rules
 
 # Defines the browser that will be used as a "unit" and gives it a copy of the adblock_rules
 def make_browser(unit_id, treatment_id):
-    b = web.adblock_ads.AdBlockUnit(browser='firefox', log_file=log_file, unit_id=unit_id, 
-        treatment_id=treatment_id, headless=False, proxy = None,easylist=adblock_rules)
+    b = web.adblock_ads.AdBlockUnit(log_file=log_file, unit_id=unit_id, 
+        treatment_id=treatment_id, headless=False, easylist=adblock_rules)
     return b
 
 # Control Group treatment
