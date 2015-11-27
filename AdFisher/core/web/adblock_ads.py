@@ -244,7 +244,7 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         self.check_src()
         #self.check_iframe()
 
-    def collect_ads(self, reloads, delay, url, file_name=None):
+    def collect_ads(self, reloads=1, delay=0, url, file_name=None):
         '''
         Visits a specified url and runs ad collection functions
         Result: 
