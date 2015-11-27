@@ -101,6 +101,9 @@ class AdBlockUnit(browser_unit.BrowserUnit):
             # internal ad data structure 
             self.data = {}
 
+            # dictionary to memoize url checks
+            self.memo = {}
+
 
     def log_element(self,element,source):
         '''
@@ -130,21 +133,6 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         # store log line
         logging.info("Ad:Data:{}".format(element_data))
 
-        # try enhanced collection beyond just url and link text
-        try:
-            if tag == "img":
-                size = element.size
-                # don't save images that are too small
-                if size['width']>=10 and size['height']>10:
-                    urllib.urlretrieve(url, os.path.join(self.log_dir,"image_"+str(element.id)))
-            elif tag == "a":
-                a_img =  element.get_attribute("img")
-                if a_img != None:
-                    urllib.urlretrieve(url, os.path.join(self.log_dir,"a_image_"+str(element.id)))
-        except:
-            logging.error("Collecting enhanced contents:{}:{}:{}".format(self.session,element.id,tag))
-
-
     def check_elements(self, elements, source, options=None):
         '''
         Input: Given an element in the currently active page and an attribute to query on
@@ -156,11 +144,13 @@ class AdBlockUnit(browser_unit.BrowserUnit):
             try:
                 url = e.get_attribute(source)
                 logging.info("Checking:{}:{}".format(source, url))
-               
-                # actually check the url against the filter list
-                if self.rules.should_block(url, options):
-                    self.log_element(e,source)
+                # check if we have ecaluated this ad before
+                if url not in self.memo:
+                    # actually check the url against the filter list
+                    self.memo[url] = self.rules.should_block(url, options)
 
+                if self.memo[url]:
+                    self.log_element(e,source)
                     count+=1
 
             # occurs with stale elements that no longer exist in the DOM
@@ -175,6 +165,7 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         These are considered "text" ads.
         '''
         driver = self.driver
+        ### VERY VERY SLOW
         elements = driver.find_elements_by_xpath("//*[@href]")
         count = self.check_elements(elements,"href", self.all_options)
         print "href search found: {}".format(count)
@@ -187,6 +178,7 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         tags
         '''
         driver = self.driver
+        ### VERY VERY SLOW
         elements = driver.find_elements_by_xpath("//*[@src]")
         count = self.check_elements(elements, "src", self.all_options)
         print "src search found: {}".format(count)
@@ -202,9 +194,9 @@ class AdBlockUnit(browser_unit.BrowserUnit):
 
         driver = self.driver
         children = driver.find_elements_by_tag_name('iframe')
+
         for child in children:
 
-            print("\t"*len(parents)+"at child: {}".format(child))
             try:
                 driver.switch_to.frame(child)
 
@@ -234,7 +226,6 @@ class AdBlockUnit(browser_unit.BrowserUnit):
 
         # always reset to top level content prior to exiting
         driver.switch_to_default_content()
-        #print "exiting"
 
     def find_ads(self):
         '''
@@ -242,7 +233,7 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         '''
         self.check_href()
         self.check_src()
-        self.check_iframe()
+        #self.check_iframe()
 
     def collect_ads(self,url, reloads=1, delay=0, file_name=None):
         '''

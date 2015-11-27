@@ -27,14 +27,15 @@ def exp_treatment(unit):
 
 # Measurement - Collects ads
 # checks all the sites that adfisher could previously collect on
+# (~10 minutes for src and href)
 def measurement(unit):
     # from google_ads
-    unit.collect_ads('http://www.foxnews.com/us/index.html')
-    unit.collect_ads('http://www.bloomberg.com/')
-    unit.collect_ads('http://www.reuters.com/news/us')
-    unit.collect_ads('http://www.theguardian.com/us')
-    unit.collect_ads('http://timesofindia.indiatimes.com/international-home')
-    unit.collect_ads('http://www.bbc.com/news/')
+    unit.collect_ads("http://www.foxnews.com/us/index.html")
+    unit.collect_ads("http://www.bloomberg.com/")
+    unit.collect_ads("http://www.reuters.com/news/us")
+    unit.collect_ads("http://www.theguardian.com/us")
+    unit.collect_ads("http://timesofindia.indiatimes.com/international-home")
+    unit.collect_ads("http://www.bbc.com/news/")
 
     #from bing_ads
     for site in ["news", "weather", "entertainment", "sports", "money",
