@@ -29,17 +29,17 @@ def exp_treatment(unit):
 # checks all the sites that adfisher could previously collect on
 def measurement(unit):
     # from google_ads
-    unit.collect_ads(reloads=1, delay=1, url='http://www.foxnews.com/us/index.html')
-    unit.collect_ads(reloads=1, delay=1, url='http://www.bloomberg.com/')
-    unit.collect_ads(reloads=1, delay=1, url='http://www.reuters.com/news/us')
-    unit.collect_ads(reloads=1, delay=1, url='http://www.theguardian.com/us')
-    unit.collect_ads(reloads=1, delay=1, url='http://timesofindia.indiatimes.com/international-home')
-    unit.collect_ads(reloads=1, delay=1, url='http://www.bbc.com/news/')
+    unit.collect_ads('http://www.foxnews.com/us/index.html')
+    unit.collect_ads('http://www.bloomberg.com/')
+    unit.collect_ads('http://www.reuters.com/news/us')
+    unit.collect_ads('http://www.theguardian.com/us')
+    unit.collect_ads('http://timesofindia.indiatimes.com/international-home')
+    unit.collect_ads('http://www.bbc.com/news/')
 
     #from bing_ads
     for site in ["news", "weather", "entertainment", "sports", "money",
                 "lifestyle", "health", "foodanddrink","travel", "autos"]:
-        unit.collect_ads(reloads=1, delay=1, url="http://www.msn.com/en-us/"+site)
+        unit.collect_ads("http://www.msn.com/en-us/"+site)
 
 # Shuts down the browser once we are done with it.
 def cleanup_browser(unit):

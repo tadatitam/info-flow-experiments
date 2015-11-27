@@ -203,30 +203,30 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         driver = self.driver
         children = driver.find_elements_by_tag_name('iframe')
         for child in children:
+
+            print("\t"*len(parents)+"at child: {}".format(child))
             try:
-                child_name = child.get_attribute('name').encode('utf-8')
+                driver.switch_to.frame(child)
+
+                # check in the iframe for ads
+                self.check_href()
+                self.check_src()
+
+                # set parent for children we check
+                nesting = parents + (child,)
+                self.check_iframe(parents=nesting)
+
             except selenium.common.exceptions.StaleElementReferenceException as e:
                 logging.error(e)
-                break
-
-            driver.switch_to.frame(child)
-
-            # check in the iframe for ads
-            self.check_href()
-            self.check_src()
-
-            # set parent for children we check
-            nesting = parents + (child,)
-            self.check_iframe(parents=nesting)
 
             # return to correct level of nesting
             driver.switch_to_default_content()
+
             for p in parents:
                 try:
                     driver.switch_to.frame(p)
                 except selenium.common.exceptions.NoSuchElementException as e:
-                    # this should not occur because above we correctly bail on iframes
-                    # we can't navigate by "name", but just in case, preserve invariant
+                    # this should not occur but just in case, preserve invariant
                     # of function leaving at top level
                     logging.error("resetting level in iframe recursion")
                     driver.switch_to_default_content()
@@ -242,9 +242,9 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         '''
         self.check_href()
         self.check_src()
-        #self.check_iframe()
+        self.check_iframe()
 
-    def collect_ads(self, reloads=1, delay=0, url, file_name=None):
+    def collect_ads(self,url, reloads=1, delay=0, file_name=None):
         '''
         Visits a specified url and runs ad collection functions
         Result: 
