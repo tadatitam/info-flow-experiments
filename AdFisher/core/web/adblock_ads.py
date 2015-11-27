@@ -3,6 +3,10 @@ import datetime
 import os
 import urllib
 import shutil
+import time
+
+# base class we inherit from and extend
+import browser_unit
 
 # imports to use selenium
 import selenium
@@ -16,7 +20,7 @@ from adblockparser import AdblockRule
 # imports to parse url
 from urlparse import urlparse, parse_qs
 
-class AdbTestUnit:
+class AdBlockUnit(browser_unit.BrowserUnit):
 
     EASYLIST = 'easylist.txt'
     EASYLIST_URL = "https://easylist-downloads.adblockplus.org/easylist.txt"
@@ -32,7 +36,6 @@ class AdbTestUnit:
         else:
             return -1
 
-    
     def _fetch_easylist(self):
         '''
         Downloads the latest version of easylist, and if newer replaces any
@@ -41,11 +44,11 @@ class AdbTestUnit:
         tmp_easylist = "tmp_"+self.EASYLIST
         cur_version = self._easylist_version()
 
-        # download latest easylist from the internet
+        # download latest easylist from the Internet
         urllib.urlretrieve(self.EASYLIST_URL,tmp_easylist)
         tmp_version = self._easylist_version(path=tmp_easylist)
         
-        # if nessecary update
+        # if necessary update
         if tmp_version > cur_version and cur_version != -1:
             os.remove(self.EASYLIST)
             shutil.move(tmp_easylist,self.EASYLIST)
@@ -58,52 +61,46 @@ class AdbTestUnit:
             logging.info("Easylist already up to date at: {}".format(tmp_version))
 
     def _load_easylist(self):
+        '''
+        Reads in easylist from a file and parses it into lines to be passed to
+        abblockparser.
+        '''
         with open(self.EASYLIST) as f:
             lines = f.read().splitlines()
         logging.info("Loaded easylist version: {} with : {} items".format(self._easylist_version(),len(lines)))
         return lines
 
 
-    def __init__(self,headless=False,easyList=True):
-        if headless:
-            self.vdisplay = Xvfb(width=1280, height=720)
-            self.vdisplay.start()
-
-        # setup selenium webdriver
-        self.driver = webdriver.Firefox()
-        self.session = self.driver.session_id
-        print("Running session: {}".format(self.session))
-
-        # setup session specific logging directory
-        self.log_dir = os.path.join(os.getcwd(),"log_"+self.session)
-        if not os.path.exists(self.log_dir):
-            os.makedirs(self.log_dir)
-
-        logging.basicConfig(filename=os.path.join(self.log_dir,'log.adbtest_unit.txt'),level=logging.INFO)
+    def __init__(self, browser, log_file, unit_id, treatment_id, headless=False, proxy=None, easylist=None):
         
-        # load easylist
-        if easyList:
+        # if easylist is not passed in, then consider this is a bare unit that 
+        # that should only be used to fetch easylist and then parse into
+        # adblockplus rules for use with adblockparser.
+        if easylist == None:
             self._fetch_easylist()
-            self.rules = AdblockRules(self._load_easylist())
-            self.all_options = {opt:True for opt in AdblockRule.BINARY_OPTIONS}
+            self.easylist = self._load_easylist()
+            self.rules = AdblockRules(self.easylist)
         else:
-            logging.info("skipping easy list")
+            # call parent constructor
+            browser_unit.BrowserUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
 
-        # data structure a dictionary with the following format
-        # key: url (as extracted from the page using find_href_ads and find_src_ads
-        # value: [(site,link_text,location,{url_paramters})]
-        self.data = {}
+            self.session = self.driver.session_id
+            print("Running adblock unit session: {}".format(self.session))
 
+            # setup session specific logging directory
+            self.log_dir = os.path.join(os.getcwd(),"log_"+self.session)
+            if not os.path.exists(self.log_dir):
+                os.makedirs(self.log_dir)
 
-    def visit_url(self,url):
-        '''
-        Visits a specificed url
-        Result: following this self.driver can be used to query the page for ads
-        '''
-        driver = self.driver
-        driver.get(url)
-        logging.info("Visited: {}".format(url))
-    
+            logging.basicConfig(filename=os.path.join(self.log_dir,'log.adbtest_unit.txt'),level=logging.INFO)
+            
+            # set rules to those that where passed in
+            self.rules = easylist
+            self.all_options = {opt:True for opt in AdblockRule.BINARY_OPTIONS}
+
+            # internal ad data structure 
+            self.data = {}
+
 
     def log_element(self,element,source):
         '''
@@ -127,7 +124,7 @@ class AdbTestUnit:
         else:
             row = [element_data,]
         
-        # store to internal datastructure
+        # store to internal data structure
         self.data[url] = row
 
         # store log line
@@ -150,7 +147,7 @@ class AdbTestUnit:
 
     def check_elements(self, elements, source, options=None):
         '''
-        Input: Given an element in the currently active page and an attribute to quer on
+        Input: Given an element in the currently active page and an attribute to query on
         Result: Queries the given attribute (source) and checks the url against the 
         filterlist. Logs any identified elements and returns the count.
         '''
@@ -172,7 +169,7 @@ class AdbTestUnit:
         return count
 
 
-    def find_href_ads(self):
+    def check_href(self):
         '''
         Identifies and captures ads based on HTML hyperlink tags.
         These are considered "text" ads.
@@ -183,9 +180,9 @@ class AdbTestUnit:
         print "href search found: {}".format(count)
     
 
-    def find_src_ads(self):
+    def check_src(self):
         '''
-        Indetifies and captures ads based on tags with a 'src' attribute
+        Identifies and captures ads based on tags with a 'src' attribute
         These are considered "media" ads and are often img, iframe,script
         tags
         '''
@@ -195,12 +192,12 @@ class AdbTestUnit:
         print "src search found: {}".format(count)
 
 
-    def check_iframes(self,parents=()):
+    def check_iframe(self,parents=()):
         '''
         Functionality to check within nested iframes for ad related resources.
         Invariants: expects webdriver to enter at the level defined by parents
         resets webdriver to top level contents prior to leaving
-        Input: a tuple describing the iframe name atrribute of parent levels
+        Input: a tuple describing the iframe name attribute of parent levels
         '''
 
         driver = self.driver
@@ -215,12 +212,12 @@ class AdbTestUnit:
             driver.switch_to.frame(child)
 
             # check in the iframe for ads
-            self.find_href_ads()
-            self.find_src_ads()
+            self.check_href()
+            self.check_src()
 
             # set parent for children we check
             nesting = parents + (child,)
-            self.check_iframes(parents=nesting)
+            self.check_iframe(parents=nesting)
 
             # return to correct level of nesting
             driver.switch_to_default_content()
@@ -228,8 +225,8 @@ class AdbTestUnit:
                 try:
                     driver.switch_to.frame(p)
                 except selenium.common.exceptions.NoSuchElementException as e:
-                    # this should not occur becasue above we correctly bail on iframes
-                    # we can't navigate by "name", but just in case, preserve invaraint
+                    # this should not occur because above we correctly bail on iframes
+                    # we can't navigate by "name", but just in case, preserve invariant
                     # of function leaving at top level
                     logging.error("resetting level in iframe recursion")
                     driver.switch_to_default_content()
@@ -243,23 +240,26 @@ class AdbTestUnit:
         '''
         Primary convenience function to use all ad identification mechanisms
         '''
-        self.find_href_ads()
-        self.find_src_ads()
-        self.check_iframes()
+        self.check_href()
+        self.check_src()
+        #self.check_iframe()
 
-# element_data = (url,tag,link_text,link_location,query_args)
-    def query_data(self,search=None):
-        for k,v in self.data.iteritems():
-             title=v[0][2]
-             if search != None:
-                 if title==search:
-                     print k[:80]
-                     print "#"*20
-                     for iid, instance in enumerate(v):
-                         print "-"*10
-                         print "iid: ",iid
-                         print "link text: ",instance[1]
-                         for vk,vv in instance[2].iteritems():
-                             print "\t",vk,vv
-             else:
-                 print title
+    def collect_ads(self, reloads, delay, url, file_name=None):
+        '''
+        Visits a specified url and runs ad collection functions
+        Result: 
+        '''
+        if file_name == None:
+            file_name = self.log_file
+
+        # number of reloads on site to capture all ads
+        for r in range(reloads):
+            time.sleep(delay)
+
+            # visit site
+            driver = self.driver
+            driver.get(url)
+            logging.info("Visited: {}".format(url))
+
+            # collect ads
+            self.find_ads()
