@@ -4,17 +4,17 @@ import adfisher                     # adfisher wrapper function
 import web.pre_experiment.alexa     # collecting top sites from alexa
 import web.adblock_ads              # collecting ads
 
-log_file = 'log.demo.txt'
-site_file = 'demo.txt'
+log_file = 'adblock.log.txt'
+site_file = 'adblock.demo.txt'
 
 # Use a bare AdBlockUnit to fetch the filterlist and load the rules. All instances
 # will then share these rules
-adblock_rules = web.adblock_ads.AdBlockUnit().rules
+adblock_rules = web.adblock_ads.AdBlockUnit(log_file=log_file).rules
 
 # Defines the browser that will be used as a "unit" and gives it a copy of the adblock_rules
 def make_browser(unit_id, treatment_id):
     b = web.adblock_ads.AdBlockUnit(log_file=log_file, unit_id=unit_id, 
-        treatment_id=treatment_id, headless=False, easylist=adblock_rules)
+        treatment_id=treatment_id, headless=True, easylist=adblock_rules)
     return b
 
 # Control Group treatment

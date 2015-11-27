@@ -52,13 +52,13 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         if tmp_version > cur_version and cur_version != -1:
             os.remove(self.EASYLIST)
             shutil.move(tmp_easylist,self.EASYLIST)
-            logging.info("Updated easylist from {} to {}".format(cur_version,tmp_version))
+            self.logger.info("Updated easylist from {} to {}".format(cur_version,tmp_version))
         elif cur_version == -1:
             shutil.move(tmp_easylist,self.EASYLIST)
-            logging.info("New easylist {}".format(tmp_version))
+            self.logger.info("New easylist {}".format(tmp_version))
         else:
             os.remove(tmp_easylist)
-            logging.info("Easylist already up to date at: {}".format(tmp_version))
+            self.logger.info("Easylist already up to date at: {}".format(tmp_version))
 
     def _load_easylist(self):
         '''
@@ -67,12 +67,15 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         '''
         with open(self.EASYLIST) as f:
             lines = f.read().splitlines()
-        logging.info("Loaded easylist version: {} with : {} items".format(self._easylist_version(),len(lines)))
+        self.logger.info("Loaded easylist version: {} with : {} items".format(self._easylist_version(),len(lines)))
         return lines
 
 
     def __init__(self, browser="firefox", log_file="log.txt", unit_id=0, treatment_id=0, headless=False, proxy=None, easylist=None):
         
+        logging.basicConfig(filename=log_file,level=logging.INFO)
+        self.logger = logging.getLogger(__name__)
+
         # if easylist is not passed in, then consider this is a bare unit that 
         # that should only be used to fetch easylist and then parse into
         # adblockplus rules for use with adblockparser.
@@ -86,13 +89,6 @@ class AdBlockUnit(browser_unit.BrowserUnit):
 
             self.session = self.driver.session_id
             print("Running adblock unit session: {}".format(self.session))
-
-            # setup session specific logging directory
-            self.log_dir = os.path.join(os.getcwd(),"log_"+self.session)
-            if not os.path.exists(self.log_dir):
-                os.makedirs(self.log_dir)
-
-            logging.basicConfig(filename=os.path.join(self.log_dir,'log.adbtest_unit.txt'),level=logging.INFO)
             
             # set rules to those that where passed in
             self.rules = easylist
@@ -131,7 +127,7 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         self.data[url] = row
 
         # store log line
-        logging.info("Ad:Data:{}".format(element_data))
+        self.logger.info("Ad:Data:{}".format(element_data))
 
     def check_elements(self, elements, source, options=None):
         '''
@@ -143,19 +139,21 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         for e in elements:
             try:
                 url = e.get_attribute(source)
-                logging.info("Checking:{}:{}".format(source, url))
-                # check if we have ecaluated this ad before
-                if url not in self.memo:
-                    # actually check the url against the filter list
-                    self.memo[url] = self.rules.should_block(url, options)
+                if url != None:
+                    self.logger.debug("Checking:{}:{}".format(source, url))
+                    # check if we have evaluated this ad before
+                    if url not in self.memo:
+                        # actually check the url against the filter list
+                        #print url
+                        self.memo[url] = self.rules.should_block(url, options)
 
-                if self.memo[url]:
-                    self.log_element(e,source)
-                    count+=1
+                    if self.memo[url]:
+                        self.log_element(e,source)
+                        count+=1
 
             # occurs with stale elements that no longer exist in the DOM
             except selenium.common.exceptions.StaleElementReferenceException as e:
-                logging.error(e)
+                self.logger.error(e)
         return count
 
 
@@ -165,7 +163,8 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         These are considered "text" ads.
         '''
         driver = self.driver
-        ### VERY VERY SLOW
+        ### xpath could be less performant than other find_* methods
+        # common tags: <a>,<link>
         elements = driver.find_elements_by_xpath("//*[@href]")
         count = self.check_elements(elements,"href", self.all_options)
         print "href search found: {}".format(count)
@@ -178,7 +177,8 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         tags
         '''
         driver = self.driver
-        ### VERY VERY SLOW
+        ### xpath could be less performant than other find_* methods
+        # common tags: <img>, <iframe>, <frame>, <embed>, <script>
         elements = driver.find_elements_by_xpath("//*[@src]")
         count = self.check_elements(elements, "src", self.all_options)
         print "src search found: {}".format(count)
@@ -209,7 +209,7 @@ class AdBlockUnit(browser_unit.BrowserUnit):
                 self.check_iframe(parents=nesting)
 
             except selenium.common.exceptions.StaleElementReferenceException as e:
-                logging.error(e)
+                self.logger.error(e)
 
             # return to correct level of nesting
             driver.switch_to_default_content()
@@ -220,7 +220,7 @@ class AdBlockUnit(browser_unit.BrowserUnit):
                 except selenium.common.exceptions.NoSuchElementException as e:
                     # this should not occur but just in case, preserve invariant
                     # of function leaving at top level
-                    logging.error("resetting level in iframe recursion")
+                    self.logger.error("resetting level in iframe recursion")
                     driver.switch_to_default_content()
 
 
@@ -233,13 +233,14 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         '''
         self.check_href()
         self.check_src()
-        #self.check_iframe()
+        self.check_iframe()
 
     def collect_ads(self,url, reloads=1, delay=0, file_name=None):
         '''
         Visits a specified url and runs ad collection functions
         Result: 
         '''
+        print("collecting ads on: {}".format(url))
         if file_name == None:
             file_name = self.log_file
 
@@ -250,7 +251,7 @@ class AdBlockUnit(browser_unit.BrowserUnit):
             # visit site
             driver = self.driver
             driver.get(url)
-            logging.info("Visited: {}".format(url))
+            self.logger.debug("Visited: {}".format(url))
 
             # collect ads
             self.find_ads()
