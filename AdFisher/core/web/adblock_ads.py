@@ -20,6 +20,9 @@ from adblockparser import AdblockRule
 # imports to parse url
 from urlparse import urlparse, parse_qs
 
+# imports to log ad data
+import json
+
 class AdBlockUnit(browser_unit.BrowserUnit):
 
     EASYLIST = 'easylist.txt'
@@ -100,6 +103,11 @@ class AdBlockUnit(browser_unit.BrowserUnit):
             # dictionary to memoize url checks
             self.memo = {}
 
+    def save_data(self):
+        json_file = os.path.splitext(self.log_file)[0]+"."+self.session+".json"
+        with open(json_file, 'w') as outfile:
+            json.dump(self.data, outfile)
+        self.logger.info("save_data:{}:{}:{}".format(self.unit_id,self.treatment_id,self.session))
 
     def log_element(self,element,source):
         '''
@@ -127,7 +135,7 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         self.data[url] = row
 
         # store log line
-        self.logger.info("Ad:Data:{}".format(element_data))
+        self.logger.debug("Ad:Data:{}".format(element_data))
 
     def check_elements(self, elements, source, options=None):
         '''
@@ -144,7 +152,6 @@ class AdBlockUnit(browser_unit.BrowserUnit):
                     # check if we have evaluated this ad before
                     if url not in self.memo:
                         # actually check the url against the filter list
-                        #print url
                         self.memo[url] = self.rules.should_block(url, options)
 
                     if self.memo[url]:
@@ -167,7 +174,7 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         # common tags: <a>,<link>
         elements = driver.find_elements_by_xpath("//*[@href]")
         count = self.check_elements(elements,"href", self.all_options)
-        print "href search found: {}".format(count)
+        self.logger.debug("href search found: {}".format(count))
     
 
     def check_src(self):
@@ -181,7 +188,7 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         # common tags: <img>, <iframe>, <frame>, <embed>, <script>
         elements = driver.find_elements_by_xpath("//*[@src]")
         count = self.check_elements(elements, "src", self.all_options)
-        print "src search found: {}".format(count)
+        self.logger.debug("src search found: {}".format(count))
 
 
     def check_iframe(self,parents=()):

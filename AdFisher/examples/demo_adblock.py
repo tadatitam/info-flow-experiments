@@ -5,7 +5,6 @@ import web.pre_experiment.alexa     # collecting top sites from alexa
 import web.adblock_ads              # collecting ads
 
 log_file = 'adblock.log.txt'
-site_file = 'adblock.demo.txt'
 
 # Use a bare AdBlockUnit to fetch the filterlist and load the rules. All instances
 # will then share these rules
@@ -17,13 +16,13 @@ def make_browser(unit_id, treatment_id):
         treatment_id=treatment_id, headless=True, easylist=adblock_rules)
     return b
 
-# Control Group treatment
+# Control Group treatment (blank)
 def control_treatment(unit):
     pass
 
-# Experimental Group treatment
+# Experimental Group treatment (blank)
 def exp_treatment(unit):
-    unit.visit_sites(site_file)
+    pass
 
 # Measurement - Collects ads
 # checks all the sites that adfisher could previously collect on
@@ -31,19 +30,20 @@ def exp_treatment(unit):
 def measurement(unit):
     # from google_ads
     unit.collect_ads("http://www.foxnews.com/us/index.html")
-    unit.collect_ads("http://www.bloomberg.com/")
-    unit.collect_ads("http://www.reuters.com/news/us")
-    unit.collect_ads("http://www.theguardian.com/us")
-    unit.collect_ads("http://timesofindia.indiatimes.com/international-home")
+    #unit.collect_ads("http://www.bloomberg.com/")
+    #unit.collect_ads("http://www.reuters.com/news/us")
+    #unit.collect_ads("http://www.theguardian.com/us")
+    #unit.collect_ads("http://timesofindia.indiatimes.com/international-home")
     unit.collect_ads("http://www.bbc.com/news/")
 
     #from bing_ads
-    for site in ["news", "weather", "entertainment", "sports", "money",
-                "lifestyle", "health", "foodanddrink","travel", "autos"]:
-        unit.collect_ads("http://www.msn.com/en-us/"+site)
+    #for site in ["news", "weather", "entertainment", "sports", "money",
+    #            "lifestyle", "health", "foodanddrink","travel", "autos"]:
+    #    unit.collect_ads("http://www.msn.com/en-us/"+site)
 
 # Shuts down the browser once we are done with it.
 def cleanup_browser(unit):
+    unit.save_data()
     unit.quit()
 
 # Blank analysis
@@ -53,9 +53,6 @@ def load_results():
 # Blank analysis
 def test_stat(observed_values, unit_assignments):
     pass
-
-web.pre_experiment.alexa.collect_sites(make_browser, num_sites=1, output_file=site_file,
-    alexa_link="http://www.alexa.com/topsites")
 
 adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, exp_treatment], 
                         measurement=measurement, end_unit=cleanup_browser,
