@@ -235,6 +235,17 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         self.check_src()
         self.check_iframe()
 
+    def visit_url(self,url):
+        driver = self.driver
+        try:
+            driver.get(url)
+            self.logger.debug("Visited: {}".format(url))
+            return True
+        except:
+            self.logger.error("Error Visiting: {}".format(url))
+            return False
+
+
     def collect_ads(self,url, reloads=1, delay=0, file_name=None):
         '''
         Visits a specified url and runs ad collection functions
@@ -248,10 +259,7 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         for r in range(reloads):
             time.sleep(delay)
 
-            # visit site
-            driver = self.driver
-            driver.get(url)
-            self.logger.debug("Visited: {}".format(url))
-
-            # collect ads
-            self.find_ads()
+            # if a successful visit
+            if self.visit_url(url):
+                # collect ads
+                self.find_ads()
