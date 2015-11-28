@@ -74,7 +74,7 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         return lines
 
 
-    def __init__(self, browser="firefox", log_file="log.txt", unit_id=0, treatment_id=0, headless=False, proxy=None, easylist=None):
+    def __init__(self, browser="firefox", log_file="log.txt", unit_id=0, treatment_id=0, headless=False, proxy=None,rules=None):
         
         logging.basicConfig(filename=log_file,level=logging.INFO)
         self.logger = logging.getLogger(__name__)
@@ -82,10 +82,10 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         # if easylist is not passed in, then consider this is a bare unit that 
         # that should only be used to fetch easylist and then parse into
         # adblockplus rules for use with adblockparser.
-        if easylist == None:
+        if rules == None:
             self._fetch_easylist()
-            self.easylist = self._load_easylist()
-            self.rules = AdblockRules(self.easylist)
+            self.filterlist = self._load_easylist()
+            self.rules = AdblockRules(self.filterlist)
         else:
             # call parent constructor
             browser_unit.BrowserUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
@@ -94,7 +94,7 @@ class AdBlockUnit(browser_unit.BrowserUnit):
             print("Running adblock unit session: {}".format(self.session))
             
             # set rules to those that where passed in
-            self.rules = easylist
+            self.rules = rules
             self.all_options = {opt:True for opt in AdblockRule.BINARY_OPTIONS}
 
             # internal ad data structure 

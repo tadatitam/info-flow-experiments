@@ -13,7 +13,7 @@ adblock_rules = web.adblock_ads.AdBlockUnit(log_file=log_file).rules
 # Defines the browser that will be used as a "unit" and gives it a copy of the adblock_rules
 def make_browser(unit_id, treatment_id):
     b = web.adblock_ads.AdBlockUnit(log_file=log_file, unit_id=unit_id, 
-        treatment_id=treatment_id, headless=True, easylist=adblock_rules)
+        treatment_id=treatment_id, headless=True,rules=adblock_rules)
     return b
 
 # Control Group treatment (blank)
