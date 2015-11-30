@@ -28,13 +28,20 @@ def exp_treatment(unit):
 # checks all the sites that adfisher could previously collect on
 # (~10 minutes for src and href)
 def measurement(unit):
-    # from google_ads
+    #unit.collect_ads("http://www.foxnews.com/us/index.html",reloads=3,delay=5)
+    #unit.collect_ads("http://www.bbc.com/news/",reloads=3,delay=5)
+
     unit.collect_ads("http://www.foxnews.com/us/index.html")
+    unit.collect_ads("http://www.bbc.com/news/")
+
+    # from google_ads
+    #unit.collect_ads("http://www.foxnews.com/us/index.html")
     #unit.collect_ads("http://www.bloomberg.com/")
     #unit.collect_ads("http://www.reuters.com/news/us")
     #unit.collect_ads("http://www.theguardian.com/us")
     #unit.collect_ads("http://timesofindia.indiatimes.com/international-home")
-    unit.collect_ads("http://www.bbc.com/news/")
+    #unit.collect_ads("http://www.bbc.com/news/")
+
 
     #from bing_ads
     #for site in ["news", "weather", "entertainment", "sports", "money",
@@ -57,6 +64,6 @@ def test_stat(observed_values, unit_assignments):
 adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, exp_treatment], 
                         measurement=measurement, end_unit=cleanup_browser,
                         load_results=load_results, test_stat=test_stat, ml_analysis=False, 
-                        num_blocks=1, num_units=2, timeout=2000,
+                        num_blocks=1, num_units=4, timeout=2000,
                         log_file=log_file, exp_flag=True, analysis_flag=False, 
                         treatment_names=["control", "experimental"])

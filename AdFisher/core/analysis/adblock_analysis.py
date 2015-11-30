@@ -38,6 +38,47 @@ def get_site_reloads(ad_lines):
     
     return sorted(list(sites),key=lambda s: s[1])
 
+def combine_sessions(data):
+    '''
+    provided the loaded data (dict keyed on session) return all adlines in a list
+    '''
+    all_data = []
+    for session in data:
+        unit_id, treatment_id, ad_lines = data[session]
+        for ad in ad_lines:
+            all_data.append((session,ad))
+    return all_data
+
+
+def group_on_link_text(data):
+    '''
+    Given the loaded data, group links across session, site and reload by
+    link_text. Return a dict, keyed on link_text, with a list of appearances
+    '''
+    all_data = combine_sessions(data)
+    
+    ads_by_link={}
+    for row in all_data:
+        session,ad = row
+        lt = ad.link_text
+        if lt != '':
+            row_data =(session,ad.on_site,ad.reloads)
+            if lt in ads_by_link:
+                ads_by_link[lt].append(row_data)
+            else:
+                ads_by_link[lt] = [row_data]
+    
+    return ads_by_link
+
+def print_link_text_groups(ads_by_link):
+    for link_text in ads_by_link:
+        print "-"*80
+        print("link text: {}".format(link_text[:80]))
+        instances = ads_by_link[link_text]
+        for ad in instances:
+            session,on_site,reloads = ad
+            print("\ton: {} : reload: {} : session: {}".format(on_site,reloads,session))
+
 def ads_on_site_reload(ad_lines,site,reloads):
     return [ad for ad in ad_lines if ad.on_site==site and ad.reloads==reloads]
 
@@ -57,8 +98,6 @@ def print_by_site_reload(ad_lines):
         for a in ads:
             print_simple_line(a,1)
         
-
-
 def print_by_session(data,printer):
     for session in data:
         unit_id, treatment_id, ad_lines = data[session]
@@ -99,7 +138,11 @@ def main(log_file):
         ad_lines = load_ads_from_json(log_file,session_id)
         data[session_id] = [unit_id, treatment_id,ad_lines]
 
+    print("### Ads grouped by Session ###")
     print_by_session(data,print_by_site_reload)
+
+    print("\n### Ads grouped by link_text ###")
+    print_link_text_groups(group_on_link_text(data))
     #simple_print(data)
 
 if __name__ == "__main__":
