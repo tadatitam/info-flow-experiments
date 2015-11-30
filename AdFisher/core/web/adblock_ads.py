@@ -22,6 +22,7 @@ from urlparse import urlparse, parse_qs
 
 # imports to log ad data
 import json
+from collections import namedtuple
 
 class AdBlockUnit(browser_unit.BrowserUnit):
 
@@ -98,15 +99,23 @@ class AdBlockUnit(browser_unit.BrowserUnit):
             self.all_options = {opt:True for opt in AdblockRule.BINARY_OPTIONS}
 
             # internal ad data structure 
-            self.data = {}
+            self.data = []
+
+            self.Ad = namedtuple('Ad',['url','outerhtml','tag','link_text','link_location','on_site', 'reloads'])
 
             # dictionary to memoize url checks
             self.memo = {}
+
+            # store current context where we are collecting ads
+            self.site = ""
+            self.reloads= 0
 
     def save_data(self):
         json_file = os.path.splitext(self.log_file)[0]+"."+self.session+".json"
         with open(json_file, 'w') as outfile:
             json.dump(self.data, outfile)
+
+        # This is the log line adblock_analysis will parse to identify data files
         self.logger.info("save_data:{}:{}:{}".format(self.unit_id,self.treatment_id,self.session))
 
     def log_element(self,element,source):
@@ -114,28 +123,23 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         Input: An element that has been identified as an ad and how it was identified
         Result: Inserts appropriate information into the log
         '''
+    
+
+    
         url = element.get_attribute(source)
         html = element.get_attribute('outerHTML').encode('utf-8')
         tag = element.tag_name
         link_text = element.text
         link_location = element.location
-        url_query = urlparse(url).query
-        query_args = parse_qs(url_query)
          
         # update internal datastore
-        #element_data = (url,tag,link_text,link_location,query_args)
-        element_data = (link_text,link_location,tag)
-        if url in self.data:
-            row = self.data[url]
-            row.append(element_data)
-        else:
-            row = [element_data,]
+        ad_data = self.Ad(url=url, outerhtml=html, tag=tag, link_text=link_text, link_location=link_location, on_site=self.site, reloads=self.reloads)
         
         # store to internal data structure
-        self.data[url] = row
+        self.data.append(ad_data)
 
-        # store log line
-        self.logger.debug("Ad:Data:{}".format(element_data))
+        # log to plaintext log
+        self.logger.debug("Ad:Data:{}".format(ad_data))
 
     def check_elements(self, elements, source, options=None):
         '''
@@ -247,6 +251,7 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         try:
             driver.get(url)
             self.logger.debug("Visited: {}".format(url))
+            self.site = url
             return True
         except:
             self.logger.error("Error Visiting: {}".format(url))
@@ -269,4 +274,5 @@ class AdBlockUnit(browser_unit.BrowserUnit):
             # if a successful visit
             if self.visit_url(url):
                 # collect ads
+                self.realods=r
                 self.find_ads()
