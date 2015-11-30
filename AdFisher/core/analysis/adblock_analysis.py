@@ -28,6 +28,43 @@ def find_json_logs(log_file):
                 json_logs.append(d)
     return json_logs
 
+def get_site_reloads(ad_lines):
+    '''
+    Given a list of ad lines, return a list of the sites that ads where collected on
+    '''
+    sites = set()
+    for ad in ad_lines:
+        sites.add((ad.on_site,ad.reloads))
+    
+    return sorted(list(sites),key=lambda s: s[1])
+
+def ads_on_site_reload(ad_lines,site,reloads):
+    return [ad for ad in ad_lines if ad.on_site==site and ad.reloads==reloads]
+
+def print_simple_line(ad,level=0):
+    if ad.link_text != '':
+        print("\t"*level+"url: {} link_text: {}".format(ad.url[:20],ad.link_text[:40]))
+
+def print_by_site_reload(ad_lines):
+
+    sites = get_site_reloads(ad_lines)
+
+    for s in sites:
+        site, reloads = s
+        ads = ads_on_site_reload(ad_lines,site,reloads)
+        print("Site: {} Reload: {}".format(site,reloads))
+        cnt =0
+        for a in ads:
+            print_simple_line(a,1)
+        
+
+
+def print_by_session(data,printer):
+    for session in data:
+        unit_id, treatment_id, ad_lines = data[session]
+        print "-"*80
+        print("Session/Unit/Treatment: {}/{}/{} : ".format(session,unit_id,treatment_id))
+        printer(ad_lines)
 
 def simple_print(data):
     
@@ -62,7 +99,8 @@ def main(log_file):
         ad_lines = load_ads_from_json(log_file,session_id)
         data[session_id] = [unit_id, treatment_id,ad_lines]
 
-    simple_print(data)
+    print_by_session(data,print_by_site_reload)
+    #simple_print(data)
 
 if __name__ == "__main__":
     

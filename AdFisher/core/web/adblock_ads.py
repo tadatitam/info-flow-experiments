@@ -274,5 +274,5 @@ class AdBlockUnit(browser_unit.BrowserUnit):
             # if a successful visit
             if self.visit_url(url):
                 # collect ads
-                self.realods=r
+                self.reloads=r
                 self.find_ads()
