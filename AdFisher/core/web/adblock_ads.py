@@ -56,13 +56,13 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         if tmp_version > cur_version and cur_version != -1:
             os.remove(self.EASYLIST)
             shutil.move(tmp_easylist,self.EASYLIST)
-            self.logger.info("Updated easylist from {} to {}".format(cur_version,tmp_version))
+            print ("Updated easylist from {} to {}".format(cur_version,tmp_version))
         elif cur_version == -1:
             shutil.move(tmp_easylist,self.EASYLIST)
-            self.logger.info("New easylist {}".format(tmp_version))
+            print("New easylist {}".format(tmp_version))
         else:
             os.remove(tmp_easylist)
-            self.logger.info("Easylist already up to date at: {}".format(tmp_version))
+            print("Easylist already up to date at: {}".format(tmp_version))
 
     def _load_easylist(self):
         '''
@@ -71,14 +71,12 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         '''
         with open(self.EASYLIST) as f:
             lines = f.read().splitlines()
-        self.logger.info("Loaded easylist version: {} with : {} items".format(self._easylist_version(),len(lines)))
+        print("Loaded easylist version: {} with : {} items".format(self._easylist_version(),len(lines)))
         return lines
 
 
     def __init__(self, browser="firefox", log_file="log.txt", unit_id=0, treatment_id=0, headless=False, proxy=None,rules=None):
         
-        logging.basicConfig(filename=log_file,level=logging.INFO)
-        self.logger = logging.getLogger(__name__)
 
         # if easylist is not passed in, then consider this is a bare unit that 
         # that should only be used to fetch easylist and then parse into
@@ -88,6 +86,9 @@ class AdBlockUnit(browser_unit.BrowserUnit):
             self.filterlist = self._load_easylist()
             self.rules = AdblockRules(self.filterlist)
         else:
+            logging.basicConfig(filename="adb_"+log_file,level=logging.INFO)
+            self.logger = logging.getLogger(__name__)
+
             # call parent constructor
             browser_unit.BrowserUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
 
@@ -253,8 +254,9 @@ class AdBlockUnit(browser_unit.BrowserUnit):
             self.logger.debug("Visited: {}".format(url))
             self.site = url
             return True
-        except:
-            self.logger.error("Error Visiting: {}".format(url))
+        except selenium.common.exceptions.TimeoutException as e:
+            print("Timeout Visiting: {} : {}".format(url,self.session))
+            print e
             return False
 
 
@@ -275,8 +277,4 @@ class AdBlockUnit(browser_unit.BrowserUnit):
             if self.visit_url(url):
                 # collect ads
                 self.reloads=r
-                try:
-                    self.find_ads()
-                except:
-                    print("Partial ad collection on: {}".format(url))
-                    self.logger.error("exception raised while collecting ads on: {}".format(url))
+                self.find_ads()

@@ -38,6 +38,17 @@ def get_site_reloads(ad_lines):
     
     return sorted(list(sites),key=lambda s: s[1])
 
+def get_ad_element(ad_lines,element):
+    '''
+    Given a list of ad lines, return a list of the sites that ads where collected on
+    '''
+    sites = set()
+    for ad in ad_lines:
+        sites.add(getattr(ad, element))
+    
+    return sorted(list(sites))
+
+
 def combine_sessions(data):
     '''
     provided the loaded data (dict keyed on session) return all adlines in a list
@@ -79,6 +90,42 @@ def print_link_text_groups(ads_by_link):
             session,on_site,reloads = ad
             print("\ton: {} : reload: {} : session: {}".format(on_site,reloads,session))
 
+def group_on_url(data):
+    '''
+    Given the loaded data, group links across session, site and reload by
+    url. Return a dict, keyed on url, with a list of appearances
+    '''
+    all_data = combine_sessions(data)
+    
+    ads_by_url={}
+    for row in all_data:
+        session,ad = row
+        url = ad.url
+
+        #row_data =(session,ad.on_site,ad.reloads,ad.link_text)
+        #row_data = (session,ad)
+        row_data = ad
+        if url in ads_by_url:
+             ads_by_url[url].append(row_data)
+        else:
+            ads_by_url[url] = [row_data]
+    
+    return ads_by_url
+
+def print_url_groups(ads_by_url):
+    for url in ads_by_url:
+        instances = ads_by_url[url]
+        on = get_ad_element(instances,"on_site")
+        lt= get_ad_element(instances,"link_text")
+        # skip blank ones
+        if not (len(lt) ==1 and lt[0] == ''):
+
+            print "-"*80
+            print("url: {} on {}".format(url[:40],on))
+            for ad in instances:
+
+                print("\tlink_text: {}".format(ad.link_text))
+
 def ads_on_site_reload(ad_lines,site,reloads):
     return [ad for ad in ad_lines if ad.on_site==site and ad.reloads==reloads]
 
@@ -102,7 +149,7 @@ def print_by_session(data,printer):
     for session in data:
         unit_id, treatment_id, ad_lines = data[session]
         print "-"*80
-        print("Session/Unit/Treatment: {}/{}/{} : ".format(session,unit_id,treatment_id))
+        print("Session/Treatment/Unit: {}/{}/{} : ".format(session,treatment_id,unit_id))
         printer(ad_lines)
 
 def simple_print(data):
@@ -110,7 +157,7 @@ def simple_print(data):
     print("{} Sessions".format(len(data)))
     for session in data:
         unit_id, treatment_id, ad_lines = data[session]
-        print("Session/Unit/Treatment: {}/{}/{} : ".format(session,unit_id,treatment_id))
+        print("Session/Treatment/Unit: {}/{}/{} : ".format(session,treatment_id,unit_id))
         print("# adlines: {}".format(len(ad_lines)))
         cnt =0
         for ad in ad_lines:
@@ -119,8 +166,6 @@ def simple_print(data):
             else:
                 cnt+=1
         print ("and {} ad resources without link text".format(cnt))
-
-
 
 Ad = namedtuple('Ad',['url','outerhtml','tag','link_text','link_location','on_site', 'reloads'])
 
@@ -134,19 +179,20 @@ def main(log_file):
     json_logs = find_json_logs(log_file)
     for log in json_logs:
         unit_id, treatment_id, session_id = log
-        print("Session: {} was unit/treatment {}/{}".format(session_id,unit_id,treatment_id))
+        print("Session: {} was treatment/unit {}/{}".format(session_id,treatment_id,unit_id))
         ad_lines = load_ads_from_json(log_file,session_id)
         data[session_id] = [unit_id, treatment_id,ad_lines]
 
-    print("### Ads grouped by Session ###")
+    print("\n### Ads grouped by Session ###")
     print_by_session(data,print_by_site_reload)
 
     print("\n### Ads grouped by link_text ###")
     print_link_text_groups(group_on_link_text(data))
-    #simple_print(data)
+
+    print("\n### Ads grouped by url ###")
+    print_url_groups(group_on_url(data))
 
 if __name__ == "__main__":
-    
     if len(sys.argv) == 2:
         main(sys.argv[1])
     else:
