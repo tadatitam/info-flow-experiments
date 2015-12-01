@@ -275,4 +275,8 @@ class AdBlockUnit(browser_unit.BrowserUnit):
             if self.visit_url(url):
                 # collect ads
                 self.reloads=r
-                self.find_ads()
+                try:
+                    self.find_ads()
+                except:
+                    print("Partial ad collection on: {}".format(url))
+                    self.logger.error("exception raised while collecting ads on: {}".format(url))
