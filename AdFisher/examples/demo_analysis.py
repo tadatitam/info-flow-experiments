@@ -24,7 +24,7 @@ def cleanup_browser(unit):
 #------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
 
-def load_results1():
+def load_results():
     collection, names = converter.reader.read_log(log_file)
     return converter.reader.get_feature_vectors(collection, feat_choice='ads')
 
@@ -34,19 +34,8 @@ def test_stat(observed_values, unit_assignments):
 
 adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, exp_treatment],
                         measurement=measurement, end_unit=cleanup_browser,
-                        load_results=load_results1, test_stat=test_stat, ml_analysis=True, 
+                        load_results=load_results, test_stat=test_stat, ml_analysis=True, 
                         log_file=log_file, exp_flag=False, analysis_flag=True, 
-                        treatment_names=["control (female)", "experimental (male)"])
-
-def load_results2():
-    collection, names = converter.reader.read_log(log_file)
-    collection = collection[:20]
-    return converter.reader.get_keyword_vectors(collection, keywords=['job', 'career'])
-
-adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, exp_treatment], 
-                        measurement=measurement, end_unit=cleanup_browser,
-                        load_results=load_results2, test_stat=test_stat, ml_analysis=False, 
-                        log_file=log_file, exp_flag=False, analysis_flag=True, 
-                        treatment_names=["control (female)", "experimental (male)"])
+                        treatment_names=["control", "experimental"])
                         
 print "Demo analysis complete."

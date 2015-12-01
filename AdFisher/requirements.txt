@@ -1,0 +1,14 @@
+# These packages can be installed by running:
+#
+#   pip install -r requirements.txt
+#
+selenium
+xvfbwrapper
+numpy
+scipy
+matplotlib
+scikit-learn
+stemming
+pyyaml
+nltk
+psutil

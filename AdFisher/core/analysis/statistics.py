@@ -75,20 +75,22 @@ def print_frequencies(X, y, features, topk0, topk1):
 #         print out
 #         raw_input("hool")
 
+    print "Frequency of top ads:\n"
     for i in range(0, len(topk0)):
         index = topk0[i]
-        print index,
+#         print index,
         features.choose_by_index(index).display()
         print out[:, index]
-        print ""
-        print ""
+        print "----------------------------------"
+    
+    print "%%%%----------------------------------%%%%"
     for i in range(0, len(topk1)):
         index = topk1[i]
-        print index,
+#         print index,
         features.choose_by_index(index).display()
         print out[:, index]
-        print ""
-        print ""
+        print "----------------------------------"
+    print "%%%%----------------------------------%%%%"
             
 
 
