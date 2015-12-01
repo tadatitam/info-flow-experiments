@@ -1,7 +1,0 @@
-bmw
-audi
-car
-vehicle
-automobile
-cadillac
-limo
