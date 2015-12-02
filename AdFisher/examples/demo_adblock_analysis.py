@@ -77,11 +77,10 @@ def group_on_link_text(data):
         session,ad = row
         lt = ad.link_text
         if lt != '':
-            row_data =(session,ad.on_site,ad.reloads)
             if lt in ads_by_link:
-                ads_by_link[lt].append(row_data)
+                ads_by_link[lt].append(row)
             else:
-                ads_by_link[lt] = [row_data]
+                ads_by_link[lt] = [row]
     
     return ads_by_link
 
@@ -91,8 +90,8 @@ def print_link_text_groups(ads_by_link):
         print("link text: {}".format(link_text[:80]))
         instances = ads_by_link[link_text]
         for ad in instances:
-            session,on_site,reloads = ad
-            print("\ton: {} : reload: {} : session: {}".format(on_site,reloads,session))
+            session,a = ad
+            print("\ton: {} : reload: {} : session: {}".format(a.on_site,a.reloads,session))
 
 def group_on_url(data):
     '''
@@ -127,6 +126,64 @@ def print_url_groups(ads_by_url):
             for ad in instances:
 
                 print("\tlink_text: {}".format(ad.link_text))
+
+def group_matrix(data):
+    '''
+    1. Generate "unique" ads by linking on link_text and url
+    2. match sessions to these "ads"
+    '''
+    
+    all_data = combine_sessions(data)
+
+    #dict, keyed on X, with a list of appearances (session,ad)
+    
+    ads_by_link =  group_on_link_text(data)
+    ads_by_url = group_on_url(data)
+
+    joined = {}
+    
+    joint_id = 0
+    for link_text in ads_by_link:
+        # charachteristics
+        texts = set(link_text)
+        urls = set()
+        # (session, reload)
+        observations = set()
+
+        instances = ads_by_link[link_text]
+        for ad in instances:
+            session,a = ad
+            rel = a.reloads
+            on = a.on_site
+            observations.add((session,rel,on))
+            urls.add(a.url)
+        
+        # join with other instances with the same url
+        for url in urls:
+            others = get_ads_with_matching_url(all_data,url)
+            for o in others:
+                session,a = o
+                rel = a.reloads
+                on = a.on_site
+                observations.add((session,rel,on))
+
+                texts.add(a.link_text)
+
+        characteristics = [texts,urls]
+        joined[joint_id] = [characteristics,observations]
+
+        if link_text == "Google+":
+            print joined[joint_id]
+        joint_id+=1
+
+    #print joined
+
+def get_ads_with_matching_url(data,url):
+    '''
+    Given a list of ad lines, return a list of ads with a matching url
+    '''
+    return [row for row in data if row[1].url==url ]
+
 
 def ads_on_site_reload(ad_lines,site,reloads):
     return [ad for ad in ad_lines if ad.on_site==site and ad.reloads==reloads]
@@ -199,6 +256,7 @@ def main(log_file):
     print_url_groups(group_on_url(data))
 
     print("\n### Ad Matrix ###")
+    group_matrix(data)
 
 if __name__ == "__main__":
     if len(sys.argv) == 2:
