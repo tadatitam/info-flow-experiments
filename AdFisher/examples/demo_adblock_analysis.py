@@ -3,6 +3,7 @@ import os
 import sys
 import json
 from collections import namedtuple
+import csv
 
 def load_ads_from_json(log_name,session):
     # The save file name format is "adb_logfile.session.json
@@ -199,6 +200,34 @@ def group_matrix(data):
     print("There are {} total groups".format(len(groups)))
     return groups
 
+def save_matrix_csv(data, groups, outfile):    
+    cols = get_all_observation_points(groups)
+    print cols
+    with open(outfile, 'wb') as csvfile:
+        writer = csv.writer(csvfile, delimiter='|||')
+
+        for g_id, g in groups.iteritems():
+            character, obs = g
+            obs_data = group_observed(obs,cols)
+            # skip non link text
+            link,urls = character
+            if g_id <200:
+                csv_line = [g_id,list(link),list(urls)]+obs_data
+                writer.writerow(csv_line)
+
+        
+
+def group_observed(obs,cols):
+    was_observed = lambda c: 1 if c in obs else 0
+    return map(was_observed,cols)
+
+def get_all_observation_points(groups):
+    observ = set() 
+    for g_id, g in groups.iteritems():
+        character,obs = g
+        for o in obs:
+            observ.add(o)
+    return observ
 
 def get_ads_with_matching_url(data,url):
     '''
@@ -281,19 +310,20 @@ def main(log_file):
     all_data = combine_sessions(data)
 
     print("### Simple Ad Data ###")
-    #simple_print(data)
+    simple_print(data)
 
     print("\n### Ads grouped by Session ###")
-    #print_by_session(data,print_by_site_reload)
+    print_by_session(data,print_by_site_reload)
 
     print("\n### Ads grouped by link_text ###")
-    #print_link_text_groups(group_on_link_text(data))
+    print_link_text_groups(group_on_link_text(data))
 
     print("\n### Ads grouped by url ###")
     print_url_groups(group_on_url(all_data))
 
     print("\n### Ad Matrix ###")
-    group_matrix(data)
+    groups = group_matrix(data)
+    save_matrix_csv(all_data,groups,"adblock_ad_matrix.csv")
 
 if __name__ == "__main__":
     if len(sys.argv) == 2:
