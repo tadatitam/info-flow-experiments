@@ -21,10 +21,11 @@ def exp_treatment(unit):
     pass
 
 # Measurement - Collects ads
-# checks all the sites that adfisher can currently collect on
+# checks all the sites that adfisher could previously collect on
+# (~10 minutes for src and href)
 def measurement(unit):
 
-    sites = ['toi','bbc']
+    sites = ['toi','bbc','guardian','reuters','bloomberg']
     for site in sites:
         unit.collect_ads(site=site, reloads=2, delay=5)
 

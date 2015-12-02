@@ -26,7 +26,7 @@ def exp_treatment(unit):
 
 # Measurement - Collects ads
 # checks all the sites that adfisher could previously collect on
-# (~10 minutes for src and href)
+# (~45 minutes)
 def measurement(unit):
 
     # from google_ads
