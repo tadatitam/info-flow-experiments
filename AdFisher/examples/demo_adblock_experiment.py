@@ -13,7 +13,7 @@ adblock_rules = web.adblock_ads.AdBlockUnit(log_file=log_file).rules
 # Defines the browser that will be used as a "unit" and gives it a copy of the adblock_rules
 def make_browser(unit_id, treatment_id):
     b = web.adblock_ads.AdBlockUnit(log_file=log_file, unit_id=unit_id, 
-        treatment_id=treatment_id, headless=False,rules=adblock_rules)
+        treatment_id=treatment_id, headless=True,rules=adblock_rules)
     return b
 
 # Control Group treatment (blank)
@@ -38,12 +38,15 @@ def measurement(unit):
             "http://www.bbc.com/news/"]
     
     for site in sites:
-        unit.collect_ads(site,reloads=2,delay=5)
+        unit.collect_ads(site,reloads=2,delay=3)
+        #unit.visit_url(site)
 
     #from bing_ads
     for site in ["news", "weather", "entertainment", "sports", "money",
                 "lifestyle", "health", "foodanddrink","travel", "autos"]:
-        unit.collect_ads("http://www.msn.com/en-us/"+site,reloads=2,delay=5)
+
+        unit.collect_ads("http://www.msn.com/en-us/"+site,reloads=2,delay=3)
+        #unit.visit_url("http://www.msn.com/en-us/"+site)
 
 # Shuts down the browser once we are done with it.
 def cleanup_browser(unit):
