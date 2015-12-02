@@ -94,8 +94,7 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
             
             print "Running permutation test\n"
             p_value = analysis.permutation_test.blocked_sampled_test(observed_values, unit_assignments, 
-                                                                analysis.statistics.correctly_classified, 
-                                                                iterations=10000)
+                                                                analysis.statistics.correctly_classified)
 
         else:
             observed_values, unit_assignments = X, y
