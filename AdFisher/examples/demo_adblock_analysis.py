@@ -98,14 +98,13 @@ def group_on_url(data):
     Given the loaded data, group links across session, site and reload by
     url. Return a dict, keyed on url, with a list of appearances
     '''
-    all_data = combine_sessions(data)
     
     ads_by_url={}
-    for row in all_data:
+    for row in data:
         session,ad = row
         url = ad.url
 
-        row_data = ad
+        row_data = row
         if url in ads_by_url:
              ads_by_url[url].append(row_data)
         else:
@@ -116,21 +115,24 @@ def group_on_url(data):
 def print_url_groups(ads_by_url):
     for url in ads_by_url:
         instances = ads_by_url[url]
-        on = get_ad_element(instances,"on_site")
-        lt= get_ad_element(instances,"link_text")
         # skip blank ones
-        if not (len(lt) ==1 and lt[0] == ''):
-
+        if has_link_text(instances):
             print "-"*80
-            print("url: {} on {}".format(url[:40],on))
-            for ad in instances:
-
+            print("url: {}".format(url[:40]))
+            for row in instances:
+                session,ad = row
                 print("\tlink_text: {}".format(ad.link_text))
+
+
+def has_link_text(instances):
+    return len([ x for x in instances if x[1].link_text=="" ])==0
 
 def group_matrix(data):
     '''
     1. Generate "unique" ads by linking on link_text and url
     2. match sessions to these "ads"
+
+    Leaves our resources without linktext (scripts,img, 
     '''
     
     all_data = combine_sessions(data)
@@ -138,11 +140,11 @@ def group_matrix(data):
     #dict, keyed on X, with a list of appearances (session,ad)
     
     ads_by_link =  group_on_link_text(data)
-    ads_by_url = group_on_url(data)
+    ads_by_url = group_on_url(all_data)
 
-    joined = {}
+    groups = {}
     
-    joint_id = 0
+    group_id = 0
     for link_text in ads_by_link:
         # charachteristics
         texts = set(link_text)
@@ -170,13 +172,33 @@ def group_matrix(data):
                 texts.add(a.link_text)
 
         characteristics = [texts,urls]
-        joined[joint_id] = [characteristics,observations]
+        groups[group_id] = [characteristics,observations]
 
-        if link_text == "Google+":
-            print joined[joint_id]
-        joint_id+=1
+        group_id+=1
 
-    #print joined
+    print("There are {} ads with link_text".format(len(groups)))
+    non_link_text = get_non_represented_urls(all_data,groups)
+    url_only_grouped = group_on_url(non_link_text)
+
+    for url in url_only_grouped:
+        urls = set()
+        observations = set()
+
+        instances = url_only_grouped[url]
+        for ad in instances:
+            session,a = ad
+            rel = a.reloads
+            on = a.on_site
+            observations.add((session,rel,on))
+            urls.add(a.url)
+
+        characteristics = [set(),urls]
+        groups[group_id] = [characteristics,observations]
+        group_id+=1
+
+    print("There are {} total groups".format(len(groups)))
+    return groups
+
 
 def get_ads_with_matching_url(data,url):
     '''
@@ -184,6 +206,19 @@ def get_ads_with_matching_url(data,url):
     '''
     return [row for row in data if row[1].url==url ]
 
+def get_non_represented_urls(data,groups):
+    '''
+    Return any ad resources not already represented (long tail)
+    '''
+
+    for group_id, group in groups.iteritems():
+        character ,observ = group
+        urls = character[1]
+        for url in urls:
+            # continually filter data
+            data  = [row for row in data if row[1].url != url]
+
+    return data
 
 def ads_on_site_reload(ad_lines,site,reloads):
     return [ad for ad in ad_lines if ad.on_site==site and ad.reloads==reloads]
@@ -243,17 +278,19 @@ def main(log_file):
         ad_lines = load_ads_from_json(log_file,session_id)
         data[session_id] = [unit_id, treatment_id,ad_lines]
 
+    all_data = combine_sessions(data)
+
     print("### Simple Ad Data ###")
-    simple_print(data)
+    #simple_print(data)
 
     print("\n### Ads grouped by Session ###")
-    print_by_session(data,print_by_site_reload)
+    #print_by_session(data,print_by_site_reload)
 
     print("\n### Ads grouped by link_text ###")
-    print_link_text_groups(group_on_link_text(data))
+    #print_link_text_groups(group_on_link_text(data))
 
     print("\n### Ads grouped by url ###")
-    print_url_groups(group_on_url(data))
+    print_url_groups(group_on_url(all_data))
 
     print("\n### Ad Matrix ###")
     group_matrix(data)
