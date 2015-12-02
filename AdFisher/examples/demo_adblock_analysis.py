@@ -4,6 +4,7 @@ import sys
 import json
 from collections import namedtuple
 import csv
+import operator
 
 def load_ads_from_json(log_name,session):
     # The save file name format is "adb_logfile.session.json
@@ -148,7 +149,7 @@ def group_matrix(data):
     group_id = 0
     for link_text in ads_by_link:
         # charachteristics
-        texts = set(link_text)
+        texts = set([link_text.replace(',','_')])
         urls = set()
         # (session, reload)
         observations = set()
@@ -159,7 +160,7 @@ def group_matrix(data):
             rel = a.reloads
             on = a.on_site
             observations.add((session,rel,on))
-            urls.add(a.url)
+            urls.add(a.url.replace(',','_'))
         
         # join with other instances with the same url
         for url in urls:
@@ -170,7 +171,7 @@ def group_matrix(data):
                 on = a.on_site
                 observations.add((session,rel,on))
 
-                texts.add(a.link_text)
+                texts.add(a.link_text.replace(',','_'))
 
         characteristics = [texts,urls]
         groups[group_id] = [characteristics,observations]
@@ -191,7 +192,7 @@ def group_matrix(data):
             rel = a.reloads
             on = a.on_site
             observations.add((session,rel,on))
-            urls.add(a.url)
+            urls.add(a.url.replace(',','_'))
 
         characteristics = [set(),urls]
         groups[group_id] = [characteristics,observations]
@@ -202,18 +203,18 @@ def group_matrix(data):
 
 def save_matrix_csv(data, groups, outfile):    
     cols = get_all_observation_points(groups)
-    print cols
     with open(outfile, 'wb') as csvfile:
-        writer = csv.writer(csvfile, delimiter='|||')
-
+        writer = csv.writer(csvfile)
+        # write headers
+        headers = ["g_id","link_text","urls","# link","# url","# obs"]+cols
+        writer.writerow(headers)
         for g_id, g in groups.iteritems():
             character, obs = g
             obs_data = group_observed(obs,cols)
             # skip non link text
             link,urls = character
-            if g_id <200:
-                csv_line = [g_id,list(link),list(urls)]+obs_data
-                writer.writerow(csv_line)
+            csv_line = [g_id,list(link),list(urls),len(link),len(urls),sum(obs_data)]+obs_data
+            writer.writerow(csv_line)
 
         
 
@@ -227,7 +228,7 @@ def get_all_observation_points(groups):
         character,obs = g
         for o in obs:
             observ.add(o)
-    return observ
+    return sorted(list(observ),key=operator.itemgetter(0, 2))
 
 def get_ads_with_matching_url(data,url):
     '''
