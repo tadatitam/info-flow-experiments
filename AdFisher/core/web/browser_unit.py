@@ -58,7 +58,6 @@ class BrowserUnit:
         else:
             print "Unsupported Browser"
             sys.exit(0)
-        self.driver.implicitly_wait(10)
         self.base_url = "https://www.google.com/"
         self.verificationErrors = []
         self.driver.set_page_load_timeout(40)

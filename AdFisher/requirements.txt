@@ -12,3 +12,5 @@ stemming
 pyyaml
 nltk
 psutil
+adblockparser
+re2

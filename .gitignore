@@ -2,3 +2,5 @@
 *.pyc
 *~
 .vagrant
+easylist.txt
+log_*
