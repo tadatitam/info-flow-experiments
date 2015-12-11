@@ -42,7 +42,7 @@ class BrowserUnit:
                 print "Unidentified Platform"
                 sys.exit(0)
         elif(browser=='chrome'):
-            print "Expecting chromedriver at path specified in core/web/browser_unit"
+            #print "Expecting chromedriver at path specified in core/web/browser_unit"
             if (platform.system()=='Darwin'):
                 chromedriver = "../core/web/chromedriver/chromedriver_mac"
             elif (platform.system() == 'Linux'):

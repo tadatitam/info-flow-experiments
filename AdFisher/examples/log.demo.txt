@@ -1,0 +1,29 @@
+2015-11-22 23:11:20.050505||meta||agents||2
+2015-11-22 23:11:20.050546||meta||treatnames||control@|experimental
+2015-11-22 23:11:20.050718||meta||block_id start||0
+2015-11-22 23:11:20.050747||meta||assignment||0@|1
+2015-11-22 23:11:24.016091||event||progress-marker||training-start||1||1
+2015-11-22 23:11:24.016303||event||progress-marker||training-end||1||1
+2015-11-22 23:11:24.046845||event||progress-marker||training-start||0||0
+2015-11-22 23:11:24.047069||event||progress-marker||training-end||0||0
+2015-11-22 23:11:29.017345||event||progress-marker||measurement-start||1||1
+2015-11-22 23:11:29.048526||event||progress-marker||measurement-start||0||0
+2015-11-22 23:11:41.644771||measurement||ad||2015-11-22 23:11:41.280811@|AloeCure For Acid Reflux@|startaloecure.com/Acid-Reflux@|(1) Little Secret to Stopping Acid Reflux for Good - Read More.||1||1
+2015-11-22 23:11:41.785110||measurement||ad||2015-11-22 23:11:41.508463@|AloeCure For Acid Reflux@|startaloecure.com/Acid-Reflux@|(1) Little Secret to Stopping Acid Reflux for Good - Read More.||0||0
+2015-11-22 23:11:41.816747||measurement||ad||2015-11-22 23:11:41.280811@|Signs Of Osteoporosis@|everydayhealth.com/Osteoporosis@|Visit Our Osteoporosis Center to Learn Symptoms, Treatments And More||1||1
+2015-11-22 23:11:41.884565||measurement||ad||2015-11-22 23:11:41.280811@|Free Obituary Search@|obituaries.ancestry.com@|Find obituaries, death  cemetery records  view online now.||1||1
+2015-11-22 23:11:41.884918||measurement||loadtime||0:00:07.865966||1||1
+2015-11-22 23:11:42.013885||measurement||ad||2015-11-22 23:11:41.508463@|Signs Of Osteoporosis@|everydayhealth.com/Osteoporosis@|Visit Our Osteoporosis Center to Learn Symptoms, Treatments And More||0||0
+2015-11-22 23:11:42.064175||measurement||ad||2015-11-22 23:11:41.508463@|Free Obituary Search@|obituaries.ancestry.com@|Find obituaries, death  cemetery records  view online now.||0||0
+2015-11-22 23:11:42.064412||measurement||loadtime||0:00:08.014295||0||0
+2015-11-22 23:11:53.925719||measurement||ad||2015-11-22 23:11:53.491131@|Concealed Carry Mistakes:@|www.concealedcarryconfidence.org@|The Worst Thing a Permit Holder Can Do  More Concealed Carry Tips:||1||1
+2015-11-22 23:11:54.082347||measurement||ad||2015-11-22 23:11:53.491131@|Can 55 year Old Look 35?@|www.beautynpurpose.com/skin@|Mom reveals anti aging tips. Doctors hate her.||1||1
+2015-11-22 23:11:54.213225||measurement||ad||2015-11-22 23:11:53.491131@|AloeCure For Acid Reflux@|startaloecure.com/Acid-Reflux@|(1) Little Secret to Stopping Acid Reflux for Good - Read More.||1||1
+2015-11-22 23:11:54.213461||measurement||loadtime||0:00:07.327590||1||1
+2015-11-22 23:11:54.213548||event||progress-marker||measurement-end||1||1
+2015-11-22 23:11:55.906629||measurement||ad||2015-11-22 23:11:55.396918@|Concealed Carry Mistakes:@|www.concealedcarryconfidence.org@|The Worst Thing a Permit Holder Can Do  More Concealed Carry Tips:||0||0
+2015-11-22 23:11:55.988347||measurement||ad||2015-11-22 23:11:55.396918@|Economy About To Collapse@|www.thesovereigninvestor.com@|$5 Bill Proves Stock Market Is On The Verge Of A Collapse. See Proof!||0||0
+2015-11-22 23:11:56.043860||measurement||ad||2015-11-22 23:11:55.396918@|5 Handgun Accuracy Myths:@|www.masterhandgunaccuracy.org@|Video: Don't be victim to the 5 Deadly Myths of Handgun Accuracy:||0||0
+2015-11-22 23:11:56.044123||measurement||loadtime||0:00:08.978641||0||0
+2015-11-22 23:11:56.044497||event||progress-marker||measurement-end||0||0
+2015-11-22 23:11:56.206710||meta||block_id end||0

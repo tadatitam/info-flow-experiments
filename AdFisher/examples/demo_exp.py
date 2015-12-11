@@ -23,7 +23,7 @@ def control_treatment(unit):
 
 # Experimental Group treatment
 def exp_treatment(unit):
-    unit.visit_sites(site_file)
+    #unit.visit_sites(site_file)
     pass
 
 

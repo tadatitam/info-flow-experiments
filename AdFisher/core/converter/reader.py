@@ -1,7 +1,7 @@
 import re, sys                                      
 import numpy as np
 from datetime import datetime, timedelta            # to read timestamps reloadtimes
-import adVector, ad, common, interest, news         # common, ad ad_vector, interest, news classes
+import adVector, ad, common, interest, news, price        # common, ad ad_vector, interest, news classes
 from nltk.corpus import stopwords                   # for removing stop-words
 
 
@@ -40,6 +40,9 @@ def ad_vectors(list, filtered_by = None):                                   # re
         av_list.append(ad_union.gen_ad_vec(ads))
         labels.append(ads.label) 
     return av_list, labels, ad_union                    ## Returns entire ad as feature
+
+def price_vectors(list, filtered_by = None):
+    pass
 
 def freq_news_vectors(list):                                    # returns a frequency vector of news, when input a list of newsVecs
     news_union = news.NewsVector()
@@ -142,7 +145,11 @@ def get_feature_vectors(advdicts, feat_choice, filtered_by=None):         # retu
         for advdict in advdicts:
             list.extend(advdict['newsvector'])
         X, labels, feat = freq_news_vectors(list)
-        
+    elif(feat_choice == 'amazon'):
+        for advdict in advdicts:
+            list.extend(advdict['advector'])
+        X, labels, feat = price_vectors(list, filtered_by)
+
     if(labels[0] == ''):
         for advdict in advdicts:
             ass = advdict['assignment']
@@ -206,6 +213,8 @@ def interpret_log_line(line):
 
 def read_log(log_file):
     par_adv = []
+##### add a new array to store all the ind_ad
+    array_ind_ad = []
     measured = False
     sys.stdout.write("Reading log")
     fo = open(log_file, "r")
@@ -241,6 +250,9 @@ def read_log(log_file):
             if(linename == 'ad'):
                 ind_ad = ad.Ad(value, treatment_id)
                 adv[int(unit_id)].add(ind_ad)
+            if(linename == 'price'):
+                ind_ad = price.Price(value, treatment_id)
+                adv[int(unit_id)].add(ind_ad)
             if(linename == 'interest'):
                 ints[int(unit_id)].set_from_string(value)
             if(linename == 'news'):
@@ -252,6 +264,61 @@ def read_log(log_file):
     sys.stdout.write(".Reading complete\n")
     print "Treatments: ", treatnames
     return par_adv, treatnames
+
+def read_log_amazon(log_file):
+    par_adv = []
+##### add a new array to store all the ind_ad
+    array_ind_ad = []
+    measured = False
+    sys.stdout.write("Reading log")
+    fo = open(log_file, "r")
+    for line in fo:
+#       print line
+        tim, linetype, linename, value, unit_id, treatment_id = interpret_log_line(line)
+        if (linetype == 'meta'):
+            if(linename == 'agents'):
+                num_agents = int(value)
+            elif(linename == 'treatnames'):
+                treatnames = re.split("\@\|", value)
+#               print "Treatments: ", treatnames
+            elif(linename == 'block_id start'):
+                sys.stdout.write(".")
+                sys.stdout.flush()
+                block_id = int(value)
+                adv = []
+                ints = []
+                newsv = []
+                for i in range(0, num_agents):
+                    adv.append(adVector.AdVector())
+                    ints.append(interest.Interests())
+                    newsv.append(news.NewsVector())
+#               print block_id
+            elif(linename == 'assignment'):
+                assignment = [int(x) for x in re.split("\@\|", value)]
+            elif(linename == 'block_id end'):
+                apply_labels_to_vecs(adv, ints, newsv, assignment, num_agents, len(treatnames))
+                par_adv.append({'advector':adv, 'newsvector':newsv, 'assignment':assignment, 'intvector':ints})
+        elif(linetype == 'treatment'):
+            pass
+        elif(linetype == 'measurement'):
+            if(linename == 'ad'):
+                ind_ad = ad.Ad(value, treatment_id)
+                adv[int(unit_id)].add(ind_ad)
+            if(linename == 'price'):
+                ind_ad = price.Price(value, treatment_id)
+                array_ind_ad.append({'title':ind_ad.title, 'body':ind_ad.body, 'price':ind_ad.url, 'label':ind_ad.label})
+                adv[int(unit_id)].add(ind_ad)
+            if(linename == 'interest'):
+                ints[int(unit_id)].set_from_string(value)
+            if(linename == 'news'):
+                ind_news = news.News(value, treatment_id)
+                newsv[int(unit_id)].add(ind_news)
+        elif(linetype == 'error'):
+#           print "Error in block", block_id, ": ", line.strip()
+            pass
+    sys.stdout.write(".Reading complete\n")
+    print "Treatments: ", treatnames
+    return par_adv, treatnames, array_ind_ad
 
 def read_old_log(log_file):                         
     treatnames = []
