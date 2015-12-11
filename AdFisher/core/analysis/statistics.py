@@ -1,13 +1,12 @@
 import sys
-
 import numpy as np                                      
 from scipy import stats                     # for chi2 test
 from scipy import spatial                   # for cosine distances
 from datetime import datetime               # counting times for running tests
-
+import math
 from itertools import combinations as comb  # permutations for old permutation test
 import random                               # for random shuffles
-
+from scipy.stats import t
 
 #------------- functions computing Statistics ---------------#
 
@@ -120,6 +119,63 @@ def print_counts(X,y):                                          # check
     print "[treatments] [blocks] [features] [unique-features] :: ", ua, count, counts, ucounts
     print ""
 
+def print_mean(array_ind_ad):
+    array_price_control = []
+    array_price_experimental = []
+    max_value_control = {}
+    max_value_experimental = {}
+    min_value_control = {}
+    min_value_experimental = {}
+    for ad in array_ind_ad:
+        title = ad["title"].translate(None, '|$')
+        body = ad["body"].translate(None, '|$')
+        label = ad["label"].translate(None, '|$')
+        price = ad["price"].translate(None, ' |$')
 
-
-
+        if (float(label) == 0):
+            try:
+                array_price_control.append(float(price))
+            except ValueError,e:
+                print "error",e
+        elif (float(label) == 1):
+            try:
+                array_price_experimental.append(float(price))
+            except ValueError,e:
+                print "error",e
+    std_control = np.std(array_price_control)
+    std_experimental = np.std(array_price_experimental)
+######### calculate difference between two means ref: http://onlinestatbook.com/2/tests_of_means/difference_means.html    
+    SSE = 0
+    df = float(len(array_price_control)-1+len(array_price_experimental)-1)
+    for value in array_price_control:
+        SSE = SSE + (float(value)-np.mean(array_price_control))**2
+    for value in array_price_experimental:
+        SSE = SSE + (float(value)-np.mean(array_price_experimental))**2
+    MSE = SSE/df
+    nh = 1/(1/float(len(array_price_control))+1/float(len(array_price_experimental)))
+    SM1M2 = math.sqrt(float(2*MSE/nh))
+    t_value = (float(np.mean(array_price_control))-float(np.mean(array_price_experimental)))/SM1M2
+    p_value = (1-stats.t.cdf(t_value, df))*2
+    print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    print "control (chrome): group size = " 
+    print len(array_price_control)
+    print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    print "control (chrome): mean = " 
+    print np.mean(array_price_control)
+    print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    print "control (chrome): standard deviation = " 
+    print std_control
+    print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    print "experimental (firefox): group size = " 
+    print len(array_price_experimental)
+    print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    print "experimental (firefox): mean = " 
+    print np.mean(array_price_experimental)
+    print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    print "experimental (firefox): standard deviation = " 
+    print std_experimental
+    print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    print "P-value is"
+    print p_value
+    print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    

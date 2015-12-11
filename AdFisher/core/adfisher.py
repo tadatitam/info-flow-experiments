@@ -87,10 +87,10 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
                                                    splitfrac=0.2, 
                                                    nfolds=10,
                                                    verbose=True)
-            # use classifier and features here to get top ads
-#             print "Extracting top features\n"
-#             topk0, topk1 = analysis.ml.print_only_top_features(classifier, features, treatment_names, feat_choice="ads")
-#             analysis.statistics.print_frequencies(X, y, features, topk0, topk1)
+            #use classifier and features here to get top ads
+            print "Extracting top features\n"
+            topk0, topk1 = analysis.ml.print_only_top_features(classifier, features, treatment_names, feat_choice="ads")
+            analysis.statistics.print_frequencies(X, y, features, topk0, topk1)
             
             print "Running permutation test\n"
             p_value = analysis.permutation_test.blocked_sampled_test(observed_values, unit_assignments, 
@@ -99,8 +99,11 @@ def do_experiment(make_unit, treatments, measurement, end_unit,
         else:
             observed_values, unit_assignments = X, y
             # use test_stat to get the keyword analysis
-            print "Running permutation test\n"
-            p_value = analysis.permutation_test.blocked_sampled_test(observed_values, unit_assignments, test_stat)
-        print "p-value: ", p_value
+            test_stat(observed_values, unit_assignments)
+            p_value = ""
+            #print "Running permutation test\n"
+            #p_value = analysis.permutation_test.blocked_sampled_test(observed_values, unit_assignments, test_stat)
+        if (p_value):
+          print "p-value: ", p_value
 
 
