@@ -1,0 +1,255 @@
+2015-12-21 21:18:55.969986||meta||agents||2
+2015-12-21 21:18:55.970022||meta||treatnames||female@|male
+2015-12-21 21:18:55.970189||meta||block_id start||0
+2015-12-21 21:18:55.970209||meta||assignment||1@|0
+2015-12-21 21:18:58.694549||event||progress-marker||training-start||0||1
+2015-12-21 21:18:59.301725||event||progress-marker||training-start||1||0
+2015-12-21 21:19:03.731871||event||progress-marker||training-end||0||1
+2015-12-21 21:19:03.797614||event||progress-marker||training-end||1||0
+2015-12-21 21:19:08.734015||event||progress-marker||measurement-start||0||1
+2015-12-21 21:19:08.799873||event||progress-marker||measurement-start||1||0
+2015-12-21 21:19:16.632645||measurement||loadtime||0:00:05.897183||0||1
+2015-12-21 21:19:17.170370||measurement||loadtime||0:00:06.369041||1||0
+2015-12-21 21:19:24.798139||measurement||ad||2015-12-21 21:19:24.756970@|45000@|PLACEHOLDER@|PLACEHOLDER||0||1
+2015-12-21 21:19:24.817780||measurement||ad||2015-12-21 21:19:24.756970@|125000@|PLACEHOLDER@|PLACEHOLDER||0||1
+2015-12-21 21:19:24.823304||measurement||loadtime||0:00:06.190282||0||1
+2015-12-21 21:19:25.172998||measurement||ad||2015-12-21 21:19:25.119520@|125000@|PLACEHOLDER@|PLACEHOLDER||1||0
+2015-12-21 21:19:25.177164||measurement||loadtime||0:00:06.005445||1||0
+2015-12-21 21:19:32.715981||measurement||loadtime||0:00:05.891344||0||1
+2015-12-21 21:19:32.716069||event||progress-marker||measurement-end||0||1
+2015-12-21 21:19:33.142334||measurement||loadtime||0:00:05.964615||1||0
+2015-12-21 21:19:33.142423||event||progress-marker||measurement-end||1||0
+2015-12-21 21:19:33.247295||meta||block_id end||0
+2015-12-21 21:19:33.248417||meta||block_id start||1
+2015-12-21 21:19:33.248455||meta||assignment||1@|0
+2015-12-21 21:19:36.267281||event||progress-marker||training-start||1||0
+2015-12-21 21:19:36.394053||event||progress-marker||training-start||0||1
+2015-12-21 21:19:40.225314||event||progress-marker||training-end||0||1
+2015-12-21 21:19:41.199116||event||progress-marker||training-end||1||0
+2015-12-21 21:19:45.231031||event||progress-marker||measurement-start||0||1
+2015-12-21 21:19:46.201061||event||progress-marker||measurement-start||1||0
+2015-12-21 21:19:53.099938||measurement||loadtime||0:00:05.867453||0||1
+2015-12-21 21:19:54.061390||measurement||loadtime||0:00:05.858898||1||0
+2015-12-21 21:20:01.256496||measurement||ad||2015-12-21 21:20:01.222878@|45000@|PLACEHOLDER@|PLACEHOLDER||0||1
+2015-12-21 21:20:01.271913||measurement||ad||2015-12-21 21:20:01.222878@|125000@|PLACEHOLDER@|PLACEHOLDER||0||1
+2015-12-21 21:20:01.276281||measurement||loadtime||0:00:06.175001||0||1
+2015-12-21 21:20:02.124590||measurement||ad||2015-12-21 21:20:02.069824@|125000@|PLACEHOLDER@|PLACEHOLDER||1||0
+2015-12-21 21:20:02.130761||measurement||loadtime||0:00:06.068097||1||0
+2015-12-21 21:20:09.284058||measurement||loadtime||0:00:06.006434||0||1
+2015-12-21 21:20:09.284139||event||progress-marker||measurement-end||0||1
+2015-12-21 21:20:10.395450||measurement||loadtime||0:00:06.263800||1||0
+2015-12-21 21:20:10.395541||event||progress-marker||measurement-end||1||0
+2015-12-21 21:20:10.482382||meta||block_id end||1
+2015-12-21 21:20:10.483156||meta||block_id start||2
+2015-12-21 21:20:10.483176||meta||assignment||1@|0
+2015-12-21 21:20:13.499927||event||progress-marker||training-start||1||0
+2015-12-21 21:20:13.503163||event||progress-marker||training-start||0||1
+2015-12-21 21:20:17.260179||event||progress-marker||training-end||0||1
+2015-12-21 21:20:17.311018||event||progress-marker||training-end||1||0
+2015-12-21 21:20:22.262756||event||progress-marker||measurement-start||0||1
+2015-12-21 21:20:22.314164||event||progress-marker||measurement-start||1||0
+2015-12-21 21:20:30.192645||measurement||loadtime||0:00:05.878088||1||0
+2015-12-21 21:20:30.218596||measurement||loadtime||0:00:05.954258||0||1
+2015-12-21 21:20:38.138640||measurement||ad||2015-12-21 21:20:38.118567@|45000@|PLACEHOLDER@|PLACEHOLDER||0||1
+2015-12-21 21:20:38.172304||measurement||loadtime||0:00:05.952319||0||1
+2015-12-21 21:20:38.199837||measurement||ad||2015-12-21 21:20:38.178650@|45000@|PLACEHOLDER@|PLACEHOLDER||1||0
+2015-12-21 21:20:38.232800||measurement||loadtime||0:00:06.038799||1||0
+2015-12-21 21:20:46.069870||measurement||loadtime||0:00:05.897249||0||1
+2015-12-21 21:20:46.069990||event||progress-marker||measurement-end||0||1
+2015-12-21 21:20:46.158543||measurement||loadtime||0:00:05.925094||1||0
+2015-12-21 21:20:46.158631||event||progress-marker||measurement-end||1||0
+2015-12-21 21:20:46.268832||meta||block_id end||2
+2015-12-21 21:20:46.269733||meta||block_id start||3
+2015-12-21 21:20:46.269809||meta||assignment||0@|1
+2015-12-21 21:20:48.657611||event||progress-marker||training-start||0||0
+2015-12-21 21:20:49.381048||event||progress-marker||training-start||1||1
+2015-12-21 21:20:53.971735||event||progress-marker||training-end||0||0
+2015-12-21 21:20:54.099458||event||progress-marker||training-end||1||1
+2015-12-21 21:20:58.974115||event||progress-marker||measurement-start||0||0
+2015-12-21 21:20:59.102275||event||progress-marker||measurement-start||1||1
+2015-12-21 21:21:07.229659||measurement||loadtime||0:00:06.126279||1||1
+2015-12-21 21:21:07.434147||measurement||loadtime||0:00:06.459141||0||0
+2015-12-21 21:21:15.308377||measurement||ad||2015-12-21 21:21:15.274997@|45000@|PLACEHOLDER@|PLACEHOLDER||1||1
+2015-12-21 21:21:15.324298||measurement||ad||2015-12-21 21:21:15.274997@|125000@|PLACEHOLDER@|PLACEHOLDER||1||1
+2015-12-21 21:21:15.329023||measurement||loadtime||0:00:06.097963||1||1
+2015-12-21 21:21:15.685079||measurement||ad||2015-12-21 21:21:15.654825@|45000@|PLACEHOLDER@|PLACEHOLDER||0||0
+2015-12-21 21:21:15.744056||measurement||loadtime||0:00:06.308547||0||0
+2015-12-21 21:21:23.367820||measurement||loadtime||0:00:06.038155||1||1
+2015-12-21 21:21:23.367908||event||progress-marker||measurement-end||1||1
+2015-12-21 21:21:23.803963||measurement||loadtime||0:00:06.059454||0||0
+2015-12-21 21:21:23.804058||event||progress-marker||measurement-end||0||0
+2015-12-21 21:21:23.859248||meta||block_id end||3
+2015-12-21 21:21:23.859866||meta||block_id start||4
+2015-12-21 21:21:23.859908||meta||assignment||0@|1
+2015-12-21 21:21:26.620995||event||progress-marker||training-start||1||1
+2015-12-21 21:21:27.688878||event||progress-marker||training-start||0||0
+2015-12-21 21:21:30.154655||event||progress-marker||training-end||1||1
+2015-12-21 21:21:31.143775||event||progress-marker||training-end||0||0
+2015-12-21 21:21:35.157199||event||progress-marker||measurement-start||1||1
+2015-12-21 21:21:36.146172||event||progress-marker||measurement-start||0||0
+2015-12-21 21:21:42.986626||measurement||loadtime||0:00:05.827899||1||1
+2015-12-21 21:21:44.191822||measurement||loadtime||0:00:06.044837||0||0
+2015-12-21 21:21:50.941463||measurement||ad||2015-12-21 21:21:50.909070@|45000@|PLACEHOLDER@|PLACEHOLDER||1||1
+2015-12-21 21:21:50.991080||measurement||loadtime||0:00:06.003190||1||1
+2015-12-21 21:21:52.132876||measurement||ad||2015-12-21 21:21:52.112683@|45000@|PLACEHOLDER@|PLACEHOLDER||0||0
+2015-12-21 21:21:52.166185||measurement||loadtime||0:00:05.973475||0||0
+2015-12-21 21:21:58.813908||measurement||loadtime||0:00:05.821470||1||1
+2015-12-21 21:21:58.813997||event||progress-marker||measurement-end||1||1
+2015-12-21 21:22:00.069480||measurement||loadtime||0:00:05.901927||0||0
+2015-12-21 21:22:00.069571||event||progress-marker||measurement-end||0||0
+2015-12-21 21:22:00.164072||meta||block_id end||4
+2015-12-21 21:22:00.164729||meta||block_id start||5
+2015-12-21 21:22:00.164748||meta||assignment||0@|1
+2015-12-21 21:22:03.170037||event||progress-marker||training-start||0||0
+2015-12-21 21:22:03.425131||event||progress-marker||training-start||1||1
+2015-12-21 21:22:07.387787||event||progress-marker||training-end||0||0
+2015-12-21 21:22:07.410939||event||progress-marker||training-end||1||1
+2015-12-21 21:22:12.391114||event||progress-marker||measurement-start||0||0
+2015-12-21 21:22:12.413449||event||progress-marker||measurement-start||1||1
+2015-12-21 21:22:20.409261||measurement||loadtime||0:00:06.016689||0||0
+2015-12-21 21:22:20.574434||measurement||loadtime||0:00:06.159425||1||1
+2015-12-21 21:22:28.524001||measurement||ad||2015-12-21 21:22:28.502272@|45000@|PLACEHOLDER@|PLACEHOLDER||0||0
+2015-12-21 21:22:28.558493||measurement||loadtime||0:00:06.147813||0||0
+2015-12-21 21:22:28.750204||measurement||ad||2015-12-21 21:22:28.715290@|45000@|PLACEHOLDER@|PLACEHOLDER||1||1
+2015-12-21 21:22:28.766434||measurement||ad||2015-12-21 21:22:28.715290@|125000@|PLACEHOLDER@|PLACEHOLDER||1||1
+2015-12-21 21:22:28.771407||measurement||loadtime||0:00:06.195493||1||1
+2015-12-21 21:22:36.594514||measurement||loadtime||0:00:06.035532||0||0
+2015-12-21 21:22:36.594600||event||progress-marker||measurement-end||0||0
+2015-12-21 21:22:36.981027||measurement||loadtime||0:00:06.209245||1||1
+2015-12-21 21:22:36.981146||event||progress-marker||measurement-end||1||1
+2015-12-21 21:22:37.062633||meta||block_id end||5
+2015-12-21 21:22:37.063490||meta||block_id start||6
+2015-12-21 21:22:37.063532||meta||assignment||0@|1
+2015-12-21 21:22:39.929553||event||progress-marker||training-start||1||1
+2015-12-21 21:22:40.208212||event||progress-marker||training-start||0||0
+2015-12-21 21:22:43.912796||event||progress-marker||training-end||1||1
+2015-12-21 21:22:45.158485||event||progress-marker||training-end||0||0
+2015-12-21 21:22:48.915864||event||progress-marker||measurement-start||1||1
+2015-12-21 21:22:50.162029||event||progress-marker||measurement-start||0||0
+2015-12-21 21:22:57.065640||measurement||loadtime||0:00:06.148358||1||1
+2015-12-21 21:22:58.313074||measurement||loadtime||0:00:06.149578||0||0
+2015-12-21 21:23:05.176698||measurement||ad||2015-12-21 21:23:05.154768@|45000@|PLACEHOLDER@|PLACEHOLDER||1||1
+2015-12-21 21:23:05.211757||measurement||loadtime||0:00:06.144718||1||1
+2015-12-21 21:23:06.395652||measurement||ad||2015-12-21 21:23:06.374383@|45000@|PLACEHOLDER@|PLACEHOLDER||0||0
+2015-12-21 21:23:06.434583||measurement||loadtime||0:00:06.120873||0||0
+2015-12-21 21:23:13.270867||measurement||loadtime||0:00:06.057759||1||1
+2015-12-21 21:23:13.270950||event||progress-marker||measurement-end||1||1
+2015-12-21 21:23:14.503009||measurement||loadtime||0:00:06.067083||0||0
+2015-12-21 21:23:14.503118||event||progress-marker||measurement-end||0||0
+2015-12-21 21:23:14.609556||meta||block_id end||6
+2015-12-21 21:23:14.610608||meta||block_id start||7
+2015-12-21 21:23:14.610656||meta||assignment||1@|0
+2015-12-21 21:23:17.585190||event||progress-marker||training-start||1||0
+2015-12-21 21:23:17.587171||event||progress-marker||training-start||0||1
+2015-12-21 21:23:21.522020||event||progress-marker||training-end||0||1
+2015-12-21 21:23:21.561407||event||progress-marker||training-end||1||0
+2015-12-21 21:23:26.523806||event||progress-marker||measurement-start||0||1
+2015-12-21 21:23:26.563829||event||progress-marker||measurement-start||1||0
+2015-12-21 21:23:34.605112||measurement||loadtime||0:00:06.040919||1||0
+2015-12-21 21:23:34.605112||measurement||loadtime||0:00:06.079874||0||1
+2015-12-21 21:23:42.832339||measurement||ad||2015-12-21 21:23:42.799638@|45000@|PLACEHOLDER@|PLACEHOLDER||1||0
+2015-12-21 21:23:42.847528||measurement||ad||2015-12-21 21:23:42.799638@|125000@|PLACEHOLDER@|PLACEHOLDER||1||0
+2015-12-21 21:23:42.852108||measurement||loadtime||0:00:06.245743||1||0
+2015-12-21 21:23:43.747734||measurement||ad||2015-12-21 21:23:43.699234@|125000@|PLACEHOLDER@|PLACEHOLDER||0||1
+2015-12-21 21:23:43.752492||measurement||loadtime||0:00:07.146094||0||1
+2015-12-21 21:23:51.028438||measurement||loadtime||0:00:06.174990||1||0
+2015-12-21 21:23:51.028527||event||progress-marker||measurement-end||1||0
+2015-12-21 21:23:51.839309||measurement||loadtime||0:00:06.085848||0||1
+2015-12-21 21:23:51.839398||event||progress-marker||measurement-end||0||1
+2015-12-21 21:23:51.936956||meta||block_id end||7
+2015-12-21 21:23:51.937801||meta||block_id start||8
+2015-12-21 21:23:51.937820||meta||assignment||1@|0
+2015-12-21 21:23:54.762256||event||progress-marker||training-start||0||1
+2015-12-21 21:23:54.874791||event||progress-marker||training-start||1||0
+2015-12-21 21:23:58.646078||event||progress-marker||training-end||0||1
+2015-12-21 21:23:58.649148||event||progress-marker||training-end||1||0
+2015-12-21 21:24:03.649875||event||progress-marker||measurement-start||0||1
+2015-12-21 21:24:03.651396||event||progress-marker||measurement-start||1||0
+2015-12-21 21:24:11.542705||measurement||loadtime||0:00:05.890883||1||0
+2015-12-21 21:24:11.606762||measurement||loadtime||0:00:05.955292||0||1
+2015-12-21 21:24:19.477448||measurement||ad||2015-12-21 21:24:19.429098@|125000@|PLACEHOLDER@|PLACEHOLDER||1||0
+2015-12-21 21:24:19.482630||measurement||loadtime||0:00:05.938590||1||0
+2015-12-21 21:24:20.534346||measurement||ad||2015-12-21 21:24:20.514018@|45000@|PLACEHOLDER@|PLACEHOLDER||0||1
+2015-12-21 21:24:20.567084||measurement||loadtime||0:00:06.959008||0||1
+2015-12-21 21:24:27.432155||measurement||loadtime||0:00:05.948474||1||0
+2015-12-21 21:24:27.432243||event||progress-marker||measurement-end||1||0
+2015-12-21 21:24:28.847999||measurement||loadtime||0:00:06.279564||0||1
+2015-12-21 21:24:28.848086||event||progress-marker||measurement-end||0||1
+2015-12-21 21:24:28.935195||meta||block_id end||8
+2015-12-21 21:24:28.936014||meta||block_id start||9
+2015-12-21 21:24:28.936029||meta||assignment||0@|1
+2015-12-21 21:24:31.745348||event||progress-marker||training-start||0||0
+2015-12-21 21:24:31.769008||event||progress-marker||training-start||1||1
+2015-12-21 21:24:35.715995||event||progress-marker||training-end||0||0
+2015-12-21 21:24:35.796411||event||progress-marker||training-end||1||1
+2015-12-21 21:24:40.719163||event||progress-marker||measurement-start||0||0
+2015-12-21 21:24:40.799788||event||progress-marker||measurement-start||1||1
+2015-12-21 21:24:48.816096||measurement||loadtime||0:00:06.014929||1||1
+2015-12-21 21:24:48.839854||measurement||loadtime||0:00:06.119254||0||0
+2015-12-21 21:24:57.058443||measurement||ad||2015-12-21 21:24:57.033754@|45000@|PLACEHOLDER@|PLACEHOLDER||1||1
+2015-12-21 21:24:57.108888||measurement||loadtime||0:00:06.291220||1||1
+2015-12-21 21:24:58.076750||measurement||ad||2015-12-21 21:24:58.043064@|45000@|PLACEHOLDER@|PLACEHOLDER||0||0
+2015-12-21 21:24:58.092478||measurement||ad||2015-12-21 21:24:58.043064@|125000@|PLACEHOLDER@|PLACEHOLDER||0||0
+2015-12-21 21:24:58.096908||measurement||loadtime||0:00:07.256721||0||0
+2015-12-21 21:25:05.168843||measurement||loadtime||0:00:06.059638||1||1
+2015-12-21 21:25:05.168933||event||progress-marker||measurement-end||1||1
+2015-12-21 21:25:06.131360||measurement||loadtime||0:00:06.033085||0||0
+2015-12-21 21:25:06.131447||event||progress-marker||measurement-end||0||0
+2015-12-21 21:25:06.213939||meta||block_id end||9
+2015-12-21 21:25:06.214940||meta||block_id start||10
+2015-12-21 21:25:06.215017||meta||assignment||0@|1
+2015-12-21 21:25:08.811023||event||progress-marker||training-start||1||1
+2015-12-21 21:25:09.573340||event||progress-marker||training-start||0||0
+2015-12-21 21:25:13.995055||event||progress-marker||training-end||1||1
+2015-12-21 21:25:14.091615||event||progress-marker||training-end||0||0
+2015-12-21 21:25:19.000268||event||progress-marker||measurement-start||1||1
+2015-12-21 21:25:19.094845||event||progress-marker||measurement-start||0||0
+2015-12-21 21:25:27.046964||measurement||loadtime||0:00:06.045258||1||1
+2015-12-21 21:25:27.100160||measurement||loadtime||0:00:06.003843||0||0
+2015-12-21 21:25:35.131697||measurement||ad||2015-12-21 21:25:35.111584@|45000@|PLACEHOLDER@|PLACEHOLDER||0||0
+2015-12-21 21:25:35.168766||measurement||loadtime||0:00:06.067867||0||0
+2015-12-21 21:25:35.216181||measurement||ad||2015-12-21 21:25:35.160371@|125000@|PLACEHOLDER@|PLACEHOLDER||1||1
+2015-12-21 21:25:35.220613||measurement||loadtime||0:00:06.172294||1||1
+2015-12-21 21:25:43.315422||measurement||loadtime||0:00:06.145247||0||0
+2015-12-21 21:25:43.315592||event||progress-marker||measurement-end||0||0
+2015-12-21 21:25:43.362426||measurement||loadtime||0:00:06.140436||1||1
+2015-12-21 21:25:43.362542||event||progress-marker||measurement-end||1||1
+2015-12-21 21:25:43.437771||meta||block_id end||10
+2015-12-21 21:25:43.438812||meta||block_id start||11
+2015-12-21 21:25:43.438828||meta||assignment||0@|1
+2015-12-21 21:25:46.844244||event||progress-marker||training-start||1||1
+2015-12-21 21:25:46.874756||event||progress-marker||training-start||0||0
+2015-12-21 21:25:50.378931||event||progress-marker||training-end||0||0
+2015-12-21 21:25:50.506401||event||progress-marker||training-end||1||1
+2015-12-21 21:25:55.380809||event||progress-marker||measurement-start||0||0
+2015-12-21 21:25:55.509941||event||progress-marker||measurement-start||1||1
+2015-12-21 21:26:03.223297||measurement||loadtime||0:00:05.841069||0||0
+2015-12-21 21:26:03.354038||measurement||loadtime||0:00:05.842655||1||1
+2015-12-21 21:26:11.228302||measurement||ad||2015-12-21 21:26:11.202453@|45000@|PLACEHOLDER@|PLACEHOLDER||0||0
+2015-12-21 21:26:11.267393||measurement||loadtime||0:00:06.042772||0||0
+2015-12-21 21:26:11.343632||measurement||ad||2015-12-21 21:26:11.291132@|125000@|PLACEHOLDER@|PLACEHOLDER||1||1
+2015-12-21 21:26:11.349479||measurement||loadtime||0:00:05.995030||1||1
+2015-12-21 21:26:19.145281||measurement||loadtime||0:00:05.877542||0||0
+2015-12-21 21:26:19.145376||event||progress-marker||measurement-end||0||0
+2015-12-21 21:26:19.254763||measurement||loadtime||0:00:05.903899||1||1
+2015-12-21 21:26:19.254890||event||progress-marker||measurement-end||1||1
+2015-12-21 21:26:19.321856||meta||block_id end||11
+2015-12-21 21:26:19.323223||meta||block_id start||12
+2015-12-21 21:26:19.323242||meta||assignment||1@|0
+2015-12-21 21:26:22.258851||event||progress-marker||training-start||0||1
+2015-12-21 21:26:22.328298||event||progress-marker||training-start||1||0
+2015-12-21 21:26:26.213518||event||progress-marker||training-end||0||1
+2015-12-21 21:26:27.231870||event||progress-marker||training-end||1||0
+2015-12-21 21:26:31.217008||event||progress-marker||measurement-start||0||1
+2015-12-21 21:26:32.234861||event||progress-marker||measurement-start||1||0
+2015-12-21 21:26:39.304867||measurement||loadtime||0:00:06.086373||0||1
+2015-12-21 21:26:40.243682||measurement||loadtime||0:00:06.007401||1||0
+2015-12-21 21:26:47.601564||measurement||ad||2015-12-21 21:26:47.581127@|45000@|PLACEHOLDER@|PLACEHOLDER||0||1
+2015-12-21 21:26:47.634568||measurement||loadtime||0:00:06.328352||0||1
+2015-12-21 21:26:48.703224||measurement||ad||2015-12-21 21:26:48.683186@|45000@|PLACEHOLDER@|PLACEHOLDER||1||0
+2015-12-21 21:26:48.736629||measurement||loadtime||0:00:06.492410||1||0
+2015-12-21 21:26:55.885362||measurement||loadtime||0:00:06.249993||0||1
+2015-12-21 21:26:55.885457||event||progress-marker||measurement-end||0||1
+2015-12-21 21:26:57.381533||measurement||loadtime||0:00:06.643644||1||0
+2015-12-21 21:26:57.381625||event||progress-marker||measurement-end||1||0
+2015-12-21 21:26:57.463553||meta||block_id end||12
