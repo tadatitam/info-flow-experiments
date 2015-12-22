@@ -5,7 +5,7 @@ import web.linkedin_ads
 import converter.reader             # read log and create feature vectors
 import analysis.statistics          # statistics for significance testing
 
-log_file = 'log.linkedin.txt'
+log_file = 'log.linkedin_1.txt'
 
 
 def make_browser(unit_id, treatment_id):

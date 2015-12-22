@@ -1,0 +1,119 @@
+2015-12-21 23:46:12.263079||meta||agents||2
+2015-12-21 23:46:12.263093||meta||treatnames||control (female)@|experimental (male)
+2015-12-21 23:46:12.263198||meta||block_id start||0
+2015-12-21 23:46:12.263209||meta||assignment||0@|1
+2015-12-21 23:46:16.548860||event||progress-marker||training-start||1||1
+2015-12-21 23:46:16.670049||event||progress-marker||training-start||0||0
+2015-12-21 23:46:20.834688||event||progress-marker||training-end||0||0
+2015-12-21 23:46:20.835632||event||progress-marker||training-end||1||1
+2015-12-21 23:46:25.837063||event||progress-marker||measurement-start||0||0
+2015-12-21 23:46:25.837984||event||progress-marker||measurement-start||1||1
+2015-12-21 23:46:34.399035||measurement||ad||2015-12-21 23:46:34.070175@|Spherion Professional Services@|URL@|State College, Pennsylvania Area||0||0
+2015-12-21 23:46:34.428012||measurement||ad||2015-12-21 23:46:34.070175@|L2 Aerospace@|URL@|Greater Philadelphia Area||0||0
+2015-12-21 23:46:34.468808||measurement||ad||2015-12-21 23:46:34.070175@|Red Lion Controls@|URL@|York, PA||0||0
+2015-12-21 23:46:34.494213||measurement||ad||2015-12-21 23:46:34.070175@|Danaher - Industrial Technologies@|URL@|Washington D.C. Metro Area||0||0
+2015-12-21 23:46:34.524775||measurement||ad||2015-12-21 23:46:34.070175@|Glidewell Dental Lab@|URL@|Orange County, California Area||0||0
+2015-12-21 23:46:34.555926||measurement||ad||2015-12-21 23:46:34.070175@|Internap@|URL@|New York, NY||0||0
+2015-12-21 23:46:34.588236||measurement||ad||2015-12-21 23:46:34.070175@|Foxglove Digital Information Systems LLC@|URL@|Kokomo, Indiana Area||0||0
+2015-12-21 23:46:34.618528||measurement||ad||2015-12-21 23:46:34.070175@|The Centrics Group@|URL@|Atlanta, GA||0||0
+2015-12-21 23:46:34.644408||measurement||ad||2015-12-21 23:46:34.070175@|The Select Group@|URL@|Charlotte, NC||0||0
+2015-12-21 23:46:34.677360||measurement||ad||2015-12-21 23:46:34.070175@|Skuid@|URL@|Chattanooga, Tennessee Area||0||0
+2015-12-21 23:46:34.687542||measurement||ad||2015-12-21 23:46:34.369567@|L2 Aerospace@|URL@|Greater Philadelphia Area||1||1
+2015-12-21 23:46:34.705777||measurement||ad||2015-12-21 23:46:34.070175@|Deeplocal@|URL@|Pittsburgh, PA, US||0||0
+2015-12-21 23:46:34.737638||measurement||ad||2015-12-21 23:46:34.070175@|Code42 Software@|URL@|Minneapolis||0||0
+2015-12-21 23:46:34.754245||measurement||ad||2015-12-21 23:46:34.369567@|Flatiron Health@|URL@|New York||1||1
+2015-12-21 23:46:34.770016||measurement||ad||2015-12-21 23:46:34.070175@|SCA Technologies@|URL@|Pittsburgh, PA, US||0||0
+2015-12-21 23:46:34.801921||measurement||ad||2015-12-21 23:46:34.070175@|ShowClix@|URL@|Pittsburgh, PA, US||0||0
+2015-12-21 23:46:34.802714||measurement||ad||2015-12-21 23:46:34.369567@|Inmar@|URL@|US-NC-Winston-Salem||1||1
+2015-12-21 23:46:34.837748||measurement||ad||2015-12-21 23:46:34.070175@|Novel Engineering@|URL@|Melbourne, Florida Area||0||0
+2015-12-21 23:46:34.838843||measurement||ad||2015-12-21 23:46:34.369567@|HumanGeo@|URL@|Arlington, VA and surrounding DC areas||1||1
+2015-12-21 23:46:34.868357||measurement||ad||2015-12-21 23:46:34.369567@|chatbox.com@|URL@|Greater Seattle Area||1||1
+2015-12-21 23:46:34.870954||measurement||ad||2015-12-21 23:46:34.070175@|Pivotal Labs@|URL@|Atlanta, GA||0||0
+2015-12-21 23:46:34.894039||measurement||ad||2015-12-21 23:46:34.070175@|Change Healthcare@|URL@|Bridgeton||0||0
+2015-12-21 23:46:34.901351||measurement||ad||2015-12-21 23:46:34.369567@|Artech Information Systems@|URL@|Richmond, VA, US||1||1
+2015-12-21 23:46:34.919321||measurement||ad||2015-12-21 23:46:34.070175@|Braintree@|URL@|Austin, TX||0||0
+2015-12-21 23:46:34.923550||measurement||ad||2015-12-21 23:46:34.369567@|Artech Information Systems@|URL@|New York City, NY, US||1||1
+2015-12-21 23:46:34.945140||measurement||ad||2015-12-21 23:46:34.070175@|Unchained Labs@|URL@|Pleasanton, CA||0||0
+2015-12-21 23:46:34.951749||measurement||ad||2015-12-21 23:46:34.369567@|Spectraforce Technologies@|URL@|Durham, NC, US||1||1
+2015-12-21 23:46:34.971146||measurement||ad||2015-12-21 23:46:34.070175@|Wish - Shopping made fun!@|URL@|San Francisco, CA||0||0
+2015-12-21 23:46:34.982274||measurement||ad||2015-12-21 23:46:34.369567@|Myoats@|URL@|Brooklyn, NY, US||1||1
+2015-12-21 23:46:34.994299||measurement||ad||2015-12-21 23:46:34.070175@|Flatiron Health@|URL@|New York||0||0
+2015-12-21 23:46:35.006578||measurement||ad||2015-12-21 23:46:34.369567@|Spectraforce Technologies@|URL@|Raleigh, NC, US||1||1
+2015-12-21 23:46:35.021074||measurement||ad||2015-12-21 23:46:34.070175@|52 Limited@|URL@|Portland, Oregon Area||0||0
+2015-12-21 23:46:35.035048||measurement||ad||2015-12-21 23:46:34.369567@|Artech Information Systems@|URL@|Dallas, TX, US||1||1
+2015-12-21 23:46:35.046184||measurement||ad||2015-12-21 23:46:34.070175@|Lyra Health@|URL@|San Francisco Bay Area||0||0
+2015-12-21 23:46:35.057404||measurement||ad||2015-12-21 23:46:34.369567@|Warby Parker@|URL@|New York City, NY, US||1||1
+2015-12-21 23:46:35.073160||measurement||ad||2015-12-21 23:46:34.070175@|HumanGeo@|URL@|Arlington, VA and surrounding DC areas||0||0
+2015-12-21 23:46:35.086236||measurement||ad||2015-12-21 23:46:34.369567@|Search Technologies@|URL@|Washington, D.C., DC, US||1||1
+2015-12-21 23:46:35.099769||measurement||ad||2015-12-21 23:46:34.070175@|Inmar@|URL@|US-NC-Winston-Salem||0||0
+2015-12-21 23:46:35.100008||measurement||loadtime||0:00:07.261494||0||0
+2015-12-21 23:46:35.124568||measurement||ad||2015-12-21 23:46:34.369567@|Deeplocal@|URL@|Pittsburgh, PA, US||1||1
+2015-12-21 23:46:35.190877||measurement||ad||2015-12-21 23:46:34.369567@|Capacity LLC@|URL@|New Brunswick, NJ, US||1||1
+2015-12-21 23:46:35.237702||measurement||ad||2015-12-21 23:46:34.369567@|ShowClix@|URL@|Pittsburgh, PA, US||1||1
+2015-12-21 23:46:35.275415||measurement||ad||2015-12-21 23:46:34.369567@|WorldQuant LLC@|URL@|Greenwich, CT, US||1||1
+2015-12-21 23:46:35.309569||measurement||ad||2015-12-21 23:46:34.369567@|Brand Networks@|URL@|Rochester, NY, US||1||1
+2015-12-21 23:46:35.334288||measurement||ad||2015-12-21 23:46:34.369567@|SCA Technologies@|URL@|Pittsburgh, PA, US||1||1
+2015-12-21 23:46:35.354692||measurement||ad||2015-12-21 23:46:34.369567@|A123 Systems LLC@|URL@|Livonia, MI, US||1||1
+2015-12-21 23:46:35.372540||measurement||ad||2015-12-21 23:46:34.369567@|RJMetrics@|URL@|Philadelphia, PA, US||1||1
+2015-12-21 23:46:35.397785||measurement||ad||2015-12-21 23:46:34.369567@|Nevco Inc.@|URL@|Greater St. Louis Area||1||1
+2015-12-21 23:46:35.416133||measurement||ad||2015-12-21 23:46:34.369567@|Nulab Inc.@|URL@|Greater New York City Area||1||1
+2015-12-21 23:46:35.433882||measurement||ad||2015-12-21 23:46:34.369567@|Flight Display Systems@|URL@|Alpharetta, GA, US||1||1
+2015-12-21 23:46:35.451536||measurement||ad||2015-12-21 23:46:34.369567@|Knorr-Bremse North America@|URL@|Westminster, MD, US||1||1
+2015-12-21 23:46:35.451765||measurement||loadtime||0:00:07.613237||1||1
+2015-12-21 23:46:42.178178||measurement||ad||2015-12-21 23:46:42.007018@|Spherion Professional Services@|URL@|State College, Pennsylvania Area||0||0
+2015-12-21 23:46:42.213876||measurement||ad||2015-12-21 23:46:42.007018@|L2 Aerospace@|URL@|Greater Philadelphia Area||0||0
+2015-12-21 23:46:42.239912||measurement||ad||2015-12-21 23:46:42.007018@|Red Lion Controls@|URL@|York, PA||0||0
+2015-12-21 23:46:42.260562||measurement||ad||2015-12-21 23:46:42.007018@|Danaher - Industrial Technologies@|URL@|Washington D.C. Metro Area||0||0
+2015-12-21 23:46:42.285206||measurement||ad||2015-12-21 23:46:42.007018@|Glidewell Dental Lab@|URL@|Orange County, California Area||0||0
+2015-12-21 23:46:42.310728||measurement||ad||2015-12-21 23:46:42.007018@|Internap@|URL@|New York, NY||0||0
+2015-12-21 23:46:42.345931||measurement||ad||2015-12-21 23:46:42.007018@|Foxglove Digital Information Systems LLC@|URL@|Kokomo, Indiana Area||0||0
+2015-12-21 23:46:42.378571||measurement||ad||2015-12-21 23:46:42.007018@|The Centrics Group@|URL@|Atlanta, GA||0||0
+2015-12-21 23:46:42.412140||measurement||ad||2015-12-21 23:46:42.007018@|The Select Group@|URL@|Charlotte, NC||0||0
+2015-12-21 23:46:42.440197||measurement||ad||2015-12-21 23:46:42.007018@|Skuid@|URL@|Chattanooga, Tennessee Area||0||0
+2015-12-21 23:46:42.472452||measurement||ad||2015-12-21 23:46:42.007018@|Deeplocal@|URL@|Pittsburgh, PA, US||0||0
+2015-12-21 23:46:42.498661||measurement||ad||2015-12-21 23:46:42.007018@|Code42 Software@|URL@|Minneapolis||0||0
+2015-12-21 23:46:42.531963||measurement||ad||2015-12-21 23:46:42.007018@|SCA Technologies@|URL@|Pittsburgh, PA, US||0||0
+2015-12-21 23:46:42.555779||measurement||ad||2015-12-21 23:46:42.007018@|ShowClix@|URL@|Pittsburgh, PA, US||0||0
+2015-12-21 23:46:42.593276||measurement||ad||2015-12-21 23:46:42.007018@|Novel Engineering@|URL@|Melbourne, Florida Area||0||0
+2015-12-21 23:46:42.625393||measurement||ad||2015-12-21 23:46:42.007018@|Pivotal Labs@|URL@|Atlanta, GA||0||0
+2015-12-21 23:46:42.657273||measurement||ad||2015-12-21 23:46:42.007018@|Change Healthcare@|URL@|Bridgeton||0||0
+2015-12-21 23:46:42.678990||measurement||ad||2015-12-21 23:46:42.007018@|Braintree@|URL@|Austin, TX||0||0
+2015-12-21 23:46:42.725038||measurement||ad||2015-12-21 23:46:42.007018@|Unchained Labs@|URL@|Pleasanton, CA||0||0
+2015-12-21 23:46:42.771907||measurement||ad||2015-12-21 23:46:42.007018@|Wish - Shopping made fun!@|URL@|San Francisco, CA||0||0
+2015-12-21 23:46:42.796476||measurement||ad||2015-12-21 23:46:42.007018@|Flatiron Health@|URL@|New York||0||0
+2015-12-21 23:46:42.824351||measurement||ad||2015-12-21 23:46:42.007018@|52 Limited@|URL@|Portland, Oregon Area||0||0
+2015-12-21 23:46:42.854135||measurement||ad||2015-12-21 23:46:42.007018@|Lyra Health@|URL@|San Francisco Bay Area||0||0
+2015-12-21 23:46:42.883392||measurement||ad||2015-12-21 23:46:42.007018@|HumanGeo@|URL@|Arlington, VA and surrounding DC areas||0||0
+2015-12-21 23:46:42.912660||measurement||ad||2015-12-21 23:46:42.007018@|Inmar@|URL@|US-NC-Winston-Salem||0||0
+2015-12-21 23:46:42.913005||measurement||loadtime||0:00:05.811626||0||0
+2015-12-21 23:46:42.913190||event||progress-marker||measurement-end||0||0
+2015-12-21 23:46:43.760399||measurement||ad||2015-12-21 23:46:43.587701@|L2 Aerospace@|URL@|Greater Philadelphia Area||1||1
+2015-12-21 23:46:43.786006||measurement||ad||2015-12-21 23:46:43.587701@|Flatiron Health@|URL@|New York||1||1
+2015-12-21 23:46:43.807262||measurement||ad||2015-12-21 23:46:43.587701@|Inmar@|URL@|US-NC-Winston-Salem||1||1
+2015-12-21 23:46:43.827639||measurement||ad||2015-12-21 23:46:43.587701@|HumanGeo@|URL@|Arlington, VA and surrounding DC areas||1||1
+2015-12-21 23:46:43.847189||measurement||ad||2015-12-21 23:46:43.587701@|chatbox.com@|URL@|Greater Seattle Area||1||1
+2015-12-21 23:46:43.869616||measurement||ad||2015-12-21 23:46:43.587701@|Artech Information Systems@|URL@|Richmond, VA, US||1||1
+2015-12-21 23:46:43.889548||measurement||ad||2015-12-21 23:46:43.587701@|Artech Information Systems@|URL@|New York City, NY, US||1||1
+2015-12-21 23:46:43.907195||measurement||ad||2015-12-21 23:46:43.587701@|Spectraforce Technologies@|URL@|Durham, NC, US||1||1
+2015-12-21 23:46:43.926083||measurement||ad||2015-12-21 23:46:43.587701@|Myoats@|URL@|Brooklyn, NY, US||1||1
+2015-12-21 23:46:43.946636||measurement||ad||2015-12-21 23:46:43.587701@|Spectraforce Technologies@|URL@|Raleigh, NC, US||1||1
+2015-12-21 23:46:43.968400||measurement||ad||2015-12-21 23:46:43.587701@|Artech Information Systems@|URL@|Dallas, TX, US||1||1
+2015-12-21 23:46:43.985774||measurement||ad||2015-12-21 23:46:43.587701@|Warby Parker@|URL@|New York City, NY, US||1||1
+2015-12-21 23:46:44.003790||measurement||ad||2015-12-21 23:46:43.587701@|Search Technologies@|URL@|Washington, D.C., DC, US||1||1
+2015-12-21 23:46:44.021878||measurement||ad||2015-12-21 23:46:43.587701@|Deeplocal@|URL@|Pittsburgh, PA, US||1||1
+2015-12-21 23:46:44.052347||measurement||ad||2015-12-21 23:46:43.587701@|Capacity LLC@|URL@|New Brunswick, NJ, US||1||1
+2015-12-21 23:46:44.075774||measurement||ad||2015-12-21 23:46:43.587701@|ShowClix@|URL@|Pittsburgh, PA, US||1||1
+2015-12-21 23:46:44.093824||measurement||ad||2015-12-21 23:46:43.587701@|WorldQuant LLC@|URL@|Greenwich, CT, US||1||1
+2015-12-21 23:46:44.112082||measurement||ad||2015-12-21 23:46:43.587701@|Brand Networks@|URL@|Rochester, NY, US||1||1
+2015-12-21 23:46:44.135553||measurement||ad||2015-12-21 23:46:43.587701@|SCA Technologies@|URL@|Pittsburgh, PA, US||1||1
+2015-12-21 23:46:44.152716||measurement||ad||2015-12-21 23:46:43.587701@|A123 Systems LLC@|URL@|Livonia, MI, US||1||1
+2015-12-21 23:46:44.170043||measurement||ad||2015-12-21 23:46:43.587701@|RJMetrics@|URL@|Philadelphia, PA, US||1||1
+2015-12-21 23:46:44.189080||measurement||ad||2015-12-21 23:46:43.587701@|Nevco Inc.@|URL@|Greater St. Louis Area||1||1
+2015-12-21 23:46:44.207005||measurement||ad||2015-12-21 23:46:43.587701@|Nulab Inc.@|URL@|Greater New York City Area||1||1
+2015-12-21 23:46:44.223954||measurement||ad||2015-12-21 23:46:43.587701@|Flight Display Systems@|URL@|Alpharetta, GA, US||1||1
+2015-12-21 23:46:44.241165||measurement||ad||2015-12-21 23:46:43.587701@|Knorr-Bremse North America@|URL@|Westminster, MD, US||1||1
+2015-12-21 23:46:44.241341||measurement||loadtime||0:00:06.788851||1||1
+2015-12-21 23:46:44.241421||event||progress-marker||measurement-end||1||1
+2015-12-21 23:46:44.343015||meta||block_id end||0
+2015-12-21 23:46:44.343706||meta||block_id start||1
+2015-12-21 23:46:44.344150||meta||assignment||1@|0
