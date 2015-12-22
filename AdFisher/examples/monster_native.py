@@ -25,7 +25,7 @@ def exp_treatment(unit):
 
 # Measurement - Collects ads
 def measurement(unit):
-  unit.collect_listings(reloads=2, delay=2, site='monster', salary=False)
+  unit.collect_ads(reloads=2, delay=2, site='monster')
 
 # Shuts down the browser once we are done with it.
 def cleanup_browser(unit):
