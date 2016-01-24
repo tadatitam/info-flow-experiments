@@ -13,11 +13,24 @@ MALE_PASSWORD = '65382$wtcv'
 FEMALE_EMAIL = 'amjoyjohns@gmail.com'
 FEMALE_PASSWORD = '874g*59&T'
 
+
 SEPARATOR='@|'
 
 MAX_COLLECTED = 5
 
 
+
+
+# Random gender name declarations
+def clean(s):
+    toks = s.strip().split(' ')
+    return toks[1]
+
+with open('site_files/linkedin_login_credentials_female.txt') as f:
+    FEMALE_CREDENTIALS = map(clean, f.readlines())
+
+with open('site_files/linkedin_login_credentials_male.txt') as f:
+    MALE_CREDENTIALS = map(clean, f.readlines())
 
 
 
