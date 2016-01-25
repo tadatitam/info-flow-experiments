@@ -5,7 +5,7 @@ from datetime import datetime                                       # for taggin
 from selenium.webdriver.common.keys import Keys                     # to press keys on a webpage
 import browser_unit
 from selenium.common.exceptions import NoSuchElementException
-
+import random
 
 MALE_EMAIL = 'benkevinjohns@gmail.com'
 MALE_PASSWORD = '65382$wtcv'
@@ -21,16 +21,22 @@ MAX_COLLECTED = 5
 
 
 
-# Random gender name declarations
+# get login ids
 def clean(s):
     toks = s.strip().split(' ')
-    return toks[1]
+    return toks
 
 with open('site_files/linkedin_login_credentials_female.txt') as f:
     FEMALE_CREDENTIALS = map(clean, f.readlines())
+    print FEMALE_CREDENTIALS
 
 with open('site_files/linkedin_login_credentials_male.txt') as f:
     MALE_CREDENTIALS = map(clean, f.readlines())
+
+
+
+
+
 
 
 
@@ -57,17 +63,33 @@ def strip_tags(html):
 
 
 
+
+
+
+
 class LinkedInAdsUnit(browser_unit.BrowserUnit):
 
   def __init__(self, browser, log_file, unit_id, treatment_id, headless=False, proxy=None):
     browser_unit.BrowserUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
 
+  def get_random_entry(self, array):
+    index = random.randrange(1,len(array)-1)
+    return array[index]
+
+  def get_login_credentials(self, gender):
+    '''returns (username, password)'''
+    if (gender=='male'): #male
+      return self.get_random_entry(MALE_CREDENTIALS)
+    else: # female 
+      return self.get_random_entry(FEMALE_CREDENTIALS)
 
       
   def create_user(self, gender, occupation):
     """user's gender is either male or female"""
-    user_email = MALE_EMAIL if (gender=='male') else FEMALE_EMAIL
-    user_password = MALE_PASSWORD if (gender=='male') else FEMALE_PASSWORD
+    [user_email, user_password] = self.get_login_credentials(gender)
+
+    #user_email = MALE_EMAIL if (gender=='male') else FEMALE_EMAIL
+    #user_password = MALE_PASSWORD if (gender=='male') else FEMALE_PASSWORD
 
     self.driver.get("https://www.linkedin.com/")
 

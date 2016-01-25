@@ -5,8 +5,8 @@ import web.linkedin_ads
 import converter.reader             # read log and create feature vectors
 import analysis.statistics          # statistics for significance testing
 
-log_file = 'log.linkedin_3.txt'
-
+#log_file = 'log.linkedin_3.txt'
+log_file = 'log.linkedin_no_gender_discriminate.txt'
 
 def make_browser(unit_id, treatment_id):
   b = web.linkedin_ads.LinkedInAdsUnit(browser='firefox', log_file=log_file, unit_id=unit_id, treatment_id=treatment_id, headless=False, proxy = None)
@@ -47,7 +47,7 @@ def test_stat(observed_values, unit_assignments):
 adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, exp_treatment], 
                         measurement=measurement, end_unit=cleanup_browser,
                         load_results=load_results, test_stat=test_stat, ml_analysis=True, 
-                        num_blocks=13, num_units=2, timeout=1000, log_file=log_file, exp_flag=True,
+                        num_blocks=13, num_units=2, timeout=1000, log_file=log_file, exp_flag=False,
                         treatment_names=["control (female)", "experimental (male)"])
 
 
