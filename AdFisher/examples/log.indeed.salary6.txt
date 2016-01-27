@@ -1,6 +1,0 @@
-2016-01-24 15:04:45.443644||meta||agents||2
-2016-01-24 15:04:45.443680||meta||treatnames||female@|male
-2016-01-24 15:04:45.445471||meta||block_id start||0
-2016-01-24 15:04:45.445504||meta||assignment||0@|1
-2016-01-24 15:04:48.982430||event||progress-marker||training-start||0||0
-2016-01-24 15:04:49.019484||event||progress-marker||training-start||1||1
