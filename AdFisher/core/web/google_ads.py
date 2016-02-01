@@ -43,6 +43,8 @@ class GoogleAdsUnit(google_search.GoogleSearchUnit):
                     self.save_ads_toi(file_name)
                 elif(site == 'bbc'):
                     self.save_ads_bbc(file_name)
+                elif(site == 'monster'):
+                    self.save_ads_monster(file_name)
                 else:
                     raw_input("No such site found: %s!" % site)
                 e = datetime.now()
@@ -97,3 +99,29 @@ class GoogleAdsUnit(google_search.GoogleSearchUnit):
             l = ps[1].find_element_by_css_selector("a").get_attribute('innerHTML')
             ad = strip_tags(tim+"@|"+t+"@|"+l+"@|"+b).encode("utf8")
             self.log('measurement', 'ad', ad)
+
+
+    def save_ads_monster(self, file):
+        driver = self.driver
+        id = self.unit_id
+        sys.stdout.write(".")
+        sys.stdout.flush()
+        driver.set_page_load_timeout(60)
+        driver.get("http://jobsearch.monster.com/")
+        tim = str(datetime.now())
+        els = driver.find_elements_by_css_selector("div.ctlJobListEntry")
+        for el in els:
+            title = el.find_element_by_class_name('wdgJobTitle').get_attribute('innerHTML').strip()
+            company = el.find_element_by_class_name('wdgJobCompany').get_attribute('innerHTML').strip()
+            location = el.find_element_by_css_selector('div.jobPlace a').get_attribute('innerHTML').strip()
+            ad = strip_tags(tim+"@|"+title+"@|"+company+"@|"+location).encode("utf8")
+            self.log('measurement', 'ad', ad)
+
+
+
+
+
+
+
+
+

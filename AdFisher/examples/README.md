@@ -109,3 +109,16 @@ Once all the specifications have been made, we make call the adfisher.do_experim
 - *log_file*.
 - the booleans *exp_flag* and *analysis_flag* indicate whether to perform the experiment or analysis. If *exp_flag* is True, then the experiment is performed. If *analysis_flag* is True, the analysis is performed. Both are set to True by default. 
 - the *treatment_names* as a list, in the same order as spcified in *treatments*. 
+
+
+### Running additional statistical test
+
+cd into folder where log files are kept, and run 
+    
+    cat <log-filename> | python process_salary.py 
+
+
+
+
+
+
