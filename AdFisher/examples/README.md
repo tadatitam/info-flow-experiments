@@ -29,7 +29,7 @@ GoogleAdsUnit is a class defined in `web.google_ads` which has functions to inte
 - You can specify the *browser* to be either 'firefox' or 'chrome'. 
 - The *log_file* specifies where the  log of the experiment is stored. 
 - *unit_id* is the unique id assigned to a particular browser instance, and *treatment_id* records which treatment is applied to the browser instance. These are assigned by AdFisher are provided as inputs to this function. These are not to be modified by the user.
-- Set *headless* to True if you would like to run experiments in the headless mode.
+- Set *headless* to True if you would like to run experiments in the headless mode, i.e. having the browser units run in a virtual display buffer. If you set *headless* to False, browser instances will be launched in the display attached to the computer and will throw an error if it does not find a display (e.g. on a  computer cluster). 
 - You can set a proxy with the *proxy* argument. If you do not want to use a proxy, set it to `None`, or simply do not specify it.
 
 You can create other classes (like GoogleAdsUnit) and create experimental units using them. 

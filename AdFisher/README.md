@@ -58,6 +58,13 @@ This repository can be used with [Vagrant](https://www.vagrantup.com/) to quickl
 
 This defaults to an Ubuntu Server 14.04 LTS (Trusty Tahr) build and will have the AdFisher source directory synced to /vagrant on the virtual machine. You can SSH into this machine with `vagrant ssh`.
 
+Troubleshooting
+-----------
+1. If you see an error saying the browser failed to start, try switching *headless* from False to True (check README at AdFisher/examples for more details).
+2. With headless set to True, the virtual display buffer tool (Xvfb) sometimes throws an error 
+```RuntimeError: Xvfb did not start```
+However, this occurs rarely. We get around this problem by collecting data from many many instances, so that these rare failures can be treated as noise.
+
 
 
 
