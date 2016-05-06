@@ -35,6 +35,41 @@ class GoogleSearchUnit(browser_unit.BrowserUnit):
 
     def __init__(self, browser, log_file, unit_id, treatment_id, headless=False, proxy=None):
         browser_unit.BrowserUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
+    
+    def search_and_collect(self, query_file, searchdelay=20, pages=2):
+        fo = open(query_file, "r")
+        for line in fo:     # For all queries in the list, obtain search results on Google
+            q = line.strip()
+            page = 1
+            print "\nsearch query: ", q
+            try:
+                self.driver.get("http://www.google.com/")
+                time.sleep(1)
+                self.driver.find_element_by_id(INPUT_ID).clear()
+                self.driver.find_element_by_id(INPUT_ID).send_keys(q)
+                self.driver.find_element_by_id(INPUT_ID).send_keys(Keys.RETURN)
+                time.sleep(2)
+                self.log('treatment', 'google search', q)
+            except:
+                self.log('error', 'google search', q)
+                self.driver.save_screenshot(str(self.unit_id)+'_search'+str(s)+'.jpg')
+                s+=1
+            while(page<=pages):
+                tim = str(datetime.now())
+                results = self.driver.find_elements_by_css_selector("div.g div.rc")
+                print len(results)
+                for result in results:
+                    t = result.find_element_by_css_selector("h3 a").get_attribute('innerHTML')
+                    l = result.find_element_by_css_selector("div.s div div cite").get_attribute('innerHTML')
+                    b = result.find_element_by_css_selector("div.s div span.st").get_attribute('innerHTML')
+                    r = strip_tags(tim+"@|"+t+"@|"+l+"@|"+b).encode("utf8")
+                    self.log('measurement', 'search_result', r)
+                self.driver.find_element_by_id("pnnext").click()
+                time.sleep(2)
+                page += 1
+            time.sleep(searchdelay)
+        fo.close()
+    	
                     
     def search_and_click(self, query_file, clickdelay=20, clickcount=5):
         fo = open(query_file, "r")
