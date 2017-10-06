@@ -14,8 +14,8 @@ def make_browser(unit_id, treatment_id):
         treatment_id=treatment_id, headless=False, proxy = None)
     return b
 
-web.pre_experiment.alexa.collect_sites(make_browser, num_sites=5, output_file=site_file,
-    alexa_link="http://www.alexa.com/topsites/category/Top/Health/Addictions/Substance_Abuse")
+#web.pre_experiment.alexa.collect_sites(make_browser, num_sites=5, output_file=site_file,
+#    alexa_link="http://www.alexa.com/topsites/category/Top/Health/Addictions/Substance_Abuse")
     
     
 # Control Group treatment
