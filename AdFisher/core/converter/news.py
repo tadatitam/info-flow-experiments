@@ -34,7 +34,7 @@ class News:
         self.title = chunks[2]
         self.agency = chunks[3]
         self.ago = chunks[4]
-        self.body = chunks[5]
+        #self.body = chunks[5]
         self.label = treatment_id
     
 #     def __init__(self, news):
@@ -68,7 +68,7 @@ class News:
     def display(self):
         print ("Title: "+self.title)
         print ("Agency: "+self.agency)
-        print ("Body: "+self.body+"\n")
+        #print ("Body: "+self.body+"\n")
         
     def identical_news(self, news, choice):
         if(choice == AGENCY):
@@ -78,7 +78,8 @@ class News:
             if(self.agency == news.agency and self.title == news.title):
                 return(True)
         elif(choice == TITLE_BODY):
-            if(self.body == news.body and self.title == news.title):
+            #if(self.body == news.body and self.title == news.title):
+            if(self.agency == news.agency and self.title == news.title):
                 return(True)
         elif(choice == TITLE_HEADING):
             if(self.heading == news.heading and self.title == news.title):
@@ -88,12 +89,12 @@ class News:
             
     def contains(self, nonces):
         for nonce in nonces:
-            if (nonce in self.title.lower() or nonce in self.agency.lower() or nonce in self.body.lower()):
+            if (nonce in self.title.lower() or nonce in self.agency.lower()):
                 return True
         return False
                     
     def news_to_words(self):                            # returns a list of words from an news
-        line = self.title+ " " + self.body
+        line = self.title+ " "# + self.body
         list = re.split(r'[.(), !<>\/:=?;\-\n]+|', line)
         for i in range(0,len(list)):
             list[i] = list[i].replace('\xe2\x80\x8e', '')
@@ -163,8 +164,8 @@ class NewsVector:
                 sys.stdout.write("%s " % news.agency)
             if('title' in chunks):
                 sys.stdout.write("%s " % news.title)
-            if('body' in chunks):
-                sys.stdout.write("%s " % news.body)
+            #if('body' in chunks):
+            #    sys.stdout.write("%s " % news.body)
             if('ago' in chunks):
                 sys.stdout.write("%s " % news.ago)
             if('time' in chunks):
@@ -296,7 +297,7 @@ class NewsVector:
     def newsvec_to_words(self):                     # check
         line = ""
         for news in self.data:
-            line = line + " " + news.title+ " " + news.body
+            line = line + " " + news.title+ " "# + news.body
         list = re.split(r'[.(), !<>\/:=?;\-\n]+|', line)
         for i in range(0,len(list)):
             list[i] = list[i].replace('\xe2\x80\x8e', '')
