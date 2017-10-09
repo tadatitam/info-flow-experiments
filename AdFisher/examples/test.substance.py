@@ -29,7 +29,8 @@ def exp_treatment(unit):
 
 # Measurement - Collects ads
 def measurement(unit):
-    unit.collect_ads(reloads=10, delay=5, site='monster')
+    unit.collect_ads(reloads=10, delay=5, site='bbc')
+
 
 # Shuts down the browser once we are done with it.
 def cleanup_browser(unit):
@@ -50,8 +51,6 @@ def test_stat(observed_values, unit_assignments):
 adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, exp_treatment], 
                         measurement=measurement, end_unit=cleanup_browser,
                         load_results=load_results, test_stat=test_stat, ml_analysis=True, 
-                        #                        num_blocks=20, num_units=4, timeout=2000,
-                        num_blocks=2, num_units=2, timeout=2000,
+                        num_blocks=20, num_units=4, timeout=2000,
                         log_file=log_file, 
-                        treatment_names=["control (null)", "experimental (substance abuse)"])
-
+treatment_names=["control (null)", "experimental (substance abuse)"])
