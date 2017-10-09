@@ -37,20 +37,24 @@ class GoogleNewsUnit(google_ads.GoogleAdsUnit):
         self.driver.set_page_load_timeout(60)
         self.driver.get("http://news.google.com")
         tim = str(datetime.now())
-        divs = self.driver.find_elements_by_xpath(".//td[@class='lt-col']/div/div/div")
-        topdivs = divs[0].find_elements_by_xpath(".//div[@class='section-content']/div[not(@class='esc-separator')]")
+        print "Fetching top news stories"
+        topdivs =\
+            self.driver.find_elements_by_xpath("""//*[@id="yDmH0d"]/c-wiz/c-wiz/main/div[1]/div[1]/c-wiz/div/c-wiz""")
         print "\n# articles in Top News: ", len(topdivs)
         sys.stdout.write(".")
         sys.stdout.flush()
-        for div in topdivs:
-            title = div.find_element_by_xpath(".//div[@class='esc-lead-article-title-wrapper']/h2/a/span").get_attribute('innerHTML')
-            tds = div.find_elements_by_xpath(".//div[@class='esc-lead-article-source-wrapper']/table/tbody/tr/td")
-            agency = tds[0].find_element_by_xpath(".//span").get_attribute("innerHTML")
-            ago = tds[1].find_element_by_xpath(".//span[@class='al-attribution-timestamp']").get_attribute("innerHTML")
-            body = div.find_element_by_xpath(".//div[@class='esc-lead-snippet-wrapper']").get_attribute('innerHTML')
+        for (i, div) in enumerate(topdivs):
+            print "div", i, "out of", len(topdivs)
+            this_topdiv =\
+                div.find_element_by_xpath("./c-wiz/div/div[2]/c-wiz[1]")
+            title = this_topdiv.find_element_by_xpath("./a").get_attribute('innerHTML')
+            ago = this_topdiv.find_element_by_xpath("./div/span[2]/span").get_attribute("innerHTML")
+            agency = this_topdiv.find_element_by_xpath("./div/span[1]").get_attribute("innerHTML")
             heading = "Top News"
-            news = strip_tags(tim+"@|"+heading+"@|"+title+"@|"+agency+"@|"+ago+"@|"+body).encode("utf8")
+            print "Title:", title, ", ago:", ago, ", agency:", agency
+            news = strip_tags(tim+"@|"+heading+"@|"+title+"@|"+agency+"@|"+ago).encode("utf8")
             self.log('measurement', 'news', news)
+        print "Done getting top stories"
 
     def get_allbutsuggested(self):  # Slow execution
         """Get all news articles (except suggested stories) from Google News"""
