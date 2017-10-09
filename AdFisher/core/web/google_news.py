@@ -37,24 +37,24 @@ class GoogleNewsUnit(google_ads.GoogleAdsUnit):
         self.driver.set_page_load_timeout(60)
         self.driver.get("http://news.google.com")
         tim = str(datetime.now())
-        print "Fetching top news stories"
+#        print "Fetching top news stories"
         topdivs =\
             self.driver.find_elements_by_xpath("""//*[@id="yDmH0d"]/c-wiz/c-wiz/main/div[1]/div[1]/c-wiz/div/c-wiz""")
         print "\n# articles in Top News: ", len(topdivs)
         sys.stdout.write(".")
         sys.stdout.flush()
         for (i, div) in enumerate(topdivs):
-            print "div", i, "out of", len(topdivs)
+            #           print "div", i, "out of", len(topdivs)
             this_topdiv =\
                 div.find_element_by_xpath("./c-wiz/div/div[2]/c-wiz[1]")
             title = this_topdiv.find_element_by_xpath("./a").get_attribute('innerHTML')
             ago = this_topdiv.find_element_by_xpath("./div/span[2]/span").get_attribute("innerHTML")
             agency = this_topdiv.find_element_by_xpath("./div/span[1]").get_attribute("innerHTML")
             heading = "Top News"
-            print "Title:", title, ", ago:", ago, ", agency:", agency
+            #print "Title:", title, ", ago:", ago, ", agency:", agency
             news = strip_tags(tim+"@|"+heading+"@|"+title+"@|"+agency+"@|"+ago).encode("utf8")
             self.log('measurement', 'news', news)
-        print "Done getting top stories"
+        #print "Done getting top stories"
 
     def get_allbutsuggested(self):  # Slow execution
         """Get all news articles (except suggested stories) from Google News"""
