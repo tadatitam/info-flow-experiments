@@ -38,6 +38,8 @@ scikit learn has a vast collection of python implemenations of Machine Learning 
 built on the NumPy, SciPy, and matplotlib packages. 
 We use the stemming package to stem words, and the nltk stopwords corpus for identifying stopwords.
 
+After installing the requirements, please visit **/examples** to view how to run sample scripts. 
+
 **If the scripts stop working after a period of time (~few months), try updating Selenium to the latest version using**
 ```
 sudo pip install -U selenium
