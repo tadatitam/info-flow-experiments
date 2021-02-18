@@ -3,7 +3,7 @@ import sys                                                          # some print
 from selenium import webdriver                                      # for running the driver on websites
 from datetime import datetime                                       # for tagging log with datetime
 from selenium.webdriver.common.keys import Keys                     # to press keys on a webpage
-import browser_unit
+from . import browser_unit
 
 # Google search page class declarations
 
@@ -15,7 +15,7 @@ SIGNIN_A = "gb_70"
 
 # strip html
 
-from HTMLParser import HTMLParser
+from html.parser import HTMLParser
 
 class MLStripper(HTMLParser):
     def __init__(self):
@@ -41,7 +41,7 @@ class GoogleSearchUnit(browser_unit.BrowserUnit):
         for line in fo:     # For all queries in the list, obtain search results on Google
             q = line.strip()
             page = 1
-            print "\nsearch query: ", q
+            print("\nsearch query: ", q)
             try:
                 self.driver.get("http://www.google.com/")
                 time.sleep(1)
@@ -57,7 +57,7 @@ class GoogleSearchUnit(browser_unit.BrowserUnit):
             while(page<=pages):
                 tim = str(datetime.now())
                 results = self.driver.find_elements_by_css_selector("div.g div.rc")
-                print len(results)
+                print(len(results))
                 for result in results:
                     t = result.find_element_by_css_selector("h3 a").get_attribute('innerHTML')
                     l = result.find_element_by_css_selector("div.s div div cite").get_attribute('innerHTML')
@@ -77,7 +77,7 @@ class GoogleSearchUnit(browser_unit.BrowserUnit):
             s = 0
             r = 0
             q = line.strip()
-            print "\nsearch query: ", q
+            print("\nsearch query: ", q)
             try:
                 self.driver.get("http://www.google.com/")
                 time.sleep(1)

@@ -15,12 +15,12 @@ def load_ads_from_json(log_name,session):
     with open(json_file, 'r') as infile:
         raw_ad_lines = json.load(infile)
     
-    print("loaded {} lines from session: {}".format(len(raw_ad_lines),session))
+    print(("loaded {} lines from session: {}".format(len(raw_ad_lines),session)))
 
     ad_lines =[]
     for line in raw_ad_lines:
         # parse line back into a named tuple, properly encoding to utf-8
-        utf8_line  = map(lambda s: s.encode('utf-8') if not isinstance(s, dict) and not isinstance(s,int) else s, line)
+        utf8_line  = [s.encode('utf-8') if not isinstance(s, dict) and not isinstance(s,int) else s for s in line]
         ad_lines.append(Ad(*utf8_line))
 
     return ad_lines
@@ -88,12 +88,12 @@ def group_on_link_text(data):
 
 def print_link_text_groups(ads_by_link):
     for link_text in ads_by_link:
-        print "-"*80
-        print("link text: {}".format(link_text[:80]))
+        print("-"*80)
+        print(("link text: {}".format(link_text[:80])))
         instances = ads_by_link[link_text]
         for ad in instances:
             session,a = ad
-            print("\ton: {} : reload: {} : session: {}".format(a.on_site,a.reloads,session))
+            print(("\ton: {} : reload: {} : session: {}".format(a.on_site,a.reloads,session)))
 
 def group_on_url(data):
     '''
@@ -119,11 +119,11 @@ def print_url_groups(ads_by_url):
         instances = ads_by_url[url]
         # skip blank ones
         if has_link_text(instances):
-            print "-"*80
-            print("url: {}".format(url[:40]))
+            print("-"*80)
+            print(("url: {}".format(url[:40])))
             for row in instances:
                 session,ad = row
-                print("\tlink_text: {}".format(ad.link_text))
+                print(("\tlink_text: {}".format(ad.link_text)))
 
 
 def has_link_text(instances):
@@ -178,7 +178,7 @@ def group_matrix(data):
 
         group_id+=1
 
-    print("There are {} ads with link_text".format(len(groups)))
+    print(("There are {} ads with link_text".format(len(groups))))
     non_link_text = get_non_represented_urls(all_data,groups)
     url_only_grouped = group_on_url(non_link_text)
 
@@ -198,7 +198,7 @@ def group_matrix(data):
         groups[group_id] = [characteristics,observations]
         group_id+=1
 
-    print("There are {} total groups".format(len(groups)))
+    print(("There are {} total groups".format(len(groups))))
     return groups
 
 def save_matrix_csv(data, groups, outfile):    
@@ -208,7 +208,7 @@ def save_matrix_csv(data, groups, outfile):
         # write headers
         headers = ["g_id","link_text","urls","# link","# url","# obs"]+cols
         writer.writerow(headers)
-        for g_id, g in groups.iteritems():
+        for g_id, g in groups.items():
             character, obs = g
             obs_data = group_observed(obs,cols)
             # skip non link text
@@ -220,11 +220,11 @@ def save_matrix_csv(data, groups, outfile):
 
 def group_observed(obs,cols):
     was_observed = lambda c: 1 if c in obs else 0
-    return map(was_observed,cols)
+    return list(map(was_observed,cols))
 
 def get_all_observation_points(groups):
     observ = set() 
-    for g_id, g in groups.iteritems():
+    for g_id, g in groups.items():
         character,obs = g
         for o in obs:
             observ.add(o)
@@ -241,7 +241,7 @@ def get_non_represented_urls(data,groups):
     Return any ad resources not already represented (long tail)
     '''
 
-    for group_id, group in groups.iteritems():
+    for group_id, group in groups.items():
         character ,observ = group
         urls = character[1]
         for url in urls:
@@ -255,7 +255,7 @@ def ads_on_site_reload(ad_lines,site,reloads):
 
 def print_simple_line(ad,level=0):
     if ad.link_text != '':
-        print("\t"*level+"url: {} link_text: {}".format(ad.url[:20],ad.link_text[:40]))
+        print(("\t"*level+"url: {} link_text: {}".format(ad.url[:20],ad.link_text[:40])))
 
 def print_by_site_reload(ad_lines):
 
@@ -264,7 +264,7 @@ def print_by_site_reload(ad_lines):
     for s in sites:
         site, reloads = s
         ads = ads_on_site_reload(ad_lines,site,reloads)
-        print("Site: {} Reload: {}".format(site,reloads))
+        print(("Site: {} Reload: {}".format(site,reloads)))
         cnt =0
         for a in ads:
             print_simple_line(a,1)
@@ -272,25 +272,25 @@ def print_by_site_reload(ad_lines):
 def print_by_session(data,printer):
     for session in data:
         unit_id, treatment_id, ad_lines = data[session]
-        print "-"*80
-        print("Session/Treatment/Unit: {}/{}/{} : \n".format(session,treatment_id,unit_id))
+        print("-"*80)
+        print(("Session/Treatment/Unit: {}/{}/{} : \n".format(session,treatment_id,unit_id)))
         printer(ad_lines)
 
 def simple_print(data):
     
-    print("{} Sessions".format(len(data)))
+    print(("{} Sessions".format(len(data))))
     for session in data:
         unit_id, treatment_id, ad_lines = data[session]
-        print "-"*80
-        print("\nSession/Treatment/Unit: {}/{}/{} : ".format(session,treatment_id,unit_id))
-        print("# adlines: {}".format(len(ad_lines)))
+        print("-"*80)
+        print(("\nSession/Treatment/Unit: {}/{}/{} : ".format(session,treatment_id,unit_id)))
+        print(("# adlines: {}".format(len(ad_lines))))
         cnt =0
         for ad in ad_lines:
             if ad.link_text !='':
-                print("{} : {} : {}".format(ad.url[:30],ad.link_text, ad.on_site))
+                print(("{} : {} : {}".format(ad.url[:30],ad.link_text, ad.on_site)))
             else:
                 cnt+=1
-        print ("and {} ad resources without link text".format(cnt))
+        print(("and {} ad resources without link text".format(cnt)))
 
 Ad = namedtuple('Ad',['url','outerhtml','tag','link_text','link_location','on_site', 'reloads'])
 
@@ -304,7 +304,7 @@ def main(log_file):
     json_logs = find_json_logs(log_file)
     for log in json_logs:
         unit_id, treatment_id, session_id = log
-        print("Session: {} was treatment/unit {}/{}".format(session_id,treatment_id,unit_id))
+        print(("Session: {} was treatment/unit {}/{}".format(session_id,treatment_id,unit_id)))
         ad_lines = load_ads_from_json(log_file,session_id)
         data[session_id] = [unit_id, treatment_id,ad_lines]
 

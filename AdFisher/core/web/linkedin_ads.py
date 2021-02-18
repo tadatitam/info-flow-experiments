@@ -3,7 +3,7 @@ import sys                                                          # some print
 from selenium import webdriver                                      # for running the driver on websites
 from datetime import datetime                                       # for tagging log with datetime
 from selenium.webdriver.common.keys import Keys                     # to press keys on a webpage
-import browser_unit
+from . import browser_unit
 from selenium.common.exceptions import NoSuchElementException
 import random
 
@@ -27,11 +27,11 @@ def clean(s):
     return toks
 
 with open('site_files/linkedin_login_credentials_female.txt') as f:
-    FEMALE_CREDENTIALS = map(clean, f.readlines())
-    print FEMALE_CREDENTIALS
+    FEMALE_CREDENTIALS = list(map(clean, f.readlines()))
+    print(FEMALE_CREDENTIALS)
 
 with open('site_files/linkedin_login_credentials_male.txt') as f:
-    MALE_CREDENTIALS = map(clean, f.readlines())
+    MALE_CREDENTIALS = list(map(clean, f.readlines()))
 
 
 
@@ -42,7 +42,7 @@ with open('site_files/linkedin_login_credentials_male.txt') as f:
 
 
 
-from HTMLParser import HTMLParser
+from html.parser import HTMLParser
 
 class MLStripper(HTMLParser):
   def __init__(self):

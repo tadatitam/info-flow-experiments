@@ -13,8 +13,8 @@ import random                               # for random shuffles
 
 def correctly_classified(ypred, ylabel):   # number of correctly classified instances in blocks
     if(ypred.shape != ylabel.shape):
-        raw_input("ypred, ylabel not of same shape!")
-        print "Exiting..."
+        input("ypred, ylabel not of same shape!")
+        print("Exiting...")
         sys.exit(0)
     blocks = ypred.shape[0]
     blockSize = ypred.shape[1]
@@ -38,8 +38,8 @@ def difference(X_test, y_test):
             elif(y_test[i][j]==0):
                 kw0 += X_test[i][j]
             else:
-                raw_input("More classes than expected")
-                print "Exiting..."
+                input("More classes than expected")
+                print("Exiting...")
                 sys.exit(0)
 #   print kw1, kw0
     return (kw1 - kw0)
@@ -58,8 +58,8 @@ def cosine_distance(X_test, y_test):
             elif(y_test[i][j]==0):
                 out0 += X_test[i][j]
             else:
-                raw_input("More classes than expected")
-                print "Exiting..."
+                input("More classes than expected")
+                print("Exiting...")
                 sys.exit(0)
     return spatial.distance.cosine(out0, out1)
         
@@ -75,22 +75,22 @@ def print_frequencies(X, y, features, topk0, topk1):
 #         print out
 #         raw_input("hool")
 
-    print "Frequency of top ads:\n"
+    print("Frequency of top ads:\n")
     for i in range(0, len(topk0)):
         index = topk0[i]
 #         print index,
         features.choose_by_index(index).display()
-        print out[:, index]
-        print "----------------------------------"
+        print(out[:, index])
+        print("----------------------------------")
     
-    print "%%%%----------------------------------%%%%"
+    print("%%%%----------------------------------%%%%")
     for i in range(0, len(topk1)):
         index = topk1[i]
 #         print index,
         features.choose_by_index(index).display()
-        print out[:, index]
-        print "----------------------------------"
-    print "%%%%----------------------------------%%%%"
+        print(out[:, index])
+        print("----------------------------------")
+    print("%%%%----------------------------------%%%%")
             
 
 
@@ -103,10 +103,10 @@ def find_word_in_collection(collection, words):
     return counts
 
 def print_counts(X,y):                                          # check
-    print "Number of blocks in log: ", X.shape[0]
-    print "Number of agents in a block: ", X.shape[1]
-    print "Size of feature vector: ", X.shape[2]
-    print "Total count of features: ", int(sum(sum(sum(X))))
+    print("Number of blocks in log: ", X.shape[0])
+    print("Number of agents in a block: ", X.shape[1])
+    print("Size of feature vector: ", X.shape[2])
+    print("Total count of features: ", int(sum(sum(sum(X)))))
     ua,uind=np.unique(y,return_inverse=True)
     count=np.bincount(uind)
     counts = [0]*len(ua)
@@ -117,8 +117,8 @@ def print_counts(X,y):                                          # check
             counts[y[i][j]] += int(sum(X[i][j]))
             ucounter[y[i][j]] += np.sign(X[i][j])
     ucounts = np.sum(np.sign(ucounter), axis=1)
-    print "[treatments] [blocks] [features] [unique-features] :: ", ua, count, counts, ucounts
-    print ""
+    print("[treatments] [blocks] [features] [unique-features] :: ", ua, count, counts, ucounts)
+    print("")
 
 
 

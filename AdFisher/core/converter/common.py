@@ -12,7 +12,7 @@ def round_figures(x, n):
 
 #------------- for stripping html tags from html strings ---------------#
 
-from HTMLParser import HTMLParser
+from html.parser import HTMLParser
 
 class MLStripper(HTMLParser):
     def __init__(self):

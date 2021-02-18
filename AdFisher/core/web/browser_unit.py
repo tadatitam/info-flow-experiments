@@ -39,16 +39,16 @@ class BrowserUnit:
             elif (platform.system()=='Linux'):
                 self.driver = webdriver.Firefox(proxy=sproxy)
             else:
-                print "Unidentified Platform"
+                print("Unidentified Platform")
                 sys.exit(0)
         elif(browser=='chrome'):
-            print "Expecting chromedriver at path specified in core/web/browser_unit"
+            print("Expecting chromedriver at path specified in core/web/browser_unit")
             if (platform.system()=='Darwin'):
                 chromedriver = "../core/web/chromedriver/chromedriver_mac"
             elif (platform.system() == 'Linux'):
                 chromedriver = "../core/web/chromedriver/chromedriver_linux"
             else:
-                print "Unidentified Platform"
+                print("Unidentified Platform")
                 sys.exit(0)
             os.environ["webdriver.chrome.driver"] = chromedriver
             chrome_option = webdriver.ChromeOptions()
@@ -56,7 +56,7 @@ class BrowserUnit:
                 chrome_option.add_argument("--proxy-server="+proxy)
             self.driver = webdriver.Chrome(executable_path=chromedriver, chrome_options=chrome_option)
         else:
-            print "Unsupported Browser"
+            print("Unsupported Browser")
             sys.exit(0)
         self.base_url = "https://www.google.com/"
         self.verificationErrors = []

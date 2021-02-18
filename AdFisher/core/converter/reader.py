@@ -1,7 +1,7 @@
 import re, sys                                      
 import numpy as np
 from datetime import datetime, timedelta            # to read timestamps reloadtimes
-import adVector, ad, common, interest, news         # common, ad ad_vector, interest, news classes
+from . import adVector, ad, common, interest, news         # common, ad ad_vector, interest, news classes
 from nltk.corpus import stopwords                   # for removing stop-words
 
 
@@ -119,7 +119,7 @@ def get_interest_vectors(advdicts):
         feat.data[feat.data.index('')] = 'None'
     except:
         pass
-    print "Complete"
+    print("Complete")
     return np.array(X), np.array(y), feat
     
 def get_feature_vectors(advdicts, feat_choice, filtered_by=None):         # returns observation vector from a list of rounds
@@ -155,9 +155,9 @@ def get_feature_vectors(advdicts, feat_choice, filtered_by=None):         # retu
     X = [X[i:i+n] for i in range(0,len(X),n)]
     y = [y[i:i+n] for i in range(0,len(y),n)]
 #   print feat[0].title, feat[0].url
-    print "Complete"
+    print("Complete")
     e = datetime.now()
-    print "---Time for getting feature vectors: ", str(e-s)
+    print("---Time for getting feature vectors: ", str(e-s))
     return np.array(X), np.array(y), feat
 
 def get_keyword_vectors(advdicts, keywords):
@@ -172,7 +172,7 @@ def get_keyword_vectors(advdicts, keywords):
     X, y = keyword_vectors(list, keywords)
     X = [X[i:i+n] for i in range(0,len(X),n)]
     y = [y[i:i+n] for i in range(0,len(y),n)]
-    print "Complete"
+    print("Complete")
     return np.array(X),np.array(y)
     
     
@@ -250,7 +250,7 @@ def read_log(log_file):
 #           print "Error in block", block_id, ": ", line.strip()
             pass
     sys.stdout.write(".Reading complete\n")
-    print "Treatments: ", treatnames
+    print("Treatments: ", treatnames)
     return par_adv, treatnames
 
 def read_old_log(log_file):                         
@@ -276,7 +276,7 @@ def read_old_log(log_file):
     fo.close()
     assert treatments == len(treatnames)
     for i in range(0, treatments):
-        print "Treatment ", i, " = ", treatnames[i]
+        print("Treatment ", i, " = ", treatnames[i])
     adv = []
     ints = []
     newsv = []

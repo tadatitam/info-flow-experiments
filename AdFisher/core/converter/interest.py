@@ -1,5 +1,5 @@
 import re                                       # regular expressions
-import common
+from . import common
 
 class Interests:
     
@@ -36,7 +36,7 @@ class Interests:
         return temp
 
     def display(self):
-        print self.data
+        print(self.data)
     
     def union(self, int2):
         temp = self.copy()

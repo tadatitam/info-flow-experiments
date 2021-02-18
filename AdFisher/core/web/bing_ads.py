@@ -7,11 +7,11 @@ from selenium.webdriver.common.action_chains import ActionChains    # to move mo
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import bing_search
+from . import bing_search
 
 # strip html
 
-from HTMLParser import HTMLParser
+from html.parser import HTMLParser
 
 class MLStripper(HTMLParser):
     def __init__(self):

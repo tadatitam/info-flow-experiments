@@ -42,10 +42,10 @@ class Webdriver(unittest.TestCase):
 			elif (platform.system()=='Linux'):
 				self.driver = webdriver.Firefox(proxy=proxy)
 			else:
-				print "Unidentified Platform"
+				print("Unidentified Platform")
 				sys.exit(0)
 		elif(BROWSER=='chrome'):
-			print "WARNING: Expecting chromedriver at specified location !!"
+			print("WARNING: Expecting chromedriver at specified location !!")
 			if (platform.system()=='Darwin'):
 				chromedriver = "./experiment/chromedriver/chromedriver_mac"
 				os.environ["webdriver.chrome.driver"] = chromedriver
@@ -57,10 +57,10 @@ class Webdriver(unittest.TestCase):
 				chrome_option.add_argument("--proxy-server=yogi.pdl.cmu.edu:3128" )
 				self.driver = webdriver.Chrome(executable_path=chromedriver, chrome_options=chrome_option)
 			else:
-				print "Unidentified Platform"
+				print("Unidentified Platform")
 				sys.exit(0)
 		else:
-			print "Unsupported Browser"
+			print("Unsupported Browser")
 			sys.exit(0)
 		self.driver.implicitly_wait(10)
 		self.base_url = "https://www.google.com/"
@@ -75,8 +75,8 @@ class Webdriver(unittest.TestCase):
 		time.sleep(20)
 		#raw_input("wait")
 		pref = cole.get_ad_pref(driver)
-		print SITE
-		print 'pref=', pref
+		print(SITE)
+		print('pref=', pref)
 		if pref != []:
 			fo = open(TARGET_FILE, "a")
 			fo.write(SITE+"||"+"@".join(pref)+'\n')
@@ -93,7 +93,7 @@ def shortlist_sites(site, target_file, browser='firefox', timeout=100):
 	TARGET_FILE = target_file
 	
 	def signal_handler(signum, frame):
-		print "Timeout!"
+		print("Timeout!")
 # 		fo = open(LOG_FILE, "a")
 # 		fo.write(str(datetime.now())+"||TimedOut||"+str(TREATMENTID)+"||"+str(ID)+"\n")
 # 		fo.close()
@@ -109,7 +109,7 @@ def shortlist_sites(site, target_file, browser='firefox', timeout=100):
 	except TimeoutException:
 		return
 	finally:
-		print "Shortlist process exiting!"
+		print("Shortlist process exiting!")
 		signal.signal(signal.SIGALRM, old_handler)
 	
 	signal.alarm(0)

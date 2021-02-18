@@ -1,6 +1,6 @@
 import re                                       # regular expressions
 from stemming.porter2 import stem               # for Porter Stemming 
-import common
+from . import common
 from datetime import datetime, timedelta            # to read timestamps reloadtimes
     
 ########### CHOICES FOR THE AD-COMPARISON, AD-IDENTIFICATION #############
@@ -59,15 +59,15 @@ class Ad:
 #       print " & ", " & $", int(c[4]), "$ & $", int(c[5]), "$ & $", int(C[4]), "$ & $", int(C[5]), "$ \\\\"
 #       print "\hline \\\\"
         
-        print self.title, " & \url{", self.url, "} & $", round(coeff, 3), "$ & $", 
-        print int(c[4]), "$ & $", int(c[5]), "$ & & $", int(C[4]), "$ & $", int(C[5]), "$ \\\\"
+        print(self.title, " & \\url{", self.url, "} & $", round(coeff, 3), "$ & $", end=' ') 
+        print(int(c[4]), "$ & $", int(c[5]), "$ & & $", int(C[4]), "$ & $", int(C[5]), "$ \\\\")
         
 
     
     def display(self):
-        print ("Title: "+self.title)
-        print ("URL: "+self.url)
-        print ("Body: "+self.body+"\n")
+        print(("Title: "+self.title))
+        print(("URL: "+self.url))
+        print(("Body: "+self.body+"\n"))
         
     def identical_ad(self, ad, choice):
         if(choice == URL):

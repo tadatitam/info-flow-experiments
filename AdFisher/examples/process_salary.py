@@ -30,14 +30,14 @@ for line in sys.stdin:
     except:
         pass
 
-print ""
-print "Controlled Summary (0): "
-print t1
-print "Mean: " + str(numpy.mean(numpy.array(l1).astype(numpy.float)))
-print "Standard Dev: " + str(numpy.std(numpy.array(l1).astype(numpy.float)))
-print ""
-print "Experimental Summary (1): "
-print t2
-print "Mean: " + str(numpy.mean(numpy.array(l2).astype(numpy.float)))
-print "Standard Dev: " + str(numpy.std(numpy.array(l2).astype(numpy.float)))
-print ""
+print("")
+print("Controlled Summary (0): ")
+print(t1)
+print("Mean: " + str(numpy.mean(numpy.array(l1).astype(numpy.float))))
+print("Standard Dev: " + str(numpy.std(numpy.array(l1).astype(numpy.float))))
+print("")
+print("Experimental Summary (1): ")
+print(t2)
+print("Mean: " + str(numpy.mean(numpy.array(l2).astype(numpy.float))))
+print("Standard Dev: " + str(numpy.std(numpy.array(l2).astype(numpy.float))))
+print("")

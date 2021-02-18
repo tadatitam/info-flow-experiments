@@ -1,12 +1,12 @@
 import logging
 import datetime
 import os
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import shutil
 import time
 
 # base class we inherit from and extend
-import browser_unit
+from . import browser_unit
 
 # imports to use selenium
 import selenium
@@ -18,7 +18,7 @@ from adblockparser import AdblockRules
 from adblockparser import AdblockRule
 
 # imports to parse url
-from urlparse import urlparse, parse_qs
+from urllib.parse import urlparse, parse_qs
 
 # imports to log ad data
 import json
@@ -49,20 +49,20 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         cur_version = self._easylist_version()
 
         # download latest easylist from the Internet
-        urllib.urlretrieve(self.EASYLIST_URL,tmp_easylist)
+        urllib.request.urlretrieve(self.EASYLIST_URL,tmp_easylist)
         tmp_version = self._easylist_version(path=tmp_easylist)
         
         # if necessary update
         if tmp_version > cur_version and cur_version != -1:
             os.remove(self.EASYLIST)
             shutil.move(tmp_easylist,self.EASYLIST)
-            print ("Updated easylist from {} to {}".format(cur_version,tmp_version))
+            print(("Updated easylist from {} to {}".format(cur_version,tmp_version)))
         elif cur_version == -1:
             shutil.move(tmp_easylist,self.EASYLIST)
-            print("New easylist {}".format(tmp_version))
+            print(("New easylist {}".format(tmp_version)))
         else:
             os.remove(tmp_easylist)
-            print("Easylist already up to date at: {}".format(tmp_version))
+            print(("Easylist already up to date at: {}".format(tmp_version)))
 
     def _load_easylist(self):
         '''
@@ -71,7 +71,7 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         '''
         with open(self.EASYLIST) as f:
             lines = f.read().splitlines()
-        print("Loaded easylist version: {} with : {} items".format(self._easylist_version(),len(lines)))
+        print(("Loaded easylist version: {} with : {} items".format(self._easylist_version(),len(lines))))
         return lines
 
 
@@ -93,7 +93,7 @@ class AdBlockUnit(browser_unit.BrowserUnit):
             browser_unit.BrowserUnit.__init__(self, browser, log_file, unit_id, treatment_id, headless, proxy=proxy)
 
             self.session = self.driver.session_id
-            print("Running adblock unit session: {}".format(self.session))
+            print(("Running adblock unit session: {}".format(self.session)))
             
             # set rules to those that where passed in
             self.rules = rules
@@ -255,8 +255,8 @@ class AdBlockUnit(browser_unit.BrowserUnit):
             self.site = url
             return True
         except selenium.common.exceptions.TimeoutException as e:
-            print("Timeout Visiting: {} : {}".format(url,self.session))
-            print e
+            print(("Timeout Visiting: {} : {}".format(url,self.session)))
+            print(e)
             return False
 
 
@@ -265,7 +265,7 @@ class AdBlockUnit(browser_unit.BrowserUnit):
         Visits a specified url and runs ad collection functions
         Result: 
         '''
-        print("collecting ads on: {}".format(url))
+        print(("collecting ads on: {}".format(url)))
         if file_name == None:
             file_name = self.log_file
 

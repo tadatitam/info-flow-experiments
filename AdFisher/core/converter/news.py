@@ -1,6 +1,6 @@
 import re, sys                                      # regular expressions
 from stemming.porter2 import stem               # for Porter Stemming 
-import common
+from . import common
 from datetime import datetime, timedelta            # to read timestamps reloadtimes
     
 ########### CHOICES FOR THE NEWS-COMPARISON, NEWS-IDENTIFICATION #############
@@ -63,11 +63,11 @@ class News:
 #       print " & ", " & $", int(c[4]), "$ & $", int(c[5]), "$ & $", int(C[4]), "$ & $", int(C[5]), "$ \\\\"
 #       print "\hline \\\\"
         
-        print self.title, " & ", self.agency, " & $", round(coeff, 3), "$ & $", 
-        print int(c[4]), "$ & $", int(c[5]), "$ & & $", int(C[4]), "$ & $", int(C[5]), "$ \\\\"
+        print(self.title, " & ", self.agency, " & $", round(coeff, 3), "$ & $", end=' ') 
+        print(int(c[4]), "$ & $", int(c[5]), "$ & & $", int(C[4]), "$ & $", int(C[5]), "$ \\\\")
     def display(self):
-        print ("Title: "+self.title)
-        print ("Agency: "+self.agency)
+        print(("Title: "+self.title))
+        print(("Agency: "+self.agency))
         #print ("Body: "+self.body+"\n")
         
     def identical_news(self, news, choice):
@@ -172,7 +172,7 @@ class NewsVector:
                 sys.stdout.write("%s " % news.time)
             if('label' in chunks):
                 sys.stdout.write("%s " % news.label)
-            print ""
+            print("")
 
     def choose_by_index(self, index):
         return self.data[index]
@@ -259,7 +259,7 @@ class NewsVector:
                 return math.log(count)
         else:
             print("Illegal W_CHOICE")
-            raw_input("Press Enter to exit")
+            input("Press Enter to exit")
             sys.exit(0)
         
     def gen_word_vec(self, word_v, wchoice=W_CHOICE):       # check generates a vector of words from NewsVector, fits it to word_v
@@ -323,7 +323,7 @@ def news_sim(newsv1, newsv2):                               # check
         return news_cosine_sim(newsv1, newsv2)
     else:
         print("Illegal SIM_CHOICE")
-        raw_input("Press Enter to Exit")
+        input("Press Enter to Exit")
         sys.exit()
 
 def jaccard_index(newsv1, newsv2):

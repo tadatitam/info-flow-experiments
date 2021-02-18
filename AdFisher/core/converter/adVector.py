@@ -1,5 +1,5 @@
 import re, sys, math
-import ad, common
+from . import ad, common
 
 
 ########### CHOICES FOR THE AD-COMPARISON, AD-IDENTIFICATION #############
@@ -49,7 +49,7 @@ class AdVector:
         self.data.remove(ad)
         
     def delete(self, indices):
-        print indices
+        print(indices)
         self.data[:] = [item for i,item in enumerate(self.data) if i not in indices]
         
     def display(self, choice):
@@ -71,7 +71,7 @@ class AdVector:
                 sys.stdout.write("%s " % ad.time)
             if('label' in chunks):
                 sys.stdout.write("%s " % ad.label)
-            print ""
+            print("")
 
     def choose_by_index(self, index):
         return self.data[index]
@@ -168,7 +168,7 @@ class AdVector:
                 return math.log(count)
         else:
             print("Illegal W_CHOICE")
-            raw_input("Press Enter to exit")
+            input("Press Enter to exit")
             sys.exit(0)
         
     def gen_word_vec(self, word_v, wchoice=W_CHOICE):       # check generates a vector of words from AdVector, fits it to word_v
@@ -232,7 +232,7 @@ def ad_sim(ads1, ads2):                             # check
         return ad_cosine_sim(ads1, ads2)
     else:
         print("Illegal SIM_CHOICE")
-        raw_input("Press Enter to Exit")
+        input("Press Enter to Exit")
         sys.exit()
 
 def jaccard_index(ads1, ads2):

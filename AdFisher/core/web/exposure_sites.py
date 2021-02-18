@@ -5,14 +5,14 @@ from datetime import datetime                                       # for taggin
 from selenium.webdriver.common.keys import Keys                     # to press keys on a webpage
 from selenium.webdriver.common.action_chains import ActionChains    # to move mouse over
 # import browser_unit
-import google_ads
+from . import google_ads
 
 # Google ad settings page class declarations
 
 
 # strip html
 
-from HTMLParser import HTMLParser
+from html.parser import HTMLParser
 
 class MLStripper(HTMLParser):
     def __init__(self):

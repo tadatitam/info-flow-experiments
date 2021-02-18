@@ -3,7 +3,7 @@ import sys                                                          # some print
 from selenium import webdriver                                      # for running the driver on websites
 from datetime import datetime                                       # for tagging log with datetime
 from selenium.webdriver.common.keys import Keys                     # to press keys on a webpage
-import browser_unit
+from . import browser_unit
 from selenium.common.exceptions import NoSuchElementException
 
 import string
@@ -17,10 +17,10 @@ def clean(s):
     return toks[1]
 
 with open('female_names.txt') as f:
-    FEMALE_NAMES = map(clean, f.readlines())
+    FEMALE_NAMES = list(map(clean, f.readlines()))
 
 with open('male_names.txt') as f:
-    MALE_NAMES = map(clean, f.readlines())
+    MALE_NAMES = list(map(clean, f.readlines()))
 
 # Let's stick to 1 job for now
 JOBS = ['software+engineer']
@@ -30,7 +30,7 @@ JOBS_SALARY = ['sales']
 LOCATIONS = ['New+Milford%2C+CT', 'New+York%2C+NY', 'Seattle%2C+WA']
 
 # strip html
-from HTMLParser import HTMLParser
+from html.parser import HTMLParser
 
 class MLStripper(HTMLParser):
     def __init__(self):
@@ -116,7 +116,7 @@ class IndeedAdsUnit(browser_unit.BrowserUnit):
   # Collects Salary Statistics for separate analysis later
   def collect_salary(self):
       # Salary ranges 30,000 - 125,000 by 5k's
-      salary_cutoffs = map(lambda x : str(x) + ',000', range(30, 125, 5))
+      salary_cutoffs = [str(x) + ',000' for x in range(30, 125, 5)]
       salaries = []
       for sal in salary_cutoffs:
           try:
@@ -166,7 +166,7 @@ class IndeedAdsUnit(browser_unit.BrowserUnit):
       salary = self.get_salary_info(description)
       if (len(salary) > 0):
         salary_str = ' '.join(salary)
-        print salary_str
+        print(salary_str)
         ad = strip_tags(ctime+'@|'+salary_str+'@|'+'PLACEHOLDER'+'@|'+'PLACEHOLDER').encode("utf8")
         self.log('measurement', 'ad', ad)
       driver.switch_to.default_content()
@@ -195,7 +195,7 @@ class IndeedAdsUnit(browser_unit.BrowserUnit):
       sponsored_jobs = driver.find_element_by_css_selector('div[data-tn-section="sponsoredJobs"]')
       job_listings = sponsored_jobs.find_elements_by_css_selector('div[data-tn-component="sponsoredJob"]')
       div_id = 'sjcl'
-      for i in xrange(1, 4):
+      for i in range(1, 4):
         elem_id = 'sja' + str(i)
         title = sponsored_jobs.find_element_by_id(elem_id).get_attribute('title')
         raw_listing = job_listings[i-1]

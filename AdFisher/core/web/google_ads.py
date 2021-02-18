@@ -5,11 +5,11 @@ from datetime import datetime                                       # for taggin
 from selenium.webdriver.common.keys import Keys                     # to press keys on a webpage
 from selenium.webdriver.common.action_chains import ActionChains    # to move mouse over
 # import browser_unit
-import google_search                                                # interacting with Google Search
+from . import google_search                                                # interacting with Google Search
 
 # strip html
 
-from HTMLParser import HTMLParser
+from html.parser import HTMLParser
 
 class MLStripper(HTMLParser):
     def __init__(self):
@@ -46,7 +46,7 @@ class GoogleAdsUnit(google_search.GoogleSearchUnit):
                 elif(site == 'monster'):
                     self.save_ads_monster(file_name)
                 else:
-                    raw_input("No such site found: %s!" % site)
+                    input("No such site found: %s!" % site)
                 e = datetime.now()
                 self.log('measurement', 'loadtime', str(e-s))
             except:

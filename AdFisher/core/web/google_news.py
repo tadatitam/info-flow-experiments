@@ -4,12 +4,12 @@ from selenium import webdriver                                      # for runnin
 from datetime import datetime                                       # for tagging log with datetime
 from selenium.webdriver.common.keys import Keys                     # to press keys on a webpage
 # import browser_unit
-import google_ads                                                   # interacting with Google ads and Ad Settings
-import google_search                                                # interacting with Google Search
+from . import google_ads                                                   # interacting with Google ads and Ad Settings
+from . import google_search                                                # interacting with Google Search
 
 # strip html
 
-from HTMLParser import HTMLParser
+from html.parser import HTMLParser
 
 class MLStripper(HTMLParser):
     def __init__(self):
@@ -40,7 +40,7 @@ class GoogleNewsUnit(google_ads.GoogleAdsUnit):
 #        print "Fetching top news stories"
         topdivs =\
             self.driver.find_elements_by_xpath("""//*[@id="yDmH0d"]/c-wiz/c-wiz/main/div[1]/div[1]/c-wiz/div/c-wiz""")
-        print "\n# articles in Top News: ", len(topdivs)
+        print("\n# articles in Top News: ", len(topdivs))
         sys.stdout.write(".")
         sys.stdout.flush()
         for (i, div) in enumerate(topdivs):
@@ -64,7 +64,7 @@ class GoogleNewsUnit(google_ads.GoogleAdsUnit):
         divs = self.driver.find_elements_by_xpath(".//td[@class='lt-col']/div/div/div")
         topdivs = divs[1].find_elements_by_css_selector("div.section-list-content div div.blended-wrapper.blended-wrapper-first.esc-wrapper")
         tds = self.driver.find_elements_by_xpath(".//td[@class='esc-layout-article-cell']")
-        print "\n# articles: ", len(tds)
+        print("\n# articles: ", len(tds))
         sys.stdout.write(".")
         sys.stdout.flush()
         for td in tds:
@@ -80,7 +80,7 @@ class GoogleNewsUnit(google_ads.GoogleAdsUnit):
             except:
                 pass
             if ("Suggested" in heading):
-                print "Skipping Suggested news"
+                print("Skipping Suggested news")
                 continue
 #           print "entering"
             news = strip_tags(tim+"@|"+heading+"@|"+title+"@|"+agency+"@|"+ago+"@|"+body).encode("utf8")
@@ -98,7 +98,7 @@ class GoogleNewsUnit(google_ads.GoogleAdsUnit):
                 elif(type == 'all'):
                     self.get_allbutsuggested()
                 else:
-                    raw_input("No such news category found: %s!" % site)
+                    input("No such news category found: %s!" % site)
                 e = datetime.now()
                 self.log('measurement', 'loadtime', str(e-s))
             except:
@@ -122,7 +122,7 @@ class GoogleNewsUnit(google_ads.GoogleAdsUnit):
                 header = self.driver.find_element_by_xpath(".//div[@class='section-header'][contains(.,'"+category+"')]")
                 links.extend(header.find_elements_by_xpath("../div/div/div/div/div/table/tbody/tr/td[@class='esc-layout-article-cell']"))
             if(i==0):
-                print "# links found:", len(links)
+                print("# links found:", len(links))
             if(i>=len(links)):
                 break
             links[i].find_element_by_xpath("div[@class='esc-lead-article-title-wrapper']/h2/a/span").click()

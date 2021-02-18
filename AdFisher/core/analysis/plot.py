@@ -33,7 +33,7 @@ def treatment_feature_histogram(X,y,feat, names):
 	#plt.axis([-1, len(obs[2]), 0, len(ran1)/2+10])
 	plt.ylabel("# agents")
 	feat.display()
-	print obs[0]
+	print(obs[0])
 	plt.legend()
 	# saving:
 	(matplotlib.pyplot).tight_layout()
@@ -64,7 +64,7 @@ def histogramPlots(list):
 def temporalPlots(list):
 	obs = np.array(converter.temp_ad_vectors(list))
 	#obs = np.array(ad_temp_category(list))
-	print obs[0]
+	print(obs[0])
 	dates = []
 	colors = ['b.', 'r.', 'g.', 'm.', 'k.']
 	for j in range(0, len(list)):

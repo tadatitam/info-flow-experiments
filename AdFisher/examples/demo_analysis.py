@@ -38,4 +38,4 @@ adfisher.do_experiment(make_unit=make_browser, treatments=[control_treatment, ex
                         log_file=log_file, exp_flag=False, analysis_flag=True, 
                         treatment_names=["control", "experimental"])
                         
-print "Demo analysis complete."
+print("Demo analysis complete.")

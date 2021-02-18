@@ -3,7 +3,7 @@ import sys                                                          # some print
 from selenium import webdriver                                      # for running the driver on websites
 from datetime import datetime                                       # for tagging log with datetime
 from selenium.webdriver.common.keys import Keys                     # to press keys on a webpage
-import browser_unit
+from . import browser_unit
 
 # Bing search constants
 
@@ -12,7 +12,7 @@ INPUT_ID = "sb_form_q"
 
 # strip html
 
-from HTMLParser import HTMLParser
+from html.parser import HTMLParser
 
 class MLStripper(HTMLParser):
     def __init__(self):
@@ -51,7 +51,7 @@ class BingSearchUnit(browser_unit.BrowserUnit):
         fo = open(query_file, "r")
         for line in fo:     # For all queries in the list, obtain search results on Bing
             q = line.strip()
-            print q, self.unit_id
+            print(q, self.unit_id)
             try:
                 self.driver.get("http://www.bing.com/")
                 time.sleep(1)
@@ -65,11 +65,11 @@ class BingSearchUnit(browser_unit.BrowserUnit):
                 s+=1
             linklist = self.driver.find_elements_by_css_selector("h2 a")
             for y in range(1, clickcount+1): # How many search results to visit
-                print y
+                print(y)
                 try:
                     linklist[y-1].click()
                     time.sleep(3)
-                    print self.driver.current_url
+                    print(self.driver.current_url)
                     link = self.driver.current_url
                     self.driver.back()
                     self.log('treatment', 'visit page', link)

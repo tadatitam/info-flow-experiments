@@ -3,7 +3,7 @@ import numpy as np
 from datetime import datetime                           # for getting times for computation
 
 ## CV
-from sklearn import cross_validation
+from sklearn.model_selection import train_test_split
 from itertools import product
 
 ## Classification
@@ -15,26 +15,26 @@ from sklearn.svm import LinearSVC
 
 #------------- functions for Machine Learning Analyses ---------------#
 
-def split_data(X, y, splittype='timed', splitfrac=0.1, verbose=False):  
+def split_data(X, y, splittype='timed', splitfrac=0.1, verbose=False):
     if(splittype == 'rand'):
-        rs1 = cross_validation.ShuffleSplit(len(X), n_iter=1, test_size=splitfrac)
+        rs1 = train_test_split.ShuffleSplit(len(X), n_iter=1, test_size=splitfrac)
         for train, test in rs1:
             if(verbose):
-                print "Training blocks:", train 
-                print "Test blocks:", test
+                print("Training blocks:", train)
+                print("Test blocks:", test)
             X_train, y_train, X_test, y_test = X[train], y[train], X[test], y[test]
     elif(splittype == 'timed'):
         split = int((1.-splitfrac)*len(X))
         if(verbose):
-            print "Split at block ", str(split) 
+            print("Split at block ", str(split))
         X_train, y_train, X_test, y_test = X[:split], y[:split], X[split:], y[split:]
     else:
-        raw_input("Split type ERROR in ml.py")  
+        input("Split type ERROR in ml.py")
     return X_train, y_train, X_test, y_test
 
-def select_and_fit_classifier(nfolds, algos, X_train, y_train, splittype, splitfrac, verbose):  
+def select_and_fit_classifier(nfolds, algos, X_train, y_train, splittype, splitfrac, verbose):
     max_score = 0
-    for algo in algos.keys():
+    for algo in list(algos.keys()):
         score, mPar, clf = crossVal_algo(nfolds, algo, algos[algo], X_train, y_train, splittype, splitfrac)
 #       if(verbose):
 #           print score, mPar
@@ -42,9 +42,9 @@ def select_and_fit_classifier(nfolds, algos, X_train, y_train, splittype, splitf
             max_clf = clf
             max_score = score
     if(verbose):
-        print "Max score: ", max_score
-        print "Selected Classifier: "
-        print max_clf
+        print("Max score: ", max_score)
+        print("Selected Classifier: ")
+        print(max_clf)
     X_train = np.array([item for sublist in X_train for item in sublist])
     y_train = np.array([item for sublist in y_train for item in sublist])
     max_clf.fit(X_train, y_train)
@@ -64,33 +64,33 @@ def print_only_top_features(clf, feat, treatnames, feat_choice, nfeat=5):
 #   print np.count_nonzero(feature_scores)
     if(n_classes == 1):
         topk1 = np.argsort(feature_scores)[::-1][:nfeat]
-        print "\nTop features for treatment %s:" %(str(treatnames[1]))
+        print("\nTop features for treatment %s:" %(str(treatnames[1])))
         for i in topk1:
-            print feature_scores[i]
+            print(feature_scores[i])
             if(feat_choice == 'ads'):
                 feat.choose_by_index(i).display()
             elif(feat_choice == 'words'):
-                print feat[i]
+                print(feat[i])
         topk0 = np.argsort(feature_scores)[:nfeat]
-        print "\n\nTop features for treatment %s:" %(str(treatnames[0]))
+        print("\n\nTop features for treatment %s:" %(str(treatnames[0])))
         for i in topk0:
-            print feature_scores[i]
+            print(feature_scores[i])
             if(feat_choice == 'ads'):
                 feat.choose_by_index(i).display()
             elif(feat_choice == 'words'):
-                print feat[i]
+                print(feat[i])
     else:
         for i in range(0,n_classes):
             topk = np.argsort(feature_scores[i])[::-1][:nfeat]
-            print "Top features for treatment %s:" %(str(treatnames[i]))
+            print("Top features for treatment %s:" %(str(treatnames[i])))
             for j in topk:
                 if(feat_choice == 'ads'):
                     feat.choose_by_index(j).display()
                 elif(feat_choice == 'words'):
-                    print feat[j]
-            print "coefs: ", feature_scores[i][topk]
+                    print(feat[j])
+            print("coefs: ", feature_scores[i][topk])
     return topk0, topk1
-    
+
 
 def print_top_features(X, y, feat, treatnames, clf, feat_choice, nfeat=5, blocked=1):       # prints top nfeat features from clf+some numbers
     # X_train, y_train, X_test, y_test = split_data(X, y, verbose=True) # is this wrong when rand?
@@ -137,51 +137,51 @@ def print_top_features(X, y, feat, treatnames, clf, feat_choice, nfeat=5, blocke
     n_classes = 1#clf.feature_importances_.shape[0]         #`~~~~~~~~~~
 #   feature_scores = clf.feature_importances_
     feature_scores = clf.coef_[0]
-    print feature_scores.shape          #`~~~~~~~~~~
-    print np.count_nonzero(feature_scores)
+    print(feature_scores.shape)          #`~~~~~~~~~~
+    print(np.count_nonzero(feature_scores))
 #   raw_input("wait")
     if(n_classes == 1):         #`~~~~~~~~~~
         topk1 = np.argsort(feature_scores)[::-1][:nfeat]            #`~~~~~~~~~~
-        print "\nFeatures for treatment %s:" %(str(treatnames[1]))
+        print("\nFeatures for treatment %s:" %(str(treatnames[1])))
         for i in topk1:
             if(feat_choice == 'ads'):
                 feat.choose_by_index(i).printStuff(feature_scores[i],           #`~~~~~~~~~~
                 [Atrain[i], Btrain[i], Atest[i], Btest[i], A[i], B[i]], [atrain[i], btrain[i], atest[i], btest[i], a[i], b[i]])
             elif(feat_choice == 'words'):
-                print feat[i]
+                print(feat[i])
         topk0 = np.argsort(feature_scores)[:nfeat]          #`~~~~~~~~~~
-        print "\n\nFeatures for treatment %s:" %(str(treatnames[0]))
+        print("\n\nFeatures for treatment %s:" %(str(treatnames[0])))
         for i in topk0:
             if(feat_choice == 'ads'):
                 feat.choose_by_index(i).printStuff(feature_scores[i],           #`~~~~~~~~~~
                 [Atrain[i], Btrain[i], Atest[i], Btest[i], A[i], B[i]], [atrain[i], btrain[i], atest[i], btest[i], a[i], b[i]])
             elif(feat_choice == 'words'):
-                print feat[i]
+                print(feat[i])
     else:
         for i in range(0,n_classes):
             topk = np.argsort(feature_scores[i])[::-1][:nfeat]          #`~~~~~~~~~~
-            print "Features for treatment %s:" %(str(treatnames[i]))
+            print("Features for treatment %s:" %(str(treatnames[i])))
             for j in topk:
                 if(feat_choice == 'ads'):
                     feat.choose_by_index(j).display()
                 elif(feat_choice == 'words'):
-                    print feat[j]
-            print "coefs: ", feature_scores[i][topk]            #`~~~~~~~~~~ replace feature_importances_ with coef_[0]
+                    print(feat[j])
+            print("coefs: ", feature_scores[i][topk])            #`~~~~~~~~~~ replace feature_importances_ with coef_[0]
     return topk0, topk1
-    
 
-def crossVal_algo(k, algo, params, X, y, splittype, splitfrac, verbose=False):              # performs cross_validation
+
+def crossVal_algo(k, algo, params, X, y, splittype, splitfrac, verbose=False):              # performs train_test_split
     if(splittype=='rand'):
-        rs2 = cross_validation.ShuffleSplit(len(X), n_iter=k, test_size=splitfrac)
+        rs2 = train_test_split.ShuffleSplit(len(X), n_iter=k, test_size=splitfrac)
     elif(splittype=='timed'):
-        rs2 = cross_validation.KFold(n=len(X), n_folds=k)
+        rs2 = train_test_split.KFold(n=len(X), n_folds=k)
     max, max_params = 0, {}
     par = []
-    for param in params.keys():
+    for param in list(params.keys()):
         par.append(params[param])
     for p in product(*par):
         if(verbose):
-            print "val=", p
+            print("val=", p)
         score = 0.0
         for train, test in rs2:
             X_train, y_train, X_test, y_test = X[train], y[train], X[test], y[test]
@@ -191,62 +191,62 @@ def crossVal_algo(k, algo, params, X, y, splittype, splitfrac, verbose=False):  
             y_test = np.array([item for sublist in y_test for item in sublist])
             #print X_train.shape, y_train.shape, X_test.shape, y_test.shape
             if(algo == 'svc'):
-                clf = LinearSVC(C=p[params.keys().index('C')],
+                clf = LinearSVC(C=p[list(params.keys()).index('C')],
                     penalty="l1", dual=False)               ## Larger C increases model complexity
             if(algo=='kNN'):
-                clf = KNeighborsClassifier(n_neighbors=p[params.keys().index('k')], 
-                    warn_on_equidistant=False, p=p[params.keys().index('p')])
+                clf = KNeighborsClassifier(n_neighbors=p[list(params.keys()).index('k')],
+                    warn_on_equidistant=False, p=p[list(params.keys()).index('p')])
             if(algo=='linearSVM'):
-                clf = svm.SVC(kernel='linear', C=p[params.keys().index('C')])
+                clf = svm.SVC(kernel='linear', C=p[list(params.keys()).index('C')])
             if(algo=='polySVM'):
-                clf = svm.SVC(kernel='poly', degree = p[params.keys().index('degree')], 
-                    C=p[params.keys().index('C')])
+                clf = svm.SVC(kernel='poly', degree = p[list(params.keys()).index('degree')],
+                    C=p[list(params.keys()).index('C')])
             if(algo=='rbfSVM'):
-                clf = svm.SVC(kernel='rbf', gamma = p[params.keys().index('gamma')], 
-                    C=p[params.keys().index('C')])          ## a smaller gamma gives a decision boundary with a smoother curvature
+                clf = svm.SVC(kernel='rbf', gamma = p[list(params.keys()).index('gamma')],
+                    C=p[list(params.keys()).index('C')])          ## a smaller gamma gives a decision boundary with a smoother curvature
             if(algo=='logit'):
-                clf = LogisticRegression(penalty=p[params.keys().index('penalty')], dual=False, 
-                    C=p[params.keys().index('C')])
+                clf = LogisticRegression(penalty=p[list(params.keys()).index('penalty')], dual=False,
+                    C=p[list(params.keys()).index('C')])
             if(algo=='tree'):
-                clf = ExtraTreesClassifier(n_estimators=p[params.keys().index('ne')], compute_importances=True, random_state=0)
+                clf = ExtraTreesClassifier(n_estimators=p[list(params.keys()).index('ne')], compute_importances=True, random_state=0)
             if(algo=='randlog'):
-                clf = RandomizedLogisticRegression(C=p[params.keys().index('C')])
+                clf = RandomizedLogisticRegression(C=p[list(params.keys()).index('C')])
             clf.fit(X_train, y_train)
             score += clf.score(X_test, y_test)
         score /= k
         if(verbose):
-            print score
+            print(score)
         if score>max:
             max = score
             max_params = p
             classifier = clf
     return max, max_params, classifier
 
-def train_and_test(X, y, splittype='timed', splitfrac=0.1, nfolds=10, 
+def train_and_test(X, y, splittype='timed', splitfrac=0.1, nfolds=10,
         verbose=False):
-    
-    algos = {   
+
+    algos = {
                 'logit':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'penalty':['l2']},
-#               'svc':{'C':np.logspace(-5.0, 15.0, num=21, base=2)} 
-#               'kNN':{'k':np.arange(1,20,2), 'p':[1,2,3]}, 
+#               'svc':{'C':np.logspace(-5.0, 15.0, num=21, base=2)}
+#               'kNN':{'k':np.arange(1,20,2), 'p':[1,2,3]},
 #               'polySVM':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'degree':[1,2,3,4]},
 #               'rbfSVM':{'C':np.logspace(-5.0, 15.0, num=21, base=2), 'gamma':np.logspace(-15.0, 3.0, num=19, base=2)},
 #               'randlog':{'C':np.logspace(-5.0, 15.0, num=21, base=2)},
 #               'tree':{'ne':np.arange(5,10,2)}
-                
-            }   
+
+            }
     X_train, y_train, X_test, y_test = split_data(X, y, splittype, splitfrac, verbose)
     if(verbose):
-        print "Training Set size: ", len(y_train), "blocks"
-        print "Testing Set size: ", len(y_test), "blocks"
+        print("Training Set size: ", len(y_train), "blocks")
+        print("Testing Set size: ", len(y_test), "blocks")
     s = datetime.now()
     clf, CVscore = select_and_fit_classifier(nfolds, algos, X_train, y_train, splittype, splitfrac, verbose)
     e = datetime.now()
     if(verbose):
-        print "---Time for selecting classifier: ", str(e-s)
-    print "CVscore: ", CVscore
-    print "Test accuracy: ", test_accuracy(clf, X_test, y_test)
-    
+        print("---Time for selecting classifier: ", str(e-s))
+    print("CVscore: ", CVscore)
+    print("Test accuracy: ", test_accuracy(clf, X_test, y_test))
+
     blockSize = X_test.shape[1]
     blocks = X_test.shape[0]
     ypred = np.array([[-1]*blockSize]*blocks)
